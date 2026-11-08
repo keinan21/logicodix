@@ -1,0 +1,10 @@
+# Handle dibaca dari pesan tim (D-64); cek ulang sebelum dipakai.
+/src/server/            @RavLyr
+/src/shared/            @RavLyr
+/scripts/               @RavLyr
+/.github/workflows/     @RavLyr
+/src/client/            @KurniaRadhit
+/src/client/components/ @keinan21
+/src/client/styles.css  @keinan21
+/src/client/assets/     @keinan21
+/content/               @rakyan
