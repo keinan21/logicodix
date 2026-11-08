@@ -1,4 +1,7 @@
+import { GAME } from '../../shared/constants';
 import type { ParticipantPublic } from '../../shared/schema';
+import { ANIMAL_ASSETS } from './animalAssets';
+import './Lane.css';
 
 export interface LaneProps {
   participant: ParticipantPublic;
@@ -7,85 +10,80 @@ export interface LaneProps {
 }
 
 /**
- * Lane — DESIGN §4/§5: 4 jalur tanah, label nickname warna slot (atau warna bot),
- * hewan menghadap kanan (flip bila perlu), 6 titik posisi, tunas 🌱 per langkah,
- * status finish menampilkan posisi, "Keluar" membuat hewan abu-abu 50%.
- * TODO(T-10): animasi motion-step, motion-bob, parallax pohon; SVG hewan dari assets/animals.
+ * Lane — DESIGN §4/§5: label nickname warna slot (atau warna bot), 6 titik posisi,
+ * hewan SVG menghadap kanan yang bergoyang dan melompat maju (`motion-step`),
+ * satu tunas per langkah yang sudah ditempuh, garis finish kotak-kotak, dan label status.
+ * Gerak dimatikan otomatis oleh `prefers-reduced-motion` (DESIGN §8).
  */
 export function Lane({ participant, steps }: LaneProps) {
-  const slotColor = participant.isBot
+  const animal = ANIMAL_ASSETS[participant.animalId];
+  const safeSteps = Math.min(GAME.STEPS_TO_FINISH, Math.max(0, steps));
+  const progress = safeSteps / GAME.STEPS_TO_FINISH;
+  const labelColor = participant.isBot
     ? 'var(--color-bot)'
     : (`var(--color-slot-${participant.slot})` as string);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 'var(--space-2)',
-        padding: 'var(--space-2) 0',
-        borderBottom: `2px dashed var(--color-earth-500)`,
-        opacity: participant.status === 'left' ? 0.5 : 1,
-      }}
-    >
-      <span
-        style={{
-          minWidth: 96,
-          font: 'var(--text-label)',
-          color: slotColor,
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-        }}
-      >
+    <div className={`lane${participant.status === 'left' ? ' lane-left' : ''}`}>
+      <span className="lane-label" style={{ color: labelColor }}>
         {participant.nickname}
         {participant.isBot ? ' · BOT' : ''}
       </span>
 
-      {/* TODO(T-10): ganti dengan <img> SVG hewan; transform: scaleX(-1) bila flip */}
-      <span aria-hidden="true" style={{ fontSize: '1.75rem', display: 'inline-block' }}>
-        {animalEmoji(participant.animalId)}
-      </span>
+      <div className="lane-track">
+        <div className="lane-rail">
+          <span className="lane-dots" aria-hidden="true">
+            {Array.from({ length: GAME.STEPS_TO_FINISH + 1 }, (_, index) => {
+              const at = index / GAME.STEPS_TO_FINISH;
+              return (
+                <span
+                  key={index}
+                  className="lane-dot"
+                  style={{
+                    left: `${at * 100}%`,
+                    backgroundColor:
+                      at <= progress ? 'var(--color-forest-500)' : 'var(--color-earth-300)',
+                  }}
+                />
+              );
+            })}
+          </span>
 
-      {/* 6 titik posisi: start + 5 langkah */}
-      <span
-        style={{ display: 'inline-flex', gap: 'var(--space-2)', alignItems: 'center' }}
-        aria-hidden="true"
-      >
-        {Array.from({ length: 6 }, (_, i) => (
-          <span
-            key={i}
-            style={{
-              width: 12,
-              height: 12,
-              borderRadius: '50%',
-              backgroundColor: i <= steps ? 'var(--color-forest-500)' : 'var(--color-earth-300)',
-            }}
+          {Array.from({ length: safeSteps }, (_, index) => (
+            <span
+              key={index}
+              className="lane-sprout"
+              aria-hidden="true"
+              style={{ left: `${(index / GAME.STEPS_TO_FINISH) * 100}%` }}
+            >
+              🌱
+            </span>
+          ))}
+
+          <img
+            className="lane-animal"
+            src={animal.src}
+            alt=""
+            style={{ left: `${progress * 100}%` }}
           />
-        ))}
-      </span>
+        </div>
+        <span className="lane-finish" aria-hidden="true" />
+      </div>
 
-      {participant.status === 'finished' ? (
-        <span style={{ font: 'var(--text-label)', color: 'var(--color-forest-700)' }}>Finish</span>
-      ) : null}
-      {participant.status === 'outOfQuestions' ? (
-        <span style={{ font: 'var(--text-label)', color: 'var(--color-muted)' }}>Soal habis</span>
-      ) : null}
-      {participant.status === 'left' ? (
-        <span style={{ font: 'var(--text-label)', color: 'var(--color-muted)' }}>Keluar</span>
-      ) : null}
+      <span className="lane-status">{statusLabel(participant)}</span>
     </div>
   );
 }
 
-function animalEmoji(id: string): string {
-  const map: Record<string, string> = {
-    orangutan: '🦧',
-    harimau: '🐅',
-    gajah: '🐘',
-    penyu: '🐢',
-    badak: '🦏',
-    burung: '🦜',
-  };
-  return map[id] ?? '🐾';
+function statusLabel(participant: ParticipantPublic): string {
+  switch (participant.status) {
+    case 'finished':
+      return `Posisi ${participant.finishOrder ?? '–'}`;
+    case 'outOfQuestions':
+      return 'Soal habis';
+    case 'left':
+      return 'Keluar';
+    default:
+      return '';
+  }
 }

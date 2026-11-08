@@ -6,21 +6,22 @@ import type { EvalReady } from '../../shared/schema';
 
 const LETTERS = ['A', 'B', 'C', 'D'] as const;
 
+export interface EvaluationScreenProps {
+  evaluation: EvalReady | null;
+  onPlayAgain: () => void;
+}
+
 /**
  * Layar Evaluasi (DESIGN §3 screen 6; FR-H02..H05, FR-H12, FR-H13).
  * - Daftar soal disusun server dari kunci (bukan AI). Salah terbuka otomatis, benar tertutup.
  * - Bagian AI dengan badge; bila gagal → ringkasan otomatis berlabel "bukan AI".
+ * - "Baca lebih lanjut" hanya memuat sumber terverifikasi dari soal yang dijawab; AI tidak membuat tautan.
  */
-export function EvaluationScreen({
-  evaluation,
-  onPlayAgain,
-}: {
-  evaluation: EvalReady | null;
-  onPlayAgain: () => void;
-}) {
+export function EvaluationScreen({ evaluation, onPlayAgain }: EvaluationScreenProps) {
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
   const questions = evaluation?.questions ?? [];
-  const ai = evaluation?.aiSection;
+  const ai = evaluation?.aiSection ?? null;
+  const loading = evaluation === null;
 
   const toggle = (id: string) => {
     setOpenIds((prev) => {
@@ -32,6 +33,11 @@ export function EvaluationScreen({
   };
 
   const badge = evaluation?.badge ?? 'ringkasan-otomatis-bukan-ai';
+  const sources = Array.from(
+    new Map(
+      questions.flatMap((question) => question.sources).map((source) => [source.url, source]),
+    ).values(),
+  );
 
   return (
     <main className="screen">
@@ -54,22 +60,22 @@ export function EvaluationScreen({
               gap: 'var(--space-2)',
             }}
           >
-            {questions.map((q, i) => {
-              const wrong = q.chosenIndex !== q.answerIndex;
+            {questions.map((question, index) => {
+              const wrong = question.chosenIndex !== question.answerIndex;
               // Soal salah terbuka otomatis (FR-H02)
-              const open = wrong || openIds.has(q.questionId);
+              const open = wrong || openIds.has(question.questionId);
               return (
                 <EvalItem
-                  key={q.questionId}
-                  questionNumber={i + 1}
-                  stem={q.stem}
-                  chosenLetter={wrong ? LETTERS[q.chosenIndex] : undefined}
-                  answerLetter={wrong ? LETTERS[q.answerIndex] : undefined}
-                  explanation={wrong ? q.explanation : undefined}
-                  sources={wrong ? q.sources : undefined}
+                  key={question.questionId}
+                  questionNumber={index + 1}
+                  stem={question.stem}
+                  chosenLetter={wrong ? LETTERS[question.chosenIndex] : undefined}
+                  answerLetter={wrong ? LETTERS[question.answerIndex] : undefined}
+                  explanation={wrong ? question.explanation : undefined}
+                  sources={wrong ? question.sources : undefined}
                   wrong={wrong}
                   open={open}
-                  onToggle={() => toggle(q.questionId)}
+                  onToggle={() => toggle(question.questionId)}
                 />
               );
             })}
@@ -79,15 +85,28 @@ export function EvaluationScreen({
         <AIPanel
           content={ai ? { pattern: ai.pattern, tip: ai.tip, motivation: ai.motivation } : null}
           badge={badge}
-          loading={ai === null}
+          loading={loading}
         />
 
-        {ai?.motivation ? (
+        {sources.length > 0 ? (
           <section aria-labelledby="baca-lebih-lanjut" className="card">
             <h2 id="baca-lebih-lanjut" style={{ font: 'var(--text-label)' }}>
               Baca lebih lanjut
             </h2>
-            {/* TODO(T-16): daftar sumber terverifikasi dari soal yang dijawab (FR-H04). AI tidak membuat tautan. */}
+            <ul style={{ margin: 0, paddingLeft: 'var(--space-4)', font: 'var(--text-small)' }}>
+              {sources.map((source) => (
+                <li key={source.url}>
+                  <a
+                    href={source.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ color: 'var(--color-forest-700)' }}
+                  >
+                    {source.judul} — {source.lembaga}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </section>
         ) : null}
 

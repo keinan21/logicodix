@@ -41,7 +41,8 @@ export function AIPanel({ content, badge, loading }: AIPanelProps) {
         <h3 style={{ margin: 0, font: 'var(--text-title)', color: 'var(--color-ai-600)' }}>
           Evaluasi AI
         </h3>
-        <Badge kind={badgeKind} />
+        {/* Badge asal teks baru bermakna setelah teksnya ada (FR-H05). */}
+        {loading ? null : <Badge kind={badgeKind} />}
       </div>
 
       {loading || (!content && !loading) ? (

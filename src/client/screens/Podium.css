@@ -1,0 +1,119 @@
+.podium-screen .screen-inner {
+  width: 100%;
+}
+
+.podium-title {
+  margin: 0 0 var(--space-4);
+  font: var(--text-title);
+  color: var(--color-forest-900);
+}
+
+.podium-heading {
+  margin: 0 0 var(--space-2);
+  font: var(--text-label);
+  color: var(--color-muted);
+}
+
+.podium-steps {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.podium-step {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  min-width: 0;
+  padding: var(--space-2);
+  border: 2px solid var(--color-line);
+  border-bottom: 0;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  background: var(--color-forest-100);
+  text-align: center;
+}
+
+.podium-rank-1 {
+  min-height: calc(var(--space-8) * 4);
+  border-color: var(--color-earth-500);
+}
+
+.podium-rank-2 {
+  min-height: calc(var(--space-8) * 3);
+}
+
+.podium-rank-3 {
+  min-height: calc(var(--space-8) * 2.5);
+}
+
+.podium-me {
+  border-color: var(--color-forest-700);
+  background: var(--color-surface);
+}
+
+.podium-animal {
+  width: var(--space-8);
+  height: var(--space-8);
+  object-fit: contain;
+}
+
+.podium-nickname {
+  max-width: 100%;
+  font: var(--text-label);
+  color: var(--color-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.podium-rank {
+  font: var(--text-display);
+  font-size: var(--size-podium-rank);
+  color: var(--color-earth-500);
+}
+
+.podium-empty {
+  margin: 0;
+  font: var(--text-body);
+  color: var(--color-muted);
+}
+
+.podium-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.podium-table th {
+  padding: var(--space-2);
+  font: var(--text-label);
+  color: var(--color-muted);
+  text-align: left;
+}
+
+.podium-table th:nth-child(3),
+.podium-table th:nth-child(4) {
+  text-align: center;
+}
+
+.podium-actions {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+@media (min-width: 1024px) {
+  .podium-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .podium-rank {
+    font-size: calc(var(--size-podium-rank) * 1.5);
+  }
+}
