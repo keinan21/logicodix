@@ -20,25 +20,25 @@ Nama token sama persis di Figma Variables dan CSS (`color/forest-700` ↔ `--col
 
 ### Warna
 
-| Token | Hex | Pakai untuk | Kontras dengan putih |
-|---|---|---|---|
-| `forest-900` | #123D24 | Judul | 12+ |
-| `forest-700` | #1F6B3A | Tombol utama, header | 6.5 |
-| `forest-500` | #3E9B5C | Border fokus | – |
-| `forest-100` | #E6F4EA | Latar kotak penjelasan, pilihan hewan aktif | – |
-| `earth-500` | #A47148 | Podium, garis lajur | 4.2 (hanya teks besar) |
-| `earth-300` | #D9B48A | Jalur tanah | – |
-| `sky-100` | #DDF1FB | Langit | – |
-| `sun-500` | #F4B400 | Chip "Soal klaim" (teks `#3A2A00`) | – |
-| `ok-600` / `ok-100` | #1E7B3C / #DCF3E3 | Jawaban benar | 5.3 |
-| `err-600` / `err-100` | #C2352B / #FBE3E1 | Jawaban salah | 5.5 |
-| `ai-600` / `ai-100` | #6A4FE0 / #F3F0FF | Bagian AI saja | 5.5 |
-| `ink` | #17221B | Teks utama | – |
-| `muted` | #56645B | Teks sekunder (5.9 di atas `bg`) | – |
-| `line` | #D5DED7 | Border | – |
-| `bg` | #F6FAF6 | Latar halaman | – |
-| `bot` | #6B756E | Label lajur dan badge BOT | 4.8 |
-| `slot-1` … `slot-4` | #B8432A, #1F7A70, #2F5FB3, #8A5A00 | Label lajur pemain | 5.4, 5.2, 6.2, 5.9 |
+| Token                 | Hex                                | Pakai untuk                                 | Kontras dengan putih   |
+| --------------------- | ---------------------------------- | ------------------------------------------- | ---------------------- |
+| `forest-900`          | #123D24                            | Judul                                       | 12+                    |
+| `forest-700`          | #1F6B3A                            | Tombol utama, header                        | 6.5                    |
+| `forest-500`          | #3E9B5C                            | Border fokus                                | –                      |
+| `forest-100`          | #E6F4EA                            | Latar kotak penjelasan, pilihan hewan aktif | –                      |
+| `earth-500`           | #A47148                            | Podium, garis lajur                         | 4.2 (hanya teks besar) |
+| `earth-300`           | #D9B48A                            | Jalur tanah                                 | –                      |
+| `sky-100`             | #DDF1FB                            | Langit                                      | –                      |
+| `sun-500`             | #F4B400                            | Chip "Soal klaim" (teks `#3A2A00`)          | –                      |
+| `ok-600` / `ok-100`   | #1E7B3C / #DCF3E3                  | Jawaban benar                               | 5.3                    |
+| `err-600` / `err-100` | #C2352B / #FBE3E1                  | Jawaban salah                               | 5.5                    |
+| `ai-600` / `ai-100`   | #6A4FE0 / #F3F0FF                  | Bagian AI saja                              | 5.5                    |
+| `ink`                 | #17221B                            | Teks utama                                  | –                      |
+| `muted`               | #56645B                            | Teks sekunder (5.9 di atas `bg`)            | –                      |
+| `line`                | #D5DED7                            | Border                                      | –                      |
+| `bg`                  | #F6FAF6                            | Latar halaman                               | –                      |
+| `bot`                 | #6B756E                            | Label lajur dan badge BOT                   | 4.8                    |
+| `slot-1` … `slot-4`   | #B8432A, #1F7A70, #2F5FB3, #8A5A00 | Label lajur pemain                          | 5.4, 5.2, 6.2, 5.9     |
 
 Semua pasangan teks/latar sudah dicek ≥ 4.5 (WCAG AA), kecuali `earth-500` yang hanya untuk angka podium berukuran besar (≥ 24 px bold).
 
@@ -46,13 +46,13 @@ Semua pasangan teks/latar sudah dicek ≥ 4.5 (WCAG AA), kecuali `earth-500` yan
 
 Plus Jakarta Sans, regular (400) dan bold (700), disimpan di repo (NFR-02).
 
-| Token | HP | Laptop | Pakai |
-|---|---|---|---|
-| `text-display` | 26 / 800 | 52 / 800 | Judul beranda |
-| `text-title` | 19 / 700 | 22 / 700 | Teks soal |
-| `text-body` | 16 / 400 | 16 / 400 | Pilihan, penjelasan, isi AI |
-| `text-small` | 14 / 400 | 14 / 400 | Fakta hewan, sumber, tabel |
-| `text-label` | 12 / 700 | 13 / 700 | Chip, label lajur, badge |
+| Token          | HP       | Laptop   | Pakai                       |
+| -------------- | -------- | -------- | --------------------------- |
+| `text-display` | 26 / 800 | 52 / 800 | Judul beranda               |
+| `text-title`   | 19 / 700 | 22 / 700 | Teks soal                   |
+| `text-body`    | 16 / 400 | 16 / 400 | Pilihan, penjelasan, isi AI |
+| `text-small`   | 14 / 400 | 14 / 400 | Fakta hewan, sumber, tabel  |
+| `text-label`   | 12 / 700 | 13 / 700 | Chip, label lajur, badge    |
 
 Teks isi tidak pernah di bawah 16 px (NFR-05). 12–14 px hanya untuk label pendek.
 
@@ -64,48 +64,49 @@ Teks isi tidak pernah di bawah 16 px (NFR-05). 12–14 px hanya untuk label pend
 
 ### Gerak
 
-| Token | Nilai | Pakai |
-|---|---|---|
-| `motion-fast` | 150 ms | Hover, tekan |
-| `motion-step` | 400 ms ease-out | Hewan maju satu langkah, pohon tumbuh |
-| `motion-check` | 1000 ms | Ikon ✓ di atas hewan (sesuai "Benar" 1 detik, D-57) |
-| `motion-bob` | 600 ms loop | Hewan bergoyang |
-| `motion-parallax` | 30 s loop | Latar pohon bergeser |
+| Token             | Nilai           | Pakai                                               |
+| ----------------- | --------------- | --------------------------------------------------- |
+| `motion-fast`     | 150 ms          | Hover, tekan                                        |
+| `motion-step`     | 400 ms ease-out | Hewan maju satu langkah, pohon tumbuh               |
+| `motion-check`    | 1000 ms         | Ikon ✓ di atas hewan (sesuai "Benar" 1 detik, D-57) |
+| `motion-bob`      | 600 ms loop     | Hewan bergoyang                                     |
+| `motion-parallax` | 30 s loop       | Latar pohon bergeser                                |
 
 ## 3. Layar
 
 Setiap layar dibuat di dua ukuran: HP 360 × 760 dan laptop 1280 × 800.
 
-| # | Layar | State yang wajib digambar | FR |
-|---|---|---|---|
-| 1 | Beranda | default (hewan acak terpilih), nickname tidak valid, nickname ditolak filter | M01, M02, M14 |
-| 2 | Antre | menunggu (lama + jumlah pemain), tombol Batal | M05, M07 |
-| 3 | Lobby | 4 peserta + hitung mundur 3-2-1 | M11 |
-| 4 | Balapan | menunggu jawaban, benar (✓ di atas hewan), salah (✗/✓ + penjelasan + lingkaran 5 dtk), finish (menonton), soal habis | B02–B08 |
-| 5 | Podium | normal, pemain sendiri disorot | H01 |
-| 6 | Evaluasi | AI sedang menyusun, AI selesai, ringkasan otomatis (bukan AI), semua benar (motivasi + Baca lebih lanjut), mode contoh | H02–H05 |
-| 7 | Error | koneksi putus (mencoba lagi), keluar dari room | B11 |
+| #   | Layar    | State yang wajib digambar                                                                                              | FR            |
+| --- | -------- | ---------------------------------------------------------------------------------------------------------------------- | ------------- |
+| 1   | Beranda  | default (hewan acak terpilih), nickname tidak valid, nickname ditolak filter                                           | M01, M02, M14 |
+| 2   | Antre    | menunggu (lama + jumlah pemain), tombol Batal                                                                          | M05, M07      |
+| 3   | Lobby    | 4 peserta + hitung mundur 3-2-1                                                                                        | M11           |
+| 4   | Balapan  | menunggu jawaban, benar (✓ di atas hewan), salah (✗/✓ + penjelasan + lingkaran 5 dtk), finish (menonton), soal habis   | B02–B08       |
+| 5   | Podium   | normal, pemain sendiri disorot                                                                                         | H01           |
+| 6   | Evaluasi | AI sedang menyusun, AI selesai, ringkasan otomatis (bukan AI), semua benar (motivasi + Baca lebih lanjut), mode contoh | H02–H05       |
+| 7   | Error    | koneksi putus (mencoba lagi), keluar dari room                                                                         | B11           |
 
 Susunan per layar mengikuti mockup v0.1:
+
 - **HP:** header (nomor soal + sisa waktu), lintasan 4 lajur di sepertiga atas, kartu soal di bawah, dan tombol A–D bertumpuk.
 - **Laptop:** lintasan selebar layar, kartu soal maksimal 1000 px di tengah, A–D dalam grid 2×2 dengan petunjuk keyboard. Beranda, Podium, dan Evaluasi memakai dua kolom.
 
 ## 4. Komponen
 
-| Komponen | Variant |
-|---|---|
-| `Button` | primary, secondary, ai; default, hover, pressed, disabled, focus |
-| `Input` | default, focus, error |
-| `AnimalCard` | default, selected, focus |
-| `AnswerOption` | default, hover, selected-waiting, correct, wrong, dimmed, focus |
-| `Lane` | slot-1…4, bot; langkah 0–5; status racing/finish/out |
-| `QuestionCard` | klaim, pengetahuan; dengan/tanpa penjelasan |
-| `Chip` | klaim, pengetahuan, tipe misinformasi, topik |
-| `CountdownRing` | 5…1 |
-| `Badge` | AI, ringkasan otomatis, contoh AI, BOT |
-| `ResultRow` | normal, me, bot |
-| `EvalItem` | benar (tertutup), salah (terbuka) |
-| `AIPanel` | loading, pattern+tip, motivation, fallback, contoh |
+| Komponen        | Variant                                                          |
+| --------------- | ---------------------------------------------------------------- |
+| `Button`        | primary, secondary, ai; default, hover, pressed, disabled, focus |
+| `Input`         | default, focus, error                                            |
+| `AnimalCard`    | default, selected, focus                                         |
+| `AnswerOption`  | default, hover, selected-waiting, correct, wrong, dimmed, focus  |
+| `Lane`          | slot-1…4, bot; langkah 0–5; status racing/finish/out             |
+| `QuestionCard`  | klaim, pengetahuan; dengan/tanpa penjelasan                      |
+| `Chip`          | klaim, pengetahuan, tipe misinformasi, topik                     |
+| `CountdownRing` | 5…1                                                              |
+| `Badge`         | AI, ringkasan otomatis, contoh AI, BOT                           |
+| `ResultRow`     | normal, me, bot                                                  |
+| `EvalItem`      | benar (tertutup), salah (terbuka)                                |
+| `AIPanel`       | loading, pattern+tip, motivation, fallback, contoh               |
 
 Satu komponen di Figma sama dengan satu komponen React dengan nama yang sama.
 
@@ -121,9 +122,9 @@ Satu komponen di Figma sama dengan satu komponen React dengan nama yang sama.
 
 ## 6. Umpan balik jawaban
 
-| Hasil | Yang tampil | Lama |
-|---|---|---|
-| Benar | Ikon ✓ dalam lingkaran `ok-600` di atas hewan pemain, hewan melompat, dan tunas tumbuh. Tanpa teks. | 1 dtk (D-57) |
+| Hasil | Yang tampil                                                                                                                                                            | Lama         |
+| ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| Benar | Ikon ✓ dalam lingkaran `ok-600` di atas hewan pemain, hewan melompat, dan tunas tumbuh. Tanpa teks.                                                                    | 1 dtk (D-57) |
 | Salah | Pilihan pemain: border dan ikon ✗ `err-600`. Kunci: border dan ikon ✓ `ok-600`. Pilihan lain diredupkan. Penjelasan + sumber di bawah, `CountdownRing` di pojok kartu. | 5 dtk (D-57) |
 
 - Ikon selalu punya label tersembunyi "Benar" atau "Salah" untuk pembaca layar.
@@ -133,18 +134,18 @@ Satu komponen di Figma sama dengan satu komponen React dengan nama yang sama.
 
 Bahasa Indonesia, kalimat pendek, dan menyapa dengan "kamu".
 
-| Tempat | Teks |
-|---|---|
-| Tombol beranda | "Main", "Lawan bot" |
-| Label | "Nickname", "Pilih pelarimu" |
+| Tempat         | Teks                                                                                                  |
+| -------------- | ----------------------------------------------------------------------------------------------------- |
+| Tombol beranda | "Main", "Lawan bot"                                                                                   |
+| Label          | "Nickname", "Pilih pelarimu"                                                                          |
 | Error nickname | "Nickname 2–16 karakter, hanya huruf, angka, dan spasi", "Nickname tidak boleh mengandung kata kasar" |
-| Antre | "Mencari pemain… (N/4)", "Batal" |
-| Lobby | "Siap-siap!" + 3-2-1 |
-| Balapan | "Soal N", "Sisa m:ss", "Finish! Posisi ke-N", "Soal habis", "Keluar" |
-| Podium | "Hasil balapan", "Lihat evaluasi AI", "Main lagi" |
-| Evaluasi | "Evaluasimu", "Soal yang kamu jawab", "Kamu memilih X, jawabannya Y", "AI sedang menyusun evaluasi…" |
-| Badge | "Dibuat oleh AI", "Ringkasan otomatis (bukan AI)", "Contoh AI (dibuat sebelumnya)" |
-| Koneksi | "Koneksi terputus, mencoba menyambung lagi…" |
+| Antre          | "Mencari pemain… (N/4)", "Batal"                                                                      |
+| Lobby          | "Siap-siap!" + 3-2-1                                                                                  |
+| Balapan        | "Soal N", "Sisa m:ss", "Finish! Posisi ke-N", "Soal habis", "Keluar"                                  |
+| Podium         | "Hasil balapan", "Lihat evaluasi AI", "Main lagi"                                                     |
+| Evaluasi       | "Evaluasimu", "Soal yang kamu jawab", "Kamu memilih X, jawabannya Y", "AI sedang menyusun evaluasi…"  |
+| Badge          | "Dibuat oleh AI", "Ringkasan otomatis (bukan AI)", "Contoh AI (dibuat sebelumnya)"                    |
+| Koneksi        | "Koneksi terputus, mencoba menyambung lagi…"                                                          |
 
 Nama game masih [OPEN]. Untuk sementara pakai "Balap Fakta Lingkungan".
 

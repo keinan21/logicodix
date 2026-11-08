@@ -24,15 +24,16 @@ Issue T-xx ─▶ branch b/T-03-game-logic ─▶ agen menulis tes + kode ─▶
 
 ## 2. Aturan branch dan `main`
 
-| Aturan | Isi |
-|---|---|
-| `main` | Dikunci: wajib lewat PR, CI wajib hijau, tidak bisa force-push atau dihapus |
-| Nama branch | `<peran>/<T-xx>-<slug>`, contoh `a/T-09-race-screen` |
-| Umur branch | Sependek mungkin, idealnya ≤ 1 hari |
-| Merge | Squash merge saja; judul commit mengikuti §6 |
-| Force-push | Dilarang di mana pun |
+| Aturan      | Isi                                                                         |
+| ----------- | --------------------------------------------------------------------------- |
+| `main`      | Dikunci: wajib lewat PR, CI wajib hijau, tidak bisa force-push atau dihapus |
+| Nama branch | `<peran>/<T-xx>-<slug>`, contoh `a/T-09-race-screen`                        |
+| Umur branch | Sependek mungkin, idealnya ≤ 1 hari                                         |
+| Merge       | Squash merge saja; judul commit mengikuti §6                                |
+| Force-push  | Dilarang di mana pun                                                        |
 
 **Setting GitHub (dikerjakan B saat P-05):**
+
 - Settings → Branches → aturan untuk `main`: Require a pull request; Require status checks (`ci`); Block force pushes; jangan wajibkan jumlah approval, karena review dilakukan agen (§4).
 - Settings → General → Pull Requests: hanya izinkan squash merging dan centang auto-delete head branches.
 - Settings → Code security: aktifkan secret scanning dan push protection. Kalau repo private dan fitur ini tidak tersedia, langkah gitleaks di CI (§7) jadi pengamannya.
@@ -75,6 +76,7 @@ Format Conventional Commits dengan ID FR:
 ## 7. CI
 
 Satu workflow `ci` di setiap PR dan push ke `main`:
+
 1. `npm ci`
 2. `npm run check`: tsc, Prettier, validasi konten
 3. `npm test`
@@ -85,13 +87,13 @@ CI merah berarti PR tidak boleh di-merge. Tes tidak boleh di-skip atau dihapus h
 
 ## 8. Kepemilikan folder
 
-| Folder | Pemilik |
-|---|---|
-| `src/server/`, `src/shared/`, `scripts/`, `.github/workflows/` | B (@RavLyr) |
-| `src/client/` (kecuali `components/`, `styles.css`) | A (@KurniaRadhit) |
-| `src/client/components/`, `src/client/styles.css`, `src/client/assets/` | D (@keinan21) |
-| `content/` | C (@rakyan) |
-| `docs/` | Semua |
+| Folder                                                                  | Pemilik           |
+| ----------------------------------------------------------------------- | ----------------- |
+| `src/server/`, `src/shared/`, `scripts/`, `.github/workflows/`          | B (@RavLyr)       |
+| `src/client/` (kecuali `components/`, `styles.css`)                     | A (@KurniaRadhit) |
+| `src/client/components/`, `src/client/styles.css`, `src/client/assets/` | D (@keinan21)     |
+| `content/`                                                              | C (@rakyan)       |
+| `docs/`                                                                 | Semua             |
 
 Pemilik tercatat di `.github/CODEOWNERS`. Mengubah folder orang lain boleh, tapi beri tahu pemiliknya di PR.
 

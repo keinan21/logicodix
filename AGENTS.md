@@ -5,14 +5,14 @@ Versi 0.3 · 2026-11-05 · Keputusan: D-62, D-65
 
 ## 1. Baca dulu
 
-| Untuk | Baca |
-|---|---|
-| Apa yang harus dibuat | Issue tugas, lalu requirement FR yang disebut di `docs/frd/` |
-| Istilah | `docs/CONTEXT.md`. Pakai istilahnya, hindari daftar _Avoid_. |
+| Untuk                              | Baca                                                           |
+| ---------------------------------- | -------------------------------------------------------------- |
+| Apa yang harus dibuat              | Issue tugas, lalu requirement FR yang disebut di `docs/frd/`   |
+| Istilah                            | `docs/CONTEXT.md`. Pakai istilahnya, hindari daftar _Avoid_.   |
 | Di mana dan bagaimana kode ditulis | `docs/ARCHITECTURE.md` (§3 folder, §6 kontrak socket, §12 bug) |
-| Tampilan | `docs/DESIGN.md` + frame Figma yang disebut di issue |
-| Alur kerja tim | `docs/WORKFLOW.md` |
-| Keputusan dan alasannya | `docs/01-decisions.md` |
+| Tampilan                           | `docs/DESIGN.md` + frame Figma yang disebut di issue           |
+| Alur kerja tim                     | `docs/WORKFLOW.md`                                             |
+| Keputusan dan alasannya            | `docs/01-decisions.md`                                         |
 
 Kalau dokumen bertentangan: FRD dan D-xx menang atas ARCHITECTURE/DESIGN, dan ARCHITECTURE/DESIGN menang atas kebiasaanmu sendiri.
 
@@ -45,6 +45,7 @@ Untuk bug, ikuti `docs/ARCHITECTURE.md` §12: ambil log/seed, ulangi, tulis tes 
 **Boleh:** membuat branch, commit, push branch sendiri, membuka PR, me-merge PR sesuai WORKFLOW §4, menambah dependency (sebutkan alasannya di PR), dan mengubah CI.
 
 **Dilarang keras:**
+
 - `git push --force` atau `--force-with-lease`, di branch mana pun
 - push langsung ke `main`
 - commit rahasia: `.env`, API key, token. Pakai `.env.example` dengan nilai kosong
