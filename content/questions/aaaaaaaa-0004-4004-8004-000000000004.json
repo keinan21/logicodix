@@ -1,0 +1,19 @@
+{
+  "id": "aaaaaaaa-0004-4004-8004-000000000004",
+  "kind": "klaim",
+  "stem": "Sebuah unggahan memakai grafik ketinggian air sungai yang skalanya tidak lengkap.",
+  "claim": "Grafik ketinggian air sungai menunjukkan banjir biasa saja, padahal skalanya dipotong.",
+  "options": [
+    "Benar; grafik selalu akurat apa pun skalanya.",
+    "Benar; skala grafik tidak penting untuk dibaca.",
+    "Menyesatkan; grafik tidak boleh dipakai untuk air.",
+    "Menyesatkan; grafik tanpa skala lengkap bisa menyesatkan."
+  ],
+  "answerIndex": 3,
+  "explanation": "Grafik yang sumbunya dipotong atau skalanya tidak lengkap bisa membuat kenaikan besar terlihat kecil. Membaca grafik perlu memperhatikan skala, sumbu, dan periode waktu. Data resmi dari lembaga terkait adalah acuan yang tepat.",
+  "sources": [],
+  "misinfoType": "menyesatkan-salah-tafsir-data",
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-rakyan"
+}
