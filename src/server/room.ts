@@ -38,6 +38,7 @@ import {
 } from '../shared/schema';
 import type { EvalResult } from './evaluate';
 import { logEvent } from './log';
+import { uniquifyNickname } from './nickname';
 
 export type EmitFn = (event: string, payload: unknown) => void;
 export type EmitToFn = (socketId: string, event: string, payload: unknown) => void;
@@ -97,11 +98,15 @@ export class Room {
     };
 
     // Susun peserta: manusia dulu (slot 1..n), bot sisanya (FR-M10: profil berurutan).
+    // Nickname kembar di room dapat suffix #2/#3 (FR-M04).
+    const taken: string[] = [];
     let slot = 1 as 1 | 2 | 3 | 4;
     for (const h of cfg.humans) {
+      const nickname = uniquifyNickname(h.nickname, taken);
+      taken.push(nickname);
       this.state.participants.push({
         id: h.id,
-        nickname: h.nickname,
+        nickname,
         animalId: h.animalId,
         isBot: false,
         slot,

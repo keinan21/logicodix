@@ -214,6 +214,44 @@ describe('room (integrasi skeleton)', () => {
     expect(events.some((e) => e.event === 'race:end')).toBe(false);
     expect(events.some((e) => e.event === 'room.destroyed')).toBe(true);
   });
+
+  it('nickname kembar di room dapat suffix #2 (FR-M04)', () => {
+    const seed = 11;
+    const questions = [q('44444444-0001-4001-8001-000000000001', 0)];
+    const events: RecordedEvent[] = [];
+    const sched = new FakeScheduler();
+    const room = new Room({
+      roomId: 'r1',
+      seed,
+      humans: [
+        { id: 'h1', nickname: 'Budi', animalId: 'orangutan' },
+        { id: 'h2', nickname: 'Budi', animalId: 'harimau' },
+        { id: 'h3', nickname: 'Budi', animalId: 'gajah' },
+      ],
+      botCount: 1,
+      questions,
+      emit: (event, payload) => events.push({ event, payload }),
+      emitTo: (socketId, event, payload) => events.push({ event, payload, target: socketId }),
+      onEmpty: () => {
+        events.push({ event: 'room.destroyed', payload: null });
+      },
+      evaluator: async () => ({
+        output: { pattern: 'Pola uji.', tip: 'Tips uji.', motivation: '' },
+        badge: 'ringkasan-otomatis-bukan-ai',
+        source: 'mock',
+      }),
+      now: () => sched.now,
+      setTimer: (fn, ms) => sched.setTimer(fn, ms),
+      clearTimer: (id) => sched.clearTimer(id),
+    });
+    room.start();
+    sched.advance(3000);
+    const states = events.filter((e) => e.event === 'room:state');
+    const last = states[states.length - 1]!;
+    const payload = roomStateSchema.parse(last.payload);
+    const names = payload.participants.map((p) => p.nickname).sort();
+    expect(names).toEqual(['BOT Kilat', 'Budi', 'Budi#2', 'Budi#3']);
+  });
 });
 
 function lastEvent(events: RecordedEvent[], name: string): unknown {

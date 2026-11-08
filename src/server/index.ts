@@ -13,6 +13,7 @@ import { loadContent } from './content';
 import { Matchmaking } from './matchmaking';
 import { Room } from './room';
 import { logEvent } from './log';
+import { checkNickname } from './nickname';
 import { joinQueuePayloadSchema, sessionResumePayloadSchema } from '../shared/schema';
 import { createEvaluator, selectMode } from './evaluate';
 import { createRNGSeed } from '../shared/rng';
@@ -111,8 +112,13 @@ export function start(port = PORT): HttpServer {
         socket.emit('error', { code: 'invalid-payload', pesan: 'Payload queue:join tidak valid.' });
         return;
       }
-      // TODO(T-08): filter kata kasar nickname di server (nickname.ts) sebelum masuk antrean.
-      matchmaking.join(socket.id, parsed.data, Date.now());
+      // Filter kata kasar + format nickname di server (FR-M02, FR-M01)
+      const checked = checkNickname(parsed.data.nickname);
+      if (!checked.ok) {
+        socket.emit('error', { code: 'nickname-invalid', pesan: checked.reason });
+        return;
+      }
+      matchmaking.join(socket.id, { ...parsed.data, nickname: checked.nickname }, Date.now());
       socket.emit('queue:status', { menungguS: 0, ditemukan: 1 });
     });
 
