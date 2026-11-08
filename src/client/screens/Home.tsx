@@ -31,8 +31,11 @@ const ANIMAL_PLACEHOLDERS: Record<AnimalId, { nama: string; fakta: string }> = {
  */
 export function HomeScreen({
   onJoin,
+  joinError = null,
 }: {
   onJoin: (nickname: string, animalId: AnimalId, mode: 'quick' | 'bot') => void;
+  /** Pesan penolakan dari server, mis. filter kata kasar (FR-M02). */
+  joinError?: string | null;
 }) {
   const { joinQueue } = useRoom();
   const [nickname, setNickname] = useState(() => sessionStorage.getItem('nickname') ?? '');
@@ -121,6 +124,11 @@ export function HomeScreen({
           <p id="home-fact" className="home-fact" aria-live="polite" aria-atomic="true">
             {ANIMAL_PLACEHOLDERS[animalId].nama} — TODO-SUMBER: fakta hewan sedang disiapkan.
           </p>
+          {joinError ? (
+            <p className="home-error" role="alert">
+              {joinError}
+            </p>
+          ) : null}
           <div className="home-actions">
             <Button type="submit" variant="primary" disabled={!valid}>
               Main
