@@ -1,5 +1,9 @@
 # Aset (ARCHITECTURE §8)
 
+## Aset Lobby (T-09)
+
+`src/client/assets/animals/{orangutan,gajah,badak,burung}.svg` berasal dari [Google Noto Emoji commit 99701e0](https://github.com/googlefonts/noto-emoji/tree/99701e07d3d1fe1bdbcdb14964547f0fd592966f/2D/svg), berkas `emoji_u1f9a7.svg`, `emoji_u1f418.svg`, `emoji_u1f98f.svg`, dan `emoji_u1f99c.svg`. Lisensi Apache 2.0 tersedia di `docs/licenses/noto-emoji-LICENSE`. Nama file disederhanakan; gambar tidak diubah. Harimau dan penyu memakai ulang `assets/home/tiger.svg` dan `assets/home/turtle.svg` yang telah tercatat di bawah. Semua ditampilkan 24×24 px sesuai slot Figma, tanpa emoji sistem.
+
 ## Aset Beranda (T-05)
 
 | File                                                           | Sumber tetap                                                                                                                                                                                                                            | Lisensi                                                       | Perubahan                                                                            |

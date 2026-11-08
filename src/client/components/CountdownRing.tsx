@@ -3,6 +3,7 @@ export interface CountdownRingProps {
   remaining: number;
   /** Total detik untuk menghitung lingkaran. */
   total: number;
+  variant?: 'default' | 'lobby';
 }
 
 /**
@@ -10,8 +11,22 @@ export interface CountdownRingProps {
  * TODO(T-10): render SVG circle dengan stroke-dashoffset; angka tetap tampil sebagai teks
  * supaya tidak bergantung warna saja (DESIGN §8).
  */
-export function CountdownRing({ remaining, total }: CountdownRingProps) {
+export function CountdownRing({ remaining, total, variant = 'default' }: CountdownRingProps) {
   const fraction = total > 0 ? remaining / total : 0;
+  if (variant === 'lobby') {
+    return (
+      <span
+        className="lobby-countdown"
+        role="timer"
+        aria-label={`${remaining} detik`}
+        style={{
+          background: `conic-gradient(var(--color-err-600) ${Math.max(0, Math.min(1, fraction))}turn, var(--color-line) 0)`,
+        }}
+      >
+        <span>{remaining}</span>
+      </span>
+    );
+  }
   return (
     <span
       role="timer"

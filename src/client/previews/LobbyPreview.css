@@ -1,0 +1,31 @@
+.lobby-preview-controls {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  right: var(--space-4);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  font: var(--text-small);
+  color: var(--color-muted);
+}
+.lobby-preview-controls label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+.lobby-preview-controls select {
+  min-height: calc(var(--space-6) * 2);
+  padding: var(--space-2);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  font: var(--text-body);
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+.lobby-preview-controls a {
+  color: var(--color-forest-700);
+  padding: var(--space-3) 0;
+}

@@ -13,6 +13,9 @@
 }
 
 :root {
+  --text-lobby-title: 700 19px/26px var(--font-family);
+  --size-lobby-countdown: 52px;
+  --size-lobby-ring: 6px;
   --size-queue-action-width: 220px;
   --size-queue-action-height: 52px;
   --text-queue-action: 700 19px/26px var(--font-family);
