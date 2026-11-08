@@ -128,6 +128,12 @@
   gap: var(--space-3);
 }
 
+.home-error {
+  margin: 0;
+  font: var(--text-small);
+  color: var(--color-err-600);
+}
+
 .home-actions .btn {
   min-height: var(--size-home-action);
   font: var(--text-home-action) !important;
