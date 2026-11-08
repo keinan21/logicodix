@@ -6,13 +6,17 @@ export interface CountdownRingProps {
   variant?: 'default' | 'lobby';
 }
 
+const RADIUS = 17;
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
+
 /**
- * CountdownRing — DESIGN §4/§6: lingkaran hitung mundur di pojok kartu saat lock 5 detik.
- * TODO(T-10): render SVG circle dengan stroke-dashoffset; angka tetap tampil sebagai teks
- * supaya tidak bergantung warna saja (DESIGN §8).
+ * CountdownRing — DESIGN §4/§6: lingkaran hitung mundur (lock 5 detik, lobby 3-2-1).
+ * Angka tetap tampil sebagai teks supaya status tidak bergantung pada warna saja (DESIGN §8).
  */
 export function CountdownRing({ remaining, total, variant = 'default' }: CountdownRingProps) {
-  const fraction = total > 0 ? remaining / total : 0;
+  const safeTotal = total > 0 ? total : 1;
+  const fraction = Math.max(0, Math.min(1, remaining / safeTotal));
+
   if (variant === 'lobby') {
     return (
       <span
@@ -20,32 +24,32 @@ export function CountdownRing({ remaining, total, variant = 'default' }: Countdo
         role="timer"
         aria-label={`${remaining} detik`}
         style={{
-          background: `conic-gradient(var(--color-err-600) ${Math.max(0, Math.min(1, fraction))}turn, var(--color-line) 0)`,
+          background: `conic-gradient(var(--color-err-600) ${fraction}turn, var(--color-line) 0)`,
         }}
       >
         <span>{remaining}</span>
       </span>
     );
   }
+
   return (
-    <span
-      role="timer"
-      aria-label={`${remaining} detik`}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 40,
-        height: 40,
-        borderRadius: '50%',
-        border: `4px solid var(--color-err-600)`,
-        font: 'var(--text-label)',
-        color: 'var(--color-err-600)',
-        // Sementara: opacity menggambarkan sisa waktu; diganti SVG ring di T-10.
-        opacity: 0.4 + 0.6 * fraction,
-      }}
-    >
-      {remaining}
+    <span className="countdown-ring" role="timer" aria-label={`${remaining} detik`}>
+      <svg className="countdown-ring-svg" viewBox="0 0 44 44" aria-hidden="true">
+        <circle className="countdown-ring-track" cx="22" cy="22" r={RADIUS} />
+        <circle
+          className="countdown-ring-value"
+          cx="22"
+          cy="22"
+          r={RADIUS}
+          style={{
+            strokeDasharray: CIRCUMFERENCE,
+            strokeDashoffset: CIRCUMFERENCE * (1 - fraction),
+          }}
+        />
+      </svg>
+      <span className="countdown-ring-number" aria-hidden="true">
+        {remaining}
+      </span>
     </span>
   );
 }

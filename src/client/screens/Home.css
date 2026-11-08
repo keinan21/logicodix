@@ -98,6 +98,12 @@
   text-align: center;
 }
 
+.home-animal-img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+}
+
 .home-animal[aria-pressed='true'] {
   border-color: var(--color-forest-700);
   background: var(--color-forest-100);
