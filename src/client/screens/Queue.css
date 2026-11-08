@@ -1,0 +1,38 @@
+.queue-screen {
+  justify-content: center;
+}
+
+.queue-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 100%;
+  text-align: center;
+}
+
+.queue-title {
+  margin: 0;
+  color: var(--color-forest-900);
+  font: var(--text-title);
+}
+
+.queue-wait {
+  margin: 0;
+  color: var(--color-muted);
+  font: var(--text-body);
+  font-variant-numeric: tabular-nums;
+}
+
+.queue-cancel.btn {
+  width: var(--size-queue-action-width);
+  max-width: 100%;
+  min-height: var(--size-queue-action-height);
+  font: var(--text-queue-action) !important;
+}
+
+@media (hover: hover) {
+  .queue-cancel.btn:hover {
+    background-color: var(--color-forest-100) !important;
+  }
+}
