@@ -1,16 +1,21 @@
 ## Tugas
+
 Closes #<issue> · T-xx · FR: <FR-xx, FR-yy>
 
 ## Yang berubah
+
 -
 
 ## Cara mengetes
+
 1.
 
 ## Screenshot (wajib kalau ada perubahan tampilan)
+
 HP 360 px: … · Laptop: …
 
 ## Checklist
+
 - [ ] Acceptance criteria FR terpenuhi
 - [ ] `npm run check && npm test` lulus
 - [ ] Ada tes untuk perilaku baru
