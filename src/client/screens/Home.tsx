@@ -63,7 +63,6 @@ export function HomeScreen({
       setTouched(true);
       return;
     }
-    // TODO(T-09): kirim via socket queue:join; untuk scaffold panggil hook langsung.
     joinQueue({ nickname, animalId, mode });
     onJoin(nickname, animalId, mode);
   };
