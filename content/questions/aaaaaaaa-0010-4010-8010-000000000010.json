@@ -1,0 +1,17 @@
+{
+  "id": "aaaaaaaa-0010-4010-8010-000000000010",
+  "kind": "pengetahuan",
+  "stem": "Manakah rangkaian yang sesuai dengan prinsip pengelolaan sampah 3R?",
+  "options": [
+    "Bakar, Kubur, Buang",
+    "Reduce, Reuse, Recycle",
+    "Kumpulkan, Sebar, Simpan",
+    "Beli, Pakai, Buang"
+  ],
+  "answerIndex": 1,
+  "explanation": "3R berarti mengurangi (reduce), menggunakan kembali (reuse), dan mendaur ulang (recycle). Urutan ini menekankan pengurangan jumlah sampah sejak awal, bukan hanya pembuangan akhir.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-rakyan"
+}

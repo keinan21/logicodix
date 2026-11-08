@@ -17,9 +17,9 @@ Game balap multiplayer berbasis web untuk siswa SMP. Pemain masuk dengan nicknam
 
 **Bukti sekunder (data asli, bukan validasi siswa sasaran)** (bagian lama §12; D-19):
 
-- CfDS UGM/APNIC Foundation (ISIF Asia), *Tackling Climate Crisis Misinformation in Indonesia* (2024): survei daring Agustus–September 2023, n=2.401; 51,6% Gen Z. Sampel pengguna internet umum, bukan khusus pelajar, tidak representatif. Angka diperiksa terhadap [English Executive Summary](https://apnic.foundation/wp-content/uploads/2024/04/Executive-Summary-Tackling-Climate-Change-Misinformation-in-Indonesia-ENG-Ver.pdf), **bukan laporan lengkap** (D-42).
+- CfDS UGM/APNIC Foundation (ISIF Asia), _Tackling Climate Crisis Misinformation in Indonesia_ (2024): survei daring Agustus–September 2023, n=2.401; 51,6% Gen Z. Sampel pengguna internet umum, bukan khusus pelajar, tidak representatif. Angka diperiksa terhadap [English Executive Summary](https://apnic.foundation/wp-content/uploads/2024/04/Executive-Summary-Tackling-Climate-Change-Misinformation-in-Indonesia-ENG-Ver.pdf), **bukan laporan lengkap** (D-42).
 - Angka tercatat: 63,5% memakai media sosial sebagai sumber utama informasi iklim; 98% pernah menemui misinformasi iklim; sekitar 74% merasa mampu mengenalinya; 62,3% “hanya sampai tahap verifikasi”; sekitar 20% membuat kontra-narasi. Keyakinan adalah laporan diri, bukan tes. Frasa 62,3% ambigu: **tidak ditafsirkan ulang**; definisi/denominator [OPEN]. Analisis 123 item dari empat situs cek fakta dilaporkan menemukan tujuh tipe; deskripsi korpus, bukan prevalensi populasi.
-- D-19 mencatat Roozenbeek & van der Linden (2019), *Fake news game confers psychological resistance against online misinformation*; (2020), *Good News about Bad News: Gamified Inoculation Boosts Confidence and Cognitive Immunity Against Fake News* (n=196, terkontrol); serta Axelsson dkk., *Bad News in the civics classroom: How serious gameplay fosters teenagers' ability to discern misinformation techniques* (516 siswa upper-secondary Swedia). Metadata lengkap belum diverifikasi. Sampel Barat, bukan konteks lingkungan; studi kelas bukan SMP; efek jangka panjang belum jelas.
+- D-19 mencatat Roozenbeek & van der Linden (2019), _Fake news game confers psychological resistance against online misinformation_; (2020), _Good News about Bad News: Gamified Inoculation Boosts Confidence and Cognitive Immunity Against Fake News_ (n=196, terkontrol); serta Axelsson dkk., _Bad News in the civics classroom: How serious gameplay fosters teenagers' ability to discern misinformation techniques_ (516 siswa upper-secondary Swedia). Metadata lengkap belum diverifikasi. Sampel Barat, bukan konteks lingkungan; studi kelas bukan SMP; efek jangka panjang belum jelas.
 
 Bukti ini tidak membuktikan efektivitas game, balapan, AI, atau peningkatan awareness sasaran.
 
@@ -44,11 +44,11 @@ Awareness lingkungan tetap tujuan utama (D-25), indikator [OPEN] (D-26). **MVP t
 
 ## 5. Prioritas MVP
 
-| Tier | Cakupan |
-|---|---|
-| Wajib | Alur bisnis §4 langkah 1–8; 10–12 klaim terverifikasi dengan kunci, penjelasan bersumber, dan tag tipe misinformasi (D-36, D-50); bot pengisi; fallback AI; berjalan di localhost (D-49). |
-| Tambahan | Room privat dengan kode (D-47); deploy online (D-49); ekspansi ke 15–20 klaim (D-36). |
-| Ditunda | Leaderboard global, akun, dashboard guru (D-27, D-48). |
+| Tier     | Cakupan                                                                                                                                                                                   |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Wajib    | Alur bisnis §4 langkah 1–8; 10–12 klaim terverifikasi dengan kunci, penjelasan bersumber, dan tag tipe misinformasi (D-36, D-50); bot pengisi; fallback AI; berjalan di localhost (D-49). |
+| Tambahan | Room privat dengan kode (D-47); deploy online (D-49); ekspansi ke 15–20 klaim (D-36).                                                                                                     |
+| Ditunda  | Leaderboard global, akun, dashboard guru (D-27, D-48).                                                                                                                                    |
 
 ## 6. Peran dan batas AI
 
@@ -58,11 +58,11 @@ AI hanya dipakai di Evaluasi AI setelah balapan (D-50). Input: ID klaim dan jawa
 
 Dimensi mengikuti D-33/D-40; semua hasil **pending**:
 
-| Pengamatan | Bukti yang dicatat | Batas interpretasi |
-|---|---|---|
-| Penggunaan mandiri | Pemain menyelesaikan alur §4 tanpa bantuan; titik kebingungan | Bukan bukti peningkatan awareness. |
-| Kualitas Evaluasi AI | Kesesuaian dengan kunci, dukungan sumber, tambahan tanpa dukungan, fallback; diuji dengan jawaban sintetis | Bukan diagnosis penalaran pemain. |
-| Perilaku menebak | Proporsi jawaban sangat cepat yang salah dalam uji main | Menguji mitigasi kunci 3–5 detik (D-46). |
+| Pengamatan           | Bukti yang dicatat                                                                                         | Batas interpretasi                       |
+| -------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| Penggunaan mandiri   | Pemain menyelesaikan alur §4 tanpa bantuan; titik kebingungan                                              | Bukan bukti peningkatan awareness.       |
+| Kualitas Evaluasi AI | Kesesuaian dengan kunci, dukungan sumber, tambahan tanpa dukungan, fallback; diuji dengan jawaban sintetis | Bukan diagnosis penalaran pemain.        |
+| Perilaku menebak     | Proporsi jawaban sangat cepat yang salah dalam uji main                                                    | Menguji mitigasi kunci 3–5 detik (D-46). |
 
 Ambang numerik [OPEN], menunggu angka dari pengguna.
 
@@ -80,10 +80,10 @@ Belum ada pengujian dengan siswa SMP; `docs/pilot-results.md` belum ada dan tida
 
 ## 10. Pemetaan kriteria penjurian
 
-| Kriteria resmi | Bukti yang ditargetkan, belum diklaim tersedia |
-|---|---|
-| Problem–Solution Fit — 25% | Bukti sekunder §1; uji main dengan sasaran [OPEN]. |
+| Kriteria resmi              | Bukti yang ditargetkan, belum diklaim tersedia                                       |
+| --------------------------- | ------------------------------------------------------------------------------------ |
+| Problem–Solution Fit — 25%  | Bukti sekunder §1; uji main dengan sasaran [OPEN].                                   |
 | Technology Innovation — 25% | Multiplayer real-time dengan bot; Evaluasi AI pola misinformasi lintas klaim (D-50). |
-| Software Engineering — 25% | Alur berjalan di localhost, kunci deterministik, fallback AI, dokumentasi. |
-| UI/UX Design — 15% | Alur §4 yang dapat dipahami di video demo tanpa narasi (00 §A5). |
-| Green IT & Ethics — 10% | Label AI dan fallback, data room transien, tanpa data lokasi atau akun (D-47, D-48). |
+| Software Engineering — 25%  | Alur berjalan di localhost, kunci deterministik, fallback AI, dokumentasi.           |
+| UI/UX Design — 15%          | Alur §4 yang dapat dipahami di video demo tanpa narasi (00 §A5).                     |
+| Green IT & Ethics — 10%     | Label AI dan fallback, data room transien, tanpa data lokasi atau akun (D-47, D-48). |

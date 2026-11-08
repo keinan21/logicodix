@@ -1,0 +1,19 @@
+{
+  "id": "aaaaaaaa-0006-4006-8006-000000000006",
+  "kind": "klaim",
+  "stem": "Sebuah unggahan menunjukkan tumpukan plastik lama seolah kejadian minggu ini.",
+  "claim": "Tumpukan plastik yang viral terjadi minggu ini di ibu kota.",
+  "options": [
+    "Benar; foto selalu menunjukkan kejadian terbaru.",
+    "Benar; tumpukan plastik hanya ada di ibu kota.",
+    "Salah konteks; foto lama diklaim sebagai kejadian terbaru.",
+    "Salah konteks; plastik tidak bisa difoto."
+  ],
+  "answerIndex": 2,
+  "explanation": "Mengklaim foto lama sebagai kejadian baru adalah salah konteks. Periksa tanggal, lokasi, dan sumber asli media sebelum mempercayai atau membagikannya. Lembaga resmi setempat biasanya mengonfirmasi kejadian terbaru.",
+  "sources": [],
+  "misinfoType": "konteks-salah",
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-rakyan"
+}

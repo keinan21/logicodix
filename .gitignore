@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment & secrets (AGENTS.md §4: kunci tidak pernah di-commit)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Editor / OS
+.DS_Store
+*.swp
+.vscode/
+.idea/
+
+# Test / coverage
+coverage/
+playwright-report/
+test-results/
+
+# Misc
+bun.lock.bak

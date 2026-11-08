@@ -1,0 +1,19 @@
+{
+  "id": "aaaaaaaa-0007-4007-8007-000000000007",
+  "kind": "klaim",
+  "stem": "Sebuah unggahan mengaitkan penolakan perubahan iklim dengan seorang ilmuwan terkenal.",
+  "claim": "Seorang ilmuwan terkenal mengatakan perubahan iklim adalah kebohongan besar.",
+  "options": [
+    "Benar; semua ilmuwan menolak perubahan iklim.",
+    "Belum tentu benar; cek pernyataan aslinya di sumber resmi.",
+    "Benar; otoritas selalu benar tanpa perlu cek.",
+    "Salah; ilmuwan tidak pernah membahas iklim."
+  ],
+  "answerIndex": 1,
+  "explanation": "Menyandarkan klaim pada nama besar tanpa tautan pernyataan asli adalah tanda catut otoritas. Pernyataan perlu dicek ke sumber aslinya. Konsensus ilmiah internasional mengakui perubahan iklim dan peran aktivitas manusia.",
+  "sources": [],
+  "misinfoType": "catut-otoritas",
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-rakyan"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "aaaaaaaa-0002-4002-8002-000000000002",
+  "kind": "klaim",
+  "stem": "Sebuah unggahan menyebut video gunung sampah besar di sebuah kota adalah rekayasa komputer.",
+  "claim": "Video gunung sampah di kota besar sebenarnya adalah rekayasa komputer, bukan kejadian nyata.",
+  "options": [
+    "Benar; semua video sampah adalah rekayasa.",
+    "Benar; tidak ada gunung sampah di kota besar.",
+    "Perlu dicek; keaslian video ditentukan sumber resmi.",
+    "Salah; rekayasa komputer tidak mungkin membuat video."
+  ],
+  "answerIndex": 2,
+  "explanation": "Klaim bahwa suatu video adalah rekayasa perlu bukti, begitu pula sebaliknya. Keputusan harus berdasarkan pemeriksaan sumber resmi atau lembaga cek fakta, bukan dari klaim di unggahan. Jangan sebarkan sebelum terverifikasi.",
+  "sources": [],
+  "misinfoType": "konten-palsu-konspirasi",
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-rakyan"
+}

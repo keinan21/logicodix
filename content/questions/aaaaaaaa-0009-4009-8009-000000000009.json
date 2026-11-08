@@ -1,0 +1,17 @@
+{
+  "id": "aaaaaaaa-0009-4009-8009-000000000009",
+  "kind": "pengetahuan",
+  "stem": "Gas apa yang paling banyak berkontribusi pada peningkatan efek rumah kaca akibat aktivitas manusia?",
+  "options": [
+    "Karbondioksida dari bahan bakar fosil",
+    "Oksigen yang dihasilkan tumbuhan",
+    "Nitrogen yang menyusun udara",
+    "Helium dari balon udara pesta"
+  ],
+  "answerIndex": 0,
+  "explanation": "Karbondioksida dari pembakaran bahan bakar fosil dan deforestasi adalah penyumbang utama peningkatan efek rumah kaca. Oksigen dan nitrogen bukan gas rumah kaca utama. Informasi ini standar dalam sains iklim.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-rakyan"
+}
