@@ -1,5 +1,14 @@
 # Aset (ARCHITECTURE §8)
 
+## Aset Beranda (T-05)
+
+| File                                                           | Sumber tetap                                                                                                                                                                                                                            | Lisensi                                                       | Perubahan                                                                            |
+| -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `src/client/assets/home/{tree,tiger,seedling,turtle,palm}.svg` | [Google Noto Emoji, commit 99701e0](https://github.com/googlefonts/noto-emoji/tree/99701e07d3d1fe1bdbcdb14964547f0fd592966f/2D/svg): `emoji_u1f333.svg`, `emoji_u1f405.svg`, `emoji_u1f331.svg`, `emoji_u1f422.svg`, `emoji_u1f334.svg` | Apache 2.0, salinan di `docs/licenses/noto-emoji-LICENSE`     | Nama file disederhanakan; gambar tidak diubah. Dekorasi desktop sesuai urutan Figma. |
+| `src/client/assets/fonts/PlusJakartaSans.ttf`                  | [Google Fonts, commit 86aced9](https://github.com/google/fonts/tree/86aced91de05cd4f96a06838124cca45be337b2b/ofl/plusjakartasans)                                                                                                       | OFL 1.1, salinan di `docs/licenses/plus-jakarta-sans-OFL.txt` | Font variabel lokal 200–800; nama file disederhanakan.                               |
+
+Pilihan hewan Beranda memakai placeholder lingkaran berlabel sesuai Figma sampai aset T-11 tersedia. Fakta hewan tetap `TODO-SUMBER`; tidak ada fakta tanpa sumber yang ditambahkan.
+
 Setiap aset wajib punya baris di file ini: nama file, sumber (URL + commit), lisensi, dan perubahan.
 Aset yang lisensinya tidak jelas dilarang masuk repo.
 

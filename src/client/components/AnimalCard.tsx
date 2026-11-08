@@ -6,6 +6,7 @@ export interface AnimalCardProps {
   fakta: string;
   selected: boolean;
   onSelect: (animalId: AnimalId) => void;
+  compact?: boolean;
 }
 
 /**
@@ -13,7 +14,36 @@ export interface AnimalCardProps {
  * TODO(T-11): ganti placeholder emoji dengan SVG Noto Emoji dari src/client/assets/animals/<id>.svg
  * (DESIGN §12 risiko: emoji sistem bisa beda di HP; hewan wajib SVG Noto di repo).
  */
-export function AnimalCard({ animalId, nama, fakta, selected, onSelect }: AnimalCardProps) {
+export function AnimalCard({
+  animalId,
+  nama,
+  fakta,
+  selected,
+  onSelect,
+  compact,
+}: AnimalCardProps) {
+  if (compact) {
+    return (
+      <button
+        type="button"
+        className="home-animal"
+        aria-label={nama}
+        aria-pressed={selected}
+        aria-describedby="home-fact"
+        onClick={() => onSelect(animalId)}
+      >
+        <span className="home-animal-placeholder" aria-hidden="true">
+          {nama}
+        </span>
+        <span>{nama}</span>
+        {selected && (
+          <span className="home-animal-check" aria-hidden="true">
+            ✓
+          </span>
+        )}
+      </button>
+    );
+  }
   return (
     <button
       type="button"
