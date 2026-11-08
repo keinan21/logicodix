@@ -1,4 +1,11 @@
 import { useEffect, useState } from 'react';
+import { GAME } from '../../shared/constants';
+import tree from '../assets/home/tree.svg';
+import tiger from '../assets/home/tiger.svg';
+import seedling from '../assets/home/seedling.svg';
+import turtle from '../assets/home/turtle.svg';
+import palm from '../assets/home/palm.svg';
+import './Home.css';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { AnimalCard } from '../components/AnimalCard';
@@ -59,19 +66,31 @@ export function HomeScreen({
   };
 
   return (
-    <main className="screen">
-      <div className="screen-inner" style={{ maxWidth: 560 }}>
-        <h1 style={{ font: 'var(--text-display)', color: 'var(--color-forest-900)', margin: 0 }}>
-          Balap Fakta Lingkungan
+    <main className="home">
+      <section className="home-hero" aria-labelledby="home-title">
+        <h1 id="home-title">
+          Balap Fakta
+          <br />
+          Lingkungan
         </h1>
-        <p style={{ margin: 0, color: 'var(--color-muted)' }}>
-          Jawab klaim lingkungan Benar atau Salah. Jawaban benar memajukan hewanmu. Finish duluan =
-          menang.
+        <p className="home-intro">Jawab benar, hewanmu melaju. Siapa paling cepat sampai finish?</p>
+        <div className="home-scenery" aria-hidden="true">
+          {[tree, tiger, seedling, turtle, palm].map((src) => (
+            <img key={src} src={src} alt="" />
+          ))}
+        </div>
+        <p className="home-summary">
+          {GAME.MAX_PLAYERS} pemain · {GAME.STEPS_TO_FINISH} jawaban benar untuk finish · evaluasi
+          AI di akhir
         </p>
-
-        <div
-          className="card"
-          style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}
+      </section>
+      <div className="home-form-column">
+        <form
+          className="home-form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            start('quick');
+          }}
         >
           <Input
             label="Nickname"
@@ -83,32 +102,9 @@ export function HomeScreen({
             maxLength={16}
             autoComplete="nickname"
           />
-          {touched && !valid ? (
-            <p
-              role="alert"
-              style={{ margin: 0, color: 'var(--color-err-600)', font: 'var(--text-small)' }}
-            >
-              {nicknameError}
-            </p>
-          ) : null}
-
-          <fieldset style={{ border: 'none', padding: 0, margin: 0 }}>
-            <legend
-              style={{
-                font: 'var(--text-label)',
-                color: 'var(--color-muted)',
-                marginBottom: 'var(--space-2)',
-              }}
-            >
-              Pilih pelarimu
-            </legend>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-                gap: 'var(--space-2)',
-              }}
-            >
+          <fieldset className="home-runners">
+            <legend>Pilih pelarimu</legend>
+            <div className="home-animal-grid">
               {ANIMAL_IDS.map((id) => (
                 <AnimalCard
                   key={id}
@@ -117,20 +113,23 @@ export function HomeScreen({
                   fakta={ANIMAL_PLACEHOLDERS[id].fakta}
                   selected={animalId === id}
                   onSelect={setAnimalId}
+                  compact
                 />
               ))}
             </div>
           </fieldset>
-
-          <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-            <Button variant="primary" onClick={() => start('quick')} aria-disabled={!valid}>
+          <p id="home-fact" className="home-fact" aria-live="polite" aria-atomic="true">
+            {ANIMAL_PLACEHOLDERS[animalId].nama} — TODO-SUMBER: fakta hewan sedang disiapkan.
+          </p>
+          <div className="home-actions">
+            <Button type="submit" variant="primary" disabled={!valid}>
               Main
             </Button>
-            <Button variant="secondary" onClick={() => start('bot')} aria-disabled={!valid}>
+            <Button variant="secondary" onClick={() => start('bot')} disabled={!valid}>
               Lawan bot
             </Button>
           </div>
-        </div>
+        </form>
       </div>
     </main>
   );
