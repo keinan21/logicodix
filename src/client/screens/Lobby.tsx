@@ -1,8 +1,10 @@
 import type { ParticipantPublic, RoomState } from '../../shared/schema';
 
+import { GAME } from '../../shared/constants';
+
 /**
  * Layar Lobby (DESIGN §3 screen 3; FR-M11).
- * Menampilkan 4 peserta + hitung mundur 3-2-1. TODO(T-09): sambungkan ke room:state.
+ * Menampilkan 4 peserta + hitung mundur 3-2-1. TODO(T-09): countdown digerakkan server.
  */
 export function LobbyScreen({ state }: { state: RoomState | null }) {
   const participants: ParticipantPublic[] = state?.participants ?? [];
@@ -43,7 +45,8 @@ export function LobbyScreen({ state }: { state: RoomState | null }) {
             textAlign: 'center',
           }}
         >
-          {/* TODO(T-09): hitung mundur 3-2-1 dari server (FR-M11) */}3
+          {/* TODO(T-09): hitung mundur 3-2-1 digerakkan server (FR-M11) */}
+          {GAME.LOBBY_COUNTDOWN_S}
         </p>
       </div>
     </main>

@@ -63,7 +63,6 @@ export interface RoomConfig {
 }
 
 const OPTION_LETTERS = ['A', 'B', 'C', 'D'] as const;
-const HUMAN_EVAL_LIMIT_MS = 10 * 60 * 1000; // FR-H12: hasil bisa dibuka sampai 10 menit
 
 export class Room {
   private cfg: RoomConfig;
@@ -94,7 +93,6 @@ export class Room {
       questionOrder: this.questionBank.map((q) => q.id),
       optionOrder: oShuffle.value,
       participants: [],
-      finishCounter: 0,
     };
 
     // Susun peserta: manusia dulu (slot 1..n), bot sisanya (FR-M10: profil berurutan).
@@ -429,7 +427,7 @@ export class Room {
     });
 
     // FR-H12: data room dihapus dari memori setelah hasil tidak dibuka lagi.
-    const t = this.cfg.setTimer(() => this.destroy(), HUMAN_EVAL_LIMIT_MS);
+    const t = this.cfg.setTimer(() => this.destroy(), GAME.RESULT_RETENTION_S * 1000);
     this.timers.add(t);
   }
 

@@ -21,23 +21,23 @@ export function RaceScreen({
   state: RoomState | null;
   feedback: RaceFeedback | null;
 }) {
-  const [lockRemaining, setLockRemaining] = useState<number | undefined>(
-    feedback?.lockEndsAtMs ? 5 : undefined,
-  );
+  // Lock dihitung dari lockEndsAtMs server (countdown tampilan UI saja; keputusan game tetap di server).
+  const [lockRemaining, setLockRemaining] = useState<number | undefined>(undefined);
+  const lockEndsAtMs = feedback?.lockEndsAtMs;
 
   useEffect(() => {
-    if (feedback?.lockEndsAtMs === undefined) {
+    if (lockEndsAtMs === undefined) {
       setLockRemaining(undefined);
       return;
     }
-    // Hitung mundur lock dari payload server (detik). TODO: presisi ms.
-    setLockRemaining(5);
-    const t = setInterval(
-      () => setLockRemaining((r) => (r !== undefined && r > 1 ? r - 1 : undefined)),
-      1000,
-    );
+    const update = () => {
+      const s = Math.ceil((lockEndsAtMs - Date.now()) / 1000);
+      setLockRemaining(s > 0 ? s : undefined);
+    };
+    update();
+    const t = setInterval(update, 250);
     return () => clearInterval(t);
-  }, [feedback]);
+  }, [lockEndsAtMs]);
 
   const q = state?.activeQuestion;
   const questionNumber = (state?.questionIndex ?? 0) + 1;

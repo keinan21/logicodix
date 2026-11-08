@@ -116,16 +116,6 @@ export class Matchmaking {
     this.onRoom({ humanPlayers: humans, botCount });
   }
 
-  /** Jumlah pemain menunggu + lama tunggu pemain terlama (untuk queue:status). */
-  status(nowMs: number): { waiting: number; oldestWaitingS: number } {
-    if (this.queue.length === 0) return { waiting: 0, oldestWaitingS: 0 };
-    const oldest = this.queue.reduce((a, b) => (a.joinedAtMs < b.joinedAtMs ? a : b));
-    return {
-      waiting: this.queue.length,
-      oldestWaitingS: Math.floor((nowMs - oldest.joinedAtMs) / 1000),
-    };
-  }
-
   shutdown(): void {
     for (const t of this.timers.values()) clearTimeout(t);
     this.timers.clear();

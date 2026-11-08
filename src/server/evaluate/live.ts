@@ -7,10 +7,11 @@
  */
 
 import { GoogleGenAI } from '@google/genai';
-import type { EvalRequest, EvalAiOutput } from '../../shared/schema';
+import type { EvalAiOutput, EvalRequest } from '../../shared/schema';
+import { evalAiOutputSchema } from '../../shared/schema';
+import { AI } from '../../shared/constants';
 import { buildPrompt } from './prompt';
 import { checkAiOutput } from './check';
-import { AI } from '../../shared/constants';
 
 export class LiveEvaluateError extends Error {}
 
@@ -36,6 +37,12 @@ export async function liveEvaluate(
     });
     const text = resp.text ?? '';
     const parsed = parseJson(text);
+    const schemaResult = evalAiOutputSchema.safeParse(parsed);
+    if (!schemaResult.success) {
+      throw new LiveEvaluateError(
+        `keluaran tidak sesuai schema: ${schemaResult.error.issues[0]?.message ?? 'format'}`,
+      );
+    }
     const checked = checkAiOutput(parsed, req);
     if (!checked.ok) {
       throw new LiveEvaluateError(`check gagal: ${checked.reasons.map((r) => r.rule).join(', ')}`);

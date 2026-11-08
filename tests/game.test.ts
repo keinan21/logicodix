@@ -138,7 +138,6 @@ describe('game.isRaceOver (FR-B09)', () => {
     questionOrder: [],
     optionOrder: [0, 1, 2, 3],
     participants,
-    finishCounter: 0,
   });
 
   it('semua finish → selesai', () => {
