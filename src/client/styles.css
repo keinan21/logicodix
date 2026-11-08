@@ -13,6 +13,9 @@
 }
 
 :root {
+  --size-queue-action-width: 220px;
+  --size-queue-action-height: 52px;
+  --text-queue-action: 700 19px/26px var(--font-family);
   --color-surface: #ffffff;
   --text-home-intro: 400 20px/1.5 var(--font-family);
   --text-home-action: 700 19px/26px var(--font-family);
