@@ -48,7 +48,6 @@ export interface RaceState {
   optionOrder: number[];
   participants: Participant[];
   raceEndsAtMs?: number;
-  finishCounter: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -165,9 +164,4 @@ export function isRaceOver(state: RaceState, nowMs: number): boolean {
   return state.participants.every(
     (p) => p.status === 'finished' || p.status === 'outOfQuestions' || p.status === 'left',
   );
-}
-
-/** Apakah peserta sudah finish (5 langkah). */
-export function isFinished(p: Participant): boolean {
-  return p.status === 'finished' || p.correctCount >= GAME.STEPS_TO_FINISH;
 }

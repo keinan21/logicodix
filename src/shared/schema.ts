@@ -7,6 +7,7 @@
  */
 
 import { z } from 'zod';
+import { CONTENT, GAME } from './constants';
 
 // ---------------------------------------------------------------------------
 // Enumerasi bersama
@@ -55,8 +56,12 @@ const questionShapeSchema = z.object({
   kind: kindSchema,
   stem: z.string().min(1).max(160),
   claim: z.string().max(300).optional(),
-  options: z.array(z.string().min(1).max(80)).length(4),
-  answerIndex: z.number().int().min(0).max(3),
+  options: z.array(z.string().min(1).max(80)).length(CONTENT.OPTIONS_PER_QUESTION),
+  answerIndex: z
+    .number()
+    .int()
+    .min(0)
+    .max(CONTENT.OPTIONS_PER_QUESTION - 1),
   explanation: z.string().min(1).max(300),
   sources: z.array(sourceSchema),
   misinfoType: misinfoTypeSchema.optional(),
@@ -144,7 +149,7 @@ export const participantPublicSchema = z.object({
   animalId: animalIdSchema,
   isBot: z.boolean(),
   slot: z.number().int().min(1).max(4),
-  steps: z.number().int().min(0).max(5),
+  steps: z.number().int().min(0).max(GAME.STEPS_TO_FINISH),
   status: z.enum(['racing', 'locked', 'finished', 'outOfQuestions', 'left']),
   /** Urutan finish (1 = pertama) — untuk "Finish! Posisi ke-N" (FR-B07). */
   finishOrder: z.number().int().min(1).optional(),
@@ -168,7 +173,12 @@ export const raceFeedbackSchema = z.object({
   questionIndex: z.number().int().min(0),
   correct: z.boolean(),
   /** hanya dikirim bila salah (FR-B05) */
-  answerIndex: z.number().int().min(0).max(3).optional(),
+  answerIndex: z
+    .number()
+    .int()
+    .min(0)
+    .max(CONTENT.OPTIONS_PER_QUESTION - 1)
+    .optional(),
   explanation: z.string().optional(),
   sources: z.array(sourceSchema).optional(),
   lockEndsAtMs: z.number().int().optional(),
@@ -197,18 +207,26 @@ export type RaceEnd = z.infer<typeof raceEndSchema>;
 export const evalQuestionInputSchema = z.object({
   questionId: z.string(),
   kind: kindSchema,
-  chosenIndex: z.number().int().min(0).max(3),
-  answerIndex: z.number().int().min(0).max(3),
+  chosenIndex: z
+    .number()
+    .int()
+    .min(0)
+    .max(CONTENT.OPTIONS_PER_QUESTION - 1),
+  answerIndex: z
+    .number()
+    .int()
+    .min(0)
+    .max(CONTENT.OPTIONS_PER_QUESTION - 1),
   explanation: z.string(),
   misinfoType: misinfoTypeSchema.nullable(),
   topic: topicSchema,
 });
 export type EvalQuestionInput = z.infer<typeof evalQuestionInputSchema>;
 
-export const evalRequestSchema = z.object({
-  questions: z.array(evalQuestionInputSchema).min(1),
-});
-export type EvalRequest = z.infer<typeof evalRequestSchema>;
+/** Input evaluasi AI per pemain (FR-H06): daftar soal dijawab, tanpa nickname. */
+export interface EvalRequest {
+  questions: EvalQuestionInput[];
+}
 
 /** Keluaran AI yang lolos check (FR-H08). */
 export const evalAiOutputSchema = z
@@ -237,9 +255,17 @@ export const evalReadySchema = z.object({
       kind: kindSchema,
       stem: z.string(),
       claim: z.string().nullable(),
-      options: z.array(z.string()).length(4),
-      chosenIndex: z.number().int().min(0).max(3),
-      answerIndex: z.number().int().min(0).max(3),
+      options: z.array(z.string()).length(CONTENT.OPTIONS_PER_QUESTION),
+      chosenIndex: z
+        .number()
+        .int()
+        .min(0)
+        .max(CONTENT.OPTIONS_PER_QUESTION - 1),
+      answerIndex: z
+        .number()
+        .int()
+        .min(0)
+        .max(CONTENT.OPTIONS_PER_QUESTION - 1),
       explanation: z.string(),
       sources: z.array(sourceSchema),
       topic: topicSchema,

@@ -37,11 +37,6 @@ export function randomInt(
   return { value: min + Math.floor(value * range), state: next };
 }
 
-/** Acak float di [0, 1). */
-export function randomFloat(state: RNGState): { value: number; state: RNGState } {
-  return nextRNG(state);
-}
-
 /** Pilih satu elemen acak dari array tidak kosong. */
 export function randomChoice<T>(
   state: RNGState,

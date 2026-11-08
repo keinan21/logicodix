@@ -25,6 +25,8 @@ export const GAME = {
   LOBBY_COUNTDOWN_S: 3,
   /** Tunggu maksimal quick match sebelum room dibentuk dengan bot (detik). */
   QUEUE_TIMEOUT_S: 10,
+  /** Masa simpan hasil room setelah balapan (detik) = 10 menit (FR-H12). */
+  RESULT_RETENTION_S: 600,
 } as const;
 
 /** Bank soal: jumlah minimum soal terverifikasi agar server mau start (FR-K01). */
@@ -47,8 +49,7 @@ export const BOT_PROFILES = [
 export type BotProfile = (typeof BOT_PROFILES)[number];
 
 /** Mode evaluasi AI (ARCHITECTURE §7, §9). */
-export const AI_MODES = ['live', 'contoh', 'mock'] as const;
-export type AiMode = (typeof AI_MODES)[number];
+export type AiMode = 'live' | 'contoh' | 'mock';
 
 export const AI = {
   /** Batas waktu panggilan AI dengan AbortController (FR-H07, detik). */
