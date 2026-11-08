@@ -1,4 +1,5 @@
 import type { AnimalId } from '../../shared/schema';
+import { ANIMAL_ASSETS } from './animalAssets';
 
 export interface AnimalCardProps {
   animalId: AnimalId;
@@ -11,8 +12,7 @@ export interface AnimalCardProps {
 
 /**
  * AnimalCard — DESIGN §4: default, selected, focus.
- * TODO(T-11): ganti placeholder emoji dengan SVG Noto Emoji dari src/client/assets/animals/<id>.svg
- * (DESIGN §12 risiko: emoji sistem bisa beda di HP; hewan wajib SVG Noto di repo).
+ * Ikon hewan memakai SVG Noto lokal (DESIGN §12), bukan emoji sistem.
  */
 export function AnimalCard({
   animalId,
@@ -22,6 +22,8 @@ export function AnimalCard({
   onSelect,
   compact,
 }: AnimalCardProps) {
+  const animal = ANIMAL_ASSETS[animalId];
+
   if (compact) {
     return (
       <button
@@ -33,7 +35,7 @@ export function AnimalCard({
         onClick={() => onSelect(animalId)}
       >
         <span className="home-animal-placeholder" aria-hidden="true">
-          {nama}
+          <img className="home-animal-img" src={animal.src} alt="" />
         </span>
         <span>{nama}</span>
         {selected && (
@@ -44,43 +46,17 @@ export function AnimalCard({
       </button>
     );
   }
+
   return (
     <button
       type="button"
+      className="animal-card"
       aria-pressed={selected}
       onClick={() => onSelect(animalId)}
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 'var(--space-2)',
-        padding: 'var(--space-3)',
-        borderRadius: 'var(--radius-md)',
-        border: `3px solid ${selected ? 'var(--color-forest-700)' : 'var(--color-line)'}`,
-        backgroundColor: selected ? 'var(--color-forest-100)' : '#ffffff',
-        cursor: 'pointer',
-      }}
     >
-      {/* TODO(T-11): <img src={animalSvg(animalId)} alt="" /> */}
-      <span aria-hidden="true" style={{ fontSize: '2.5rem' }}>
-        {animalPlaceholder(animalId)}
-      </span>
-      <span style={{ font: 'var(--text-label)' }}>{nama}</span>
-      <span style={{ font: 'var(--text-small)', color: 'var(--color-muted)', textAlign: 'center' }}>
-        {fakta}
-      </span>
+      <img className="animal-card-img" src={animal.src} alt="" />
+      <span className="animal-card-name">{nama}</span>
+      <span className="animal-card-fact">{fakta}</span>
     </button>
   );
-}
-
-function animalPlaceholder(id: AnimalId): string {
-  const map: Record<AnimalId, string> = {
-    orangutan: '🦧',
-    harimau: '🐅',
-    gajah: '🐘',
-    penyu: '🐢',
-    badak: '🦏',
-    burung: '🦜',
-  };
-  return map[id];
 }

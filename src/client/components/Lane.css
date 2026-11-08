@@ -1,0 +1,117 @@
+.lane {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  border-bottom: 2px dashed var(--color-earth-500);
+}
+
+.lane:last-child {
+  border-bottom: 0;
+}
+
+.lane-left {
+  opacity: 0.5;
+}
+
+.lane-label {
+  flex: 0 0 88px;
+  min-width: 0;
+  font: var(--text-label);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lane-track {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: calc(var(--size-lane-animal) + var(--space-3));
+}
+
+.lane-rail {
+  position: absolute;
+  inset-block: 0;
+  inset-inline: calc(var(--size-lane-animal) / 2);
+}
+
+.lane-dot {
+  position: absolute;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  transform: translate(-50%, -50%);
+  transition: background-color var(--motion-step) ease-out;
+}
+
+.lane-sprout {
+  position: absolute;
+  bottom: 0;
+  font-size: 14px;
+  line-height: 1;
+  transform: translateX(-50%);
+  animation: lane-sprout-in var(--motion-step) ease-out;
+}
+
+.lane-animal {
+  position: absolute;
+  top: 50%;
+  width: var(--size-lane-animal);
+  height: var(--size-lane-animal);
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+  transition: left var(--motion-step) ease-out;
+  animation: lane-bob var(--motion-bob) ease-in-out infinite;
+}
+
+.lane-finish {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: calc(var(--size-lane-animal) / -2);
+  width: 8px;
+  border-radius: var(--radius-sm);
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--color-forest-900) 0 4px,
+    var(--color-surface) 4px 8px
+  );
+}
+
+.lane-status {
+  flex: 0 0 auto;
+  font: var(--text-label);
+  color: var(--color-forest-700);
+  white-space: nowrap;
+}
+
+@keyframes lane-bob {
+  0%,
+  100% {
+    transform: translate(-50%, -50%);
+  }
+
+  50% {
+    transform: translate(-50%, calc(-50% - 2px));
+  }
+}
+
+@keyframes lane-sprout-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (min-width: 1024px) {
+  .lane-label {
+    flex-basis: 120px;
+  }
+}
