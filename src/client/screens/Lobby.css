@@ -1,0 +1,69 @@
+.lobby-screen {
+  justify-content: center;
+}
+.lobby-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 100%;
+}
+.lobby-title {
+  margin: 0;
+  font: var(--text-lobby-title);
+  color: var(--color-forest-900);
+}
+.lobby-wait {
+  margin: 0;
+  font: var(--text-body);
+  color: var(--color-muted);
+  text-align: center;
+}
+.lobby-countdown {
+  display: grid;
+  place-items: center;
+  width: var(--size-lobby-countdown);
+  height: var(--size-lobby-countdown);
+  padding: var(--size-lobby-ring);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink);
+  font: var(--text-lobby-title);
+}
+.lobby-countdown > span {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-bg);
+}
+.lobby-participants {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+.lobby-participant {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--space-6);
+}
+.lobby-animal {
+  width: var(--space-6);
+  height: var(--space-6);
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.lobby-nickname {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font: var(--text-body);
+  font-weight: 700;
+}
+.lobby-participant > span:last-child:not(.lobby-nickname) {
+  flex-shrink: 0;
+}
