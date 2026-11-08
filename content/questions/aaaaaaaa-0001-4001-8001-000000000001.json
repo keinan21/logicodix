@@ -1,0 +1,19 @@
+{
+  "id": "aaaaaaaa-0001-4001-8001-000000000001",
+  "kind": "klaim",
+  "stem": "Sebuah unggahan menyebut rekayasa cuaca sengaja dilakukan untuk membuat hujan di satu kota tertentu.",
+  "claim": "Pemerintah sengaja membuat hujan di satu kota saja sementara kota lain kekeringan.",
+  "options": [
+    "Perlu bukti resmi; klaim pengendalian cuaca luas belum terverifikasi.",
+    "Benar; satu kota bisa sengaja diguyur hujan kapan saja.",
+    "Benar; semua cuaca bisa dikendalikan sepenuhnya.",
+    "Salah; persemaian awan tidak pernah ada di mana pun."
+  ],
+  "answerIndex": 0,
+  "explanation": "Persemaian awan adalah teknologi yang ada, tetapi kemampuannya terbatas dan diatur resmi. Klaim bahwa cuaca suatu daerah dikendalikan sepihak untuk merugikan daerah lain belum memiliki bukti resmi. Cek sumber resmi sebelum membagikan.",
+  "sources": [],
+  "misinfoType": "konten-palsu-konspirasi",
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-rakyan"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "aaaaaaaa-0005-4005-8005-000000000005",
+  "kind": "klaim",
+  "stem": "Sebuah unggahan memakai foto gajah di kebun binatang seolah satwa liar yang baru ditemukan.",
+  "claim": "Foto gajah yang viral adalah satwa liar yang baru saja ditemukan di hutan Kalimantan.",
+  "options": [
+    "Salah konteks; foto berasal dari tempat dan waktu lain.",
+    "Benar; foto tersebut diambil saat penemuan baru.",
+    "Benar; gajah tidak pernah hidup di kebun binatang.",
+    "Salah konteks; semua foto gajah pasti palsu."
+  ],
+  "answerIndex": 0,
+  "explanation": "Foto atau video yang dipakai di luar tempat dan waktu aslinya disebut salah konteks. Sebelum membagikan, periksa apakah media benar-benar berasal dari peristiwa yang diklaim. Sumber resmi atau arsip media dapat membantu memastikannya.",
+  "sources": [],
+  "misinfoType": "konteks-salah",
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-rakyan"
+}

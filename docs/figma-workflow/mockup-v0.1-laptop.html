@@ -1,135 +1,922 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"><style>
-:root{
- --forest-900:#123D24;--forest-700:#1F6B3A;--forest-500:#3E9B5C;--forest-100:#E6F4EA;
- --earth-500:#A47148;--earth-300:#D9B48A;--sky-100:#DDF1FB;--sun-500:#F4B400;
- --ok-600:#1E7B3C;--ok-100:#DCF3E3;--err-600:#C2352B;--err-100:#FBE3E1;
- --ink:#17221B;--muted:#56645B;--line:#D5DED7;--bg:#F6FAF6;
- --slot1:#E76F51;--slot2:#2A9D8F;--slot3:#7B61FF;--slot4:#E9A400;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:#2b3a31;padding:40px;color:var(--ink)}
-h1.board{color:#fff;font-size:28px;margin-bottom:6px}
-p.board{color:#cfe3d5;font-size:15px;margin-bottom:28px}
-.row{display:flex;gap:32px;align-items:flex-start}
-.cap{color:#fff;font-weight:700;font-size:16px;margin:0 0 10px 4px}
-.phone{width:360px;height:760px;background:var(--bg);border-radius:28px;overflow:hidden;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.35);display:flex;flex-direction:column}
-.top{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:var(--forest-700);color:#fff;font-weight:700;font-size:15px}
-.pill{background:rgba(255,255,255,.18);border-radius:999px;padding:4px 10px;font-size:14px}
-.pad{padding:16px}
-.title{font-size:26px;font-weight:800;color:var(--forest-900);line-height:1.15}
-.sub{color:var(--muted);font-size:15px;margin-top:6px}
-label{display:block;font-weight:700;font-size:15px;margin:18px 0 6px}
-.input{border:2px solid var(--forest-500);border-radius:12px;padding:12px 14px;font-size:16px;background:#fff}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.ani{background:#fff;border:2px solid var(--line);border-radius:14px;padding:8px 4px;text-align:center}
-.ani.sel{border-color:var(--forest-700);background:var(--forest-100);box-shadow:inset 0 0 0 1px var(--forest-700)}
-.ani .e{font-size:32px;font-family:'Noto Color Emoji'}
-.ani .n{font-weight:700;font-size:14px}
-.fact{background:var(--forest-100);border-radius:12px;padding:10px 12px;font-size:14px;margin-top:10px;color:var(--forest-900)}
-.btn{display:block;text-align:center;border-radius:14px;padding:14px;font-weight:800;font-size:17px;margin-top:10px}
-.btn.pri{background:var(--forest-700);color:#fff}
-.btn.sec{background:#fff;color:var(--forest-700);border:2px solid var(--forest-700)}
-/* track */
-.track{position:relative;height:250px;background:linear-gradient(var(--sky-100) 0 22%,#BFE3C6 22% 100%);overflow:hidden}
-.hills{position:absolute;left:0;right:0;top:30px;height:40px;font-family:'Noto Color Emoji';font-size:26px;letter-spacing:-4px;opacity:.85;white-space:nowrap}
-.lane{position:absolute;left:0;right:0;height:42px;background:var(--earth-300);border-top:2px dashed var(--earth-500);display:flex;align-items:center}
-.lane .tag{position:absolute;left:6px;font-size:11px;font-weight:800;color:#fff;border-radius:6px;padding:1px 5px}
-.lane .runner{position:absolute;font-size:30px;font-family:'Noto Color Emoji';transform:scaleX(-1)}
-.lane .tree{position:absolute;top:-14px;font-size:16px;font-family:'Noto Color Emoji'}
-.finish{position:absolute;right:0;top:60px;bottom:0;width:14px;background:repeating-conic-gradient(#111 0 25%,#fff 0 50%) 0 0/14px 14px}
-.okbubble{position:absolute;font-size:22px;background:var(--ok-600);color:#fff;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-weight:800;box-shadow:0 0 0 4px #fff}
-.card{background:#fff;margin:12px;border-radius:16px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.chip{display:inline-block;font-size:12px;font-weight:800;border-radius:999px;padding:3px 9px;background:var(--sun-500);color:#3a2a00}
-.chip.g{background:var(--forest-100);color:var(--forest-900)}
-.claim{border-left:4px solid var(--sun-500);background:#FFF8E1;padding:8px 10px;border-radius:8px;font-size:15px;margin:8px 0;font-style:italic}
-.q{font-weight:700;font-size:16px;margin:6px 0 4px}
-.opt{display:flex;gap:10px;align-items:center;border:2px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:8px;font-size:15px;min-height:48px;background:#fff}
-.opt b{width:28px;height:28px;border-radius:8px;background:var(--forest-100);display:flex;align-items:center;justify-content:center;flex:none;color:var(--forest-900)}
-.opt.bad{border-color:var(--err-600);background:var(--err-100)}
-.opt.bad b{background:var(--err-600);color:#fff}
-.opt.good{border-color:var(--ok-600);background:var(--ok-100)}
-.opt.good b{background:var(--ok-600);color:#fff}
-.opt.dim{opacity:.5}
-.ico{margin-left:auto;font-weight:800;font-size:18px}
-.explain{background:var(--forest-100);border-radius:12px;padding:10px 12px;font-size:14px;margin-top:10px;line-height:1.4}
-.src{font-size:13px;color:var(--forest-700);font-weight:700;margin-top:6px}
-.ring{position:absolute;right:22px;top:268px;width:52px;height:52px;border-radius:50%;background:conic-gradient(var(--err-600) 0 80%,var(--line) 0);display:flex;align-items:center;justify-content:center}
-.ring span{width:40px;height:40px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}
-/* podium */
-.podium{display:flex;align-items:flex-end;justify-content:center;gap:6px;height:260px;background:linear-gradient(var(--sky-100),#BFE3C6);padding-bottom:0;position:relative}
-.step{width:92px;background:var(--earth-500);border-radius:10px 10px 0 0;color:#fff;text-align:center;font-weight:800;position:relative}
-.step .a{font-family:'Noto Color Emoji';font-size:40px;position:absolute;top:-52px;left:0;right:0}
-.step .nm{position:absolute;top:-72px;left:0;right:0;color:var(--ink);font-size:13px}
-.conf{position:absolute;inset:0;font-family:'Noto Color Emoji';font-size:16px;opacity:.9}
-table{width:100%;border-collapse:collapse;font-size:14px}
-td{padding:8px 6px;border-bottom:1px solid var(--line)}
-tr.me td{background:var(--forest-100);font-weight:700}
-.bot{font-size:10px;background:#6b756e;color:#fff;border-radius:5px;padding:1px 5px;font-weight:800;margin-left:4px}
-/* eval */
-.acc{border:2px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:8px;font-size:14px;background:#fff}
-.acc.wrong{border-color:var(--err-600)}
-.acc .h{display:flex;justify-content:space-between;font-weight:700}
-.ai{border:2px solid #7B61FF;background:#F3F0FF;border-radius:14px;padding:12px;margin-top:12px}
-.badge{display:inline-flex;gap:6px;align-items:center;background:#7B61FF;color:#fff;font-size:12px;font-weight:800;border-radius:999px;padding:3px 10px}
-.ai p{font-size:14px;line-height:1.45;margin-top:8px}
-.tip{background:#fff;border-radius:10px;padding:8px 10px;margin-top:8px;font-size:14px}
-.note{color:#cfe3d5;font-size:13px;margin-top:22px;max-width:1900px}
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --forest-900: #123d24;
+        --forest-700: #1f6b3a;
+        --forest-500: #3e9b5c;
+        --forest-100: #e6f4ea;
+        --earth-500: #a47148;
+        --earth-300: #d9b48a;
+        --sky-100: #ddf1fb;
+        --sun-500: #f4b400;
+        --ok-600: #1e7b3c;
+        --ok-100: #dcf3e3;
+        --err-600: #c2352b;
+        --err-100: #fbe3e1;
+        --ink: #17221b;
+        --muted: #56645b;
+        --line: #d5ded7;
+        --bg: #f6faf6;
+        --slot1: #e76f51;
+        --slot2: #2a9d8f;
+        --slot3: #7b61ff;
+        --slot4: #e9a400;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background: #2b3a31;
+        padding: 40px;
+        color: var(--ink);
+      }
+      h1.board {
+        color: #fff;
+        font-size: 28px;
+        margin-bottom: 6px;
+      }
+      p.board {
+        color: #cfe3d5;
+        font-size: 15px;
+        margin-bottom: 28px;
+      }
+      .row {
+        display: flex;
+        gap: 32px;
+        align-items: flex-start;
+      }
+      .cap {
+        color: #fff;
+        font-weight: 700;
+        font-size: 16px;
+        margin: 0 0 10px 4px;
+      }
+      .phone {
+        width: 360px;
+        height: 760px;
+        background: var(--bg);
+        border-radius: 28px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        display: flex;
+        flex-direction: column;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 16px;
+        background: var(--forest-700);
+        color: #fff;
+        font-weight: 700;
+        font-size: 15px;
+      }
+      .pill {
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 14px;
+      }
+      .pad {
+        padding: 16px;
+      }
+      .title {
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--forest-900);
+        line-height: 1.15;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 15px;
+        margin-top: 6px;
+      }
+      label {
+        display: block;
+        font-weight: 700;
+        font-size: 15px;
+        margin: 18px 0 6px;
+      }
+      .input {
+        border: 2px solid var(--forest-500);
+        border-radius: 12px;
+        padding: 12px 14px;
+        font-size: 16px;
+        background: #fff;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .ani {
+        background: #fff;
+        border: 2px solid var(--line);
+        border-radius: 14px;
+        padding: 8px 4px;
+        text-align: center;
+      }
+      .ani.sel {
+        border-color: var(--forest-700);
+        background: var(--forest-100);
+        box-shadow: inset 0 0 0 1px var(--forest-700);
+      }
+      .ani .e {
+        font-size: 32px;
+        font-family: 'Noto Color Emoji';
+      }
+      .ani .n {
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .fact {
+        background: var(--forest-100);
+        border-radius: 12px;
+        padding: 10px 12px;
+        font-size: 14px;
+        margin-top: 10px;
+        color: var(--forest-900);
+      }
+      .btn {
+        display: block;
+        text-align: center;
+        border-radius: 14px;
+        padding: 14px;
+        font-weight: 800;
+        font-size: 17px;
+        margin-top: 10px;
+      }
+      .btn.pri {
+        background: var(--forest-700);
+        color: #fff;
+      }
+      .btn.sec {
+        background: #fff;
+        color: var(--forest-700);
+        border: 2px solid var(--forest-700);
+      }
+      /* track */
+      .track {
+        position: relative;
+        height: 250px;
+        background: linear-gradient(var(--sky-100) 0 22%, #bfe3c6 22% 100%);
+        overflow: hidden;
+      }
+      .hills {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 30px;
+        height: 40px;
+        font-family: 'Noto Color Emoji';
+        font-size: 26px;
+        letter-spacing: -4px;
+        opacity: 0.85;
+        white-space: nowrap;
+      }
+      .lane {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 42px;
+        background: var(--earth-300);
+        border-top: 2px dashed var(--earth-500);
+        display: flex;
+        align-items: center;
+      }
+      .lane .tag {
+        position: absolute;
+        left: 6px;
+        font-size: 11px;
+        font-weight: 800;
+        color: #fff;
+        border-radius: 6px;
+        padding: 1px 5px;
+      }
+      .lane .runner {
+        position: absolute;
+        font-size: 30px;
+        font-family: 'Noto Color Emoji';
+        transform: scaleX(-1);
+      }
+      .lane .tree {
+        position: absolute;
+        top: -14px;
+        font-size: 16px;
+        font-family: 'Noto Color Emoji';
+      }
+      .finish {
+        position: absolute;
+        right: 0;
+        top: 60px;
+        bottom: 0;
+        width: 14px;
+        background: repeating-conic-gradient(#111 0 25%, #fff 0 50%) 0 0/14px 14px;
+      }
+      .okbubble {
+        position: absolute;
+        font-size: 22px;
+        background: var(--ok-600);
+        color: #fff;
+        border-radius: 50%;
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        box-shadow: 0 0 0 4px #fff;
+      }
+      .card {
+        background: #fff;
+        margin: 12px;
+        border-radius: 16px;
+        padding: 14px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+      .chip {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 800;
+        border-radius: 999px;
+        padding: 3px 9px;
+        background: var(--sun-500);
+        color: #3a2a00;
+      }
+      .chip.g {
+        background: var(--forest-100);
+        color: var(--forest-900);
+      }
+      .claim {
+        border-left: 4px solid var(--sun-500);
+        background: #fff8e1;
+        padding: 8px 10px;
+        border-radius: 8px;
+        font-size: 15px;
+        margin: 8px 0;
+        font-style: italic;
+      }
+      .q {
+        font-weight: 700;
+        font-size: 16px;
+        margin: 6px 0 4px;
+      }
+      .opt {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        border: 2px solid var(--line);
+        border-radius: 12px;
+        padding: 10px 12px;
+        margin-top: 8px;
+        font-size: 15px;
+        min-height: 48px;
+        background: #fff;
+      }
+      .opt b {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        background: var(--forest-100);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        color: var(--forest-900);
+      }
+      .opt.bad {
+        border-color: var(--err-600);
+        background: var(--err-100);
+      }
+      .opt.bad b {
+        background: var(--err-600);
+        color: #fff;
+      }
+      .opt.good {
+        border-color: var(--ok-600);
+        background: var(--ok-100);
+      }
+      .opt.good b {
+        background: var(--ok-600);
+        color: #fff;
+      }
+      .opt.dim {
+        opacity: 0.5;
+      }
+      .ico {
+        margin-left: auto;
+        font-weight: 800;
+        font-size: 18px;
+      }
+      .explain {
+        background: var(--forest-100);
+        border-radius: 12px;
+        padding: 10px 12px;
+        font-size: 14px;
+        margin-top: 10px;
+        line-height: 1.4;
+      }
+      .src {
+        font-size: 13px;
+        color: var(--forest-700);
+        font-weight: 700;
+        margin-top: 6px;
+      }
+      .ring {
+        position: absolute;
+        right: 22px;
+        top: 268px;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: conic-gradient(var(--err-600) 0 80%, var(--line) 0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .ring span {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+      }
+      /* podium */
+      .podium {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 6px;
+        height: 260px;
+        background: linear-gradient(var(--sky-100), #bfe3c6);
+        padding-bottom: 0;
+        position: relative;
+      }
+      .step {
+        width: 92px;
+        background: var(--earth-500);
+        border-radius: 10px 10px 0 0;
+        color: #fff;
+        text-align: center;
+        font-weight: 800;
+        position: relative;
+      }
+      .step .a {
+        font-family: 'Noto Color Emoji';
+        font-size: 40px;
+        position: absolute;
+        top: -52px;
+        left: 0;
+        right: 0;
+      }
+      .step .nm {
+        position: absolute;
+        top: -72px;
+        left: 0;
+        right: 0;
+        color: var(--ink);
+        font-size: 13px;
+      }
+      .conf {
+        position: absolute;
+        inset: 0;
+        font-family: 'Noto Color Emoji';
+        font-size: 16px;
+        opacity: 0.9;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      td {
+        padding: 8px 6px;
+        border-bottom: 1px solid var(--line);
+      }
+      tr.me td {
+        background: var(--forest-100);
+        font-weight: 700;
+      }
+      .bot {
+        font-size: 10px;
+        background: #6b756e;
+        color: #fff;
+        border-radius: 5px;
+        padding: 1px 5px;
+        font-weight: 800;
+        margin-left: 4px;
+      }
+      /* eval */
+      .acc {
+        border: 2px solid var(--line);
+        border-radius: 12px;
+        padding: 10px 12px;
+        margin-top: 8px;
+        font-size: 14px;
+        background: #fff;
+      }
+      .acc.wrong {
+        border-color: var(--err-600);
+      }
+      .acc .h {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 700;
+      }
+      .ai {
+        border: 2px solid #7b61ff;
+        background: #f3f0ff;
+        border-radius: 14px;
+        padding: 12px;
+        margin-top: 12px;
+      }
+      .badge {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+        background: #7b61ff;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 800;
+        border-radius: 999px;
+        padding: 3px 10px;
+      }
+      .ai p {
+        font-size: 14px;
+        line-height: 1.45;
+        margin-top: 8px;
+      }
+      .tip {
+        background: #fff;
+        border-radius: 10px;
+        padding: 8px 10px;
+        margin-top: 8px;
+        font-size: 14px;
+      }
+      .note {
+        color: #cfe3d5;
+        font-size: 13px;
+        margin-top: 22px;
+        max-width: 1900px;
+      }
 
-
-.desk{width:1280px;height:800px;background:var(--bg);border-radius:18px;overflow:hidden;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.35);display:flex;flex-direction:column}
-.dgrid{display:grid;grid-template-columns:1280px 1280px;gap:40px}
-.top{padding:16px 28px;font-size:18px}
-.dtrack{position:relative;height:330px;background:linear-gradient(var(--sky-100) 0 24%,#BFE3C6 24% 100%);overflow:hidden}
-.dtrack .hills{font-size:40px;top:30px;letter-spacing:-6px}
-.dlane{position:absolute;left:0;right:0;height:56px;background:var(--earth-300);border-top:2px dashed var(--earth-500)}
-.dlane .tag{position:absolute;left:12px;top:16px;font-size:13px;font-weight:800;color:#fff;border-radius:6px;padding:2px 8px}
-.dlane .runner{position:absolute;top:2px;font-size:42px;font-family:'Noto Color Emoji';transform:scaleX(-1)}
-.dlane .tree{position:absolute;top:-16px;font-size:22px;font-family:'Noto Color Emoji'}
-.dtrack .finish{top:80px;width:20px;background-size:20px 20px}
-.dcard{background:#fff;border-radius:18px;padding:22px 26px;box-shadow:0 2px 10px rgba(0,0,0,.08);width:1000px;margin:20px auto 0;position:relative}
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.opts .opt{margin-top:0;font-size:16px}
-.dcard .q{font-size:19px;margin:8px 0 12px}
-.dcard .claim{font-size:17px}
-.kbd{white-space:nowrap;margin-left:auto;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding:28px 40px;flex:1}
-</style></head><body>
-<h1 class="board">Mockup v0.1 — versi laptop (1280 × 800)</h1><p class="board">Susunan sama dengan versi HP: lintasan di atas, soal di bawah, pilihan 2×2 dengan pintasan keyboard A–D / 1–4 · teks hanya contoh</p>
-<div class="dgrid"><div><div class="cap">1. Beranda</div><div class="desk"><div class="two" style="align-items:center;background:linear-gradient(90deg,var(--forest-100),var(--bg))">
-<div><div class="title" style="font-size:52px">Balap Fakta<br>Lingkungan</div>
-<div class="sub" style="font-size:20px;margin-top:14px;max-width:460px">Jawab benar, hewanmu melaju. Siapa paling cepat sampai finish?</div>
-<div style="font-family:'Noto Color Emoji';font-size:64px;margin-top:40px;letter-spacing:8px">🌳🐅🌱🐢🌴</div>
-<div class="sub" style="margin-top:24px">4 pemain · 5 jawaban benar untuk finish · evaluasi AI di akhir</div></div>
-<div class="card" style="margin:0;padding:28px"><label style="margin-top:0">Nickname</label><div class="input">Raka</div>
-<label>Pilih pelarimu</label><div class="grid3"><div class="ani"><div class="e">🦧</div><div class="n">Orangutan</div></div><div class="ani sel"><div class="e">🐅</div><div class="n">Harimau</div></div><div class="ani"><div class="e">🐘</div><div class="n">Gajah</div></div><div class="ani"><div class="e">🐢</div><div class="n">Penyu</div></div><div class="ani"><div class="e">🦏</div><div class="n">Badak</div></div><div class="ani"><div class="e">🦜</div><div class="n">Kakatua</div></div></div>
-<div class="fact">🐅 <b>Harimau Sumatra</b> — satu-satunya subspesies harimau yang tersisa di Indonesia. <i>(contoh fakta)</i></div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px"><div class="btn pri">Main</div><div class="btn sec">Lawan bot</div></div></div>
-</div></div></div><div><div class="cap">2. Balapan</div><div class="desk"><div class="top"><span>Soal 4</span><span class="pill">Sisa 2:41</span></div><div class="dtrack"><div class="hills">🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲</div><div class="finish"></div><div class="dlane" style="top:90px"><span class="tag" style="background:var(--slot1)">Raka</span><span class="tree" style="left:210px">🌱</span><span class="tree" style="left:410px">🌱</span><span class="tree" style="left:610px">🌱</span><span class="runner" style="left:750px">🐅</span><span class="okbubble" style="left:800px;top:-20px;width:40px;height:40px">✓</span></div><div class="dlane" style="top:150px"><span class="tag" style="background:var(--slot2)">Dina</span><span class="tree" style="left:210px">🌱</span><span class="runner" style="left:350px">🐢</span></div><div class="dlane" style="top:210px"><span class="tag" style="background:#6b756e">BOT Kilat</span><span class="tree" style="left:210px">🌱</span><span class="tree" style="left:410px">🌱</span><span class="runner" style="left:550px">🦏</span></div><div class="dlane" style="top:270px"><span class="tag" style="background:#6b756e">BOT Santai</span><span class="runner" style="left:150px">🐘</span></div></div>
-<div class="dcard"><span class="chip">Soal klaim</span><div class="claim">"Udara dingin minggu ini membuktikan pemanasan global itu hoaks."</div>
-<div class="q">Bagaimana sebaiknya menilai klaim ini?</div><div class="opts">
-<div class="opt "><b>A</b>Benar, cuaca dingin berarti bumi tidak memanas<span class="kbd">A / 1</span></div><div class="opt "><b>B</b>Menyesatkan, cuaca harian berbeda dengan iklim<span class="kbd">B / 2</span></div>
-<div class="opt "><b>C</b>Benar, karena dibagikan banyak orang<span class="kbd">C / 3</span></div><div class="opt "><b>D</b>Salah, bumi justru mendingin<span class="kbd">D / 4</span></div></div></div></div></div><div><div class="cap">3. Balapan — jawaban salah</div><div class="desk"><div class="top"><span>Soal 5</span><span class="pill">Sisa 2:18</span></div><div class="dtrack"><div class="hills">🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲</div><div class="finish"></div><div class="dlane" style="top:90px"><span class="tag" style="background:var(--slot1)">Raka</span><span class="tree" style="left:210px">🌱</span><span class="tree" style="left:410px">🌱</span><span class="tree" style="left:610px">🌱</span><span class="tree" style="left:810px">🌱</span><span class="runner" style="left:950px">🐅</span></div><div class="dlane" style="top:150px"><span class="tag" style="background:var(--slot2)">Dina</span><span class="tree" style="left:210px">🌱</span><span class="tree" style="left:410px">🌱</span><span class="runner" style="left:550px">🐢</span></div><div class="dlane" style="top:210px"><span class="tag" style="background:#6b756e">BOT Kilat</span><span class="tree" style="left:210px">🌱</span><span class="tree" style="left:410px">🌱</span><span class="tree" style="left:610px">🌱</span><span class="runner" style="left:750px">🦏</span></div><div class="dlane" style="top:270px"><span class="tag" style="background:#6b756e">BOT Santai</span><span class="tree" style="left:210px">🌱</span><span class="runner" style="left:350px">🐘</span></div></div>
-<div class="dcard"><div class="ring" style="top:18px;right:22px"><span>4</span></div><span class="chip g">Soal pengetahuan</span>
-<div class="q">Lembaga apa yang resmi mengeluarkan peringatan dini cuaca di Indonesia?</div><div class="opts">
-<div class="opt bad"><b>A</b>KLHK<span class="ico" style="color:var(--err-600)">✗</span></div><div class="opt good"><b>B</b>BMKG<span class="ico" style="color:var(--ok-600)">✓</span></div>
-<div class="opt dim"><b>C</b>BRIN</div><div class="opt dim"><b>D</b>BNPB</div></div>
-<div class="explain" style="font-size:15px">BMKG bertugas mengamati dan menyebarkan informasi cuaca, termasuk peringatan dini cuaca ekstrem. <i>(contoh penjelasan)</i><div class="src">Sumber: bmkg.go.id ↗</div></div></div></div></div><div><div class="cap">4. Podium</div><div class="desk"><div class="top"><span>Hasil balapan</span><span class="pill">Selesai</span></div>
-<div class="two"><div class="podium" style="height:100%;border-radius:18px;">
-<div class="conf">🎉 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✨ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 🎊<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 🎊 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✨</div>
-<div class="step" style="height:150px;width:130px"><div class="nm">BOT Kilat</div><div class="a">🦏</div><div style="padding-top:22px;font-size:26px">2</div></div>
-<div class="step" style="height:220px;width:130px;background:#8a5a36"><div class="nm">Raka</div><div class="a">🐅</div><div style="padding-top:36px;font-size:30px">1</div></div>
-<div class="step" style="height:110px;width:130px"><div class="nm">Dina</div><div class="a">🐢</div><div style="padding-top:14px;font-size:24px">3</div></div></div>
-<div style="align-self:center"><table style="font-size:17px"><tr class="me"><td>1</td><td>🐅 Raka</td><td>5 benar</td><td>Finish</td></tr>
-<tr><td>2</td><td>🦏 Kilat <span class="bot">BOT</span></td><td>5 benar</td><td>Finish</td></tr><tr><td>3</td><td>🐢 Dina</td><td>3 benar</td><td>Waktu habis</td></tr>
-<tr><td>4</td><td>🐘 Santai <span class="bot">BOT</span></td><td>2 benar</td><td>Waktu habis</td></tr></table>
-<div class="btn pri" style="margin-top:24px;background:#7B61FF">✨ Lihat evaluasi AI</div><div class="btn sec">Main lagi</div></div></div></div></div><div><div class="cap">5. Evaluasi</div><div class="desk"><div class="top"><span>Evaluasimu</span><span class="pill">5 benar · 2 salah</span></div>
-<div class="two" style="grid-template-columns:1.1fr 1fr"><div><div style="font-weight:800;font-size:18px;margin-bottom:4px">Soal yang kamu jawab</div>
-<div class="acc wrong"><div class="h"><span>Soal 5 · Pengetahuan</span><span style="color:var(--err-600)">✗</span></div><div style="margin-top:6px">Lembaga apa yang resmi mengeluarkan peringatan dini cuaca?</div><div style="margin-top:6px">Kamu memilih <b>KLHK</b>, jawabannya <b>BMKG</b>.</div><div class="explain">BMKG bertugas mengamati dan menyebarkan informasi cuaca. <i>(contoh)</i><div class="src">Sumber: bmkg.go.id ↗</div></div></div>
-<div class="acc wrong"><div class="h"><span>Soal 2 · Klaim · Catut otoritas</span><span style="color:var(--err-600)">✗</span></div><div style="margin-top:6px">Kamu memilih <b>A</b>, jawabannya <b>C</b>. <span style="color:var(--muted)">Ketuk untuk detail ▾</span></div></div>
-<div class="acc"><div class="h"><span>Soal 1 · Klaim · Konteks salah</span><span style="color:var(--ok-600)">✓</span></div></div>
-<div class="acc"><div class="h"><span>Soal 3 · Pengetahuan</span><span style="color:var(--ok-600)">✓</span></div></div>
-<div class="acc"><div class="h"><span>Soal 4 · Klaim · Menyesatkan</span><span style="color:var(--ok-600)">✓</span></div></div></div>
-<div><div class="ai" style="margin-top:30px;padding:20px"><span class="badge">✨ Dibuat oleh AI</span>
-<p style="font-size:16px">Kamu paling sering terkecoh oleh klaim yang <b>mencatut nama lembaga</b>, terutama soal <b>cuaca</b>. Kamu sudah jeli membedakan cuaca harian dengan iklim. <i>(contoh)</i></p>
-<div class="tip" style="font-size:15px">💡 <b>Tips:</b> sebelum percaya, cek apakah lembaga yang disebut benar-benar memuat info itu di situs resminya.</div></div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px"><div class="btn sec">Kembali ke hasil</div><div class="btn pri">Main lagi</div></div></div></div></div></div></div></body></html>
+      .desk {
+        width: 1280px;
+        height: 800px;
+        background: var(--bg);
+        border-radius: 18px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        display: flex;
+        flex-direction: column;
+      }
+      .dgrid {
+        display: grid;
+        grid-template-columns: 1280px 1280px;
+        gap: 40px;
+      }
+      .top {
+        padding: 16px 28px;
+        font-size: 18px;
+      }
+      .dtrack {
+        position: relative;
+        height: 330px;
+        background: linear-gradient(var(--sky-100) 0 24%, #bfe3c6 24% 100%);
+        overflow: hidden;
+      }
+      .dtrack .hills {
+        font-size: 40px;
+        top: 30px;
+        letter-spacing: -6px;
+      }
+      .dlane {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 56px;
+        background: var(--earth-300);
+        border-top: 2px dashed var(--earth-500);
+      }
+      .dlane .tag {
+        position: absolute;
+        left: 12px;
+        top: 16px;
+        font-size: 13px;
+        font-weight: 800;
+        color: #fff;
+        border-radius: 6px;
+        padding: 2px 8px;
+      }
+      .dlane .runner {
+        position: absolute;
+        top: 2px;
+        font-size: 42px;
+        font-family: 'Noto Color Emoji';
+        transform: scaleX(-1);
+      }
+      .dlane .tree {
+        position: absolute;
+        top: -16px;
+        font-size: 22px;
+        font-family: 'Noto Color Emoji';
+      }
+      .dtrack .finish {
+        top: 80px;
+        width: 20px;
+        background-size: 20px 20px;
+      }
+      .dcard {
+        background: #fff;
+        border-radius: 18px;
+        padding: 22px 26px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        width: 1000px;
+        margin: 20px auto 0;
+        position: relative;
+      }
+      .opts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .opts .opt {
+        margin-top: 0;
+        font-size: 16px;
+      }
+      .dcard .q {
+        font-size: 19px;
+        margin: 8px 0 12px;
+      }
+      .dcard .claim {
+        font-size: 17px;
+      }
+      .kbd {
+        white-space: nowrap;
+        margin-left: auto;
+        font-size: 12px;
+        color: var(--muted);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 1px 6px;
+      }
+      .two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+        padding: 28px 40px;
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="board">Mockup v0.1 — versi laptop (1280 × 800)</h1>
+    <p class="board">
+      Susunan sama dengan versi HP: lintasan di atas, soal di bawah, pilihan 2×2 dengan pintasan
+      keyboard A–D / 1–4 · teks hanya contoh
+    </p>
+    <div class="dgrid">
+      <div>
+        <div class="cap">1. Beranda</div>
+        <div class="desk">
+          <div
+            class="two"
+            style="
+              align-items: center;
+              background: linear-gradient(90deg, var(--forest-100), var(--bg));
+            "
+          >
+            <div>
+              <div class="title" style="font-size: 52px">Balap Fakta<br />Lingkungan</div>
+              <div class="sub" style="font-size: 20px; margin-top: 14px; max-width: 460px">
+                Jawab benar, hewanmu melaju. Siapa paling cepat sampai finish?
+              </div>
+              <div
+                style="
+                  font-family: 'Noto Color Emoji';
+                  font-size: 64px;
+                  margin-top: 40px;
+                  letter-spacing: 8px;
+                "
+              >
+                🌳🐅🌱🐢🌴
+              </div>
+              <div class="sub" style="margin-top: 24px">
+                4 pemain · 5 jawaban benar untuk finish · evaluasi AI di akhir
+              </div>
+            </div>
+            <div class="card" style="margin: 0; padding: 28px">
+              <label style="margin-top: 0">Nickname</label>
+              <div class="input">Raka</div>
+              <label>Pilih pelarimu</label>
+              <div class="grid3">
+                <div class="ani">
+                  <div class="e">🦧</div>
+                  <div class="n">Orangutan</div>
+                </div>
+                <div class="ani sel">
+                  <div class="e">🐅</div>
+                  <div class="n">Harimau</div>
+                </div>
+                <div class="ani">
+                  <div class="e">🐘</div>
+                  <div class="n">Gajah</div>
+                </div>
+                <div class="ani">
+                  <div class="e">🐢</div>
+                  <div class="n">Penyu</div>
+                </div>
+                <div class="ani">
+                  <div class="e">🦏</div>
+                  <div class="n">Badak</div>
+                </div>
+                <div class="ani">
+                  <div class="e">🦜</div>
+                  <div class="n">Kakatua</div>
+                </div>
+              </div>
+              <div class="fact">
+                🐅 <b>Harimau Sumatra</b> — satu-satunya subspesies harimau yang tersisa di
+                Indonesia. <i>(contoh fakta)</i>
+              </div>
+              <div
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px"
+              >
+                <div class="btn pri">Main</div>
+                <div class="btn sec">Lawan bot</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="cap">2. Balapan</div>
+        <div class="desk">
+          <div class="top"><span>Soal 4</span><span class="pill">Sisa 2:41</span></div>
+          <div class="dtrack">
+            <div class="hills">
+              🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲
+            </div>
+            <div class="finish"></div>
+            <div class="dlane" style="top: 90px">
+              <span class="tag" style="background: var(--slot1)">Raka</span
+              ><span class="tree" style="left: 210px">🌱</span
+              ><span class="tree" style="left: 410px">🌱</span
+              ><span class="tree" style="left: 610px">🌱</span
+              ><span class="runner" style="left: 750px">🐅</span
+              ><span class="okbubble" style="left: 800px; top: -20px; width: 40px; height: 40px"
+                >✓</span
+              >
+            </div>
+            <div class="dlane" style="top: 150px">
+              <span class="tag" style="background: var(--slot2)">Dina</span
+              ><span class="tree" style="left: 210px">🌱</span
+              ><span class="runner" style="left: 350px">🐢</span>
+            </div>
+            <div class="dlane" style="top: 210px">
+              <span class="tag" style="background: #6b756e">BOT Kilat</span
+              ><span class="tree" style="left: 210px">🌱</span
+              ><span class="tree" style="left: 410px">🌱</span
+              ><span class="runner" style="left: 550px">🦏</span>
+            </div>
+            <div class="dlane" style="top: 270px">
+              <span class="tag" style="background: #6b756e">BOT Santai</span
+              ><span class="runner" style="left: 150px">🐘</span>
+            </div>
+          </div>
+          <div class="dcard">
+            <span class="chip">Soal klaim</span>
+            <div class="claim">
+              "Udara dingin minggu ini membuktikan pemanasan global itu hoaks."
+            </div>
+            <div class="q">Bagaimana sebaiknya menilai klaim ini?</div>
+            <div class="opts">
+              <div class="opt">
+                <b>A</b>Benar, cuaca dingin berarti bumi tidak memanas<span class="kbd">A / 1</span>
+              </div>
+              <div class="opt">
+                <b>B</b>Menyesatkan, cuaca harian berbeda dengan iklim<span class="kbd">B / 2</span>
+              </div>
+              <div class="opt">
+                <b>C</b>Benar, karena dibagikan banyak orang<span class="kbd">C / 3</span>
+              </div>
+              <div class="opt">
+                <b>D</b>Salah, bumi justru mendingin<span class="kbd">D / 4</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="cap">3. Balapan — jawaban salah</div>
+        <div class="desk">
+          <div class="top"><span>Soal 5</span><span class="pill">Sisa 2:18</span></div>
+          <div class="dtrack">
+            <div class="hills">
+              🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲🌳🌴🌳🌲
+            </div>
+            <div class="finish"></div>
+            <div class="dlane" style="top: 90px">
+              <span class="tag" style="background: var(--slot1)">Raka</span
+              ><span class="tree" style="left: 210px">🌱</span
+              ><span class="tree" style="left: 410px">🌱</span
+              ><span class="tree" style="left: 610px">🌱</span
+              ><span class="tree" style="left: 810px">🌱</span
+              ><span class="runner" style="left: 950px">🐅</span>
+            </div>
+            <div class="dlane" style="top: 150px">
+              <span class="tag" style="background: var(--slot2)">Dina</span
+              ><span class="tree" style="left: 210px">🌱</span
+              ><span class="tree" style="left: 410px">🌱</span
+              ><span class="runner" style="left: 550px">🐢</span>
+            </div>
+            <div class="dlane" style="top: 210px">
+              <span class="tag" style="background: #6b756e">BOT Kilat</span
+              ><span class="tree" style="left: 210px">🌱</span
+              ><span class="tree" style="left: 410px">🌱</span
+              ><span class="tree" style="left: 610px">🌱</span
+              ><span class="runner" style="left: 750px">🦏</span>
+            </div>
+            <div class="dlane" style="top: 270px">
+              <span class="tag" style="background: #6b756e">BOT Santai</span
+              ><span class="tree" style="left: 210px">🌱</span
+              ><span class="runner" style="left: 350px">🐘</span>
+            </div>
+          </div>
+          <div class="dcard">
+            <div class="ring" style="top: 18px; right: 22px"><span>4</span></div>
+            <span class="chip g">Soal pengetahuan</span>
+            <div class="q">
+              Lembaga apa yang resmi mengeluarkan peringatan dini cuaca di Indonesia?
+            </div>
+            <div class="opts">
+              <div class="opt bad">
+                <b>A</b>KLHK<span class="ico" style="color: var(--err-600)">✗</span>
+              </div>
+              <div class="opt good">
+                <b>B</b>BMKG<span class="ico" style="color: var(--ok-600)">✓</span>
+              </div>
+              <div class="opt dim"><b>C</b>BRIN</div>
+              <div class="opt dim"><b>D</b>BNPB</div>
+            </div>
+            <div class="explain" style="font-size: 15px">
+              BMKG bertugas mengamati dan menyebarkan informasi cuaca, termasuk peringatan dini
+              cuaca ekstrem. <i>(contoh penjelasan)</i>
+              <div class="src">Sumber: bmkg.go.id ↗</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="cap">4. Podium</div>
+        <div class="desk">
+          <div class="top"><span>Hasil balapan</span><span class="pill">Selesai</span></div>
+          <div class="two">
+            <div class="podium" style="height: 100%; border-radius: 18px">
+              <div class="conf">
+                🎉 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✨
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 🎊<br /><br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                🎊 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✨
+              </div>
+              <div class="step" style="height: 150px; width: 130px">
+                <div class="nm">BOT Kilat</div>
+                <div class="a">🦏</div>
+                <div style="padding-top: 22px; font-size: 26px">2</div>
+              </div>
+              <div class="step" style="height: 220px; width: 130px; background: #8a5a36">
+                <div class="nm">Raka</div>
+                <div class="a">🐅</div>
+                <div style="padding-top: 36px; font-size: 30px">1</div>
+              </div>
+              <div class="step" style="height: 110px; width: 130px">
+                <div class="nm">Dina</div>
+                <div class="a">🐢</div>
+                <div style="padding-top: 14px; font-size: 24px">3</div>
+              </div>
+            </div>
+            <div style="align-self: center">
+              <table style="font-size: 17px">
+                <tr class="me">
+                  <td>1</td>
+                  <td>🐅 Raka</td>
+                  <td>5 benar</td>
+                  <td>Finish</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>🦏 Kilat <span class="bot">BOT</span></td>
+                  <td>5 benar</td>
+                  <td>Finish</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>🐢 Dina</td>
+                  <td>3 benar</td>
+                  <td>Waktu habis</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>🐘 Santai <span class="bot">BOT</span></td>
+                  <td>2 benar</td>
+                  <td>Waktu habis</td>
+                </tr>
+              </table>
+              <div class="btn pri" style="margin-top: 24px; background: #7b61ff">
+                ✨ Lihat evaluasi AI
+              </div>
+              <div class="btn sec">Main lagi</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="cap">5. Evaluasi</div>
+        <div class="desk">
+          <div class="top"><span>Evaluasimu</span><span class="pill">5 benar · 2 salah</span></div>
+          <div class="two" style="grid-template-columns: 1.1fr 1fr">
+            <div>
+              <div style="font-weight: 800; font-size: 18px; margin-bottom: 4px">
+                Soal yang kamu jawab
+              </div>
+              <div class="acc wrong">
+                <div class="h">
+                  <span>Soal 5 · Pengetahuan</span><span style="color: var(--err-600)">✗</span>
+                </div>
+                <div style="margin-top: 6px">
+                  Lembaga apa yang resmi mengeluarkan peringatan dini cuaca?
+                </div>
+                <div style="margin-top: 6px">Kamu memilih <b>KLHK</b>, jawabannya <b>BMKG</b>.</div>
+                <div class="explain">
+                  BMKG bertugas mengamati dan menyebarkan informasi cuaca. <i>(contoh)</i>
+                  <div class="src">Sumber: bmkg.go.id ↗</div>
+                </div>
+              </div>
+              <div class="acc wrong">
+                <div class="h">
+                  <span>Soal 2 · Klaim · Catut otoritas</span
+                  ><span style="color: var(--err-600)">✗</span>
+                </div>
+                <div style="margin-top: 6px">
+                  Kamu memilih <b>A</b>, jawabannya <b>C</b>.
+                  <span style="color: var(--muted)">Ketuk untuk detail ▾</span>
+                </div>
+              </div>
+              <div class="acc">
+                <div class="h">
+                  <span>Soal 1 · Klaim · Konteks salah</span
+                  ><span style="color: var(--ok-600)">✓</span>
+                </div>
+              </div>
+              <div class="acc">
+                <div class="h">
+                  <span>Soal 3 · Pengetahuan</span><span style="color: var(--ok-600)">✓</span>
+                </div>
+              </div>
+              <div class="acc">
+                <div class="h">
+                  <span>Soal 4 · Klaim · Menyesatkan</span
+                  ><span style="color: var(--ok-600)">✓</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="ai" style="margin-top: 30px; padding: 20px">
+                <span class="badge">✨ Dibuat oleh AI</span>
+                <p style="font-size: 16px">
+                  Kamu paling sering terkecoh oleh klaim yang <b>mencatut nama lembaga</b>, terutama
+                  soal <b>cuaca</b>. Kamu sudah jeli membedakan cuaca harian dengan iklim.
+                  <i>(contoh)</i>
+                </p>
+                <div class="tip" style="font-size: 15px">
+                  💡 <b>Tips:</b> sebelum percaya, cek apakah lembaga yang disebut benar-benar
+                  memuat info itu di situs resminya.
+                </div>
+              </div>
+              <div
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px"
+              >
+                <div class="btn sec">Kembali ke hasil</div>
+                <div class="btn pri">Main lagi</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "id": "aaaaaaaa-0003-4003-8003-000000000003",
+  "kind": "klaim",
+  "stem": "Sebuah unggahan menyimpulkan pemanasan global tidak terjadi karena satu hari yang dingin.",
+  "claim": "Pagi ini suhu udara sangat dingin, jadi pemanasan global ternyata tidak terjadi.",
+  "options": [
+    "Benar; satu hari dingin membuktikan tidak ada pemanasan.",
+    "Menyesatkan; satu hari dingin tidak membantah tren suhu jangka panjang.",
+    "Benar; suhu harian adalah bukti iklim paling akurat.",
+    "Menyesatkan; suhu dingin justru membuktikan pemanasan."
+  ],
+  "answerIndex": 1,
+  "explanation": "Iklim dilihat dari tren suhu rata-rata dalam periode panjang, bukan dari satu hari atau satu kejadian dingin. Menyimpulkan tren global dari cuaca sehari adalah kesalahan menafsirkan data. Sumber resmi menyediakan data suhu jangka panjang.",
+  "sources": [],
+  "misinfoType": "menyesatkan-salah-tafsir-data",
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-rakyan"
+}

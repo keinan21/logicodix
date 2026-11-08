@@ -1,0 +1,19 @@
+{
+  "id": "aaaaaaaa-0008-4008-8008-000000000008",
+  "kind": "klaim",
+  "stem": "Sebuah unggahan mengklaim organisasi kesehatan dunia melarang meminum air keran.",
+  "claim": "Organisasi kesehatan dunia melarang meminum air keran secara mutlak.",
+  "options": [
+    "Benar; air keran dilarang di seluruh dunia.",
+    "Benar; organisasi tersebut mengatur semua minuman.",
+    "Salah; organisasi kesehatan tidak punya situs.",
+    "Belum tentu benar; cek langsung situs resmi organisasi tersebut."
+  ],
+  "answerIndex": 3,
+  "explanation": "Catut otoritas terjadi ketika nama lembaga dipakai untuk meminjah kredibilitas tanpa bukti pernyataan asli. Selalu buka situs resmi lembaga yang disebut. Kebijakan air minum berbeda antar daerah dan diatur berdasarkan standar resmi.",
+  "sources": [],
+  "misinfoType": "catut-otoritas",
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-rakyan"
+}

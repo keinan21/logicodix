@@ -1,0 +1,17 @@
+{
+  "id": "aaaaaaaa-0012-4012-8012-000000000012",
+  "kind": "pengetahuan",
+  "stem": "Sumber air tawar yang paling umum digunakan untuk kebutuhan sehari-hari adalah…",
+  "options": [
+    "Air laut langsung",
+    "Uap awan",
+    "Air hujan langsung tanpa olahan",
+    "Sungai, danau, dan air tanah"
+  ],
+  "answerIndex": 3,
+  "explanation": "Air tawar yang layak pakai umumnya berasal dari sungai, danau, dan air tanah, sering kali melalui pengolahan. Air laut mengandung garam dan tidak bisa langsung diminum. Air hujan perlu ditampung dan diolah dengan benar.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-rakyan"
+}

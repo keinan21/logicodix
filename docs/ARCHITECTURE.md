@@ -18,19 +18,19 @@ Dokumen ini menjelaskan cara aplikasi dibangun. Aturan game ada di FRD, dan kepu
 
 ## 2. Stack
 
-| Bagian | Pilihan | Alasan |
-|---|---|---|
-| Bahasa | TypeScript (strict) | Tipe menangkap kesalahan kode buatan AI sebelum dijalankan |
-| Runtime | Node 22 LTS | Satu runtime untuk server, tes, dan skrip |
-| Web | React + Vite | Paling umum, cepat di-build, banyak contoh |
-| Styling | CSS biasa + variabel CSS | Tanpa alat tambahan; token warna dipakai DESIGN |
-| Server | Express 5 | Paling dikenal; hanya menyajikan file web dan `/health` |
-| Real-time | Socket.IO 4 | Room, reconnect (FR-B11), dan fallback sudah tersedia |
-| Validasi | zod 4 | Satu skema untuk tipe dan validasi saat runtime |
-| AI | `@google/genai`, model Gemini Flash termurah | Tier gratis (D-62); nama model dicek saat setup |
-| Filter kata kasar | `obscenity` + `@sideid/id-profanity-filter` | Inggris dan Indonesia, keduanya MIT |
-| Tes | Vitest, Playwright | Unit untuk aturan game, satu tes ujung ke ujung |
-| Format | Prettier + `tsc --noEmit` | Tanpa ESLint dulu; tambahkan hanya kalau ada masalah nyata |
+| Bagian            | Pilihan                                      | Alasan                                                     |
+| ----------------- | -------------------------------------------- | ---------------------------------------------------------- |
+| Bahasa            | TypeScript (strict)                          | Tipe menangkap kesalahan kode buatan AI sebelum dijalankan |
+| Runtime           | Node 22 LTS                                  | Satu runtime untuk server, tes, dan skrip                  |
+| Web               | React + Vite                                 | Paling umum, cepat di-build, banyak contoh                 |
+| Styling           | CSS biasa + variabel CSS                     | Tanpa alat tambahan; token warna dipakai DESIGN            |
+| Server            | Express 5                                    | Paling dikenal; hanya menyajikan file web dan `/health`    |
+| Real-time         | Socket.IO 4                                  | Room, reconnect (FR-B11), dan fallback sudah tersedia      |
+| Validasi          | zod 4                                        | Satu skema untuk tipe dan validasi saat runtime            |
+| AI                | `@google/genai`, model Gemini Flash termurah | Tier gratis (D-62); nama model dicek saat setup            |
+| Filter kata kasar | `obscenity` + `@sideid/id-profanity-filter`  | Inggris dan Indonesia, keduanya MIT                        |
+| Tes               | Vitest, Playwright                           | Unit untuk aturan game, satu tes ujung ke ujung            |
+| Format            | Prettier + `tsc --noEmit`                    | Tanpa ESLint dulu; tambahkan hanya kalau ada masalah nyata |
 
 Versi terakhir yang dicek di npm pada 2026-11-04: obscenity 0.4.6, @sideid/id-profanity-filter 1.13.0, socket.io 4.8.4, express 5.3.0, zod 4.6.7, @google/genai 2.32.0. Versi dikunci di `package-lock.json`, dan hanya rilis yang berumur lebih dari 2 minggu yang dipasang. Karena itu `@google/genai` 2.32.0 (rilis 29 Okt) baru boleh dipasang mulai 12 Nov. Sebelum itu, pakai rilis sebelumnya.
 
@@ -108,18 +108,18 @@ Status peserta: `racing`, `locked`, `finished`, `outOfQuestions`, `left`. Hanya 
 
 Semua payload divalidasi zod di kedua sisi. Payload yang tidak lolos ditolak dan dicatat di log.
 
-| Arah | Event | Isi |
-|---|---|---|
-| C→S | `queue:join` | nickname, animalId, mode (`quick` / `bot`) |
-| C→S | `queue:leave` | – |
-| C→S | `race:answer` | questionIndex, choice (A–D) |
-| C→S | `session:resume` | token sesi (reconnect ≤ 10 dtk) |
-| S→C | `queue:status` | lama menunggu, jumlah pemain ditemukan |
-| S→C | `room:state` | fase, peserta (nickname, animalId, isBot, langkah, status), sisa waktu, soal aktif **tanpa kunci** |
-| S→C | `race:feedback` | benar/salah; bila salah: kunci, penjelasan, sumber, akhir lock |
-| S→C | `race:end` | peringkat akhir |
-| S→C | `eval:ready` | daftar soal + bagian AI + badge |
-| S→C | `error` | kode + pesan bahasa Indonesia |
+| Arah | Event            | Isi                                                                                                |
+| ---- | ---------------- | -------------------------------------------------------------------------------------------------- |
+| C→S  | `queue:join`     | nickname, animalId, mode (`quick` / `bot`)                                                         |
+| C→S  | `queue:leave`    | –                                                                                                  |
+| C→S  | `race:answer`    | questionIndex, choice (A–D)                                                                        |
+| C→S  | `session:resume` | token sesi (reconnect ≤ 10 dtk)                                                                    |
+| S→C  | `queue:status`   | lama menunggu, jumlah pemain ditemukan                                                             |
+| S→C  | `room:state`     | fase, peserta (nickname, animalId, isBot, langkah, status), sisa waktu, soal aktif **tanpa kunci** |
+| S→C  | `race:feedback`  | benar/salah; bila salah: kunci, penjelasan, sumber, akhir lock                                     |
+| S→C  | `race:end`       | peringkat akhir                                                                                    |
+| S→C  | `eval:ready`     | daftar soal + bagian AI + badge                                                                    |
+| S→C  | `error`          | kode + pesan bahasa Indonesia                                                                      |
 
 Pilihan jawaban peserta lain tidak pernah dikirim (FR-B06).
 
@@ -139,14 +139,14 @@ Pilihan jawaban peserta lain tidak pernah dikirim (FR-B06).
 - **Sumber:** Google Noto Emoji (github.com/googlefonts/noto-emoji). Gambar dan tool di repo itu berlisensi Apache 2.0, dan font berlisensi OFL 1.1 (dicek di README repo, 2026-11-04).
 - **File yang dipakai:**
 
-| Hewan | Emoji | Kode Unicode |
-|---|---|---|
-| Orangutan | 🦧 | U+1F9A7 |
-| Harimau | 🐅 | U+1F405 |
-| Gajah | 🐘 | U+1F418 |
-| Penyu | 🐢 | U+1F422 |
-| Badak | 🦏 | U+1F98F |
-| Burung (kakatua/beo) | 🦜 | U+1F99C |
+| Hewan                | Emoji | Kode Unicode |
+| -------------------- | ----- | ------------ |
+| Orangutan            | 🦧    | U+1F9A7      |
+| Harimau              | 🐅    | U+1F405      |
+| Gajah                | 🐘    | U+1F418      |
+| Penyu                | 🐢    | U+1F422      |
+| Badak                | 🦏    | U+1F98F      |
+| Burung (kakatua/beo) | 🦜    | U+1F99C      |
 
 - **Cara mengambil (sekali, oleh satu orang):**
   1. Buka repo Noto Emoji dan cari folder SVG-nya. Nama file biasanya `emoji_u<kode>.svg`, misalnya `emoji_u1f418.svg`. Saya belum bisa membuka folder itu dari lingkungan saya, jadi path persisnya dicek saat mengunduh.
@@ -158,28 +158,28 @@ Pilihan jawaban peserta lain tidak pernah dikirim (FR-B06).
 
 ## 9. Konfigurasi
 
-| Variabel | Default | Arti |
-|---|---|---|
-| `PORT` | 3000 | Port server |
-| `AI_MODE` | `mock` | `live`, `contoh`, atau `mock` |
-| `GEMINI_API_KEY` | – | Hanya di `.env` server, tidak pernah di-commit (NFR-08) |
-| `GEMINI_MODEL` | dicek saat setup | Model Flash termurah |
-| `SEED` | acak | Kalau diisi, semua room memakai seed ini (untuk debugging) |
-| `DEBUG_PANEL` | `false` | Mengaktifkan `?debug=1` |
+| Variabel         | Default          | Arti                                                       |
+| ---------------- | ---------------- | ---------------------------------------------------------- |
+| `PORT`           | 3000             | Port server                                                |
+| `AI_MODE`        | `mock`           | `live`, `contoh`, atau `mock`                              |
+| `GEMINI_API_KEY` | –                | Hanya di `.env` server, tidak pernah di-commit (NFR-08)    |
+| `GEMINI_MODEL`   | dicek saat setup | Model Flash termurah                                       |
+| `SEED`           | acak             | Kalau diisi, semua room memakai seed ini (untuk debugging) |
+| `DEBUG_PANEL`    | `false`          | Mengaktifkan `?debug=1`                                    |
 
 Server menolak start bila `content/` tidak lolos validasi, dengan pesan yang menyebut ID soal dan field yang salah.
 
 ## 10. Perintah
 
-| Perintah | Isi |
-|---|---|
-| `npm install` | Pasang dependensi |
-| `npm run dev` | Vite + server dengan reload; web diproksikan ke server |
-| `npm start` | Build lalu jalankan di satu port (dipakai untuk demo dan juri, NFR-07) |
-| `npm test` | Vitest |
-| `npm run e2e` | Playwright: satu balapan penuh melawan 3 bot |
-| `npm run check` | `tsc --noEmit` + Prettier + `check-content` |
-| `npm run load` | 5 room × 4 peserta bersamaan; mencetak latensi p95 (NFR-03, NFR-04) |
+| Perintah        | Isi                                                                    |
+| --------------- | ---------------------------------------------------------------------- |
+| `npm install`   | Pasang dependensi                                                      |
+| `npm run dev`   | Vite + server dengan reload; web diproksikan ke server                 |
+| `npm start`     | Build lalu jalankan di satu port (dipakai untuk demo dan juri, NFR-07) |
+| `npm test`      | Vitest                                                                 |
+| `npm run e2e`   | Playwright: satu balapan penuh melawan 3 bot                           |
+| `npm run check` | `tsc --noEmit` + Prettier + `check-content`                            |
+| `npm run load`  | 5 room × 4 peserta bersamaan; mencetak latensi p95 (NFR-03, NFR-04)    |
 
 Pemain lain di WiFi yang sama membuka `http://<IP-laptop>:3000`. IP ini dicetak server saat start.
 
@@ -206,21 +206,21 @@ Pemain lain di WiFi yang sama membuka `http://<IP-laptop>:3000`. IP ini dicetak 
 
 Masalah yang sering terjadi:
 
-| Gejala | Cek dulu |
-|---|---|
-| HP tidak bisa membuka game | Laptop dan HP di WiFi yang sama? Firewall laptop mengizinkan port 3000? |
-| Evaluasi selalu "Ringkasan otomatis" | `AI_MODE`, `GEMINI_API_KEY`, dan alasan di log `eval.fallback` |
-| Gerak hewan terlambat | `npm run load`; cek apakah ada `await` di dalam loop room |
-| Tes bot tidak stabil | Ada `Math.random()` atau `Date.now()` di luar `rng.ts`/argumen? |
+| Gejala                               | Cek dulu                                                                |
+| ------------------------------------ | ----------------------------------------------------------------------- |
+| HP tidak bisa membuka game           | Laptop dan HP di WiFi yang sama? Firewall laptop mengizinkan port 3000? |
+| Evaluasi selalu "Ringkasan otomatis" | `AI_MODE`, `GEMINI_API_KEY`, dan alasan di log `eval.fallback`          |
+| Gerak hewan terlambat                | `npm run load`; cek apakah ada `await` di dalam loop room               |
+| Tes bot tidak stabil                 | Ada `Math.random()` atau `Date.now()` di luar `rng.ts`/argumen?         |
 
 ## 13. Keamanan dan privasi
 
-| NFR | Penerapan |
-|---|---|
-| NFR-08 Anti-curang | `room:state` tidak memuat kunci; `game.ts` menolak jawaban kedua dan jawaban saat `locked`; API key hanya dibaca di `src/server` |
-| NFR-09 Data pemain | Semua state di `Map` memori; `log.ts` hanya menerima field yang diizinkan, sehingga nickname tidak bisa masuk log |
+| NFR                    | Penerapan                                                                                                                                                  |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NFR-08 Anti-curang     | `room:state` tidak memuat kunci; `game.ts` menolak jawaban kedua dan jawaban saat `locked`; API key hanya dibaca di `src/server`                           |
+| NFR-09 Data pemain     | Semua state di `Map` memori; `log.ts` hanya menerima field yang diizinkan, sehingga nickname tidak bisa masuk log                                          |
 | NFR-10 Transparansi AI | Badge dari field `source` di `eval:ready`; README menjelaskan isi yang dikirim ke Gemini dan bahwa tier gratis dapat dipakai Google untuk perbaikan produk |
-| FR-M02 Filter | Dicek di `nickname.ts` di server, bukan di browser |
+| FR-M02 Filter          | Dicek di `nickname.ts` di server, bukan di browser                                                                                                         |
 
 ## 14. Terbuka
 
