@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { Room } from '../src/server/room';
 import { createRNGSeed, shuffle } from '../src/shared/rng';
+import { GAME } from '../src/shared/constants';
 import {
   questionSchema,
   roomStateSchema,
@@ -63,13 +64,13 @@ interface RecordedEvent {
   target?: string;
 }
 
-function makeRoom(seed: number, questions: Question[], events: RecordedEvent[]) {
+function makeRoom(seed: number, questions: Question[], events: RecordedEvent[], botCount = 3) {
   const sched = new FakeScheduler();
   const room = new Room({
     roomId: 'r1',
     seed,
     humans: [{ id: 'h1', nickname: 'Budi', animalId: 'orangutan' }],
-    botCount: 3,
+    botCount,
     questions,
     emit: (event, payload) => events.push({ event, payload }),
     emitTo: (socketId, event, payload) => events.push({ event, payload, target: socketId }),
@@ -301,6 +302,62 @@ describe('room (integrasi skeleton)', () => {
     st = lastHumanState();
     expect(st.questionIndex).toBe(2);
     expect(st.activeQuestion).not.toBeNull();
+  });
+});
+
+describe('akhir balapan tanpa menunggu (FR-B07, FR-B09)', () => {
+  it('batas 4 menit mengakhiri balapan walau peserta tersisa berhenti menjawab', () => {
+    const events: RecordedEvent[] = [];
+    const questions = [
+      q('33333333-0001-4001-8001-000000000001', 0),
+      q('33333333-0002-4002-8002-000000000002', 1),
+    ];
+    // Tanpa bot: tidak ada timer jawaban yang akan memicu checkRaceEnd, jadi hanya
+    // timer batas waktu yang bisa mengakhiri room.
+    const { room, sched } = makeRoom(5, questions, events, 0);
+
+    room.start();
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+    expect(events.some((e) => e.event === 'race:end')).toBe(false);
+
+    sched.advance(GAME.RACE_DURATION_S * 1000);
+
+    const end = raceEndSchema.parse(lastEvent(events, 'race:end'));
+    expect(end.ranking.map((r) => r.nickname)).toEqual(['Budi']);
+  });
+
+  it('pemain yang selesai menjawab langsung menerima race:standings, belum race:end', () => {
+    const seed = 11;
+    const questions = [
+      q('44444444-0001-4001-8001-000000000001', 0),
+      q('44444444-0002-4002-8002-000000000002', 1),
+      q('44444444-0003-4003-8003-000000000003', 2),
+      q('44444444-0004-4004-8004-000000000004', 3),
+      q('44444444-0005-4005-8005-000000000005', 0),
+      q('44444444-0006-4006-8006-000000000006', 1),
+    ];
+    const events: RecordedEvent[] = [];
+    const { room, sched } = makeRoom(seed, questions, events);
+    const { bank, optionOrder } = deriveOrder(seed, questions);
+
+    room.start();
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+
+    for (let i = 0; i < GAME.STEPS_TO_FINISH; i++) {
+      room.answer('h1', {
+        questionIndex: i,
+        choice: 'ABCD'[optionOrder.indexOf(bank[i]!.answerIndex)]!,
+      });
+    }
+
+    const standings = events.filter((e) => e.event === 'race:standings');
+    expect(standings).toHaveLength(1); // tepat sekali, saat pemain berhenti menjawab
+    expect(standings[0]!.target).toBe('h1'); // peringkat sementara hanya untuk pemain itu
+    const parsed = raceEndSchema.parse(standings[0]!.payload);
+    expect(parsed.ranking[0]!.nickname).toBe('Budi');
+    expect(parsed.ranking[0]!.correctCount).toBe(GAME.STEPS_TO_FINISH);
+    // Bot belum menjawab: balapan belum selesai, jadi belum ada race:end.
+    expect(events.some((e) => e.event === 'race:end')).toBe(false);
   });
 });
 

@@ -42,7 +42,13 @@ function makeState(overrides: Partial<RoomState> = {}): RoomState {
   };
 }
 
-const baseProps = { feedback: null, feedbackAtMs: null, myId: 'saya', onAnswer: () => {} };
+const baseProps = {
+  feedback: null,
+  feedbackAtMs: null,
+  myId: 'saya',
+  onAnswer: () => {},
+  onSkipToResults: () => {},
+};
 
 describe('Balapan (FR-B02, FR-B07)', () => {
   it('menampilkan soal, nomor, sisa waktu m:ss, empat pilihan, dan tanpa kunci', () => {
@@ -78,8 +84,11 @@ describe('Balapan (FR-B02, FR-B07)', () => {
 
     const html = renderToStaticMarkup(createElement(RaceScreen, { state, ...baseProps }));
 
+    // Popup langsung muncul: tidak perlu menunggu bot menyelesaikan sisa balapan.
     expect(html).toContain('Finish! Posisi ke-2');
-    expect(html).toContain('Menonton sisa balapan');
+    expect(html).toContain('role="dialog"');
+    expect(html).toContain('Tonton sisa balapan');
+    expect(html).toContain('Lihat hasil sekarang');
     expect(html).not.toContain('aria-label="Pilihan A:');
   });
 
@@ -100,7 +109,7 @@ describe('Balapan (FR-B02, FR-B07)', () => {
     });
     expect(
       renderToStaticMarkup(createElement(RaceScreen, { state: left, ...baseProps })),
-    ).toContain('Keluar');
+    ).toContain('Kamu keluar');
 
     const exhausted = makeState({
       participants: [
@@ -118,6 +127,6 @@ describe('Balapan (FR-B02, FR-B07)', () => {
     });
     expect(
       renderToStaticMarkup(createElement(RaceScreen, { state: exhausted, ...baseProps })),
-    ).toContain('Soal habis');
+    ).toContain('Soalmu habis');
   });
 });

@@ -108,18 +108,19 @@ Status peserta: `racing`, `locked`, `finished`, `outOfQuestions`, `left`. Hanya 
 
 Semua payload divalidasi zod di kedua sisi. Payload yang tidak lolos ditolak dan dicatat di log.
 
-| Arah | Event            | Isi                                                                                                |
-| ---- | ---------------- | -------------------------------------------------------------------------------------------------- |
-| C→S  | `queue:join`     | nickname, animalId, mode (`quick` / `bot`)                                                         |
-| C→S  | `queue:leave`    | –                                                                                                  |
-| C→S  | `race:answer`    | questionIndex, choice (A–D)                                                                        |
-| C→S  | `session:resume` | token sesi (reconnect ≤ 10 dtk)                                                                    |
-| S→C  | `queue:status`   | lama menunggu, jumlah pemain ditemukan                                                             |
-| S→C  | `room:state`     | fase, peserta (nickname, animalId, isBot, langkah, status), sisa waktu, soal aktif **tanpa kunci** |
-| S→C  | `race:feedback`  | benar/salah; bila salah: kunci, penjelasan, sumber, akhir lock                                     |
-| S→C  | `race:end`       | peringkat akhir                                                                                    |
-| S→C  | `eval:ready`     | daftar soal + bagian AI + badge                                                                    |
-| S→C  | `error`          | kode + pesan bahasa Indonesia                                                                      |
+| Arah | Event            | Isi                                                                                                         |
+| ---- | ---------------- | ----------------------------------------------------------------------------------------------------------- |
+| C→S  | `queue:join`     | nickname, animalId, mode (`quick` / `bot`)                                                                  |
+| C→S  | `queue:leave`    | –                                                                                                           |
+| C→S  | `race:answer`    | questionIndex, choice (A–D)                                                                                 |
+| C→S  | `session:resume` | token sesi (reconnect ≤ 10 dtk)                                                                             |
+| S→C  | `queue:status`   | lama menunggu, jumlah pemain ditemukan                                                                      |
+| S→C  | `room:state`     | fase, peserta (nickname, animalId, isBot, langkah, status), sisa waktu, soal aktif **tanpa kunci**          |
+| S→C  | `race:feedback`  | benar/salah; bila salah: kunci, penjelasan, sumber, akhir lock                                              |
+| S→C  | `race:standings` | peringkat sementara, hanya ke pemain yang sudah tidak bisa menjawab (dipakai tombol "lihat hasil sekarang") |
+| S→C  | `race:end`       | peringkat akhir                                                                                             |
+| S→C  | `eval:ready`     | daftar soal + bagian AI + badge                                                                             |
+| S→C  | `error`          | kode + pesan bahasa Indonesia                                                                               |
 
 Pilihan jawaban peserta lain tidak pernah dikirim (FR-B06).
 
