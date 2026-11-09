@@ -9,7 +9,7 @@ import { Server as SocketIOServer, type Socket } from 'socket.io';
 import { join } from 'node:path';
 import { networkInterfaces } from 'node:os';
 import { pathToFileURL } from 'node:url';
-import { loadContent } from './content';
+import { assertVerifiedMinimum, loadContent, type BankContent } from './content';
 import { Matchmaking } from './matchmaking';
 import { Room } from './room';
 import { logEvent } from './log';
@@ -30,10 +30,19 @@ export function createApp() {
   return app;
 }
 
+export interface StartOptions {
+  /**
+   * Bank soal pengganti. Dipakai scripts/e2e-server.ts supaya tes Playwright memakai fixture
+   * sendiri tanpa mengubah content/. Gate FR-K01 tetap dijalankan untuk bank yang dipakai.
+   */
+  content?: BankContent;
+}
+
 /** Mulai server. Melempar bila konten tidak valid (ARCHITECTURE §9). */
-export function start(port = PORT): HttpServer {
+export function start(port = PORT, options: StartOptions = {}): HttpServer {
   // Gate konten: server menolak start bila validasi gagal (FR-K01).
-  const content = loadContent();
+  const content = options.content ?? loadContent();
+  assertVerifiedMinimum(content);
   logEvent(
     undefined,
     undefined,
