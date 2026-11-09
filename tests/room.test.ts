@@ -252,6 +252,56 @@ describe('room (integrasi skeleton)', () => {
     const names = payload.participants.map((p) => p.nickname).sort();
     expect(names).toEqual(['BOT Kilat', 'Budi', 'Budi#2', 'Budi#3']);
   });
+
+  it('soal aktif manusia tetap terkirim setelah bot menjawab (regresi tampilan soal hilang)', () => {
+    const seed = 5;
+    const questions = [
+      q('55555555-0001-4001-8001-000000000001', 0),
+      q('55555555-0002-4002-8002-000000000002', 1),
+      q('55555555-0003-4003-8003-000000000003', 2),
+    ];
+    const events: RecordedEvent[] = [];
+    const { room, sched } = makeRoom(seed, questions, events);
+    const { bank, optionOrder } = deriveOrder(seed, questions);
+    const correctLetter = (i: number) => 'ABCD'[optionOrder.indexOf(bank[i]!.answerIndex)]!;
+    const wrongLetter = (i: number) => {
+      for (let l = 0; l < 4; l++) {
+        if (optionOrder[l] !== bank[i]!.answerIndex) return 'ABCD'[l]!;
+      }
+      throw new Error('tidak ada pilihan salah');
+    };
+    const lastHumanState = () => {
+      const states = events.filter((e) => e.event === 'room:state' && e.target === 'h1');
+      expect(states.length).toBeGreaterThan(0);
+      return roomStateSchema.parse(states[states.length - 1]!.payload);
+    };
+
+    room.start();
+    // Lobby tidak membawa soal (FR-K11).
+    expect(lastHumanState().activeQuestion).toBeNull();
+
+    sched.advance(3000); // balapan mulai
+    expect(lastHumanState().activeQuestion).not.toBeNull();
+
+    // Manusia menjawab benar → soal berikutnya terkirim per-socket.
+    room.answer('h1', { questionIndex: 0, choice: correctLetter(0) });
+    let st = lastHumanState();
+    expect(st.questionIndex).toBe(1);
+    expect(st.activeQuestion).not.toBeNull();
+
+    // Bot menjawab beberapa kali; soal aktif manusia tidak boleh hilang.
+    sched.advance(20000);
+    st = lastHumanState();
+    expect(st.activeQuestion).not.toBeNull();
+    expect(st.questionIndex).toBe(1);
+
+    // Manusia menjawab salah → lock 5 detik → soal berikutnya tetap terkirim.
+    room.answer('h1', { questionIndex: 1, choice: wrongLetter(1) });
+    sched.advance(5000);
+    st = lastHumanState();
+    expect(st.questionIndex).toBe(2);
+    expect(st.activeQuestion).not.toBeNull();
+  });
 });
 
 function lastEvent(events: RecordedEvent[], name: string): unknown {
