@@ -6,8 +6,10 @@
  * Keputusan game (benar/salah, langkah, peringkat) SELALU via src/shared/game.ts (fungsi murni).
  *
  * Privasi payload (FR-K11, FR-B06, NFR-08):
- * - room:state broadcast: fase, peserta (tanpa kunci), sisa waktu — TANPA soal aktif.
- * - room:state per-socket (emitTo): + soal aktif peserta itu (stem/claim/options saja).
+ * - room:state dikirim PER manusia (emitTo): fase, peserta (tanpa kunci), sisa waktu,
+ *   + soal aktif peserta itu saja (stem/claim/options) — dan hanya saat fase racing.
+ *   Broadcast tunggal tanpa soal akan menghapus tampilan soal di layar pemain lain setiap
+ *   ada peserta menjawab (client mengganti state utuh), jadi broadcast() di sini per-socket.
  * - race:feedback: HANYA ke pemain yang menjawab (kunci+penjelasan+src setelah menjawab).
  * - eval:ready: HANYA ke pemain itu (FR-H06).
  */
@@ -145,9 +147,6 @@ export class Room {
     this.state.phase = 'racing';
     this.state.raceEndsAtMs = this.cfg.now() + GAME.RACE_DURATION_S * 1000;
     this.broadcast();
-    for (const p of this.state.participants) {
-      if (!p.isBot) this.sendStateTo(p.id);
-    }
     this.scheduleBots();
     this.checkRaceEnd();
   }
@@ -214,7 +213,6 @@ export class Room {
         const cur = this.state.participants.find((x) => x.id === socketId);
         if (cur && cur.status === 'locked') {
           this.replaceParticipant(socketId, unlock(cur));
-          if (!cur.isBot) this.sendStateTo(socketId);
         }
         // Bot terkunci butuh penjadwalan ulang dari server (manusia menjawab sendiri).
         this.scheduleBots();
@@ -225,7 +223,6 @@ export class Room {
 
     this.scheduleBots();
     this.broadcast();
-    if (!p.isBot) this.sendStateTo(socketId);
     this.checkRaceEnd();
   }
 
@@ -236,7 +233,6 @@ export class Room {
     if (p.status === 'left') {
       this.replaceParticipant(socketId, { ...p, status: 'racing' });
     }
-    this.sendStateTo(socketId);
     this.broadcast();
     return true;
   }
@@ -449,14 +445,15 @@ export class Room {
   }
 
   /**
-   * room:state. Tanpa socketId → broadcast (tanpa soal aktif).
-   * Dengan socketId → + soal aktif peserta itu (stem/claim/options saja, FR-K11).
+   * room:state per socket: soal aktif peserta itu (stem/claim/options saja, FR-K11),
+   * dan hanya saat balapan berjalan (tidak bocor di lobby maupun setelah finished).
    */
-  private publicState(forSocketId?: string): RoomState {
-    const active = forSocketId
-      ? this.state.participants.find((p) => p.id === forSocketId)
-      : undefined;
-    const activeVisible = active && (active.status === 'racing' || active.status === 'locked');
+  private publicState(forSocketId: string): RoomState {
+    const active = this.state.participants.find((p) => p.id === forSocketId);
+    const activeVisible =
+      this.state.phase === 'racing' &&
+      active !== undefined &&
+      (active.status === 'racing' || active.status === 'locked');
     const activeQuestion = activeVisible ? this.currentQuestion(active) : undefined;
     const raw = {
       roomId: this.state.roomId,
@@ -490,8 +487,18 @@ export class Room {
     return roomStateSchema.parse(raw);
   }
 
+  /**
+   * room:state dikirim per peserta manusia, membawa soal aktif masing-masing.
+   * Bot tidak punya socket. Tanpa per-socket ini, state terakhir dari peserta lain
+   * (tanpa soal) akan menghapus soal aktif di layar semua pemain.
+   */
   private broadcast(): void {
-    this.emit('room:state', this.publicState());
+    for (const p of this.state.participants) {
+      // Peserta 'left' sudah tidak di room ini (mis. socket pindah ke room baru);
+      // mengirim state ke socket id-nya akan mengirim state room lama ke room baru.
+      if (p.isBot || p.status === 'left') continue;
+      this.sendStateTo(p.id);
+    }
   }
 
   private sendStateTo(socketId: string): void {

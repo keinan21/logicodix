@@ -127,6 +127,15 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
         socket.emit('error', { code: 'nickname-invalid', pesan: checked.reason });
         return;
       }
+      // Satu socket hanya boleh berada di SATU room. Tanpa ini, join ganda (klik dobel atau
+      // dua tab) membuat dua room berjalan paralel dan client menerima dua aliran room:state:
+      // soal berganti sendiri dan langkah peserta tampak tertukar.
+      const previousRoomId = roomBySocket.get(socket.id);
+      if (previousRoomId !== undefined) {
+        rooms.get(previousRoomId)?.leave(socket.id);
+        socket.leave(previousRoomId);
+        roomBySocket.delete(socket.id);
+      }
       matchmaking.join(socket.id, { ...parsed.data, nickname: checked.nickname }, Date.now());
       socket.emit('queue:status', { menungguS: 0, ditemukan: 1 });
     });
