@@ -9,7 +9,6 @@ import './Home.css';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { AnimalCard } from '../components/AnimalCard';
-import { useRoom } from '../socket';
 import { nicknameSchema, animalIdSchema } from '../../shared/schema';
 import type { AnimalId } from '../../shared/schema';
 
@@ -37,7 +36,6 @@ export function HomeScreen({
   /** Pesan penolakan dari server, mis. filter kata kasar (FR-M02). */
   joinError?: string | null;
 }) {
-  const { joinQueue } = useRoom();
   const [nickname, setNickname] = useState(() => sessionStorage.getItem('nickname') ?? '');
   const [animalId, setAnimalId] = useState<AnimalId>(() => {
     const saved = sessionStorage.getItem('animalId');
@@ -58,12 +56,16 @@ export function HomeScreen({
     }
   }, [nickname, animalId, valid]);
 
+  /**
+   * Satu pintu keluar: `onJoin` milik App yang mengirim `queue:join`.
+   * Jangan emit di sini juga — dua emit berarti satu socket masuk dua room sekaligus,
+   * dan client lalu menerima dua aliran room:state (soal berganti sendiri, langkah tertukar).
+   */
   const start = (mode: 'quick' | 'bot') => {
     if (!valid) {
       setTouched(true);
       return;
     }
-    joinQueue({ nickname, animalId, mode });
     onJoin(nickname, animalId, mode);
   };
 
