@@ -39,6 +39,8 @@ export interface RoomSession {
   /** Waktu client saat feedback diterima; dipakai layar untuk masa tahan tampilan. */
   feedbackAtMs: number | null;
   raceEnd: RaceEnd | null;
+  /** Peringkat sementara setelah pemain ini selesai menjawab (balapan masih berjalan). */
+  standings: RaceEnd | null;
   evaluation: EvalReady | null;
   /** Pesan `error` dari server (nickname ditolak, payload tidak valid, dll). */
   error: SessionError | null;
@@ -56,6 +58,7 @@ export const initialSession: RoomSession = {
   feedback: null,
   feedbackAtMs: null,
   raceEnd: null,
+  standings: null,
   evaluation: null,
   error: null,
   waitingS: 0,
@@ -70,6 +73,7 @@ export type SessionEvent =
   | { type: 'state'; state: RoomState }
   | { type: 'feedback'; feedback: RaceFeedback; atMs: number }
   | { type: 'race-end'; raceEnd: RaceEnd }
+  | { type: 'standings'; standings: RaceEnd }
   | { type: 'evaluation'; evaluation: EvalReady }
   | { type: 'error'; error: SessionError }
   | { type: 'queue-status'; waitingS: number; found: number }
@@ -97,6 +101,7 @@ export function sessionReducer(session: RoomSession, event: SessionEvent): RoomS
         feedback: null,
         feedbackAtMs: null,
         raceEnd: null,
+        standings: null,
         evaluation: null,
         error: null,
       };
@@ -104,7 +109,9 @@ export function sessionReducer(session: RoomSession, event: SessionEvent): RoomS
     case 'feedback':
       return { ...session, feedback: event.feedback, feedbackAtMs: event.atMs };
     case 'race-end':
-      return { ...session, raceEnd: event.raceEnd };
+      return { ...session, raceEnd: event.raceEnd, standings: event.raceEnd };
+    case 'standings':
+      return { ...session, standings: event.standings };
     case 'evaluation':
       return { ...session, evaluation: event.evaluation };
     case 'error':
@@ -190,6 +197,10 @@ function ensureSocket(): Socket {
   socket.on('race:end', (raw: unknown) => {
     const parsed = raceEndSchema.safeParse(raw);
     if (parsed.success) dispatch({ type: 'race-end', raceEnd: parsed.data });
+  });
+  socket.on('race:standings', (raw: unknown) => {
+    const parsed = raceEndSchema.safeParse(raw);
+    if (parsed.success) dispatch({ type: 'standings', standings: parsed.data });
   });
   socket.on('eval:ready', (raw: unknown) => {
     const parsed = evalReadySchema.safeParse(raw);

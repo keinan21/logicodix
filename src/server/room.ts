@@ -36,6 +36,7 @@ import {
   type Question,
   type RoomState,
   type RaceFeedback,
+  type RaceEnd,
   type EvalRequest,
 } from '../shared/schema';
 import type { EvalResult } from './evaluate';
@@ -146,6 +147,11 @@ export class Room {
   private beginRace(): void {
     this.state.phase = 'racing';
     this.state.raceEndsAtMs = this.cfg.now() + GAME.RACE_DURATION_S * 1000;
+    // Batas 4 menit harus punya timer sendiri: isRaceOver() hanya diperiksa saat ada
+    // jawaban/peserta keluar, jadi tanpa timer ini room menggantung selamanya bila
+    // peserta yang tersisa berhenti menjawab (FR-B09).
+    const capTimer = this.cfg.setTimer(() => this.checkRaceEnd(), GAME.RACE_DURATION_S * 1000);
+    this.timers.add(capTimer);
     this.broadcast();
     this.scheduleBots();
     this.checkRaceEnd();
@@ -195,6 +201,13 @@ export class Room {
 
     this.replaceParticipant(socketId, next);
     this.scheduledBots.delete(socketId);
+
+    // Pemain manusia yang sudah tidak bisa menjawab lagi langsung menerima peringkat
+    // sementara, supaya layar bisa menawarkan "lihat hasil sekarang" tanpa menunggu bot
+    // menyelesaikan sisa balapan (FR-B07/B08 tetap: yang memilih menonton terus dapat race:end).
+    if (!next.isBot && (next.status === 'finished' || next.status === 'outOfQuestions')) {
+      this.emitStandings(socketId);
+    }
 
     if (correct) {
       this.emitFeedback(socketId, { questionIndex: parsed.data.questionIndex, correct: true });
@@ -390,18 +403,7 @@ export class Room {
       return;
     }
 
-    const ranking = rankParticipants(this.state.participants);
-    const payload = raceEndSchema.parse({
-      ranking: ranking.map((r) => ({
-        rank: r.rank,
-        nickname: r.nickname,
-        animalId: r.animalId,
-        isBot: r.isBot,
-        correctCount: r.correctCount,
-        status: r.status,
-      })),
-    });
-    this.emit('race:end', payload);
+    this.emit('race:end', this.standingsPayload());
     logEvent(
       this.cfg.roomId,
       this.cfg.seed,
@@ -425,6 +427,26 @@ export class Room {
     // FR-H12: data room dihapus dari memori setelah hasil tidak dibuka lagi.
     const t = this.cfg.setTimer(() => this.destroy(), GAME.RESULT_RETENTION_S * 1000);
     this.timers.add(t);
+  }
+
+  /** Peringkat saat ini (bentuk sama dengan race:end, dipakai juga untuk race:standings). */
+  private standingsPayload(): RaceEnd {
+    const ranking = rankParticipants(this.state.participants);
+    return raceEndSchema.parse({
+      ranking: ranking.map((r) => ({
+        rank: r.rank,
+        nickname: r.nickname,
+        animalId: r.animalId,
+        isBot: r.isBot,
+        correctCount: r.correctCount,
+        status: r.status,
+      })),
+    });
+  }
+
+  /** Peringkat sementara HANYA ke satu pemain yang sudah selesai menjawab. */
+  private emitStandings(socketId: string): void {
+    this.cfg.emitTo(socketId, 'race:standings', this.standingsPayload());
   }
 
   private emit(event: string, payload: unknown): void {

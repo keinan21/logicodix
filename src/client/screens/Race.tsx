@@ -4,6 +4,7 @@ import { Lane } from '../components/Lane';
 import { QuestionCard } from '../components/QuestionCard';
 import { AnswerOption, type AnswerOptionState } from '../components/AnswerOption';
 import { CountdownRing } from '../components/CountdownRing';
+import { Button } from '../components/Button';
 import type {
   QuestionPublic,
   RaceAnswerPayload,
@@ -40,6 +41,8 @@ export interface RaceScreenProps {
   feedbackAtMs: number | null;
   myId: string | null;
   onAnswer: (payload: RaceAnswerPayload) => void;
+  /** Lompat ke layar hasil tanpa menunggu bot menyelesaikan sisa balapan. */
+  onSkipToResults: () => void;
 }
 
 /**
@@ -50,7 +53,14 @@ export interface RaceScreenProps {
  * (FR-B05). Selama tahan, soal yang dijawab tetap tampil beserta kunci/penjelasan dari race:feedback.
  * Kunci tidak pernah datang sebelum menjawab (FR-K11).
  */
-export function RaceScreen({ state, feedback, feedbackAtMs, myId, onAnswer }: RaceScreenProps) {
+export function RaceScreen({
+  state,
+  feedback,
+  feedbackAtMs,
+  myId,
+  onAnswer,
+  onSkipToResults,
+}: RaceScreenProps) {
   const me = state.participants.find((p) => p.id === myId) ?? null;
   const active = state.activeQuestion;
 
@@ -61,6 +71,11 @@ export function RaceScreen({ state, feedback, feedbackAtMs, myId, onAnswer }: Ra
   const [hold, setHold] = useState<{ index: number; untilMs: number } | null>(null);
   const [nowMs, setNowMs] = useState(() => Date.now());
   const [myChoice, setMyChoice] = useState<Letter | null>(null);
+  const [resultDismissed, setResultDismissed] = useState(false);
+
+  useEffect(() => {
+    setResultDismissed(false);
+  }, [state.roomId]);
 
   // Mulai masa tahan saat feedback baru datang.
   useEffect(() => {
@@ -79,12 +94,20 @@ export function RaceScreen({ state, feedback, feedbackAtMs, myId, onAnswer }: Ra
     }
   }, [active, hold, state.questionIndex]);
 
+  // Jam berjalan lokal: room:state hanya datang saat ada kejadian (bot menjawab, lock habis),
+  // jadi "Sisa" dan hitung mundur lock dihitung sendiri dari nilai server terakhir supaya
+  // tidak tampak membeku saat tidak ada event.
+  const [clockBase, setClockBase] = useState({ left: state.timeLeftS, at: Date.now() });
   useEffect(() => {
-    if (hold === null) return;
+    setClockBase({ left: state.timeLeftS, at: Date.now() });
+  }, [state.timeLeftS, state.roomId]);
+  useEffect(() => {
     setNowMs(Date.now());
     const id = setInterval(() => setNowMs(Date.now()), 200);
     return () => clearInterval(id);
-  }, [hold]);
+  }, []);
+  const elapsedS = Math.max(0, Math.floor((nowMs - clockBase.at) / 1000));
+  const displayLeftS = Math.max(0, clockBase.left - elapsedS);
 
   useEffect(() => {
     if (hold !== null && nowMs >= hold.untilMs) setHold(null);
@@ -138,7 +161,7 @@ export function RaceScreen({ state, feedback, feedbackAtMs, myId, onAnswer }: Ra
           <span className="race-meta">
             Soal {shown !== null ? shownIndex + 1 : state.questionIndex + 1}
           </span>
-          <span className="race-meta">Sisa {formatClock(state.timeLeftS)}</span>
+          <span className="race-meta">Sisa {formatClock(displayLeftS)}</span>
         </header>
 
         <section className="race-track" aria-label="Lintasan">
@@ -147,7 +170,33 @@ export function RaceScreen({ state, feedback, feedbackAtMs, myId, onAnswer }: Ra
           ))}
         </section>
 
-        {spectatorStatus !== null ? (
+        {spectatorStatus !== null && !resultDismissed ? (
+          <section
+            className="race-result"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="race-result-title"
+          >
+            <h2 id="race-result-title" className="race-result-title">
+              {spectatorStatus === 'finished'
+                ? `Finish! Posisi ke-${me?.finishOrder ?? '–'}`
+                : spectatorStatus === 'outOfQuestions'
+                  ? 'Soalmu habis'
+                  : 'Kamu keluar'}
+            </h2>
+            <p className="race-result-text">
+              Balapan masih berjalan. Mau menonton sisanya atau langsung melihat hasil?
+            </p>
+            <div className="race-result-actions">
+              <Button variant="secondary" onClick={() => setResultDismissed(true)}>
+                Tonton sisa balapan
+              </Button>
+              <Button onClick={onSkipToResults}>Lihat hasil sekarang</Button>
+            </div>
+          </section>
+        ) : null}
+
+        {spectatorStatus !== null && resultDismissed ? (
           <p className="race-banner" role="status">
             {spectatorStatus === 'finished'
               ? `Finish! Posisi ke-${me?.finishOrder ?? '–'}`
@@ -155,6 +204,11 @@ export function RaceScreen({ state, feedback, feedbackAtMs, myId, onAnswer }: Ra
                 ? 'Soal habis'
                 : 'Keluar'}
             <span className="race-banner-sub"> Menonton sisa balapan…</span>
+            <span className="race-banner-action">
+              <Button variant="secondary" onClick={onSkipToResults}>
+                Lihat hasil
+              </Button>
+            </span>
           </p>
         ) : null}
 

@@ -42,6 +42,41 @@
   color: var(--color-muted);
 }
 
+.race-banner-action {
+  display: inline-block;
+  margin-top: var(--space-2);
+}
+
+.race-result {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 2px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.race-result-title {
+  margin: 0;
+  font: var(--text-title);
+  color: var(--color-forest-900);
+}
+
+.race-result-text {
+  margin: 0;
+  font: var(--text-body);
+  color: var(--color-muted);
+}
+
+.race-result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
 .race-flash {
   margin: 0;
   padding: var(--space-3);
@@ -76,5 +111,9 @@
 
   .race-layout {
     gap: var(--space-4);
+  }
+
+  .race-result-actions {
+    justify-content: flex-end;
   }
 }
