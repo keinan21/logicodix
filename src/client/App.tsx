@@ -17,7 +17,7 @@ import { useRoom } from './socket';
  */
 export function App() {
   const { session, joinQueue, leaveQueue, answer, reset } = useRoom();
-  const [route, setRoute] = useState<'home' | 'queue' | 'evaluation'>('home');
+  const [route, setRoute] = useState<'home' | 'queue' | 'evaluation' | 'result'>('home');
   const [queuedAtMs, setQueuedAtMs] = useState<number | null>(null);
   const [waitingS, setWaitingS] = useState(0);
   const [lobbyCountdown, setLobbyCountdown] = useState<number | null>(null);
@@ -100,6 +100,25 @@ export function App() {
     return <LobbyScreen state={session.state} countdown={lobbyCountdown} />;
   }
 
+  // "Lihat hasil sekarang": pemain sudah selesai menjawab, jadi layar hasil memakai peringkat
+  // sementara dari server (race:standings) dan otomatis berubah final saat race:end tiba.
+  if (route === 'result') {
+    return (
+      <PodiumScreen
+        raceEnd={session.raceEnd ?? session.standings}
+        myNickname={myNickname}
+        provisional={session.raceEnd === null}
+        onViewEvaluation={() => setRoute('evaluation')}
+        onPlayAgain={playAgain}
+        onBackToRace={() => setRoute('home')}
+      />
+    );
+  }
+
+  if (route === 'evaluation') {
+    return <EvaluationScreen evaluation={session.evaluation} onPlayAgain={playAgain} />;
+  }
+
   if (phase === 'racing') {
     return (
       <RaceScreen
@@ -108,12 +127,9 @@ export function App() {
         feedbackAtMs={session.feedbackAtMs}
         myId={session.myId}
         onAnswer={answer}
+        onSkipToResults={() => setRoute('result')}
       />
     );
-  }
-
-  if (route === 'evaluation') {
-    return <EvaluationScreen evaluation={session.evaluation} onPlayAgain={playAgain} />;
   }
 
   return (

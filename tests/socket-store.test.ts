@@ -97,9 +97,21 @@ describe('store socket (ARCHITECTURE §4)', () => {
     expect(next.evaluation).toBeNull();
   });
 
+  it('menyimpan peringkat sementara tanpa membuatnya jadi hasil akhir', () => {
+    let session = sessionReducer(initialSession, { type: 'state', state: makeRoom('room-a') });
+    session = sessionReducer(session, { type: 'standings', standings: raceEnd });
+
+    expect(session.standings?.ranking).toHaveLength(1);
+    expect(session.raceEnd).toBeNull();
+
+    const next = sessionReducer(session, { type: 'state', state: makeRoom('room-b') });
+    expect(next.standings).toBeNull();
+  });
+
   it('menyimpan hasil balapan dan evaluasi', () => {
     const ended = sessionReducer(initialSession, { type: 'race-end', raceEnd });
     expect(ended.raceEnd?.ranking).toHaveLength(1);
+    expect(ended.standings).toEqual(raceEnd);
 
     const evaluated = sessionReducer(ended, {
       type: 'evaluation',

@@ -10,6 +10,10 @@ export interface PodiumScreenProps {
   myNickname: string;
   onViewEvaluation: () => void;
   onPlayAgain: () => void;
+  /** Peringkat sementara: balapan masih berjalan, urutan bisa berubah sampai race:end. */
+  provisional?: boolean;
+  /** Kembali menonton sisa balapan (hanya saat peringkat masih sementara). */
+  onBackToRace?: () => void;
 }
 
 type Row = RaceEnd['ranking'][number];
@@ -24,6 +28,8 @@ export function PodiumScreen({
   myNickname,
   onViewEvaluation,
   onPlayAgain,
+  provisional = false,
+  onBackToRace,
 }: PodiumScreenProps) {
   const ranking = raceEnd?.ranking ?? [];
   const top3 = ranking.slice(0, 3);
@@ -34,8 +40,13 @@ export function PodiumScreen({
       <div className="screen-inner two-columns">
         <section aria-labelledby="podium-title">
           <h1 id="podium-title" className="podium-title">
-            Hasil balapan
+            {provisional ? 'Hasil sementara' : 'Hasil balapan'}
           </h1>
+          {provisional ? (
+            <p className="podium-note" role="status">
+              Balapan masih berjalan; peringkat bisa berubah sampai semua peserta selesai.
+            </p>
+          ) : null}
 
           {visual.length > 0 ? (
             <ol className="podium-steps">
@@ -100,9 +111,15 @@ export function PodiumScreen({
             <Button variant="ai" onClick={onViewEvaluation}>
               Lihat evaluasi AI
             </Button>
-            <Button variant="secondary" onClick={onPlayAgain}>
-              Main lagi
-            </Button>
+            {provisional && onBackToRace ? (
+              <Button variant="secondary" onClick={onBackToRace}>
+                Kembali menonton
+              </Button>
+            ) : (
+              <Button variant="secondary" onClick={onPlayAgain}>
+                Main lagi
+              </Button>
+            )}
           </div>
         </section>
       </div>
