@@ -84,8 +84,12 @@ export interface BankContent {
   contoh: Record<string, unknown>;
 }
 
-/** Muat + validasi seluruh content/. Melempar bila struktur rusak atau soal terverifikasi < minimum. */
-export function loadContent(rootDir = process.cwd()): BankContent {
+/**
+ * Muat + validasi struktur content/ TANPA gate jumlah soal terverifikasi.
+ * Dipakai fixture e2e yang menyuntikkan bank soalnya sendiri (scripts/e2e-server.ts);
+ * gate FR-K01 tetap dijalankan oleh loadContent() dan oleh start().
+ */
+export function readContent(rootDir = process.cwd()): BankContent {
   const contentDir = join(rootDir, 'content');
 
   const qFiles = readJsonDir(join(contentDir, 'questions'));
@@ -120,12 +124,6 @@ export function loadContent(rootDir = process.cwd()): BankContent {
   })();
 
   const verified = qResult.ok.filter((q) => q.status === 'terverifikasi');
-  if (verified.length < CONTENT.MIN_VERIFIED_QUESTIONS) {
-    const ids = qResult.ok.map((q) => `${q.id}(${q.status})`).join(', ');
-    throw new Error(
-      `Bank soal terverifikasi kurang dari ${CONTENT.MIN_VERIFIED_QUESTIONS} (FR-K01). Ada: ${verified.length}. Daftar: ${ids}`,
-    );
-  }
 
   const contoh: Record<string, unknown> = {};
   for (const f of readJsonDir(join(contentDir, 'contoh'))) {
@@ -151,6 +149,23 @@ export function loadContent(rootDir = process.cwd()): BankContent {
     officialSources,
     contoh,
   };
+}
+
+/** Gate FR-K01: server hanya mau start bila bank soal punya cukup soal terverifikasi. */
+export function assertVerifiedMinimum(content: BankContent): void {
+  if (content.verified.length < CONTENT.MIN_VERIFIED_QUESTIONS) {
+    const ids = content.questions.map((q) => `${q.id}(${q.status})`).join(', ');
+    throw new Error(
+      `Bank soal terverifikasi kurang dari ${CONTENT.MIN_VERIFIED_QUESTIONS} (FR-K01). Ada: ${content.verified.length}. Daftar: ${ids}`,
+    );
+  }
+}
+
+/** Muat + validasi seluruh content/. Melempar bila struktur rusak atau soal terverifikasi < minimum. */
+export function loadContent(rootDir = process.cwd()): BankContent {
+  const content = readContent(rootDir);
+  assertVerifiedMinimum(content);
+  return content;
 }
 
 function parseArrayFile<T>(path: string, schema: z.ZodType<T>): T[] {
