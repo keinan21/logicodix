@@ -178,11 +178,16 @@ describe('room (integrasi skeleton)', () => {
       const ev = events.find((e) => e.event === 'eval:ready' && e.target === 'h1');
       expect(ev).toBeDefined();
     });
-    const evalReady = events.find((e) => e.event === 'eval:ready' && e.target === 'h1')!;
+    const evalReady = events.filter((e) => e.event === 'eval:ready' && e.target === 'h1').at(-1)!;
     const ready = evalReadySchema.parse(evalReady.payload) as EvalReady;
     expect(ready.questions.length).toBeGreaterThan(0);
     expect(ready.badge).toBe('ringkasan-otomatis-bukan-ai'); // mode mock bukan AI
     expect(JSON.stringify(ready)).not.toContain('Budi'); // FR-H06: nickname tidak dikirim
+    const pendingEvent = events.find((e) => e.event === 'eval:ready' && e.target === 'h1')!;
+    const pending = evalReadySchema.parse(pendingEvent.payload);
+    expect(pending.questions.length).toBe(ready.questions.length);
+    expect(pending.aiSection).toBeNull();
+    expect(pending.badge).toBeNull();
   });
 
   it('feedback dan evaluasi memakai indeks tampilan saat pilihan diacak (FR-B05, FR-H02)', async () => {
@@ -208,7 +213,7 @@ describe('room (integrasi skeleton)', () => {
     await vi.waitFor(() => {
       expect(events.some((e) => e.event === 'eval:ready' && e.target === 'h1')).toBe(true);
     });
-    const evalReady = events.find((e) => e.event === 'eval:ready' && e.target === 'h1')!;
+    const evalReady = events.filter((e) => e.event === 'eval:ready' && e.target === 'h1').at(-1)!;
     const ready = evalReadySchema.parse(evalReady.payload) as EvalReady;
     const item = ready.questions[0]!;
 

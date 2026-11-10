@@ -280,7 +280,7 @@ export const evalReadySchema = z.object({
       badge: evalBadgeSchema,
     })
     .nullable(),
-  badge: evalBadgeSchema,
+  badge: evalBadgeSchema.nullable(),
 });
 export type EvalReady = z.infer<typeof evalReadySchema>;
 

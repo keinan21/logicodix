@@ -116,7 +116,13 @@ export function App() {
   }
 
   if (route === 'evaluation') {
-    return <EvaluationScreen evaluation={session.evaluation} onPlayAgain={playAgain} />;
+    return (
+      <EvaluationScreen
+        evaluation={session.evaluation}
+        onPlayAgain={playAgain}
+        onBackToResults={() => setRoute('result')}
+      />
+    );
   }
 
   if (phase === 'racing') {

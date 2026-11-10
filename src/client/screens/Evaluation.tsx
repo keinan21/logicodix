@@ -3,12 +3,14 @@ import { AIPanel } from '../components/AIPanel';
 import { EvalItem } from '../components/EvalItem';
 import { Button } from '../components/Button';
 import type { EvalReady } from '../../shared/schema';
+import './Evaluation.css';
 
 const LETTERS = ['A', 'B', 'C', 'D'] as const;
 
 export interface EvaluationScreenProps {
   evaluation: EvalReady | null;
   onPlayAgain: () => void;
+  onBackToResults: () => void;
 }
 
 /**
@@ -17,11 +19,15 @@ export interface EvaluationScreenProps {
  * - Bagian AI dengan badge; bila gagal → ringkasan otomatis berlabel "bukan AI".
  * - "Baca lebih lanjut" hanya memuat sumber terverifikasi dari soal yang dijawab; AI tidak membuat tautan.
  */
-export function EvaluationScreen({ evaluation, onPlayAgain }: EvaluationScreenProps) {
+export function EvaluationScreen({
+  evaluation,
+  onPlayAgain,
+  onBackToResults,
+}: EvaluationScreenProps) {
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
   const questions = evaluation?.questions ?? [];
   const ai = evaluation?.aiSection ?? null;
-  const loading = evaluation === null;
+  const loading = evaluation === null || evaluation.badge === null;
 
   const toggle = (id: string) => {
     setOpenIds((prev) => {
@@ -32,7 +38,7 @@ export function EvaluationScreen({ evaluation, onPlayAgain }: EvaluationScreenPr
     });
   };
 
-  const badge = evaluation?.badge ?? 'ringkasan-otomatis-bukan-ai';
+  const badge = evaluation?.badge ?? null;
   const sources = Array.from(
     new Map(
       questions.flatMap((question) => question.sources).map((source) => [source.url, source]),
@@ -40,53 +46,60 @@ export function EvaluationScreen({ evaluation, onPlayAgain }: EvaluationScreenPr
   );
 
   return (
-    <main className="screen">
-      <div className="screen-inner">
-        <h1 style={{ font: 'var(--text-title)', color: 'var(--color-forest-900)' }}>Evaluasimu</h1>
+    <main className="screen evaluation-screen">
+      <div className="screen-inner evaluation-inner">
+        <header className="evaluation-header">
+          <Button variant="secondary" onClick={onBackToResults}>
+            Kembali ke hasil
+          </Button>
+          <h1>Evaluasimu</h1>
+        </header>
 
-        <section aria-labelledby="eval-questions">
-          <h2
-            id="eval-questions"
-            style={{ font: 'var(--text-label)', color: 'var(--color-muted)' }}
-          >
-            Soal yang kamu jawab
-          </h2>
-          <ul
-            style={{
-              padding: 0,
-              margin: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--space-2)',
-            }}
-          >
-            {questions.map((question, index) => {
-              const wrong = question.chosenIndex !== question.answerIndex;
-              // Soal salah terbuka otomatis (FR-H02)
-              const open = wrong || openIds.has(question.questionId);
-              return (
-                <EvalItem
-                  key={question.questionId}
-                  questionNumber={index + 1}
-                  stem={question.stem}
-                  chosenLetter={wrong ? LETTERS[question.chosenIndex] : undefined}
-                  answerLetter={wrong ? LETTERS[question.answerIndex] : undefined}
-                  explanation={wrong ? question.explanation : undefined}
-                  sources={wrong ? question.sources : undefined}
-                  wrong={wrong}
-                  open={open}
-                  onToggle={() => toggle(question.questionId)}
-                />
-              );
-            })}
-          </ul>
-        </section>
+        <div className="evaluation-columns">
+          <section aria-labelledby="eval-questions" className="evaluation-questions">
+            <h2
+              id="eval-questions"
+              style={{ font: 'var(--text-label)', color: 'var(--color-muted)' }}
+            >
+              Soal yang kamu jawab
+            </h2>
+            <ul
+              style={{
+                padding: 0,
+                margin: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 'var(--space-2)',
+              }}
+            >
+              {questions.map((question, index) => {
+                const wrong = question.chosenIndex !== question.answerIndex;
+                // Soal salah terbuka otomatis (FR-H02)
+                const open = wrong || openIds.has(question.questionId);
+                return (
+                  <EvalItem
+                    key={question.questionId}
+                    questionNumber={index + 1}
+                    stem={question.stem}
+                    chosenLetter={wrong ? LETTERS[question.chosenIndex] : undefined}
+                    answerLetter={wrong ? LETTERS[question.answerIndex] : undefined}
+                    explanation={question.explanation}
+                    sources={question.sources}
+                    wrong={wrong}
+                    open={open}
+                    onToggle={() => toggle(question.questionId)}
+                  />
+                );
+              })}
+            </ul>
+          </section>
 
-        <AIPanel
-          content={ai ? { pattern: ai.pattern, tip: ai.tip, motivation: ai.motivation } : null}
-          badge={badge}
-          loading={loading}
-        />
+          <AIPanel
+            content={ai ? { pattern: ai.pattern, tip: ai.tip, motivation: ai.motivation } : null}
+            badge={badge}
+            loading={loading}
+          />
+        </div>
 
         {sources.length > 0 ? (
           <section aria-labelledby="baca-lebih-lanjut" className="card">
@@ -110,7 +123,7 @@ export function EvaluationScreen({ evaluation, onPlayAgain }: EvaluationScreenPr
           </section>
         ) : null}
 
-        <div>
+        <div className="evaluation-actions">
           <Button variant="primary" onClick={onPlayAgain}>
             Main lagi
           </Button>
