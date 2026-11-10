@@ -38,6 +38,7 @@ import {
   type RaceFeedback,
   type RaceEnd,
   type EvalRequest,
+  type EvalReady,
 } from '../shared/schema';
 import type { EvalResult } from './evaluate';
 import { logEvent } from './log';
@@ -404,6 +405,12 @@ export class Room {
   async requestEvaluation(): Promise<void> {
     if (this.evalRequested) return;
     this.evalRequested = true;
+    const evaluations: {
+      playerId: string;
+      input: EvalRequest;
+      questions: EvalReady['questions'];
+    }[] = [];
+
     for (const p of this.state.participants) {
       if (p.isBot) continue; // FR-H06: bot tidak mendapat Evaluasi
       const list = this.answers.get(p.id) ?? [];
@@ -427,10 +434,9 @@ export class Room {
         })),
       };
 
-      // Maksimal 1 panggilan AI per pemain per balapan ditegakkan di evaluator (FR-H10).
-      const result = await this.cfg.evaluator(input, this.cfg.seed);
-
-      const payload = evalReadySchema.parse({
+      evaluations.push({
+        playerId: p.id,
+        input,
         questions: pairs.map(({ a, question }) => ({
           questionId: question.id,
           kind: question.kind,
@@ -444,6 +450,25 @@ export class Room {
           topic: question.topic,
           misinfoType: question.misinfoType ?? null,
         })),
+      });
+    }
+
+    // Kirim daftar ke semua pemain sebelum menunggu panggilan AI mana pun.
+    for (const { playerId, questions } of evaluations) {
+      const pendingPayload = evalReadySchema.parse({
+        questions,
+        aiSection: null,
+        badge: null,
+      });
+      this.cfg.emitTo(playerId, 'eval:ready', pendingPayload);
+    }
+
+    for (const { playerId, input, questions } of evaluations) {
+      // Maksimal 1 panggilan AI per pemain per balapan ditegakkan di evaluator (FR-H10).
+      const result = await this.cfg.evaluator(input, this.cfg.seed);
+
+      const payload = evalReadySchema.parse({
+        questions,
         aiSection: {
           pattern: result.output.pattern.length > 0 ? result.output.pattern : null,
           tip: result.output.tip.length > 0 ? result.output.tip : null,
@@ -453,7 +478,7 @@ export class Room {
         },
         badge: result.badge,
       });
-      this.cfg.emitTo(p.id, 'eval:ready', payload);
+      this.cfg.emitTo(playerId, 'eval:ready', payload);
     }
     logEvent(
       this.cfg.roomId,

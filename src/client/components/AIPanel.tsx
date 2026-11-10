@@ -4,7 +4,7 @@ import { Badge } from './Badge';
 export interface AIPanelProps {
   /** null = masih menyusun. */
   content: { pattern: string | null; tip: string | null; motivation: string | null } | null;
-  badge: EvalBadge;
+  badge: EvalBadge | null;
   loading?: boolean;
 }
 
@@ -13,6 +13,8 @@ export interface AIPanelProps {
  * Selalu ada badge sesuai asal teks (FR-H05). Ungu khusus AI (DESIGN §1).
  */
 export function AIPanel({ content, badge, loading }: AIPanelProps) {
+  const isExample = badge === 'contoh-ai-dibuat-sebelumnya';
+  const isAutomatic = badge === 'ringkasan-otomatis-bukan-ai';
   const badgeKind =
     badge === 'dibuat-oleh-ai'
       ? 'ai'
@@ -23,12 +25,7 @@ export function AIPanel({ content, badge, loading }: AIPanelProps) {
   return (
     <section
       aria-live="polite"
-      style={{
-        border: `2px solid var(--color-ai-600)`,
-        borderRadius: 'var(--radius-lg)',
-        backgroundColor: 'var(--color-ai-100)',
-        padding: 'var(--space-4)',
-      }}
+      className={`evaluation-message-panel ${isAutomatic ? 'is-automatic' : ''} ${isExample ? 'is-example' : ''}`}
     >
       <div
         style={{
@@ -38,11 +35,11 @@ export function AIPanel({ content, badge, loading }: AIPanelProps) {
           marginBottom: 'var(--space-2)',
         }}
       >
-        <h3 style={{ margin: 0, font: 'var(--text-title)', color: 'var(--color-ai-600)' }}>
-          Evaluasi AI
+        <h3 className="evaluation-panel-title">
+          {isExample ? 'Mode Contoh' : isAutomatic ? 'Ringkasan Otomatis' : 'Evaluasi AI'}
         </h3>
         {/* Badge asal teks baru bermakna setelah teksnya ada (FR-H05). */}
-        {loading ? null : <Badge kind={badgeKind} />}
+        {loading || badge === null ? null : <Badge kind={badgeKind} />}
       </div>
 
       {loading || (!content && !loading) ? (
