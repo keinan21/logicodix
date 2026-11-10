@@ -214,6 +214,23 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
     }
   });
 
+  let closing = false;
+  const originalClose = server.close.bind(server);
+  server.close = function (cb?: (err?: Error) => void) {
+    if (closing) return originalClose(cb);
+    closing = true;
+    matchmaking.shutdown();
+    for (const room of rooms.values()) {
+      room.destroy();
+    }
+    rooms.clear();
+    io.disconnectSockets(true);
+    if (typeof (server as any).closeAllConnections === 'function') {
+      (server as any).closeAllConnections();
+    }
+    return originalClose(cb);
+  };
+
   return server;
 }
 
