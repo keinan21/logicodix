@@ -81,6 +81,7 @@ export class Room {
   private questionBank: Question[];
   private finishCounter = 0;
   private evalRequested = false;
+  private lobbyEndsAtMs = 0;
   private disconnectTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
   constructor(cfg: RoomConfig) {
@@ -147,7 +148,14 @@ export class Room {
   /** Fase lobby: hitung mundur 3-2-1, lalu balapan mulai bersamaan (FR-M11). */
   start(): void {
     this.state.phase = 'lobby';
+    this.lobbyEndsAtMs = this.cfg.now() + GAME.LOBBY_COUNTDOWN_S * 1000;
     this.broadcast();
+    for (let second = 1; second < GAME.LOBBY_COUNTDOWN_S; second++) {
+      const tick = this.cfg.setTimer(() => {
+        if (this.state.phase === 'lobby') this.broadcast();
+      }, second * 1000);
+      this.timers.add(tick);
+    }
     const t = this.cfg.setTimer(() => this.beginRace(), GAME.LOBBY_COUNTDOWN_S * 1000);
     this.timers.add(t);
   }
@@ -645,6 +653,10 @@ export class Room {
     const raw = {
       roomId: this.state.roomId,
       phase: this.state.phase,
+      lobbyCountdownS:
+        this.state.phase === 'lobby'
+          ? Math.max(0, Math.ceil((this.lobbyEndsAtMs - this.cfg.now()) / 1000))
+          : 0,
       participants: this.state.participants.map((p) => ({
         id: p.id,
         nickname: p.nickname,

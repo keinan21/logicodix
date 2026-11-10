@@ -13,6 +13,7 @@
 }
 
 :root {
+  --size-error-icon: 36px;
   --size-race-header: 56px;
   --size-race-sky: 40px;
   --size-race-tree: 32px;

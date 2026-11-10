@@ -106,6 +106,21 @@ function deriveOrder(seed: number, questions: Question[]) {
 }
 
 describe('room (integrasi skeleton)', () => {
+  it('mengirim countdown lobby dari jam server sampai balapan dimulai', () => {
+    const events: RecordedEvent[] = [];
+    const { room, sched } = makeRoom(42, [q('11111111-0001-4001-8001-000000000001', 0)], events);
+    room.start();
+    const latest = () =>
+      roomStateSchema.parse(events.filter((e) => e.event === 'room:state').at(-1)?.payload);
+    expect(latest().lobbyCountdownS).toBe(3);
+    sched.advance(1000);
+    expect(latest().lobbyCountdownS).toBe(2);
+    sched.advance(1000);
+    expect(latest().lobbyCountdownS).toBe(1);
+    sched.advance(1000);
+    expect(latest().phase).toBe('racing');
+    expect(latest().lobbyCountdownS).toBe(0);
+  });
   it('balapan penuh: benar, salah+lock, soal habis, race:end, eval:ready per manusia', async () => {
     const seed = 42;
     const questions = [

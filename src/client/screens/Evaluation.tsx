@@ -75,7 +75,7 @@ export function EvaluationScreen({
               {questions.map((question, index) => {
                 const wrong = question.chosenIndex !== question.answerIndex;
                 // Soal salah terbuka otomatis (FR-H02)
-                const open = wrong || openIds.has(question.questionId);
+                const open = wrong !== openIds.has(question.questionId);
                 return (
                   <EvalItem
                     key={question.questionId}
