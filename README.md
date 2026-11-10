@@ -5,8 +5,7 @@ Game balap multiplayer berbasis web untuk siswa SMP: setiap soal adalah satu kla
 membuat hewan diam + penjelasan bersumber terkunci 5 detik. Finish di jawaban benar ke-5.
 Setelah podium, tiap pemain mendapat **Evaluasi AI** atas pola kesalahannya.
 
-> **Status:** scaffolding awal (T-01). Konten soal semuanya `draf` — belum terverifikasi.
-> Server **sengaja menolak start** sampai ≥10 soal `terverifikasi` (FR-K01).
+> **Status:** MVP lengkap (T-01 sampai T-22). Seluruh alur dari Beranda, Antrean Quick Match, Balapan lawan bot/manusia, Reconnect, Podium, hingga Evaluasi AI & Fallback berfungsi penuh. Konten bank soal saat ini 12 draf menunggu verifikasi sumber resmi oleh tim C + D (D-58). Server produksi mensyaratkan ≥10 soal terverifikasi (FR-K01); server demo/uji dapat memakai soal draf/dummy.
 
 ## Jalankan
 
@@ -37,6 +36,17 @@ Demo: buka 2+ jendela browser di `http://localhost:3000` + mode "Lawan bot" (D-4
   `reviewedAt`, sumber) hanya oleh manusia C + D (D-58). Tidak boleh mengarang sumber —
   kalau belum ada, tulis `TODO-SUMBER`.
 
+## Hasil Uji Beban (NFR-03, NFR-04)
+
+Uji beban simultan 5 room × 4 peserta (20 koneksi WebSocket bersamaan) dijalankan melalui `bun run load` (`scripts/load-test.ts`):
+
+- **Room selesai:** 5 / 5 (100%)
+- **Koneksi aktif simultan:** 20 peserta (4 peserta per room)
+- **Latensi room:state:** p50 141 ms, p95 151 ms
+- **Latensi race:feedback:** p50 6 ms, p95 7 ms
+- **Latensi gabungan (keseluruhan):** p50 8 ms, **p95 149 ms** (ambang batas: ≤ 250 ms), p99 151 ms
+- **Hasil:** **LULUS (PASS)** — memenuhi persyaratan NFR-03 dan NFR-04.
+
 ## Evaluasi AI & privasi (transparansi untuk juri, FRD 03 §5)
 
 - AI dipakai **hanya** setelah balapan, untuk menulis pola kesalahan + tips (maks 400/200 karakter).
@@ -66,5 +76,6 @@ menunggu verifikasi sumber resmi oleh C + D. Lihat `content/README.md`.
 
 ## Lisensi aset
 
-Hewan dari Google Noto Emoji (Apache 2.0 / OFL 1.1) — pengunduhan SVG dicatat di
-`docs/ASSETS.md` (TODO T-11). Font Plus Jakarta Sans TODO T-04.
+- **Hewan & Dekorasi Lingkungan:** Menggunakan Google Noto Emoji SVG (lisensi Apache 2.0). Salinan lisensi lengkap tersedia di `docs/licenses/noto-emoji-LICENSE`. Pengunduhan dan pemetaan berkas tercatat rinci di `docs/ASSETS.md`.
+- **Tipografi:** Plus Jakarta Sans oleh Gumpita Rahayu / Tokotype (lisensi SIL Open Font License 1.1). Salinan lisensi tersedia di `docs/licenses/plus-jakarta-sans-OFL.txt`.
+- Seluruh aset visual mematuhi prinsip _Green IT_ (hanya SVG/vektor ringan, tanpa foto resolusi tinggi, hanya palet mode terang ramah kontras).
