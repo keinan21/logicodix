@@ -26,6 +26,15 @@
   font: var(--text-small);
   font-variant-numeric: tabular-nums;
 }
+.race-header-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+.race-spectating {
+  font: var(--text-small);
+}
 .race-track {
   position: relative;
   padding-top: var(--size-race-sky);
@@ -35,6 +44,28 @@
     var(--color-sky-100) 0 var(--size-race-sky),
     var(--color-forest-100) var(--size-race-sky)
   );
+}
+.race-scenery {
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--size-race-sky);
+  overflow: hidden;
+  pointer-events: none;
+}
+.race-scenery::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  right: calc(-1 * var(--size-race-tree-repeat));
+  background: url('../assets/home/tree.svg') left bottom / var(--size-race-tree-repeat)
+    var(--size-race-tree) repeat-x;
+  opacity: 0.65;
+  animation: race-parallax var(--motion-parallax) linear infinite;
+}
+@keyframes race-parallax {
+  to {
+    transform: translateX(calc(-1 * var(--size-race-tree-repeat)));
+  }
 }
 .race-content {
   display: flex;
@@ -55,6 +86,9 @@
   gap: var(--space-2);
   min-width: 0;
 }
+.race-option-cell .answer-option {
+  align-self: stretch;
+}
 .race-shortcut {
   display: none;
 }
@@ -68,7 +102,7 @@
   margin: 0;
   padding: var(--space-4);
   border-radius: var(--radius-md);
-  background: var(--color-forest-100);
+  background: var(--color-bg);
   color: var(--color-forest-900);
   font: var(--text-title);
   text-align: center;
@@ -111,12 +145,24 @@
   color: var(--color-muted);
 }
 .race-result-actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
   gap: var(--space-2);
 }
+.race-result-actions .btn,
+.race-banner-action .btn {
+  font: var(--text-body) !important;
+  font-weight: 700 !important;
+}
+@media (hover: hover) {
+  .race-result-actions .btn:hover,
+  .race-banner-action .btn:hover {
+    filter: brightness(0.95);
+  }
+}
 @media (min-width: 1024px) {
+  .race-result-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .race-header {
     padding-inline: calc(var(--space-6) + var(--space-1));
   }

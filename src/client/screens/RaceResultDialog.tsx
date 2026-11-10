@@ -12,7 +12,9 @@ export function RaceResultDialog({
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => {
-    dialog.current?.showModal();
+    const element = dialog.current;
+    element?.showModal();
+    return () => element?.close();
   }, []);
   return (
     <dialog

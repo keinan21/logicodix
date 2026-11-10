@@ -38,7 +38,35 @@ test('finish mempertahankan popup, fokus keyboard, dan pilihan menonton', async 
   await page.keyboard.press('Escape');
   await expect(dialog).not.toBeVisible();
   await expect(page.getByText('Menonton sisa balapan…')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Lihat hasil', exact: true })).toBeFocused();
   await expect(page.getByRole('button', { name: /^Pilihan A:/ })).toHaveCount(0);
+});
+
+test('jawaban terakhir tetap memperlihatkan feedback sebelum dialog finish', async ({ page }) => {
+  await page.clock.install();
+  await page.clock.pauseAt(new Date());
+  await page.keyboard.press('b');
+  await page.getByRole('button', { name: 'Respons benar terakhir' }).click();
+  await expect(page.getByRole('article')).toBeVisible();
+  await expect(page.getByRole('dialog')).not.toBeVisible();
+  await expect(page.getByRole('status', { name: 'Benar', exact: true })).toBeVisible();
+  await page.clock.runFor(1200);
+  await expect(page.getByRole('dialog')).toContainText('Finish! Posisi ke-1');
+});
+
+test('state finish yang tiba sebelum feedback tidak memotong jawaban terakhir', async ({
+  page,
+}) => {
+  await page.clock.install();
+  await page.clock.pauseAt(new Date());
+  await page.keyboard.press('b');
+  await page.getByRole('button', { name: 'Simulasikan finish' }).click();
+  await expect(page.getByRole('dialog')).not.toBeVisible();
+  await expect(page.getByText('Jawaban terkirim. Menunggu respons…')).toBeVisible();
+  await page.getByRole('button', { name: 'Respons benar terakhir' }).click();
+  await expect(page.getByRole('status', { name: 'Benar', exact: true })).toBeVisible();
+  await page.clock.runFor(1200);
+  await expect(page.getByRole('dialog')).toBeVisible();
 });
 
 test('lintasan selebar layar dan tidak overflow pada ukuran kecil', async ({ page }) => {
@@ -70,7 +98,7 @@ test('feedback benar satu detik, soal habis, dan aset tampil tanpa error', async
   ).toBe(true);
   await main.screenshot({ path: `test-results/race-${testInfo.project.name}-default.png` });
   await page.keyboard.press('b');
-  await page.getByRole('button', { name: 'Respons benar' }).click();
+  await page.getByRole('button', { name: 'Respons benar', exact: true }).click();
   await expect(page.getByRole('status', { name: 'Benar', exact: true })).toBeVisible();
   await main.screenshot({ path: `test-results/race-${testInfo.project.name}-correct.png` });
   await page.clock.runFor(1200);

@@ -35,8 +35,16 @@ describe('Lane (DESIGN §5, FR-B06, FR-B07)', () => {
       }),
     );
 
-    expect(html).toContain('BOT Kilat · BOT');
+    expect(html).toContain('BOT Kilat');
+    expect(html).not.toContain('BOT Kilat · BOT');
     expect(html).toContain('color:var(--color-bot)');
+    const plainName = renderToStaticMarkup(
+      createElement(Lane, {
+        participant: participant({ isBot: true, nickname: 'Kilat' }),
+        steps: 0,
+      }),
+    );
+    expect(plainName).toContain('Kilat · BOT');
   });
 
   it('menampilkan posisi finish dan status berhenti', () => {
