@@ -83,34 +83,39 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
     }
   };
 
-  const matchmaking = new Matchmaking((req) => {
-    const roomId = `room-${seedCounter.toString(36)}-${Date.now().toString(36)}`;
-    const seed = createRNGSeed(seedCounter++);
-    const room = new Room({
-      roomId,
-      seed,
-      humans: req.humanPlayers.map((p) => ({
-        id: p.socketId,
-        nickname: p.nickname,
-        animalId: p.animalId,
-      })),
-      botCount: req.botCount,
-      questions: content.verified,
-      emit: (event, payload) => io.to(roomId).emit(event, payload),
-      emitTo: (socketId, event, payload) => io.to(socketId).emit(event, payload),
-      onEmpty: removeRoom,
-      evaluator: (evalReq, roomSeed) => evaluate.evaluate(evalReq, roomSeed),
-      now: () => Date.now(),
-      setTimer: (fn, ms) => setTimeout(fn, ms),
-      clearTimer: (t) => clearTimeout(t),
-    });
-    rooms.set(roomId, room);
-    for (const h of req.humanPlayers) {
-      roomBySocket.set(h.socketId, roomId);
-      io.sockets.sockets.get(h.socketId)?.join(roomId);
-    }
-    room.start();
-  });
+  const matchmaking = new Matchmaking(
+    (req) => {
+      const roomId = `room-${seedCounter.toString(36)}-${Date.now().toString(36)}`;
+      const seed = createRNGSeed(seedCounter++);
+      const room = new Room({
+        roomId,
+        seed,
+        humans: req.humanPlayers.map((p) => ({
+          id: p.socketId,
+          nickname: p.nickname,
+          animalId: p.animalId,
+        })),
+        botCount: req.botCount,
+        questions: content.verified,
+        emit: (event, payload) => io.to(roomId).emit(event, payload),
+        emitTo: (socketId, event, payload) => io.to(socketId).emit(event, payload),
+        onEmpty: removeRoom,
+        evaluator: (evalReq, roomSeed) => evaluate.evaluate(evalReq, roomSeed),
+        now: () => Date.now(),
+        setTimer: (fn, ms) => setTimeout(fn, ms),
+        clearTimer: (t) => clearTimeout(t),
+      });
+      rooms.set(roomId, room);
+      for (const h of req.humanPlayers) {
+        roomBySocket.set(h.socketId, roomId);
+        io.sockets.sockets.get(h.socketId)?.join(roomId);
+      }
+      room.start();
+    },
+    (socketId, status) => {
+      io.to(socketId).emit('queue:status', status);
+    },
+  );
 
   io.on('connection', (socket: Socket) => {
     logEvent(undefined, undefined, 'socket.connect', undefined, 'info', 'koneksi baru');
@@ -137,7 +142,6 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
         roomBySocket.delete(socket.id);
       }
       matchmaking.join(socket.id, { ...parsed.data, nickname: checked.nickname }, Date.now());
-      socket.emit('queue:status', { menungguS: 0, ditemukan: 1 });
     });
 
     socket.on('queue:leave', () => {
@@ -152,12 +156,38 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
 
     socket.on('session:resume', (raw: unknown) => {
       const parsed = sessionResumePayloadSchema.safeParse(raw);
-      if (!parsed.success) return;
-      const roomId = roomBySocket.get(socket.id);
-      if (roomId) rooms.get(roomId)?.resume(socket.id, parsed.data.token);
+      if (!parsed.success) {
+        socket.emit('error', { code: 'invalid-payload', pesan: 'Payload resume tidak valid.' });
+        return;
+      }
+      const token = parsed.data.token;
+      let targetRoom: Room | undefined;
+      let targetRoomId: string | undefined;
+      for (const [rid, r] of rooms) {
+        if (r.hasParticipant(token)) {
+          targetRoom = r;
+          targetRoomId = rid;
+          break;
+        }
+      }
+      if (!targetRoom || !targetRoomId) {
+        socket.emit('error', { code: 'session-not-found', pesan: 'Sesi balapan tidak ditemukan.' });
+        return;
+      }
+      const ok = targetRoom.resume(socket.id, token);
+      if (ok) {
+        roomBySocket.set(socket.id, targetRoomId);
+        socket.join(targetRoomId);
+      } else {
+        socket.emit('error', {
+          code: 'resume-expired',
+          pesan: 'Batas waktu reconnect telah habis.',
+        });
+      }
     });
 
     socket.on('disconnect', () => {
+      matchmaking.leave(socket.id, Date.now());
       const roomId = roomBySocket.get(socket.id);
       if (roomId) rooms.get(roomId)?.leave(socket.id);
     });

@@ -167,6 +167,7 @@ const errorPayloadSchema = z.object({
 });
 
 let socketInstance: Socket | null = null;
+let lastResumeToken: string | null = null;
 
 function ensureSocket(): Socket {
   if (socketInstance) return socketInstance;
@@ -176,6 +177,9 @@ function ensureSocket(): Socket {
 
   socket.on('connect', () => {
     dispatch({ type: 'connection', connected: true, myId: socket.id ?? null });
+    if (lastResumeToken && socket.id && lastResumeToken !== socket.id) {
+      socket.emit('session:resume', { token: lastResumeToken });
+    }
   });
   socket.on('disconnect', () => {
     dispatch({ type: 'connection', connected: false, myId: null });
@@ -186,7 +190,14 @@ function ensureSocket(): Socket {
 
   socket.on('room:state', (raw: unknown) => {
     const parsed = roomStateSchema.safeParse(raw);
-    if (parsed.success) dispatch({ type: 'state', state: parsed.data });
+    if (parsed.success) {
+      if (parsed.data.phase === 'racing' || parsed.data.phase === 'lobby') {
+        if (socket.id) lastResumeToken = socket.id;
+      } else if (parsed.data.phase === 'finished') {
+        lastResumeToken = null;
+      }
+      dispatch({ type: 'state', state: parsed.data });
+    }
   });
   socket.on('race:feedback', (raw: unknown) => {
     const parsed = raceFeedbackSchema.safeParse(raw);
@@ -218,7 +229,12 @@ function ensureSocket(): Socket {
   });
   socket.on('error', (raw: unknown) => {
     const parsed = errorPayloadSchema.safeParse(raw);
-    if (parsed.success) dispatch({ type: 'error', error: parsed.data });
+    if (parsed.success) {
+      if (parsed.data.code === 'resume-expired' || parsed.data.code === 'session-not-found') {
+        lastResumeToken = null;
+      }
+      dispatch({ type: 'error', error: parsed.data });
+    }
   });
 
   return socket;
@@ -226,8 +242,6 @@ function ensureSocket(): Socket {
 
 /**
  * Hook akses room. Satu sumber kebenaran untuk semua layar.
- * TODO(T-12): `session:resume` belum bisa memulihkan room karena server memetakan socket ID
- * baru ke room lama; sampai itu ada, reconnect hanya menampilkan status "mencoba menyambung".
  */
 export function useRoom() {
   const current = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
@@ -249,6 +263,7 @@ export function useRoom() {
   };
 
   const reset = () => {
+    lastResumeToken = null;
     dispatch({ type: 'reset' });
   };
 
