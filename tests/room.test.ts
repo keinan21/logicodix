@@ -498,6 +498,53 @@ describe('room (integrasi skeleton)', () => {
     expect(st.questionIndex).toBe(2);
     expect(st.activeQuestion).not.toBeNull();
   });
+
+  it('bot mendapat hewan yang belum dipakai oleh peserta di room (FR-M14)', () => {
+    const seed = 20;
+    const questions = [q('55555555-0001-4001-8001-000000000001', 0)];
+    const events: RecordedEvent[] = [];
+    const sched = new FakeScheduler();
+    const room = new Room({
+      roomId: 'r1',
+      seed,
+      humans: [
+        { id: 'h1', nickname: 'Budi', animalId: 'burung' },
+        { id: 'h2', nickname: 'Siti', animalId: 'orangutan' },
+      ],
+      botCount: 2,
+      questions,
+      emit: (event, payload) => events.push({ event, payload }),
+      emitTo: (socketId, event, payload) => events.push({ event, payload, target: socketId }),
+      onEmpty: () => {},
+      evaluator: async () => ({
+        output: { pattern: '', tip: '', motivation: '' },
+        badge: 'ringkasan-otomatis-bukan-ai',
+        source: 'mock',
+      }),
+      now: () => sched.now,
+      setTimer: (fn, ms) => sched.setTimer(fn, ms),
+      clearTimer: (id) => sched.clearTimer(id),
+    });
+
+    room.start();
+    const states = events.filter((e) => e.event === 'room:state' && e.target === 'h1');
+    const state = roomStateSchema.parse(states[0]!.payload);
+    const bots = state.participants.filter((p) => p.isBot);
+    const humans = state.participants.filter((p) => !p.isBot);
+
+    const humanAnimals = new Set(humans.map((h) => h.animalId));
+    expect(humanAnimals).toEqual(new Set(['burung', 'orangutan']));
+
+    // Bot tidak boleh memakai hewan manusia
+    for (const bot of bots) {
+      expect(humanAnimals.has(bot.animalId)).toBe(false);
+    }
+
+    // Setiap bot mendapat hewan berbeda yang belum terpakai
+    const botAnimals = bots.map((b) => b.animalId);
+    expect(new Set(botAnimals).size).toBe(bots.length);
+    expect(botAnimals).toEqual(['harimau', 'gajah']);
+  });
 });
 
 describe('akhir balapan tanpa menunggu (FR-B07, FR-B09)', () => {
