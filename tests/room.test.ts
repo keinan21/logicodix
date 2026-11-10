@@ -8,7 +8,7 @@ import {
   raceEndSchema,
   evalReadySchema,
 } from '../src/shared/schema';
-import type { Question, EvalRequest } from '../src/shared/schema';
+import type { Question, EvalRequest, RoomState } from '../src/shared/schema';
 import type { RaceFeedback, RaceEnd, EvalReady } from '../src/shared/schema';
 
 /** Penjadwal timer palsu agar timer room (3s/5s/4menit) bisa dijalankan instan. */
@@ -251,16 +251,159 @@ describe('room (integrasi skeleton)', () => {
     expect(stripTargets(a)).toEqual(stripTargets(b));
   });
 
-  it('semua manusia keluar → race:end tidak dikirim, room dihapus (FR-B13)', () => {
+  it('semua manusia keluar saat balapan → setelah 10 dtk room dihapus tanpa race:end (FR-B11, FR-B13)', () => {
     const seed = 9;
     const questions = [q('33333333-0001-4001-8001-000000000001', 0)];
     const events: RecordedEvent[] = [];
     const { room, sched } = makeRoom(seed, questions, events);
     room.start();
-    sched.advance(3000);
+    sched.advance(3000); // balapan mulai
     room.leave('h1');
+    // Belum lewat 10 detik: masih dalam tenggat reconnect (FR-B11)
+    expect(events.some((e) => e.event === 'room.destroyed')).toBe(false);
+
+    sched.advance(GAME.RECONNECT_LIMIT_S * 1000); // lewat 10 detik
     expect(events.some((e) => e.event === 'race:end')).toBe(false);
     expect(events.some((e) => e.event === 'room.destroyed')).toBe(true);
+  });
+
+  it('keluar saat lobby diganti bot profil berikutnya bila masih ada manusia (FR-M12)', () => {
+    const seed = 10;
+    const questions = [q('77777777-0001-4001-8001-000000000001', 0)];
+    const events: RecordedEvent[] = [];
+    const sched = new FakeScheduler();
+    const room = new Room({
+      roomId: 'r1',
+      seed,
+      humans: [
+        { id: 'h1', nickname: 'Budi', animalId: 'orangutan' },
+        { id: 'h2', nickname: 'Siti', animalId: 'harimau' },
+      ],
+      botCount: 2,
+      questions,
+      emit: (event, payload) => events.push({ event, payload }),
+      emitTo: (socketId, event, payload) => events.push({ event, payload, target: socketId }),
+      onEmpty: () => events.push({ event: 'room.destroyed', payload: null }),
+      evaluator: async () => ({
+        output: { pattern: '', tip: '', motivation: 'Hebat!' },
+        badge: 'ringkasan-otomatis-bukan-ai',
+        source: 'mock',
+      }),
+      now: () => sched.now,
+      setTimer: (fn, ms) => sched.setTimer(fn, ms),
+      clearTimer: (id) => sched.clearTimer(id),
+    });
+
+    room.start(); // fase lobby
+    expect(events.some((e) => e.event === 'room.destroyed')).toBe(false);
+
+    // h1 keluar saat lobby
+    room.leave('h1');
+    expect(events.some((e) => e.event === 'room.destroyed')).toBe(false);
+
+    // h1 diganti bot; slot 1 sekarang bot
+    const lastState = lastEvent(
+      events.filter((e) => e.target === 'h2'),
+      'room:state',
+    ) as RoomState;
+    const slot1 = lastState.participants.find((p) => p.slot === 1);
+    expect(slot1?.isBot).toBe(true);
+    expect(slot1?.status).toBe('racing');
+
+    // Hitung mundur tetap berjalan dan balapan dimulai bersama
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+    const racingState = lastEvent(
+      events.filter((e) => e.target === 'h2'),
+      'room:state',
+    ) as RoomState;
+    expect(racingState.phase).toBe('racing');
+  });
+
+  it('semua manusia keluar saat lobby → room dibatalkan dan dihapus seketika (FR-M12)', () => {
+    const seed = 12;
+    const questions = [q('88888888-0001-4001-8001-000000000001', 0)];
+    const events: RecordedEvent[] = [];
+    const { room } = makeRoom(seed, questions, events);
+    room.start(); // fase lobby
+    room.leave('h1');
+    // Langsung dihapus tanpa menunggu timer
+    expect(events.some((e) => e.event === 'room.destroyed')).toBe(true);
+  });
+
+  it('reconnect saat balapan ≤ 10 detik memulihkan soal aktif (FR-B11)', () => {
+    const seed = 13;
+    const questions = [q('99999999-0001-4001-8001-000000000001', 0)];
+    const events: RecordedEvent[] = [];
+    const { room, sched } = makeRoom(seed, questions, events);
+    room.start();
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000); // balapan mulai
+
+    // h1 putus koneksi
+    room.leave('h1');
+    sched.advance(5000); // 5 detik kemudian tersambung lagi
+
+    // Resume dengan socket ID baru
+    const resumed = room.resume('h1-new', 'h1');
+    expect(resumed).toBe(true);
+
+    // State terbaru terkirim ke socket baru
+    const stateNew = lastEvent(
+      events.filter((e) => e.target === 'h1-new'),
+      'room:state',
+    ) as RoomState;
+    expect(stateNew.phase).toBe('racing');
+    expect(stateNew.activeQuestion).not.toBeNull();
+
+    // Maju 10 detik lagi: room TIDAK boleh dihapus karena h1 sudah resume
+    sched.advance(10000);
+    expect(events.some((e) => e.event === 'room.destroyed')).toBe(false);
+  });
+
+  it('reconnect setelah 10 detik ditolak dan pemain berstatus left (FR-B11)', () => {
+    const seed = 14;
+    const questions = [q('00000000-0001-4001-8001-000000000001', 0)];
+    const events: RecordedEvent[] = [];
+    const sched = new FakeScheduler();
+    const room = new Room({
+      roomId: 'r1',
+      seed,
+      humans: [
+        { id: 'h1', nickname: 'Budi', animalId: 'orangutan' },
+        { id: 'h2', nickname: 'Siti', animalId: 'harimau' },
+      ],
+      botCount: 2,
+      questions,
+      emit: (event, payload) => events.push({ event, payload }),
+      emitTo: (socketId, event, payload) => events.push({ event, payload, target: socketId }),
+      onEmpty: () => events.push({ event: 'room.destroyed', payload: null }),
+      evaluator: async () => ({
+        output: { pattern: '', tip: '', motivation: 'Hebat!' },
+        badge: 'ringkasan-otomatis-bukan-ai',
+        source: 'mock',
+      }),
+      now: () => sched.now,
+      setTimer: (fn, ms) => sched.setTimer(fn, ms),
+      clearTimer: (id) => sched.clearTimer(id),
+    });
+
+    room.start();
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+
+    // h1 putus koneksi
+    room.leave('h1');
+    sched.advance(GAME.RECONNECT_LIMIT_S * 1000 + 1); // lewat 10 detik
+
+    // h1 mencoba reconnect terlambat
+    const resumed = room.resume('h1-new', 'h1');
+    expect(resumed).toBe(false);
+
+    // h2 masih berjalan
+    const lastH2 = lastEvent(
+      events.filter((e) => e.target === 'h2'),
+      'room:state',
+    ) as RoomState;
+    const p1 = lastH2.participants.find((p) => p.nickname === 'Budi');
+    expect(p1?.status).toBe('left');
   });
 
   it('nickname kembar di room dapat suffix #2 (FR-M04)', () => {

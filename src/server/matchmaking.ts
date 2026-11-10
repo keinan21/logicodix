@@ -27,14 +27,20 @@ export interface RoomRequest {
 }
 
 export type RoomHandler = (req: RoomRequest) => void;
+export type QueueStatusHandler = (
+  socketId: string,
+  status: { menungguS: number; ditemukan: number },
+) => void;
 
 export class Matchmaking {
   private queue: QueuedPlayer[] = [];
   private timers = new Map<string, ReturnType<typeof setTimeout>>();
   private onRoom: RoomHandler;
+  private onStatus: QueueStatusHandler | undefined;
 
-  constructor(onRoom: RoomHandler) {
+  constructor(onRoom: RoomHandler, onStatus?: QueueStatusHandler) {
     this.onRoom = onRoom;
+    this.onStatus = onStatus;
   }
 
   /** Masuk antrean (FR-M05). Mengembalikan posisi antre (1-based) untuk ditampilkan. */
@@ -64,13 +70,15 @@ export class Matchmaking {
     if (this.timers.size === 0 && first !== undefined) {
       this.armTimeout(first.socketId, nowMs);
     }
+    this.broadcastStatus(nowMs);
     return this.queue.length;
   }
 
   /** Keluar antrean (FR-M07). */
-  leave(socketId: string, _nowMs: number): void {
+  leave(socketId: string, nowMs: number): void {
     const idx = this.queue.findIndex((p) => p.socketId === socketId);
-    if (idx >= 0) this.queue.splice(idx, 1);
+    if (idx < 0) return;
+    this.queue.splice(idx, 1);
     const t = this.timers.get(socketId);
     if (t) {
       clearTimeout(t);
@@ -79,11 +87,24 @@ export class Matchmaking {
     // Bila pemain terlama keluar, armed ulang timer untuk pemain terlama berikutnya.
     const next = this.queue[0];
     if (next !== undefined && this.timers.size === 0) {
-      this.armTimeout(next.socketId, Date.now());
+      this.armTimeout(next.socketId, nowMs);
+    }
+    this.broadcastStatus(nowMs);
+  }
+
+  private broadcastStatus(nowMs: number): void {
+    if (!this.onStatus) return;
+    const count = this.queue.length;
+    for (const p of this.queue) {
+      const waitingS = Math.max(0, Math.floor((nowMs - p.joinedAtMs) / 1000));
+      this.onStatus(p.socketId, { menungguS: waitingS, ditemukan: count });
     }
   }
 
-  private armTimeout(socketId: string, _nowMs: number): void {
+  private armTimeout(socketId: string, nowMs: number): void {
+    const p = this.queue.find((x) => x.socketId === socketId);
+    const elapsedMs = p !== undefined ? Math.max(0, nowMs - p.joinedAtMs) : 0;
+    const remainingMs = Math.max(0, GAME.QUEUE_TIMEOUT_S * 1000 - elapsedMs);
     const t = setTimeout(() => {
       this.timers.delete(socketId);
       logEvent(
@@ -98,7 +119,7 @@ export class Matchmaking {
       if (players.length === 0) return;
       const botCount = GAME.MAX_PLAYERS - players.length;
       this.formRoom(players, botCount);
-    }, GAME.QUEUE_TIMEOUT_S * 1000);
+    }, remainingMs);
     this.timers.set(socketId, t);
   }
 

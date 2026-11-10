@@ -74,4 +74,87 @@ describe('satu socket satu room (regresi tampilan soal tertukar)', () => {
 
     client.close();
   }, 20_000);
+
+  it('quick match memancarkan status antrean saat pemain bergabung dan batal (FR-M05, FR-M07)', async () => {
+    const c1 = connect(baseUrl, { transports: ['websocket'] });
+    const c2 = connect(baseUrl, { transports: ['websocket'] });
+    clients.push(c1, c2);
+
+    const statuses1: { menungguS: number; ditemukan: number }[] = [];
+    const statuses2: { menungguS: number; ditemukan: number }[] = [];
+    c1.on('queue:status', (s: { menungguS: number; ditemukan: number }) => statuses1.push(s));
+    c2.on('queue:status', (s: { menungguS: number; ditemukan: number }) => statuses2.push(s));
+
+    await Promise.all([
+      new Promise<void>((res) => c1.once('connect', () => res())),
+      new Promise<void>((res) => c2.once('connect', () => res())),
+    ]);
+
+    c1.emit('queue:join', { nickname: 'PemainSatu', animalId: 'orangutan', mode: 'quick' });
+    await waitFor(() => statuses1.length >= 1, 3000);
+    expect(statuses1[statuses1.length - 1]!.ditemukan).toBe(1);
+
+    c2.emit('queue:join', { nickname: 'PemainDua', animalId: 'harimau', mode: 'quick' });
+    await waitFor(
+      () => statuses1.some((s) => s.ditemukan === 2) && statuses2.some((s) => s.ditemukan === 2),
+      3000,
+    );
+    expect(statuses1[statuses1.length - 1]!.ditemukan).toBe(2);
+    expect(statuses2[statuses2.length - 1]!.ditemukan).toBe(2);
+
+    // c2 batal antre
+    c2.emit('queue:leave');
+    await waitFor(() => statuses1[statuses1.length - 1]!.ditemukan === 1, 3000);
+    expect(statuses1[statuses1.length - 1]!.ditemukan).toBe(1);
+
+    c1.emit('queue:leave');
+    c1.close();
+    c2.close();
+  }, 10_000);
+
+  it('session:resume memulihkan balapan saat socket tersambung kembali (FR-B11)', async () => {
+    const client1 = connect(baseUrl, { transports: ['websocket'] });
+    clients.push(client1);
+
+    await new Promise<void>((res) => client1.once('connect', () => res()));
+    const token = client1.id!;
+
+    let firstState: RoomState | null = null;
+    client1.on('room:state', (raw: unknown) => {
+      const parsed = roomStateSchema.safeParse(raw);
+      if (parsed.success && parsed.data.phase === 'racing' && !firstState) {
+        firstState = parsed.data;
+      }
+    });
+
+    client1.emit('queue:join', { nickname: 'Pemulih', animalId: 'gajah', mode: 'bot' });
+    await waitFor(() => firstState !== null, 10_000);
+    const activeStem = firstState!.activeQuestion?.stem;
+    expect(activeStem).toBeDefined();
+
+    // client1 putus koneksi
+    client1.disconnect();
+
+    // Sambung socket baru dalam 10 detik dan minta resume
+    const client2 = connect(baseUrl, { transports: ['websocket'] });
+    clients.push(client2);
+    await new Promise<void>((res) => client2.once('connect', () => res()));
+
+    let resumedState: RoomState | null = null;
+    client2.on('room:state', (raw: unknown) => {
+      const parsed = roomStateSchema.safeParse(raw);
+      if (parsed.success) resumedState = parsed.data;
+    });
+
+    client2.emit('session:resume', { token });
+    await waitFor(() => resumedState !== null, 5000);
+
+    expect(resumedState!.phase).toBe('racing');
+    expect(resumedState!.activeQuestion?.stem).toBe(activeStem);
+    const me = resumedState!.participants.find((p) => p.id === client2.id);
+    expect(me).toBeDefined();
+    expect(me?.nickname).toBe('Pemulih');
+
+    client2.close();
+  }, 20_000);
 });

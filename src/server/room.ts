@@ -78,6 +78,7 @@ export class Room {
   private questionBank: Question[];
   private finishCounter = 0;
   private evalRequested = false;
+  private disconnectTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
   constructor(cfg: RoomConfig) {
     this.cfg = cfg;
@@ -239,24 +240,153 @@ export class Room {
     this.checkRaceEnd();
   }
 
+  /** Memeriksa apakah peserta dengan ID/token tertentu ada di room ini. */
+  hasParticipant(idOrToken: string): boolean {
+    return this.state.participants.some((x) => x.id === idOrToken);
+  }
+
   /** Reconnect ≤ 10 detik: lanjut soal yang sama dengan sisa waktu berjalan (FR-B11). */
-  resume(socketId: string, _token: string): boolean {
-    const p = this.state.participants.find((x) => x.id === socketId);
+  resume(newSocketId: string, token: string): boolean {
+    const p = this.state.participants.find((x) => x.id === token || x.id === newSocketId);
     if (!p) return false;
-    if (p.status === 'left') {
-      this.replaceParticipant(socketId, { ...p, status: 'racing' });
+    if (p.isBot || p.status === 'left') {
+      // Lewat 10 detik / sudah "Keluar" → tidak bisa kembali (FR-B11)
+      return false;
     }
+
+    // Batalkan timer disconnect bila ada
+    const timerKey = p.id;
+    const t = this.disconnectTimers.get(timerKey);
+    if (t) {
+      this.cfg.clearTimer(t);
+      this.disconnectTimers.delete(timerKey);
+      this.timers.delete(t);
+    }
+
+    // Ganti ID peserta bila reconnect dengan socket ID baru
+    if (newSocketId !== p.id) {
+      const oldId = p.id;
+      const updated: Participant = { ...p, id: newSocketId };
+      this.replaceParticipant(oldId, updated);
+      const ans = this.answers.get(oldId);
+      if (ans) {
+        this.answers.delete(oldId);
+        this.answers.set(newSocketId, ans);
+      }
+    }
+
+    logEvent(
+      this.cfg.roomId,
+      this.cfg.seed,
+      'player.resumed',
+      this.state.phase,
+      'info',
+      `peserta ${p.nickname} melanjutkan balapan`,
+    );
+
+    this.sendStateTo(newSocketId);
     this.broadcast();
     return true;
   }
 
-  /** Peserta keluar / putus > 10 dtk (FR-B11, FR-B12, FR-B13). */
+  /** Peserta keluar / putus (FR-M12, FR-B11, FR-B13). */
   leave(socketId: string): void {
     const p = this.state.participants.find((x) => x.id === socketId);
     if (!p) return;
+
+    if (this.state.phase === 'lobby') {
+      if (p.isBot) return;
+      // Periksa apakah masih ada pemain manusia lain di lobby (FR-M12)
+      const remainingHumans = this.state.participants.filter(
+        (x) => !x.isBot && x.id !== socketId && x.status !== 'left',
+      );
+      if (remainingHumans.length === 0) {
+        logEvent(
+          this.cfg.roomId,
+          this.cfg.seed,
+          'lobby.abandoned',
+          this.state.phase,
+          'info',
+          'semua manusia keluar saat lobby; room dibatalkan',
+        );
+        this.destroy();
+        return;
+      }
+
+      // Slot diganti bot profil berikutnya (FR-M12)
+      const botCount = this.state.participants.filter((x) => x.isBot).length;
+      const profile = nextBotProfile(botCount);
+      const usedAnimals = new Set(this.state.participants.map((x) => x.animalId));
+      const allAnimals = ['orangutan', 'harimau', 'gajah', 'penyu', 'badak', 'burung'] as const;
+      const animalId = allAnimals.find((a) => !usedAnimals.has(a)) ?? 'burung';
+
+      const replacement: Participant = {
+        id: `bot-${profile.id}-${botCount}`,
+        nickname: profile.label,
+        animalId,
+        isBot: true,
+        slot: p.slot,
+        status: 'racing',
+        correctCount: 0,
+        wrongCount: 0,
+        nextQuestionIndex: 0,
+      };
+      this.replaceParticipant(socketId, replacement);
+      this.answers.delete(socketId);
+      logEvent(
+        this.cfg.roomId,
+        this.cfg.seed,
+        'lobby.player.replaced',
+        this.state.phase,
+        'info',
+        `slot ${p.slot} diganti ${profile.label}`,
+      );
+      this.broadcast();
+      return;
+    }
+
+    if (this.state.phase === 'racing') {
+      if (p.isBot || p.status === 'left') return;
+      if (p.status === 'finished' || p.status === 'outOfQuestions') {
+        // Yang sudah selesai menjawab tidak perlu timer 10s untuk markLeft
+        return;
+      }
+      if (this.disconnectTimers.has(socketId)) return;
+
+      // Timer 10 detik untuk reconnect sebelum status menjadi "Keluar" (FR-B11)
+      const t = this.cfg.setTimer(() => {
+        this.disconnectTimers.delete(socketId);
+        this.timers.delete(t);
+        const cur = this.state.participants.find((x) => x.id === socketId);
+        if (cur && cur.status !== 'left') {
+          this.replaceParticipant(socketId, markLeft(cur));
+          logEvent(
+            this.cfg.roomId,
+            this.cfg.seed,
+            'player.left.timeout',
+            this.state.phase,
+            'info',
+            'batas reconnect 10 dtk habis; status menjadi left',
+          );
+          this.broadcast();
+          this.checkRaceEnd();
+        }
+      }, GAME.RECONNECT_LIMIT_S * 1000);
+      this.disconnectTimers.set(socketId, t);
+      this.timers.add(t);
+      logEvent(
+        this.cfg.roomId,
+        this.cfg.seed,
+        'player.disconnect',
+        this.state.phase,
+        'info',
+        'peserta putus; menunggu reconnect 10 dtk',
+      );
+      return;
+    }
+
     this.replaceParticipant(socketId, markLeft(p));
     if (!p.isBot) {
-      // TODO(T-12): ganti slot manusia yang keluar saat lobby dengan bot profil berikutnya (FR-M12).
       logEvent(
         this.cfg.roomId,
         this.cfg.seed,
@@ -535,6 +665,7 @@ export class Room {
   destroy(): void {
     for (const t of this.timers) this.cfg.clearTimer(t);
     this.timers.clear();
+    this.disconnectTimers.clear();
     this.cfg.onEmpty(this.cfg.roomId);
   }
 }
