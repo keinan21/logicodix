@@ -43,6 +43,8 @@ import type { EvalResult } from './evaluate';
 import { logEvent } from './log';
 import { uniquifyNickname } from './nickname';
 
+const ALL_ANIMALS = ['orangutan', 'harimau', 'gajah', 'penyu', 'badak', 'burung'] as const;
+
 export type EmitFn = (event: string, payload: unknown) => void;
 export type EmitToFn = (socketId: string, event: string, payload: unknown) => void;
 export type EvaluateFn = (req: EvalRequest, seed: number) => Promise<EvalResult>;
@@ -102,10 +104,12 @@ export class Room {
     // Susun peserta: manusia dulu (slot 1..n), bot sisanya (FR-M10: profil berurutan).
     // Nickname kembar di room dapat suffix #2/#3 (FR-M04).
     const taken: string[] = [];
+    const usedAnimals = new Set<string>();
     let slot = 1 as 1 | 2 | 3 | 4;
     for (const h of cfg.humans) {
       const nickname = uniquifyNickname(h.nickname, taken);
       taken.push(nickname);
+      usedAnimals.add(h.animalId);
       this.state.participants.push({
         id: h.id,
         nickname,
@@ -122,10 +126,12 @@ export class Room {
     }
     for (let i = 0; i < cfg.botCount; i++) {
       const profile: BotProfile = nextBotProfile(i);
+      const animalId = ALL_ANIMALS.find((a) => !usedAnimals.has(a)) ?? 'burung';
+      usedAnimals.add(animalId);
       this.state.participants.push({
         id: `bot-${profile.id}-${i}`,
         nickname: profile.label,
-        animalId: 'burung', // TODO(T-07): hewan belum dipakai di room (FR-M14)
+        animalId,
         isBot: true,
         slot,
         status: 'racing',
@@ -317,8 +323,7 @@ export class Room {
       const botCount = this.state.participants.filter((x) => x.isBot).length;
       const profile = nextBotProfile(botCount);
       const usedAnimals = new Set(this.state.participants.map((x) => x.animalId));
-      const allAnimals = ['orangutan', 'harimau', 'gajah', 'penyu', 'badak', 'burung'] as const;
-      const animalId = allAnimals.find((a) => !usedAnimals.has(a)) ?? 'burung';
+      const animalId = ALL_ANIMALS.find((a) => !usedAnimals.has(a)) ?? 'burung';
 
       const replacement: Participant = {
         id: `bot-${profile.id}-${botCount}`,
