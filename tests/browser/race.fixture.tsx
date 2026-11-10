@@ -67,7 +67,7 @@ function Fixture() {
   const [feedback, setFeedback] = useState<RaceFeedback | null>(null);
   const [feedbackAtMs, setFeedbackAtMs] = useState<number | null>(null);
   const [answers, setAnswers] = useState<RaceAnswerPayload[]>([]);
-  const respond = (correct: boolean) => {
+  const respond = (correct: boolean, finish = false) => {
     const now = Date.now();
     setFeedbackAtMs(now);
     setFeedback({
@@ -81,9 +81,13 @@ function Fixture() {
     setState((previous) => ({
       ...previous,
       questionIndex: previous.questionIndex + 1,
-      activeQuestion: { ...question, stem: 'Soal berikutnya.' },
+      activeQuestion: finish ? null : { ...question, stem: 'Soal berikutnya.' },
       participants: previous.participants.map((p) =>
-        p.id === 'me' && correct ? { ...p, steps: p.steps + 1 } : p,
+        p.id === 'me' && correct
+          ? finish
+            ? { ...p, steps: GAME.STEPS_TO_FINISH, status: 'finished', finishOrder: 1 }
+            : { ...p, steps: p.steps + 1 }
+          : p,
       ),
     }));
   };
@@ -101,6 +105,7 @@ function Fixture() {
         <output aria-label="Jumlah kiriman">{answers.length}</output>
         <button onClick={() => respond(false)}>Respons salah</button>
         <button onClick={() => respond(true)}>Respons benar</button>
+        <button onClick={() => respond(true, true)}>Respons benar terakhir</button>
         <button
           onClick={() =>
             setState((previous) => ({

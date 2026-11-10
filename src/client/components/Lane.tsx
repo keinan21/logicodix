@@ -31,10 +31,10 @@ export function Lane({ participant, steps, correct = false }: LaneProps) {
       data-status={participant.status}
       data-animal={participant.animalId}
     >
-      <span className="lane-label" style={{ color: labelColor }}>
+      <span className="lane-label" style={{ color: labelColor }} title={participant.nickname}>
         <span className="lane-label-text">
           {participant.nickname}
-          {participant.isBot ? ' · BOT' : ''}
+          {participant.isBot && !participant.nickname.startsWith('BOT ') ? ' · BOT' : ''}
         </span>
       </span>
 

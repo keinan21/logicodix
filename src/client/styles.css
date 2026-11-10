@@ -15,6 +15,8 @@
 :root {
   --size-race-header: 56px;
   --size-race-sky: 64px;
+  --size-race-tree: 48px;
+  --size-race-tree-repeat: 96px;
   --size-race-lane: 44px;
   --size-race-card: 1000px;
   --size-race-dialog: 520px;
@@ -105,6 +107,8 @@
     /* DESIGN §5: hewan 32 px di HP, 56 px di laptop. */
     --size-lane-animal: 56px;
     --size-race-sky: 80px;
+    --size-race-tree: 64px;
+    --size-race-tree-repeat: 128px;
     --size-race-lane: 60px;
     --size-lane-label: 120px;
   }

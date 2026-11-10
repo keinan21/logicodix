@@ -25,6 +25,12 @@
   top: calc(-1 * var(--space-8));
   background: var(--color-bg);
   border-radius: var(--radius-pill);
+  width: var(--size-lobby-countdown);
+  height: var(--size-lobby-countdown);
+}
+.question-meta .countdown-ring-number {
+  font: var(--text-title);
+  color: var(--color-ink);
 }
 .question-title {
   margin: 0;

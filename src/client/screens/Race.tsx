@@ -72,6 +72,11 @@ export function RaceScreen({
   const [myChoice, setMyChoice] = useState<Letter | null>(null);
   const submitted = useRef(false);
   const [resultDismissed, setResultDismissed] = useState(false);
+  const watchActions = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (resultDismissed) watchActions.current?.querySelector('button')?.focus();
+  }, [resultDismissed]);
 
   useEffect(() => {
     setResultDismissed(false);
@@ -166,7 +171,12 @@ export function RaceScreen({
   };
 
   const spectatorStatus =
-    me === null || me.status === 'racing' || me.status === 'locked' ? null : me.status;
+    ((holding || waiting) && me?.status !== 'left') ||
+    me === null ||
+    me.status === 'racing' ||
+    me.status === 'locked'
+      ? null
+      : me.status;
 
   return (
     <main className="screen race-screen">
@@ -175,10 +185,14 @@ export function RaceScreen({
           <h1 className="race-meta">
             Soal {shown !== null ? shownIndex + 1 : state.questionIndex + 1}
           </h1>
-          <span className="race-time">Sisa {formatClock(displayLeftS)}</span>
+          <div className="race-header-status">
+            {spectatorStatus !== null && <span className="race-spectating">Menonton</span>}
+            <span className="race-time">Sisa {formatClock(displayLeftS)}</span>
+          </div>
         </header>
 
         <section className="race-track" aria-label="Lintasan">
+          <div className="race-scenery" aria-hidden="true" />
           {state.participants.map((p) => (
             <Lane
               key={p.id}
@@ -212,7 +226,7 @@ export function RaceScreen({
                   ? 'Soal habis'
                   : 'Keluar'}
               <span className="race-banner-sub"> Menonton sisa balapan…</span>
-              <span className="race-banner-action">
+              <span className="race-banner-action" ref={watchActions}>
                 <Button variant="secondary" onClick={onSkipToResults}>
                   Lihat hasil
                 </Button>
@@ -258,7 +272,15 @@ export function RaceScreen({
                   );
                 })}
               </div>
-              <p className="race-hint">Tekan A–D atau 1–4 untuk menjawab.</p>
+              <p className="race-hint" role="status">
+                {waiting
+                  ? 'Jawaban terkirim. Menunggu respons…'
+                  : wrongFeedback
+                    ? 'Jawaban belum tepat. Baca penjelasannya sebelum lanjut.'
+                    : correctFlash
+                      ? 'Benar! Hewanmu maju satu langkah.'
+                      : 'Pilih satu jawaban. Tekan A–D atau 1–4 untuk menjawab.'}
+              </p>
             </>
           ) : null}
         </div>
