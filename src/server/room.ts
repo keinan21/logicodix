@@ -217,7 +217,7 @@ export class Room {
       this.emitFeedback(socketId, {
         questionIndex: parsed.data.questionIndex,
         correct: false,
-        answerIndex: question.answerIndex,
+        answerIndex: this.toDisplayIndex(question.answerIndex),
         explanation: question.explanation,
         sources: question.sources,
         lockEndsAtMs,
@@ -289,8 +289,8 @@ export class Room {
         questions: pairs.map(({ a, question }) => ({
           questionId: question.id,
           kind: question.kind,
-          chosenIndex: a.chosenIndex,
-          answerIndex: question.answerIndex,
+          chosenIndex: this.toDisplayIndex(a.chosenIndex),
+          answerIndex: this.toDisplayIndex(question.answerIndex),
           explanation: question.explanation,
           misinfoType: question.misinfoType ?? null,
           topic: question.topic,
@@ -307,8 +307,8 @@ export class Room {
           stem: question.stem,
           claim: question.claim ?? null,
           options: this.state.optionOrder.map((oi) => question.options[oi] ?? ''),
-          chosenIndex: a.chosenIndex,
-          answerIndex: question.answerIndex,
+          chosenIndex: this.toDisplayIndex(a.chosenIndex),
+          answerIndex: this.toDisplayIndex(question.answerIndex),
           explanation: question.explanation,
           sources: question.sources,
           topic: question.topic,
@@ -341,6 +341,11 @@ export class Room {
 
   private currentQuestion(p: Participant): Question | undefined {
     return this.questionBank[p.nextQuestionIndex];
+  }
+
+  /** Indeks asli bank soal → indeks urutan pilihan yang dilihat pemain (FR-K05). */
+  private toDisplayIndex(originalIndex: number): number {
+    return this.state.optionOrder.indexOf(originalIndex);
   }
 
   private replaceParticipant(id: string, next: Participant): void {
