@@ -22,12 +22,12 @@
 .lobby-countdown {
   display: grid;
   place-items: center;
-  width: var(--size-lobby-countdown);
-  height: var(--size-lobby-countdown);
+  width: var(--size-lobby-hero);
+  height: var(--size-lobby-hero);
   padding: var(--size-lobby-ring);
   border-radius: var(--radius-pill);
   color: var(--color-ink);
-  font: var(--text-lobby-title);
+  font: var(--text-display);
 }
 .lobby-countdown > span {
   display: grid;
