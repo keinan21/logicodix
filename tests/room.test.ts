@@ -8,7 +8,7 @@ import {
   raceEndSchema,
   evalReadySchema,
 } from '../src/shared/schema';
-import type { Question } from '../src/shared/schema';
+import type { Question, EvalRequest } from '../src/shared/schema';
 import type { RaceFeedback, RaceEnd, EvalReady } from '../src/shared/schema';
 
 /** Penjadwal timer palsu agar timer room (3s/5s/4menit) bisa dijalankan instan. */
@@ -64,7 +64,13 @@ interface RecordedEvent {
   target?: string;
 }
 
-function makeRoom(seed: number, questions: Question[], events: RecordedEvent[], botCount = 3) {
+function makeRoom(
+  seed: number,
+  questions: Question[],
+  events: RecordedEvent[],
+  botCount = 3,
+  evalInputs?: EvalRequest[],
+) {
   const sched = new FakeScheduler();
   const room = new Room({
     roomId: 'r1',
@@ -77,11 +83,14 @@ function makeRoom(seed: number, questions: Question[], events: RecordedEvent[], 
     onEmpty: () => {
       events.push({ event: 'room.destroyed', payload: null });
     },
-    evaluator: async () => ({
-      output: { pattern: 'Pola uji.', tip: 'Tips uji.', motivation: '' },
-      badge: 'ringkasan-otomatis-bukan-ai',
-      source: 'mock',
-    }),
+    evaluator: async (req) => {
+      evalInputs?.push(req);
+      return {
+        output: { pattern: 'Pola uji.', tip: 'Tips uji.', motivation: '' },
+        badge: 'ringkasan-otomatis-bukan-ai',
+        source: 'mock',
+      };
+    },
     now: () => sched.now,
     setTimer: (fn, ms) => sched.setTimer(fn, ms),
     clearTimer: (id) => sched.clearTimer(id),
@@ -129,7 +138,7 @@ describe('room (integrasi skeleton)', () => {
     room.answer('h1', { questionIndex: 1, choice: wrongLetter(1) });
     fb = lastEvent(events, 'race:feedback') as RaceFeedback;
     expect(fb.correct).toBe(false);
-    expect(fb.answerIndex).toBe(bank[1]!.answerIndex);
+    expect(fb.answerIndex).toBe(optionOrder.indexOf(bank[1]!.answerIndex));
     expect(fb.explanation).toBe(bank[1]!.explanation);
     expect(fb.sources).toEqual(bank[1]!.sources);
     expect(fb.lockEndsAtMs).toBe(8000); // now=3000 (lobby 3 dtk) + lock 5 dtk
@@ -174,6 +183,44 @@ describe('room (integrasi skeleton)', () => {
     expect(ready.questions.length).toBeGreaterThan(0);
     expect(ready.badge).toBe('ringkasan-otomatis-bukan-ai'); // mode mock bukan AI
     expect(JSON.stringify(ready)).not.toContain('Budi'); // FR-H06: nickname tidak dikirim
+  });
+
+  it('feedback dan evaluasi memakai indeks tampilan saat pilihan diacak (FR-B05, FR-H02)', async () => {
+    const seed = 42;
+    const questions = [q('66666666-0001-4001-8001-000000000001', 3)];
+    const events: RecordedEvent[] = [];
+    const evalInputs: EvalRequest[] = [];
+    const { room, sched } = makeRoom(seed, questions, events, 0, evalInputs);
+    const { bank, optionOrder } = deriveOrder(seed, questions);
+    // Kunci asli 3 tampil sebagai pilihan B (indeks tampilan 1).
+    expect(optionOrder).toEqual([0, 3, 1, 2]);
+
+    room.start();
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+
+    // Pilih A (asli 0) → salah; kunci yang disorot harus indeks tampilan 1.
+    room.answer('h1', { questionIndex: 0, choice: 'A' });
+    const fb = lastEvent(events, 'race:feedback') as RaceFeedback;
+    expect(fb.correct).toBe(false);
+    expect(fb.answerIndex).toBe(1);
+    expect(optionOrder[fb.answerIndex!]).toBe(bank[0]!.answerIndex);
+
+    await vi.waitFor(() => {
+      expect(events.some((e) => e.event === 'eval:ready' && e.target === 'h1')).toBe(true);
+    });
+    const evalReady = events.find((e) => e.event === 'eval:ready' && e.target === 'h1')!;
+    const ready = evalReadySchema.parse(evalReady.payload) as EvalReady;
+    const item = ready.questions[0]!;
+
+    // Opsi, pilihan pemain, dan kunci memakai urutan tampilan yang sama.
+    expect(item.options).toEqual(optionOrder.map((i) => bank[0]!.options[i]));
+    expect(item.chosenIndex).toBe(0);
+    expect(item.answerIndex).toBe(1);
+    expect(item.options[item.chosenIndex]).toBe(bank[0]!.options[0]);
+    expect(item.options[item.answerIndex]).toBe(bank[0]!.options[bank[0]!.answerIndex]);
+    // Input AI memakai indeks tampilan yang sama, supaya huruf kunci di keluarannya cocok.
+    expect(evalInputs[0]!.questions[0]!.chosenIndex).toBe(0);
+    expect(evalInputs[0]!.questions[0]!.answerIndex).toBe(1);
   });
 
   it('deterministik: seed sama → urutan event sama persis (ARCH §1 prinsip 6)', () => {
