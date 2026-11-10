@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { GAME } from '../shared/constants';
-import type { AnimalId } from '../shared/schema';
+
+import { animalIdSchema, nicknameSchema, type AnimalId } from '../shared/schema';
 import { HomeScreen } from './screens/Home';
 import { QueueScreen } from './screens/Queue';
 import { LobbyScreen } from './screens/Lobby';
@@ -20,7 +20,6 @@ export function App() {
   const [route, setRoute] = useState<'home' | 'queue' | 'evaluation' | 'result'>('home');
   const [queuedAtMs, setQueuedAtMs] = useState<number | null>(null);
   const [waitingS, setWaitingS] = useState(0);
-  const [lobbyCountdown, setLobbyCountdown] = useState<number | null>(null);
 
   // Lama menunggu antre (FR-M05) — tampilan saja; pencocokan tetap di server.
   useEffect(() => {
@@ -32,23 +31,6 @@ export function App() {
   }, [route, queuedAtMs]);
 
   const phase = session.state?.phase;
-  const roomId = session.state?.roomId;
-
-  // Hitung mundur lobby 3-2-1 (FR-M11). Hanya tampilan: balapan tetap dimulai oleh server.
-  useEffect(() => {
-    if (phase !== 'lobby') {
-      setLobbyCountdown(null);
-      return;
-    }
-    const startedAtMs = Date.now();
-    const tick = () => {
-      const left = GAME.LOBBY_COUNTDOWN_S - Math.floor((Date.now() - startedAtMs) / 1000);
-      setLobbyCountdown(Math.min(GAME.LOBBY_COUNTDOWN_S, Math.max(0, left)));
-    };
-    tick();
-    const id = setInterval(tick, 250);
-    return () => clearInterval(id);
-  }, [phase, roomId]);
 
   const me = session.state?.participants.find((p) => p.id === session.myId) ?? null;
   const myNickname = me?.nickname ?? sessionStorage.getItem('nickname') ?? '';
@@ -68,12 +50,30 @@ export function App() {
 
   const playAgain = () => {
     reset();
+    const nickname = sessionStorage.getItem('nickname') ?? '';
+    const animal = animalIdSchema.safeParse(sessionStorage.getItem('animalId'));
+    if (nicknameSchema.safeParse(nickname).success && animal.success) {
+      join(nickname, animal.data, 'quick');
+      return;
+    }
     setRoute('home');
     setQueuedAtMs(null);
   };
 
   // Koneksi putus: Socket.IO mencoba menyambung sendiri (FR-B11).
-  if (session.everConnected && !session.connected) {
+  if (session.error?.code === 'resume-expired' || session.error?.code === 'session-not-found') {
+    return (
+      <ErrorScreen
+        code={session.error.code}
+        pesan={session.error.pesan}
+        retrying={false}
+        onPlayAgain={playAgain}
+      />
+    );
+  }
+  const awaitingResume =
+    session.connected && (phase === 'lobby' || phase === 'racing') && me === null;
+  if (((session.everConnected || route === 'queue') && !session.connected) || awaitingResume) {
     return (
       <ErrorScreen
         code="connection"
@@ -97,7 +97,7 @@ export function App() {
   }
 
   if (phase === 'lobby') {
-    return <LobbyScreen state={session.state} countdown={lobbyCountdown} />;
+    return <LobbyScreen state={session.state} countdown={session.state.lobbyCountdownS ?? null} />;
   }
 
   // "Lihat hasil sekarang": pemain sudah selesai menjawab, jadi layar hasil memakai peringkat

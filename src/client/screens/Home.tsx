@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { GAME } from '../../shared/constants';
+import { randomChoice } from '../../shared/rng';
 import tree from '../assets/home/tree.svg';
 import tiger from '../assets/home/tiger.svg';
 import seedling from '../assets/home/seedling.svg';
@@ -39,7 +40,9 @@ export function HomeScreen({
   const [nickname, setNickname] = useState(() => sessionStorage.getItem('nickname') ?? '');
   const [animalId, setAnimalId] = useState<AnimalId>(() => {
     const saved = sessionStorage.getItem('animalId');
-    return saved && animalIdSchema.safeParse(saved).success ? (saved as AnimalId) : 'orangutan';
+    return saved && animalIdSchema.safeParse(saved).success
+      ? (saved as AnimalId)
+      : randomChoice(crypto.getRandomValues(new Uint32Array(1))[0] ?? 1, ANIMAL_IDS).value;
   });
   const [touched, setTouched] = useState(false);
 
