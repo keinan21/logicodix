@@ -4,6 +4,19 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/tests/browser/race.html');
 });
 
+test('jawaban ditolak menampilkan pesan dan memungkinkan kirim ulang', async ({ page }) => {
+  const option = page.getByRole('button', { name: /^Pilihan A:/ });
+  await option.click();
+  await expect(option).toBeDisabled();
+  await page.getByRole('button', { name: 'Tolak jawaban' }).click();
+  await expect(page.getByRole('alert')).toContainText('Jawaban tidak valid.');
+  await expect(option).toBeEnabled();
+  await option.click();
+  await expect(page.getByLabel('Jumlah kiriman')).toHaveText('2');
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  await expect(option).toBeDisabled();
+});
+
 test('mengunci klik dan keyboard sebelum respons server, lalu membuka soal berikutnya', async ({
   page,
 }) => {

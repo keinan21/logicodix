@@ -35,6 +35,7 @@ function formatClock(totalS: number): string {
 }
 
 export interface RaceScreenProps {
+  answerError?: { pesan: string } | null;
   state: RoomState;
   feedback: RaceFeedback | null;
   /** Waktu client saat feedback diterima (dipakai untuk masa tahan tampilan). */
@@ -54,6 +55,7 @@ export interface RaceScreenProps {
  * Kunci tidak pernah datang sebelum menjawab (FR-K11).
  */
 export function RaceScreen({
+  answerError = null,
   state,
   feedback,
   feedbackAtMs,
@@ -71,6 +73,12 @@ export function RaceScreen({
   const [nowMs, setNowMs] = useState(() => Date.now());
   const [myChoice, setMyChoice] = useState<Letter | null>(null);
   const submitted = useRef(false);
+  useEffect(() => {
+    if (answerError) {
+      setMyChoice(null);
+      submitted.current = false;
+    }
+  }, [answerError]);
   const [resultDismissed, setResultDismissed] = useState(false);
   const watchActions = useRef<HTMLSpanElement>(null);
 
@@ -204,6 +212,11 @@ export function RaceScreen({
         </section>
 
         <div className="race-content">
+          {answerError ? (
+            <p role="alert" className="race-answer-error">
+              {answerError.pesan} Silakan pilih jawaban lagi.
+            </p>
+          ) : null}
           {spectatorStatus !== null && !resultDismissed ? (
             <RaceResultDialog
               title={

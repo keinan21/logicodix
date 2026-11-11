@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 // Transport stub: exercise the real App and screens with controlled server events.
 test.beforeEach(async ({ page }) => {
-  await page.route('**/src/client/socket.ts', (route) =>
+  await page.route(/\/src\/client\/socket\.ts(?:\?.*)?$/, (route) =>
     route.fulfill({
       contentType: 'application/javascript',
       body: `import React from '/node_modules/.vite/deps/react.js';
