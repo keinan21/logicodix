@@ -47,14 +47,10 @@ export function EvaluationScreen({
 
   return (
     <main className="screen evaluation-screen">
+      <header className="evaluation-header">
+        <h1>Evaluasimu</h1>
+      </header>
       <div className="screen-inner evaluation-inner">
-        <header className="evaluation-header">
-          <Button variant="secondary" onClick={onBackToResults}>
-            Kembali ke hasil
-          </Button>
-          <h1>Evaluasimu</h1>
-        </header>
-
         <div className="evaluation-columns">
           <section aria-labelledby="eval-questions" className="evaluation-questions">
             <h2
@@ -63,6 +59,13 @@ export function EvaluationScreen({
             >
               Soal yang kamu jawab
             </h2>
+            {questions.length === 0 ? (
+              <p role="status">
+                {evaluation === null
+                  ? 'Menunggu riwayat jawaban…'
+                  : 'Belum ada soal yang kamu jawab.'}
+              </p>
+            ) : null}
             <ul
               style={{
                 padding: 0,
@@ -81,6 +84,9 @@ export function EvaluationScreen({
                     key={question.questionId}
                     questionNumber={index + 1}
                     stem={question.stem}
+                    claim={question.claim ?? undefined}
+                    chosenText={question.options[question.chosenIndex]}
+                    answerText={question.options[question.answerIndex]}
                     chosenLetter={wrong ? LETTERS[question.chosenIndex] : undefined}
                     answerLetter={wrong ? LETTERS[question.answerIndex] : undefined}
                     explanation={question.explanation}
@@ -94,39 +100,44 @@ export function EvaluationScreen({
             </ul>
           </section>
 
-          <AIPanel
-            content={ai ? { pattern: ai.pattern, tip: ai.tip, motivation: ai.motivation } : null}
-            badge={badge}
-            loading={loading}
-          />
-        </div>
+          <div className="evaluation-summary">
+            <AIPanel
+              content={ai ? { pattern: ai.pattern, tip: ai.tip, motivation: ai.motivation } : null}
+              badge={badge}
+              loading={loading}
+            />
 
-        {sources.length > 0 ? (
-          <section aria-labelledby="baca-lebih-lanjut" className="card">
-            <h2 id="baca-lebih-lanjut" style={{ font: 'var(--text-label)' }}>
-              Baca lebih lanjut
-            </h2>
-            <ul style={{ margin: 0, paddingLeft: 'var(--space-4)', font: 'var(--text-small)' }}>
-              {sources.map((source) => (
-                <li key={source.url}>
-                  <a
-                    href={source.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ color: 'var(--color-forest-700)' }}
-                  >
-                    {source.judul} — {source.lembaga}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ) : null}
+            {sources.length > 0 ? (
+              <section aria-labelledby="baca-lebih-lanjut" className="card">
+                <h2 id="baca-lebih-lanjut" style={{ font: 'var(--text-label)' }}>
+                  Baca lebih lanjut
+                </h2>
+                <ul style={{ margin: 0, paddingLeft: 'var(--space-4)', font: 'var(--text-small)' }}>
+                  {sources.map((source) => (
+                    <li key={source.url}>
+                      <a
+                        href={source.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ color: 'var(--color-forest-700)' }}
+                      >
+                        {source.judul} — {source.lembaga}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
 
-        <div className="evaluation-actions">
-          <Button variant="primary" onClick={onPlayAgain}>
-            Main lagi
-          </Button>
+            <div className="evaluation-actions">
+              <Button variant="secondary" onClick={onBackToResults}>
+                Kembali ke hasil
+              </Button>
+              <Button variant="primary" onClick={onPlayAgain}>
+                Main lagi
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </main>

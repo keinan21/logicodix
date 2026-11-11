@@ -1,6 +1,9 @@
 export interface EvalItemProps {
   questionNumber: number;
   stem: string;
+  claim?: string | undefined;
+  chosenText?: string | undefined;
+  answerText?: string | undefined;
   /** Pilihan pemain (huruf A–D) — hanya untuk soal salah. */
   chosenLetter?: string | undefined;
   /** Kunci (huruf A–D) — hanya untuk soal salah. */
@@ -19,6 +22,9 @@ export interface EvalItemProps {
 export function EvalItem({
   questionNumber,
   stem,
+  claim,
+  chosenText,
+  answerText,
   chosenLetter,
   answerLetter,
   explanation,
@@ -28,7 +34,7 @@ export function EvalItem({
   onToggle,
 }: EvalItemProps) {
   return (
-    <li className="card" style={{ listStyle: 'none' }}>
+    <li className={`card eval-item${wrong ? ' is-wrong' : ''}`} style={{ listStyle: 'none' }}>
       <button
         type="button"
         onClick={onToggle}
@@ -61,9 +67,10 @@ export function EvalItem({
             gap: 'var(--space-2)',
           }}
         >
+          {claim ? <blockquote className="eval-claim">{claim}</blockquote> : null}
           {wrong ? (
             <p style={{ margin: 0, font: 'var(--text-body)' }}>
-              Kamu memilih {chosenLetter}, jawabannya {answerLetter}.
+              Kamu memilih {chosenText ?? chosenLetter}, jawabannya {answerText ?? answerLetter}.
             </p>
           ) : null}
           {explanation ? (
