@@ -63,6 +63,7 @@ const initial: RoomState = {
 };
 
 function Fixture() {
+  const [answerError, setAnswerError] = useState<{ pesan: string } | null>(null);
   const [state, setState] = useState(initial);
   const [feedback, setFeedback] = useState<RaceFeedback | null>(null);
   const [feedbackAtMs, setFeedbackAtMs] = useState<number | null>(null);
@@ -94,15 +95,22 @@ function Fixture() {
   return (
     <>
       <RaceScreen
+        answerError={answerError}
         state={state}
         feedback={feedback}
         feedbackAtMs={feedbackAtMs}
         myId="me"
-        onAnswer={(answer) => setAnswers((previous) => [...previous, answer])}
+        onAnswer={(answer) => {
+          setAnswerError(null);
+          setAnswers((previous) => [...previous, answer]);
+        }}
         onSkipToResults={() => {}}
       />
       <aside aria-label="Kontrol pengujian">
         <output aria-label="Jumlah kiriman">{answers.length}</output>
+        <button onClick={() => setAnswerError({ pesan: 'Jawaban tidak valid.' })}>
+          Tolak jawaban
+        </button>
         <button onClick={() => respond(false)}>Respons salah</button>
         <button onClick={() => respond(true)}>Respons benar</button>
         <button onClick={() => respond(true, true)}>Respons benar terakhir</button>

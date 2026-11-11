@@ -37,11 +37,14 @@ export function PodiumScreen({
 
   return (
     <main className="screen podium-screen">
-      <div className="screen-inner two-columns">
-        <section aria-labelledby="podium-title">
-          <h1 id="podium-title" className="podium-title">
-            {provisional ? 'Hasil sementara' : 'Hasil balapan'}
-          </h1>
+      <header className="podium-header">
+        <h1 id="podium-title" className="podium-title">
+          {provisional ? 'Hasil sementara' : 'Hasil balapan'}
+        </h1>
+        <span className="podium-status">{provisional ? 'Sementara' : 'Selesai'}</span>
+      </header>
+      <div className="podium-layout">
+        <section className="podium-scene" aria-labelledby="podium-title">
           {provisional ? (
             <p className="podium-note" role="status">
               Balapan masih berjalan; peringkat bisa berubah sampai semua peserta selesai.
@@ -57,8 +60,8 @@ export function PodiumScreen({
                     key={row.rank}
                     className={`podium-step podium-rank-${row.rank}${isMe ? ' podium-me' : ''}`}
                   >
-                    <img className="podium-animal" src={ANIMAL_ASSETS[row.animalId].src} alt="" />
                     <span className="podium-nickname">{row.nickname}</span>
+                    <img className="podium-animal" src={ANIMAL_ASSETS[row.animalId].src} alt="" />
                     {row.isBot ? <Badge kind="bot" /> : null}
                     <span className="podium-rank" aria-label={`Posisi ${row.rank}`}>
                       {row.rank}
@@ -72,12 +75,12 @@ export function PodiumScreen({
           )}
         </section>
 
-        <section aria-labelledby="podium-table">
-          <h2 id="podium-table" className="podium-heading">
+        <section className="podium-results" aria-labelledby="podium-table">
+          <h2 id="podium-table" className="visually-hidden">
             Semua peserta
           </h2>
           <table className="podium-table">
-            <thead>
+            <thead className="visually-hidden">
               <tr>
                 <th scope="col">Posisi</th>
                 <th scope="col">Peserta</th>
@@ -101,6 +104,7 @@ export function PodiumScreen({
                   }}
                   correctCount={row.correctCount}
                   status={row.status}
+                  final={!provisional}
                   isMe={row.nickname === myNickname}
                 />
               ))}

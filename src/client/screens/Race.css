@@ -98,6 +98,14 @@
   color: var(--color-muted);
   text-align: center;
 }
+.race-answer-error {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  font: var(--text-body);
+  color: var(--color-err-600);
+  background: var(--color-err-100);
+}
 .race-banner {
   margin: 0;
   padding: var(--space-4);

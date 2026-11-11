@@ -21,6 +21,14 @@ export function App() {
   const [queuedAtMs, setQueuedAtMs] = useState<number | null>(null);
   const [waitingS, setWaitingS] = useState(0);
 
+  // Reconnect membuat entri antrean baru di server; waktu tunggu ikut dimulai ulang.
+  useEffect(() => {
+    if (route === 'queue' && session.connected && session.state === null) {
+      setQueuedAtMs(Date.now());
+      setWaitingS(0);
+    }
+  }, [route, session.connected, session.state]);
+
   // Lama menunggu antre (FR-M05) — tampilan saja; pencocokan tetap di server.
   useEffect(() => {
     if (route !== 'queue' || queuedAtMs === null) return;
@@ -128,6 +136,7 @@ export function App() {
   if (phase === 'racing') {
     return (
       <RaceScreen
+        answerError={session.error?.code === 'invalid-answer' ? session.error : null}
         state={session.state}
         feedback={session.feedback}
         feedbackAtMs={session.feedbackAtMs}
