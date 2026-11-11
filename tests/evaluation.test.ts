@@ -48,7 +48,8 @@ describe('Evaluasi (FR-H02, FR-H04, FR-H05)', () => {
     );
 
     expect(html).toContain('Soal 1 — Salah');
-    expect(html).toContain('Kamu memilih B, jawabannya A.');
+    expect(html).toContain('Kamu memilih Pilihan B, jawabannya Pilihan A.');
+    expect(html).toContain('Sampah plastik terurai dalam sebulan.');
     expect(html).toContain('Penjelasan buatan tim.');
     expect(html).toContain('Sumber uji — BMKG');
   });

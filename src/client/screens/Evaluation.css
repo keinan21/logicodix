@@ -1,17 +1,25 @@
 .evaluation-inner {
   max-width: 1200px;
+  width: 100%;
+  padding: var(--space-4);
+}
+.screen.evaluation-screen {
+  padding: 0;
 }
 
 .evaluation-header {
   display: flex;
   align-items: center;
   gap: var(--space-4);
+  width: 100%;
+  padding: var(--space-4);
+  background: var(--color-forest-700);
 }
 
 .evaluation-header h1 {
   margin: 0;
   font: var(--text-title);
-  color: var(--color-forest-900);
+  color: var(--color-surface);
 }
 
 .evaluation-columns {
@@ -26,14 +34,45 @@
   color: var(--color-muted);
 }
 
-.evaluation-columns > .evaluation-message-panel {
-  order: -1;
+.evaluation-summary {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.evaluation-tip {
+  margin: var(--space-2) 0 0;
+  font: var(--text-body);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-bg);
 }
 .evaluation-message-panel {
+  min-width: 0;
+  overflow-wrap: anywhere;
   border: 2px solid var(--color-ai-600);
   border-radius: var(--radius-lg);
   background: var(--color-ai-100);
   padding: var(--space-4);
+}
+.evaluation-questions {
+  min-width: 0;
+}
+.eval-item {
+  overflow-wrap: anywhere;
+  border: 2px solid var(--color-line);
+}
+.eval-item.is-wrong {
+  border-color: var(--color-err-600);
+}
+.eval-item button {
+  min-height: var(--size-queue-action-height);
+}
+.eval-claim {
+  margin: 0;
+  padding: var(--space-3);
+  border-left: var(--space-1) solid var(--color-line);
+  font: var(--text-body);
 }
 
 .evaluation-message-panel.is-automatic {
@@ -56,9 +95,14 @@
 }
 
 .evaluation-actions {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-2);
+}
+.evaluation-actions .btn {
+  min-height: var(--size-home-action);
+  font: var(--text-body) !important;
+  font-weight: 700 !important;
 }
 
 @media (min-width: 1024px) {
@@ -66,7 +110,7 @@
     order: 0;
   }
   .evaluation-columns {
-    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-6);
   }
 }
