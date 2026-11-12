@@ -2,8 +2,14 @@
   {
     "id": "orangutan",
     "nama": "Orangutan",
-    "fakta": "Hewan pemalu yang hidup di hutan Kalimantan dan Sumatera.",
-    "flip": true
+    "fakta": "Orangutan hidup di Kalimantan dan Sumatera, dan termasuk satwa yang terancam punah.",
+    "flip": true,
+    "sumber": {
+      "judul": "Peneliti BRIN Lakukan Pendekatan Teknik Pemantauan Hormon Stres Feses untuk Optimalkan Rehabilitasi Orangutan",
+      "url": "https://www.brin.go.id/news/121492/peneliti-brin-lakukan-pendekatan-teknik-pemantauan-hormon-stres-feses-untuk-optimalkan-rehabilitasi-orangutan",
+      "lembaga": "BRIN",
+      "tanggalCek": "2026-11-12"
+    }
   },
   {
     "id": "harimau",
@@ -20,8 +26,14 @@
   {
     "id": "penyu",
     "nama": "Penyu",
-    "fakta": "Penyu bertelur di pantai-pantai Indonesia yang dilindungi.",
-    "flip": true
+    "fakta": "Penyu hijau adalah satwa dilindungi di Indonesia.",
+    "flip": true,
+    "sumber": {
+      "judul": "KKP Lepasliarkan 21 Penyu Hijau yang Terancam Punah ke Habitat Aslinya",
+      "url": "https://kkp.go.id/djpk/kkp-lepasliarkan-21-penyu-hijau-yang-terancam-punah-ke-habitat-aslinya-l291/detail.html",
+      "lembaga": "KKP",
+      "tanggalCek": "2026-11-12"
+    }
   },
   {
     "id": "badak",
