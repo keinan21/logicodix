@@ -18,7 +18,8 @@
     "check": "tsc --noEmit && prettier --check . && bun run check-content",
     "format": "prettier --write .",
     "check-content": "tsx scripts/check-content.ts",
-    "load": "tsx scripts/load-test.ts"
+    "load": "tsx scripts/load-test.ts",
+    "ai-live": "tsx scripts/ai-live-check.ts"
   },
   "dependencies": {
     "@google/genai": "2.31.0",

@@ -3,7 +3,7 @@
  * - Input hanya ID soal, jenis, pilihan, kunci, penjelasan, tipe, topik. TANPA nickname.
  * - Timeout 8 detik dengan AbortController (FR-H07).
  * - Keluaran lolos check.ts atau dibuang.
- * TODO(P-06): nama model Flash termurah dicek saat setup; GEMINI_MODEL dari env.
+ * Model bawaan gemini-3.1-flash-lite (dicek 2026-11-12); ganti lewat GEMINI_MODEL.
  */
 
 import { GoogleGenAI } from '@google/genai';
