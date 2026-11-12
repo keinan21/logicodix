@@ -1,7 +1,0 @@
-{
-  "scenario": "salah campur beberapa tipe",
-  "pattern": "Kesalahanmu beragam: ada yang salah konteks dan ada yang menyangkut penggunaan nama besar tanpa bukti. Biasakan membuka sumber resmi yang disebut dalam klaim.",
-  "tip": "Buka situs resmi lembaga yang disebut sebelum memercayai klaim.",
-  "motivation": null,
-  "badge": "contoh-ai-dibuat-sebelumnya"
-}
