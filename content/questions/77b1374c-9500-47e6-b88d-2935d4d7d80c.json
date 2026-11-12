@@ -1,0 +1,17 @@
+{
+  "id": "77b1374c-9500-47e6-b88d-2935d4d7d80c",
+  "kind": "pengetahuan",
+  "stem": "Intrusi air laut terjadi karena …",
+  "options": [
+    "air tanah diambil berlebihan di pesisir",
+    "air tanah bertambah banyak",
+    "hutan semakin luas",
+    "curah hujan meningkat"
+  ],
+  "answerIndex": 0,
+  "explanation": "Intrusi air laut terjadi karena air tanah di pesisir diambil berlebihan sehingga tekanan air tawar menurun dan air laut masuk mengisi rongga tanah.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

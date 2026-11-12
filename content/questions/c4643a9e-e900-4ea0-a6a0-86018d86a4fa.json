@@ -1,0 +1,17 @@
+{
+  "id": "c4643a9e-e900-4ea0-a6a0-86018d86a4fa",
+  "kind": "pengetahuan",
+  "stem": "Daur ulang kertas bertujuan untuk …",
+  "options": [
+    "mengurangi penebangan pohon",
+    "menambah penebangan pohon",
+    "meningkatkan pencemaran udara",
+    "mengurangi kesuburan tanah"
+  ],
+  "answerIndex": 0,
+  "explanation": "Daur ulang kertas mengurangi kebutuhan kayu sehingga menekan penebangan pohon dan menghemat energi dibanding membuat kertas baru dari pulp.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

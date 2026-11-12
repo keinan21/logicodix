@@ -1,0 +1,17 @@
+{
+  "id": "c1e660e4-d77c-4bf6-8e1e-3bf362b32789",
+  "kind": "pengetahuan",
+  "stem": "Salah satu upaya mitigasi perubahan iklim adalah …",
+  "options": [
+    "mengurangi emisi gas rumah kaca",
+    "meningkatkan pembakaran fosil",
+    "mengurangi hutan",
+    "menambah penggunaan plastik"
+  ],
+  "answerIndex": 0,
+  "explanation": "Mitigasi perubahan iklim adalah upaya menekan penyebabnya, terutama mengurangi emisi gas rumah kaca dengan energi terbarukan, hemat energi, dan menjaga hutan.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

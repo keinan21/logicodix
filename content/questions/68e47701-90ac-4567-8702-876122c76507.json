@@ -1,0 +1,17 @@
+{
+  "id": "68e47701-90ac-4567-8702-876122c76507",
+  "kind": "pengetahuan",
+  "stem": "Terumbu karang memutih akibat suhu laut meningkat. Upaya yang dapat dilakukan adalah …",
+  "options": [
+    "mengurangi emisi gas rumah kaca dan melindungi karang",
+    "menambang karang",
+    "membuang limbah ke laut",
+    "meningkatkan suhu laut"
+  ],
+  "answerIndex": 0,
+  "explanation": "Pemutihan karang akibat kenaikan suhu laut ditekan dengan mengurangi emisi gas rumah kaca dan melindungi kawasan karang. Menambang atau mencemari laut memperburuk kerusakan.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "e1aee069-c203-435b-a18a-d49bf978dd3a",
+  "kind": "pengetahuan",
+  "stem": "Erosi adalah …",
+  "options": [
+    "pengikisan tanah oleh air atau angin",
+    "penambahan kesuburan tanah",
+    "pembentukan hutan",
+    "pengolahan sampah"
+  ],
+  "answerIndex": 0,
+  "explanation": "Erosi adalah pengikisan dan pemindahan lapisan tanah oleh air atau angin. Erosi mengurangi kesuburan tanah karena lapisan atas yang kaya unsur hara ikut terbawa.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

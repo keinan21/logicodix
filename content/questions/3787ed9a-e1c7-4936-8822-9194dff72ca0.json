@@ -1,0 +1,17 @@
+{
+  "id": "3787ed9a-e1c7-4936-8822-9194dff72ca0",
+  "kind": "pengetahuan",
+  "stem": "Salah satu upaya rehabilitasi lahan kritis adalah …",
+  "options": [
+    "penanaman pohon dan pengendalian erosi",
+    "penebangan hutan",
+    "pembakaran lahan",
+    "pembuangan limbah"
+  ],
+  "answerIndex": 0,
+  "explanation": "Rehabilitasi lahan kritis dilakukan dengan penanaman pohon dan pengendalian erosi agar tanah kembali berfungsi menahan air dan mendukung pertumbuhan tanaman.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

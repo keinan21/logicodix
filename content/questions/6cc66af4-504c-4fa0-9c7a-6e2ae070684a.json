@@ -1,0 +1,12 @@
+{
+  "id": "6cc66af4-504c-4fa0-9c7a-6e2ae070684a",
+  "kind": "pengetahuan",
+  "stem": "Pencemaran yang terjadi di sungai disebut pencemaran …",
+  "options": ["udara", "tanah", "air", "suara"],
+  "answerIndex": 2,
+  "explanation": "Pencemaran di sungai termasuk pencemaran air, yaitu masuknya polutan ke perairan sehingga terjadi perubahan fisika, kimia, dan biologi yang merugikan.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

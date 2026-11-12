@@ -1,0 +1,12 @@
+{
+  "id": "6ca5c425-a894-494b-9cbc-ee112791dabd",
+  "kind": "pengetahuan",
+  "stem": "Pembakaran hutan untuk membuka lahan disebut …",
+  "options": ["deforestasi akibat pembakaran", "reboisasi", "konservasi", "reklamasi"],
+  "answerIndex": 0,
+  "explanation": "Pembakaran hutan untuk membuka lahan merupakan deforestasi akibat pembakaran. Kegiatan ini menghasilkan kabut asap dan menghilangkan habitat, bukan reboisasi atau konservasi.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

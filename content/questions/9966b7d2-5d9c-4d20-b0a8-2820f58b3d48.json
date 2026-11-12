@@ -1,0 +1,17 @@
+{
+  "id": "9966b7d2-5d9c-4d20-b0a8-2820f58b3d48",
+  "kind": "pengetahuan",
+  "stem": "Salah satu manfaat agroforestri adalah …",
+  "options": [
+    "menjaga tanah dan meningkatkan keanekaragaman hayati",
+    "meningkatkan erosi",
+    "mengurangi kesuburan tanah",
+    "mengurangi cadangan air"
+  ],
+  "answerIndex": 0,
+  "explanation": "Agroforestri menjaga tanah dari erosi karena tajuk dan akar pohon melindungi permukaan tanah, sekaligus menambah keanekaragaman hayati dan pendapatan petani.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

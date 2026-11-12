@@ -1,0 +1,7 @@
+{
+  "scenario": "kebanyakan salah tipe konteks salah",
+  "pattern": "Kamu sering terjebak pada foto atau video yang dipakai di luar tempat dan waktunya. Perhatikan tanggal, lokasi, dan sumber asli media sebelum memercayai sebuah klaim.",
+  "tip": "Cek tanggal dan lokasi asli media sebelum membagikan.",
+  "motivation": null,
+  "badge": "contoh-ai-dibuat-sebelumnya"
+}

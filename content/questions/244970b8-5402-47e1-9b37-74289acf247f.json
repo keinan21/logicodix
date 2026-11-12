@@ -1,0 +1,17 @@
+{
+  "id": "244970b8-5402-47e1-9b37-74289acf247f",
+  "kind": "pengetahuan",
+  "stem": "Gas yang menyebabkan hujan asam antara lain …",
+  "options": [
+    "oksigen dan nitrogen",
+    "sulfur dioksida dan nitrogen oksida",
+    "karbon dioksida dan argon",
+    "metana dan oksigen"
+  ],
+  "answerIndex": 1,
+  "explanation": "Hujan asam disebabkan sulfur dioksida (SO2) dan nitrogen oksida (NO2) dari pembakaran bahan bakar fosil yang bereaksi dengan uap air membentuk asam sulfat dan asam nitrat.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

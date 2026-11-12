@@ -1,0 +1,17 @@
+{
+  "id": "a5edae03-a470-4963-b574-b4d2ad5e1f13",
+  "kind": "pengetahuan",
+  "stem": "Sampah plastik di laut berbahaya karena …",
+  "options": [
+    "dapat tertelan hewan laut dan menyebabkan kematian",
+    "cepat terurai menjadi nutrien",
+    "tidak berpengaruh pada ekosistem",
+    "meningkatkan populasi ikan"
+  ],
+  "answerIndex": 0,
+  "explanation": "Sampah plastik di laut dapat tertelan hewan laut, menyumbat saluran pencernaan, dan menyebabkan kematian. Plastik juga terurai menjadi mikroplastik yang masuk rantai makanan.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

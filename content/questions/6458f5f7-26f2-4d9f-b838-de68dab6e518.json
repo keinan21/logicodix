@@ -1,0 +1,17 @@
+{
+  "id": "6458f5f7-26f2-4d9f-b838-de68dab6e518",
+  "kind": "pengetahuan",
+  "stem": "Salah satu cara mengurangi sampah plastik adalah …",
+  "options": [
+    "menggunakan kantong belanja sekali pakai",
+    "membawa tumbler dan tas belanja sendiri",
+    "membeli plastik baru setiap hari",
+    "membakar plastik"
+  ],
+  "answerIndex": 1,
+  "explanation": "Membawa tumbler dan tas belanja sendiri menerapkan reduce, yaitu mengurangi sampah plastik sejak awal. Membeli plastik baru atau membakar plastik justru menambah masalah.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

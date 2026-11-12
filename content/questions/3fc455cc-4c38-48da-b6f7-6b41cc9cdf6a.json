@@ -1,0 +1,17 @@
+{
+  "id": "3fc455cc-4c38-48da-b6f7-6b41cc9cdf6a",
+  "kind": "pengetahuan",
+  "stem": "Salah satu cara mengurangi emisi karbon adalah …",
+  "options": [
+    "menggunakan energi terbarukan",
+    "meningkatkan pembakaran batu bara",
+    "menebang hutan",
+    "menggunakan kendaraan pribadi setiap hari"
+  ],
+  "answerIndex": 0,
+  "explanation": "Emisi karbon berkurang bila memakai energi terbarukan dan menekan pembakaran fosil. Menebang hutan justru menghilangkan penyerap karbon dan menambah emisi.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

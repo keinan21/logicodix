@@ -1,0 +1,17 @@
+{
+  "id": "55e14ba2-4bcc-4380-bae0-183258b8c7b8",
+  "kind": "pengetahuan",
+  "stem": "Dampak kebakaran hutan adalah …",
+  "options": [
+    "pencemaran udara dan hilangnya habitat",
+    "bertambahnya keanekaragaman hayati",
+    "berkurangnya karbon dioksida",
+    "meningkatnya cadangan air"
+  ],
+  "answerIndex": 0,
+  "explanation": "Kebakaran hutan menyebabkan pencemaran udara berupa kabut asap, hilangnya habitat, dan berkurangnya penyerapan karbon. Keanekaragaman hayati menurun, bukan bertambah.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

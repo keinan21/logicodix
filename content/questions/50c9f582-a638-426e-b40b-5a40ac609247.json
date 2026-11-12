@@ -1,0 +1,17 @@
+{
+  "id": "50c9f582-a638-426e-b40b-5a40ac609247",
+  "kind": "pengetahuan",
+  "stem": "Salah satu indikator air tercemar adalah …",
+  "options": [
+    "air berwarna, berbau, dan banyak organisme mati",
+    "air jernih dan tidak berbau",
+    "ikan hidup dengan baik",
+    "tumbuhan air tumbuh normal"
+  ],
+  "answerIndex": 0,
+  "explanation": "Air tercemar ditandai warna dan bau tidak normal, pH menyimpang, berasa, serta banyak organisme mati. Air jernih, tidak berbau, dan berisi ikan sehat adalah ciri air belum tercemar.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

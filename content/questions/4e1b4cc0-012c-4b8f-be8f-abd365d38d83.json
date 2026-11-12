@@ -1,0 +1,17 @@
+{
+  "id": "4e1b4cc0-012c-4b8f-be8f-abd365d38d83",
+  "kind": "pengetahuan",
+  "stem": "Cara paling tepat membuang baterai bekas adalah …",
+  "options": [
+    "dibuang ke sungai",
+    "dibakar di halaman rumah",
+    "diserahkan ke tempat pengumpulan sampah B3",
+    "ditanam di kebun"
+  ],
+  "answerIndex": 2,
+  "explanation": "Baterai bekas harus diserahkan ke tempat pengumpulan limbah B3 agar bahan beracunnya tidak mencemari tanah, air, dan air tanah. Membuang ke sungai atau menanamnya berbahaya.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

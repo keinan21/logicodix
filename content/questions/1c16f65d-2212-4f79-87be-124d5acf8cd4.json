@@ -1,0 +1,17 @@
+{
+  "id": "1c16f65d-2212-4f79-87be-124d5acf8cd4",
+  "kind": "pengetahuan",
+  "stem": "Daerah resapan air berfungsi untuk …",
+  "options": [
+    "menyerap air hujan ke dalam tanah",
+    "mempercepat aliran permukaan",
+    "menambah banjir",
+    "mengurangi cadangan air tanah"
+  ],
+  "answerIndex": 0,
+  "explanation": "Daerah resapan air menyerap air hujan ke dalam tanah, mengisi cadangan air tanah, dan mengurangi limpasan permukaan. Jika resapan berkurang, banjir dan kekeringan meningkat.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

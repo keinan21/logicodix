@@ -1,0 +1,17 @@
+{
+  "id": "73f96ab0-f338-41e5-a34f-e94306869958",
+  "kind": "pengetahuan",
+  "stem": "Air bersih termasuk sumber daya yang perlu dijaga karena …",
+  "options": [
+    "jumlahnya tidak terbatas",
+    "dibutuhkan makhluk hidup dan mudah tercemar",
+    "tidak dapat tercemar",
+    "tidak berhubungan dengan ekosistem"
+  ],
+  "answerIndex": 1,
+  "explanation": "Air bersih dibutuhkan semua makhluk hidup dan mudah tercemar, sedangkan jumlahnya terbatas. Karena itu air harus dijaga kualitas dan ketersediaannya.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

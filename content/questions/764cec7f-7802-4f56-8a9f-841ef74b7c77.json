@@ -1,0 +1,17 @@
+{
+  "id": "764cec7f-7802-4f56-8a9f-841ef74b7c77",
+  "kind": "pengetahuan",
+  "stem": "Sampah plastik menumpuk di pantai. Tindakan yang tepat adalah …",
+  "options": [
+    "mengumpulkan, memilah, dan mendaur ulang sampah",
+    "membakar sampah di pantai",
+    "membuang sampah ke laut",
+    "membiarkan sampah menumpuk"
+  ],
+  "answerIndex": 0,
+  "explanation": "Sampah plastik di pantai harus dikumpulkan, dipilah, dan didaur ulang. Membakar sampah plastik menghasilkan polutan berbahaya, sedangkan membuangnya ke laut mencemari ekosistem.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

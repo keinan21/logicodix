@@ -1,0 +1,17 @@
+{
+  "id": "a13da79e-84f9-472c-bdef-d4667fb69338",
+  "kind": "pengetahuan",
+  "stem": "Hutan produksi digunakan terutama untuk …",
+  "options": [
+    "menghasilkan kayu dan produk hutan",
+    "melindungi habitat satwa langka",
+    "menyimpan limbah B3",
+    "mengurangi keanekaragaman hayati"
+  ],
+  "answerIndex": 0,
+  "explanation": "Hutan produksi dikelola untuk menghasilkan kayu dan hasil hutan lainnya secara berkelanjutan. Fungsi perlindungan habitat utama berada pada kawasan konservasi.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "0ebc1c89-a7d3-47b9-b82b-7a1c02da58be",
+  "kind": "pengetahuan",
+  "stem": "Limbah minyak di laut dapat …",
+  "options": [
+    "mengganggu pernapasan dan kehidupan biota laut",
+    "meningkatkan oksigen terlarut",
+    "memperbaiki ekosistem",
+    "mengurangi pencemaran"
+  ],
+  "answerIndex": 0,
+  "explanation": "Limbah minyak di laut membentuk lapisan di permukaan air, menghalangi pertukaran oksigen dan sinar matahari, sehingga biota laut terganggu bahkan mati.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

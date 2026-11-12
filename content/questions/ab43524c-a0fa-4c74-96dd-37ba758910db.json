@@ -1,0 +1,12 @@
+{
+  "id": "ab43524c-a0fa-4c74-96dd-37ba758910db",
+  "kind": "pengetahuan",
+  "stem": "Sampah organik dapat diolah menjadi …",
+  "options": ["kompos", "plastik", "logam", "baterai"],
+  "answerIndex": 0,
+  "explanation": "Sampah organik seperti sisa tanaman dan sisa dapur dapat diolah menjadi kompos melalui pengomposan, sehingga menjadi pupuk dan tidak menumpuk di TPA.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

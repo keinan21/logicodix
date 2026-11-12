@@ -1,0 +1,12 @@
+{
+  "id": "d8a390ce-ae6e-4b79-9ff3-218e971fc74d",
+  "kind": "pengetahuan",
+  "stem": "Energi biomassa berasal dari …",
+  "options": ["bahan organik", "batu bara", "minyak bumi", "gas alam"],
+  "answerIndex": 0,
+  "explanation": "Energi biomassa berasal dari bahan organik, seperti limbah tanaman, kotoran hewan, dan sampah organik. Batu bara, minyak bumi, dan gas alam adalah energi fosil.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

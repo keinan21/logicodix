@@ -1,0 +1,17 @@
+{
+  "id": "037ce325-231e-42ce-8ac8-45859fd3bc72",
+  "kind": "pengetahuan",
+  "stem": "Terassering dilakukan pada lahan miring untuk …",
+  "options": [
+    "mengurangi erosi",
+    "mempercepat erosi",
+    "mengurangi kesuburan tanah",
+    "meningkatkan pencemaran"
+  ],
+  "answerIndex": 0,
+  "explanation": "Terassering (terasering) membuat lahan miring bertingkat sehingga aliran air permukaan melambat dan tanah tidak mudah tererosi. Tujuannya mengurangi erosi, bukan mempercepatnya.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

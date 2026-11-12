@@ -1,0 +1,17 @@
+{
+  "id": "5da4635c-6753-4928-b963-ed765c637885",
+  "kind": "pengetahuan",
+  "stem": "Efek rumah kaca terjadi karena …",
+  "options": [
+    "gas rumah kaca menahan panas di atmosfer",
+    "panas langsung keluar dari bumi",
+    "atmosfer tidak memiliki gas",
+    "bumi tidak menerima sinar matahari"
+  ],
+  "answerIndex": 0,
+  "explanation": "Efek rumah kaca terjadi karena gas rumah kaca di atmosfer meneruskan sinar matahari tetapi menahan panas yang dipancarkan bumi, sehingga suhu bumi meningkat.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

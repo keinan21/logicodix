@@ -1,0 +1,17 @@
+{
+  "id": "51afaae2-16df-44e2-bba0-ead077ef63dd",
+  "kind": "pengetahuan",
+  "stem": "Sedimentasi sungai dapat terjadi karena …",
+  "options": [
+    "erosi tanah dari daerah hulu",
+    "bertambahnya hutan",
+    "berkurangnya erosi",
+    "berkurangnya aliran air"
+  ],
+  "answerIndex": 0,
+  "explanation": "Sedimentasi sungai terjadi karena partikel tanah hasil erosi di daerah hulu terbawa aliran air dan mengendap di bagian hilir atau waduk.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "4a41b60a-968b-4cfa-a711-bded4692aff0",
+  "kind": "pengetahuan",
+  "stem": "Pembakaran bahan bakar fosil menghasilkan …",
+  "options": ["karbon dioksida dan polutan udara", "oksigen murni", "nitrogen saja", "air bersih"],
+  "answerIndex": 0,
+  "explanation": "Pembakaran bahan bakar fosil menghasilkan karbon dioksida dan polutan udara lain seperti CO, SO2, NO2, dan partikulat. Oksigen, nitrogen saja, atau air bersih bukan hasil utamanya.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "55205e08-9043-4d50-8a95-e72018328e3e",
+  "kind": "pengetahuan",
+  "stem": "Biogas dihasilkan dari …",
+  "options": [
+    "penguraian bahan organik oleh mikroorganisme",
+    "pembakaran plastik",
+    "pembakaran batu bara",
+    "pengolahan logam"
+  ],
+  "answerIndex": 0,
+  "explanation": "Biogas dihasilkan dari penguraian bahan organik oleh mikroorganisme dalam kondisi tanpa oksigen, menghasilkan gas metana yang dapat dibakar sebagai bahan bakar.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "f6c45bff-d2e5-44cd-99e0-d9df1b843956",
+  "kind": "pengetahuan",
+  "stem": "Bioindikator pencemaran air dapat berupa …",
+  "options": [
+    "keberadaan makhluk hidup tertentu",
+    "jumlah kendaraan di jalan",
+    "tinggi bangunan",
+    "jumlah pabrik saja"
+  ],
+  "answerIndex": 0,
+  "explanation": "Bioindikator pencemaran air adalah makhluk hidup tertentu yang keberadaannya menunjukkan kualitas air, misalnya makrobentos dan mikroba fecal coliform.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

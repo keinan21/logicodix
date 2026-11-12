@@ -1,0 +1,17 @@
+{
+  "id": "a03588d4-3567-4b58-911e-afbfb756ca3c",
+  "kind": "pengetahuan",
+  "stem": "Bank sampah berfungsi untuk …",
+  "options": [
+    "mengelola sampah menjadi bernilai ekonomis",
+    "menambah sampah di lingkungan",
+    "membuang sampah ke sungai",
+    "membakar semua sampah"
+  ],
+  "answerIndex": 0,
+  "explanation": "Bank sampah mengelola sampah yang sudah dipilah menjadi bahan bernilai ekonomi, sehingga mengurangi timbunan sampah di lingkungan sekaligus memberi manfaat bagi warga.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

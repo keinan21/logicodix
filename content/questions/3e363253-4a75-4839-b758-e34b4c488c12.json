@@ -1,0 +1,17 @@
+{
+  "id": "3e363253-4a75-4839-b758-e34b4c488c12",
+  "kind": "pengetahuan",
+  "stem": "Konservasi air bertujuan untuk …",
+  "options": [
+    "membuang air bersih ke laut",
+    "menjaga ketersediaan dan kualitas air",
+    "mencemari sumber air",
+    "mengurangi cadangan air tanah"
+  ],
+  "answerIndex": 1,
+  "explanation": "Konservasi air bertujuan menjaga ketersediaan dan kualitas air, antara lain dengan hemat air, memanen air hujan, dan menjaga daerah resapan. Membuang atau mencemari air bertentangan dengan tujuan itu.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

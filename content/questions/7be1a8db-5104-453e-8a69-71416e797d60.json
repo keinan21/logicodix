@@ -1,0 +1,17 @@
+{
+  "id": "7be1a8db-5104-453e-8a69-71416e797d60",
+  "kind": "pengetahuan",
+  "stem": "Fungsi hutan sebagai paru-paru dunia karena …",
+  "options": [
+    "menyerap karbon dioksida dan menghasilkan oksigen",
+    "menghasilkan karbon dioksida",
+    "mengurangi oksigen",
+    "menghasilkan limbah"
+  ],
+  "answerIndex": 0,
+  "explanation": "Hutan disebut paru-paru dunia karena menyerap CO2 dan menghasilkan oksigen melalui fotosintesis. Kemampuan menyerap CO2 berbeda tiap jenis pohon, tergantung jumlah dan luas daunnya.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "a36ab74f-def3-4c38-b8d4-e98b106c95a7",
+  "kind": "pengetahuan",
+  "stem": "Salah satu manfaat energi biomassa adalah …",
+  "options": [
+    "memanfaatkan limbah organik",
+    "menambah limbah B3",
+    "meningkatkan penggunaan fosil",
+    "merusak hutan"
+  ],
+  "answerIndex": 0,
+  "explanation": "Energi biomassa memanfaatkan limbah organik menjadi sumber energi, sehingga mengurangi timbunan limbah sekaligus mengurangi ketergantungan pada energi fosil.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "a8e485eb-6d61-41a1-af92-c64316d558db",
+  "kind": "pengetahuan",
+  "stem": "Dampak pengambilan air tanah berlebihan adalah …",
+  "options": [
+    "penurunan muka air tanah",
+    "naiknya muka air tanah",
+    "bertambahnya cadangan air",
+    "berkurangnya kekeringan"
+  ],
+  "answerIndex": 0,
+  "explanation": "Pengambilan air tanah berlebihan menurunkan muka air tanah, memicu kekeringan sumur, penurunan permukaan tanah, dan intrusi air laut di daerah pesisir.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

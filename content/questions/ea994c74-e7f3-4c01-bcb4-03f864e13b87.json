@@ -1,0 +1,17 @@
+{
+  "id": "ea994c74-e7f3-4c01-bcb4-03f864e13b87",
+  "kind": "pengetahuan",
+  "stem": "Pabrik membuang limbah cair tanpa pengolahan. Tindakan yang tepat adalah …",
+  "options": [
+    "membangun instalasi pengolahan limbah",
+    "membuang limbah langsung ke sungai",
+    "menutupi limbah dengan tanah",
+    "memindahkan limbah ke hutan"
+  ],
+  "answerIndex": 0,
+  "explanation": "Pabrik wajib membangun instalasi pengolahan limbah agar limbah cair diolah sebelum dibuang. Membuang langsung, menutupi dengan tanah, atau memindahkannya ke hutan tetap mencemari.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

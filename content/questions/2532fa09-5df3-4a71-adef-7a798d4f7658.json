@@ -1,0 +1,17 @@
+{
+  "id": "2532fa09-5df3-4a71-adef-7a798d4f7658",
+  "kind": "pengetahuan",
+  "stem": "Sebuah kawasan hutan akan dijadikan pabrik. Langkah yang perlu dilakukan adalah …",
+  "options": [
+    "melakukan kajian dampak lingkungan",
+    "langsung menebang hutan",
+    "membuang limbah ke sungai",
+    "mengabaikan kawasan lindung"
+  ],
+  "answerIndex": 0,
+  "explanation": "Sebelum hutan dijadikan pabrik, wajib dilakukan kajian dampak lingkungan (AMDAL) dan penataan ruang. Langsung menebang atau mengabaikan kawasan lindung melanggar aturan.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

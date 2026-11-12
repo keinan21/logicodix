@@ -1,0 +1,17 @@
+{
+  "id": "08c1b6a3-acb8-41ae-9405-66f74ef0a7bc",
+  "kind": "pengetahuan",
+  "stem": "Agroforestri adalah …",
+  "options": [
+    "menggabungkan tanaman pohon dan pertanian",
+    "menebang seluruh hutan",
+    "mengubah hutan menjadi pabrik",
+    "membakar lahan"
+  ],
+  "answerIndex": 0,
+  "explanation": "Agroforestri adalah sistem pertanian yang menggabungkan tanaman pohon dengan tanaman pertanian di lahan yang sama, sehingga lahan produktif sekaligus terjaga.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "fb55bb9d-348e-4393-8cb0-17c0b87c9d04",
+  "kind": "pengetahuan",
+  "stem": "Salah satu penyebab pencemaran air adalah …",
+  "options": [
+    "pembuangan limbah industri ke sungai",
+    "penanaman pohon di tepi sungai",
+    "pengolahan limbah sebelum dibuang",
+    "penghematan air"
+  ],
+  "answerIndex": 0,
+  "explanation": "Pembuangan limbah industri ke sungai adalah penyebab utama pencemaran air. Penanaman pohon, pengolahan limbah, dan penghematan air justru upaya pencegahan.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

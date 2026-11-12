@@ -1,0 +1,17 @@
+{
+  "id": "6112a2fb-c6c1-4dc0-8555-f3f5c4ee553d",
+  "kind": "pengetahuan",
+  "stem": "Dampak sedimentasi bagi sungai adalah …",
+  "options": [
+    "pendangkalan sungai dan risiko banjir",
+    "sungai menjadi lebih dalam",
+    "banjir berkurang",
+    "air menjadi lebih jernih"
+  ],
+  "answerIndex": 0,
+  "explanation": "Sedimentasi mendangkalkan sungai dan waduk, mengurangi daya tampung air, sehingga risiko banjir meningkat dan aliran air terganggu.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

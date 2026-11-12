@@ -1,0 +1,17 @@
+{
+  "id": "863e9e8b-817f-4a97-90f9-0221eb21a232",
+  "kind": "pengetahuan",
+  "stem": "Hutan yang dibakar melepaskan …",
+  "options": [
+    "karbon dioksida ke atmosfer",
+    "oksigen ke atmosfer",
+    "nitrogen ke tanah",
+    "air ke atmosfer"
+  ],
+  "answerIndex": 0,
+  "explanation": "Saat hutan dibakar, karbon yang tersimpan di biomassa dan tanah terlepas ke atmosfer sebagai karbon dioksida, sehingga memperburuk pemanasan global.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}
