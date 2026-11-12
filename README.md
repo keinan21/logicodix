@@ -17,7 +17,13 @@ bun start          # satu port: web + Socket.IO (untuk demo & juri, NFR-07)
 ```
 
 Perintah lain: `bun test` (Vitest), `bun run check` (tsc + Prettier + validator konten),
-`bun run check-content`, `bun run load` (5 room × 4 peserta), `bun run e2e` (Playwright, nanti).
+`bun run check-content`, `bun run load` (5 room × 4 peserta), `bun run e2e` (Playwright; butuh `npx playwright install chrome` sekali).
+
+Evaluasi AI live: `.env` tidak dibaca otomatis. Set lewat env shell, mis.
+`AI_MODE=live GEMINI_API_KEY=... bun start` (model bawaan `gemini-3.1-flash-lite`, ganti dengan `GEMINI_MODEL`).
+Cek key tanpa menjalankan game: `GEMINI_API_KEY=... bun run ai-live`. Tanpa key, mode `live` turun ke `contoh`.
+
+Tanpa soal terverifikasi, `bun start` menolak jalan (FR-K01). Untuk demo/uji lokal pakai `bun run start:dummy` (port 3000, soal dummy).
 
 Demo: buka 2+ jendela browser di `http://localhost:3000` + mode "Lawan bot" (D-49 localhost-first).
 
