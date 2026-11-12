@@ -14,14 +14,26 @@
   {
     "id": "harimau",
     "nama": "Harimau",
-    "fakta": "Harimau Sumatera adalah satwa endemik Indonesia yang dilindungi.",
-    "flip": true
+    "fakta": "Harimau sumatera (Panthera tigris sumatrae) adalah satwa dilindungi di Indonesia.",
+    "flip": true,
+    "sumber": {
+      "judul": "Permen LHK No. P.20/MENLHK/SETJEN/KUM.1/6/2018 tentang Jenis Tumbuhan dan Satwa yang Dilindungi",
+      "url": "https://tntessonilo.ksdae.kehutanan.go.id/wp-content/uploads/2024/04/JENIS-TUMBUHAN-DAN-SATWA-LIAR-YANG-DILINDUNGI.pdf",
+      "lembaga": "Kementerian Lingkungan Hidup dan Kehutanan",
+      "tanggalCek": "2026-11-12"
+    }
   },
   {
     "id": "gajah",
     "nama": "Gajah",
-    "fakta": "Gajah Sumatera termasuk spesies yang terancam punah.",
-    "flip": true
+    "fakta": "Gajah asia (Elephas maximus), termasuk gajah Sumatera, adalah satwa dilindungi di Indonesia.",
+    "flip": true,
+    "sumber": {
+      "judul": "Permen LHK No. P.20/MENLHK/SETJEN/KUM.1/6/2018 tentang Jenis Tumbuhan dan Satwa yang Dilindungi",
+      "url": "https://tntessonilo.ksdae.kehutanan.go.id/wp-content/uploads/2024/04/JENIS-TUMBUHAN-DAN-SATWA-LIAR-YANG-DILINDUNGI.pdf",
+      "lembaga": "Kementerian Lingkungan Hidup dan Kehutanan",
+      "tanggalCek": "2026-11-12"
+    }
   },
   {
     "id": "penyu",
@@ -38,13 +50,25 @@
   {
     "id": "badak",
     "nama": "Badak",
-    "fakta": "Badak Jawa dan badak Sumatera adalah spesies langka Indonesia.",
-    "flip": true
+    "fakta": "Badak jawa dan badak sumatera adalah satwa dilindungi di Indonesia.",
+    "flip": true,
+    "sumber": {
+      "judul": "Permen LHK No. P.20/MENLHK/SETJEN/KUM.1/6/2018 tentang Jenis Tumbuhan dan Satwa yang Dilindungi",
+      "url": "https://tntessonilo.ksdae.kehutanan.go.id/wp-content/uploads/2024/04/JENIS-TUMBUHAN-DAN-SATWA-LIAR-YANG-DILINDUNGI.pdf",
+      "lembaga": "Kementerian Lingkungan Hidup dan Kehutanan",
+      "tanggalCek": "2026-11-12"
+    }
   },
   {
     "id": "burung",
     "nama": "Burung",
-    "fakta": "Cendrawasih dan kakaktua adalah burung endemik Nusantara.",
-    "flip": true
+    "fakta": "Cenderawasih dan kakatua adalah burung dilindungi di Indonesia.",
+    "flip": true,
+    "sumber": {
+      "judul": "Permen LHK No. P.20/MENLHK/SETJEN/KUM.1/6/2018 tentang Jenis Tumbuhan dan Satwa yang Dilindungi",
+      "url": "https://tntessonilo.ksdae.kehutanan.go.id/wp-content/uploads/2024/04/JENIS-TUMBUHAN-DAN-SATWA-LIAR-YANG-DILINDUNGI.pdf",
+      "lembaga": "Kementerian Lingkungan Hidup dan Kehutanan",
+      "tanggalCek": "2026-11-12"
+    }
   }
 ]
