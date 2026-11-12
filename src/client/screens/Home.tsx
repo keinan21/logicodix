@@ -12,18 +12,9 @@ import { Input } from '../components/Input';
 import { AnimalCard } from '../components/AnimalCard';
 import { nicknameSchema, animalIdSchema } from '../../shared/schema';
 import type { AnimalId } from '../../shared/schema';
+import { ANIMAL_ASSETS } from '../components/animalAssets';
 
 const ANIMAL_IDS: AnimalId[] = ['orangutan', 'harimau', 'gajah', 'penyu', 'badak', 'burung'];
-
-/** TODO(T-11): ganti dengan konten dari content/animals.json via server (FR-M14). */
-const ANIMAL_PLACEHOLDERS: Record<AnimalId, { nama: string; fakta: string }> = {
-  orangutan: { nama: 'Orangutan', fakta: 'TODO(P-04): fakta singkat + sumber resmi' },
-  harimau: { nama: 'Harimau', fakta: 'TODO(P-04): fakta singkat + sumber resmi' },
-  gajah: { nama: 'Gajah', fakta: 'TODO(P-04): fakta singkat + sumber resmi' },
-  penyu: { nama: 'Penyu', fakta: 'TODO(P-04): fakta singkat + sumber resmi' },
-  badak: { nama: 'Badak', fakta: 'TODO(P-04): fakta singkat + sumber resmi' },
-  burung: { nama: 'Burung', fakta: 'TODO(P-04): fakta singkat + sumber resmi' },
-};
 
 /**
  * Layar Beranda (DESIGN §3 screen 1; FR-M01, M02, M03, M14).
@@ -45,6 +36,20 @@ export function HomeScreen({
       : randomChoice(crypto.getRandomValues(new Uint32Array(1))[0] ?? 1, ANIMAL_IDS).value;
   });
   const [touched, setTouched] = useState(false);
+  const [facts, setFacts] = useState<Partial<Record<AnimalId, string>>>({});
+
+  useEffect(() => {
+    let active = true;
+    fetch('/api/animals')
+      .then((r) => (r.ok ? (r.json() as Promise<{ id: AnimalId; fakta: string }[]>) : []))
+      .then((list) => {
+        if (active) setFacts(Object.fromEntries(list.map((a) => [a.id, a.fakta])));
+      })
+      .catch(() => undefined);
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const nicknameError = nicknameSchema.safeParse(nickname).success
     ? undefined
@@ -116,8 +121,8 @@ export function HomeScreen({
                 <AnimalCard
                   key={id}
                   animalId={id}
-                  nama={ANIMAL_PLACEHOLDERS[id].nama}
-                  fakta={ANIMAL_PLACEHOLDERS[id].fakta}
+                  nama={ANIMAL_ASSETS[id].nama}
+                  fakta={facts[id] ?? ''}
                   selected={animalId === id}
                   onSelect={setAnimalId}
                   compact
@@ -126,7 +131,8 @@ export function HomeScreen({
             </div>
           </fieldset>
           <p id="home-fact" className="home-fact" aria-live="polite" aria-atomic="true">
-            {ANIMAL_PLACEHOLDERS[animalId].nama} — TODO-SUMBER: fakta hewan sedang disiapkan.
+            {ANIMAL_ASSETS[animalId].nama}
+            {facts[animalId] ? ` — ${facts[animalId]}` : ''}
           </p>
           {joinError ? (
             <p className="home-error" role="alert">

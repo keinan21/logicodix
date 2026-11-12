@@ -25,7 +25,7 @@ describe('Beranda (FR-M01, FR-M03, FR-M14)', () => {
     expect(html.match(/aria-pressed="true"/g)).toHaveLength(1);
     expect(html).toContain('aria-label="Penyu" aria-pressed="true"');
     expect(html).toContain('aria-live="polite"');
-    expect(html).toContain('Penyu — TODO-SUMBER');
-    expect(html).not.toContain('TODO(P-04)');
+    expect(html).toContain('Penyu');
+    expect(html).not.toContain('TODO');
   });
 });

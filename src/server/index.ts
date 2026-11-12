@@ -17,13 +17,17 @@ import { checkNickname } from './nickname';
 import { joinQueuePayloadSchema, sessionResumePayloadSchema } from '../shared/schema';
 import { createEvaluator, selectMode } from './evaluate';
 import { createRNGSeed } from '../shared/rng';
+import type { Animal } from '../shared/schema';
 
 const PORT = Number(process.env.PORT ?? 3000);
 const DEBUG_PANEL = process.env.DEBUG_PANEL === 'true';
 
-export function createApp() {
+export function createApp(animals: Animal[] = []) {
   const app = express();
   app.use(express.json());
+  app.get('/api/animals', (_req, res) => {
+    res.json(animals);
+  });
   app.get('/health', (_req, res) => {
     res.json({ ok: true, time: new Date().toISOString() });
   });
@@ -52,7 +56,7 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
     `konten termuat: ${content.verified.length} soal terverifikasi`,
   );
 
-  const app = createApp();
+  const app = createApp(content.animals);
   const server = createServer(app);
   const io = new SocketIOServer(server);
 

@@ -76,7 +76,7 @@ export function createEvaluator(deps: EvaluateDeps) {
           const output = await evaluator(
             req,
             deps.geminiApiKey,
-            deps.geminiModel ?? 'gemini-2.0-flash',
+            deps.geminiModel ?? 'gemini-3.1-flash-lite',
             AI.TIMEOUT_S * 1000,
           );
           const result: EvalResult = { output, badge: 'dibuat-oleh-ai', source: 'live' };

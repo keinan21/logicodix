@@ -11,14 +11,15 @@
     "build": "vite build",
     "start": "NODE_ENV=production tsx src/server/index.ts",
     "test": "vitest run",
-    "e2e": "playwright test",
+    "e2e": "playwright test --config tests/browser/playwright.config.ts && playwright test --config tests/lobby-browser/playwright.config.ts",
     "dev:dummy": "concurrently -n web,dummy \"bun run dev:web\" \"bun run dev:dummy:server\"",
     "dev:dummy:server": "tsx watch scripts/dev-dummy.ts",
     "start:dummy": "PORT=3000 tsx scripts/dev-dummy.ts",
     "check": "tsc --noEmit && prettier --check . && bun run check-content",
     "format": "prettier --write .",
     "check-content": "tsx scripts/check-content.ts",
-    "load": "tsx scripts/load-test.ts"
+    "load": "tsx scripts/load-test.ts",
+    "ai-live": "tsx scripts/ai-live-check.ts"
   },
   "dependencies": {
     "@google/genai": "2.31.0",
