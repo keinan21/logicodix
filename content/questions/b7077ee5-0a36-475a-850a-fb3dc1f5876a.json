@@ -1,0 +1,12 @@
+{
+  "id": "b7077ee5-0a36-475a-850a-fb3dc1f5876a",
+  "kind": "pengetahuan",
+  "stem": "Pembangkit listrik tenaga angin memanfaatkan …",
+  "options": ["angin", "minyak bumi", "batu bara", "gas alam"],
+  "answerIndex": 0,
+  "explanation": "Pembangkit listrik tenaga angin (PLTB) memanfaatkan energi kinetik angin untuk memutar turbin dan menghasilkan listrik, bukan minyak, batu bara, atau gas alam.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

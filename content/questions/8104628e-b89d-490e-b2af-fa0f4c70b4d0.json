@@ -1,0 +1,17 @@
+{
+  "id": "8104628e-b89d-490e-b2af-fa0f4c70b4d0",
+  "kind": "pengetahuan",
+  "stem": "Hutan berfungsi penting sebagai …",
+  "options": [
+    "penyimpan cadangan air dan penahan erosi",
+    "sumber pencemaran udara utama",
+    "penghasil limbah kimia",
+    "penghancur ekosistem"
+  ],
+  "answerIndex": 0,
+  "explanation": "Hutan menyimpan cadangan air, menahan erosi, dan menyerap karbon dioksida. Pilihan lain menggambarkan hutan sebagai sumber pencemar dan perusak, yang bertentangan dengan fakta.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

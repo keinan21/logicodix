@@ -1,0 +1,12 @@
+{
+  "id": "6926f678-2c82-45b3-a59f-a33347c7eaa3",
+  "kind": "pengetahuan",
+  "stem": "Salah satu contoh energi alternatif adalah …",
+  "options": ["biogas dari kotoran hewan", "batu bara", "minyak bumi", "gas alam"],
+  "answerIndex": 0,
+  "explanation": "Biogas dari kotoran hewan termasuk energi alternatif terbarukan yang ramah lingkungan. Batu bara, minyak bumi, dan gas alam adalah energi fosil.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

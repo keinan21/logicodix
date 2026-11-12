@@ -1,0 +1,17 @@
+{
+  "id": "47a386dc-dd17-4ca2-be75-6a787c5fca2b",
+  "kind": "pengetahuan",
+  "stem": "Masyarakat menggunakan energi listrik secara hemat. Dampaknya adalah …",
+  "options": [
+    "mengurangi kebutuhan energi fosil dan emisi",
+    "meningkatkan emisi",
+    "menambah pencemaran udara",
+    "mempercepat kerusakan hutan"
+  ],
+  "answerIndex": 0,
+  "explanation": "Penghematan listrik mengurangi pembakaran bahan bakar fosil di pembangkit, sehingga emisi gas rumah kaca dan pencemaran udara ikut berkurang.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "82db0686-dd5a-4956-9c11-01fe65a80d9d",
+  "kind": "pengetahuan",
+  "stem": "Petani menggunakan pestisida berlebihan hingga sungai tercemar. Tindakan yang tepat adalah …",
+  "options": [
+    "menggunakan pestisida alami dan sesuai dosis",
+    "menambah dosis pestisida",
+    "membuang pestisida ke sungai",
+    "membakar pestisida"
+  ],
+  "answerIndex": 0,
+  "explanation": "Pestisida berlebihan mencemari sungai. Tindakan tepat adalah memakai pestisida alami atau sesuai dosis, tidak menyemprot sebelum hujan, dan tidak membuang sisa pestisida ke air.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

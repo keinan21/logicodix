@@ -1,0 +1,17 @@
+{
+  "id": "64da7907-3932-444d-8d77-5cf05fe0c3e6",
+  "kind": "pengetahuan",
+  "stem": "Baterai bekas dibuang sembarangan. Dampaknya adalah …",
+  "options": [
+    "pencemaran tanah dan air oleh bahan berbahaya",
+    "peningkatan kesuburan tanah",
+    "berkurangnya pencemaran",
+    "bertambahnya organisme tanah"
+  ],
+  "answerIndex": 0,
+  "explanation": "Baterai bekas mengandung logam berat dan bahan kimia beracun yang dapat mencemari tanah serta air tanah bila dibuang sembarangan, sehingga harus diserahkan ke pengelola limbah B3.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

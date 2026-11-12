@@ -1,0 +1,17 @@
+{
+  "id": "ec4f4107-11fd-423c-ba6d-1a0aa3cd1a96",
+  "kind": "pengetahuan",
+  "stem": "Salah satu cara konservasi air adalah …",
+  "options": [
+    "memanen air hujan",
+    "membuang air bersih ke saluran",
+    "membiarkan keran bocor",
+    "menggunakan air berlebihan"
+  ],
+  "answerIndex": 0,
+  "explanation": "Memanen air hujan, membuat sumur resapan, dan menghemat pemakaian adalah cara konservasi air. Membuang air bersih atau membiarkan keran bocor memboroskan air.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "58463464-9269-4229-9961-2797d4593c86",
+  "kind": "pengetahuan",
+  "stem": "Sampah elektronik perlu dikelola khusus karena …",
+  "options": [
+    "mengandung bahan berbahaya",
+    "hanya terdiri dari makanan",
+    "mudah terurai secara alami",
+    "tidak mengandung logam"
+  ],
+  "answerIndex": 0,
+  "explanation": "Sampah elektronik mengandung logam berat seperti timbal dan merkuri serta bahan berbahaya lain, sehingga harus dikelola khusus agar tidak mencemari tanah dan air.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

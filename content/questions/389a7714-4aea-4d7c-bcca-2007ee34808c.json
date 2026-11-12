@@ -1,0 +1,17 @@
+{
+  "id": "389a7714-4aea-4d7c-bcca-2007ee34808c",
+  "kind": "pengetahuan",
+  "stem": "Sebuah desa mengalami banjir setelah hutan di hulu ditebang. Solusi paling tepat adalah …",
+  "options": [
+    "reboisasi dan pengaturan tata ruang",
+    "menebang lebih banyak pohon",
+    "membangun rumah di daerah resapan",
+    "membuang sampah ke sungai"
+  ],
+  "answerIndex": 0,
+  "explanation": "Banjir setelah hutan hulu ditebang terjadi karena hilangnya penyerap dan penahan air. Solusinya reboisasi di hulu disertai penataan ruang agar lahan resapan tidak dibangun.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

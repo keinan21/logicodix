@@ -1,0 +1,17 @@
+{
+  "id": "133d1540-ddb0-486e-8cb9-8312f1d95102",
+  "kind": "pengetahuan",
+  "stem": "Deforestasi dapat menyebabkan …",
+  "options": [
+    "banjir dan tanah longsor",
+    "meningkatnya cadangan air tanah",
+    "berkurangnya erosi",
+    "bertambahnya hutan alami"
+  ],
+  "answerIndex": 0,
+  "explanation": "Deforestasi menghilangkan penutup lahan dan akar penahan tanah, sehingga air hujan langsung mengalir di permukaan. Akibatnya banjir dan tanah longsor mudah terjadi.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

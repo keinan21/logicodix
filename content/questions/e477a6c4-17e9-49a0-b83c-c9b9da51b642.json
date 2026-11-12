@@ -1,0 +1,17 @@
+{
+  "id": "e477a6c4-17e9-49a0-b83c-c9b9da51b642",
+  "kind": "pengetahuan",
+  "stem": "Dampak erosi berat adalah …",
+  "options": [
+    "kesuburan tanah menurun",
+    "tanah menjadi lebih subur",
+    "cadangan air meningkat",
+    "pencemaran berkurang"
+  ],
+  "answerIndex": 0,
+  "explanation": "Erosi berat menghilangkan lapisan tanah atas yang subur, sehingga kesuburan tanah menurun, cadangan air berkurang, dan produktivitas lahan turun.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

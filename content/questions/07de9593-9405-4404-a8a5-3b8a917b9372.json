@@ -1,0 +1,17 @@
+{
+  "id": "07de9593-9405-4404-a8a5-3b8a917b9372",
+  "kind": "pengetahuan",
+  "stem": "Deterjen berlebihan dapat menyebabkan …",
+  "options": [
+    "pencemaran air dan eutrofikasi",
+    "peningkatan oksigen terlarut",
+    "berkurangnya alga",
+    "air menjadi lebih bersih"
+  ],
+  "answerIndex": 0,
+  "explanation": "Deterjen mengandung fosfat dan surfaktan yang menyuburkan perairan sehingga memicu eutrofikasi, menurunkan oksigen terlarut, dan membahayakan biota air.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

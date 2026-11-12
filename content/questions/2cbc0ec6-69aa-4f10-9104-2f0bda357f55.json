@@ -1,0 +1,17 @@
+{
+  "id": "2cbc0ec6-69aa-4f10-9104-2f0bda357f55",
+  "kind": "pengetahuan",
+  "stem": "Salah satu upaya mengurangi pencemaran laut adalah …",
+  "options": [
+    "mengurangi sampah plastik",
+    "membuang sampah ke laut",
+    "membuang minyak bekas ke laut",
+    "menambang karang"
+  ],
+  "answerIndex": 0,
+  "explanation": "Pencemaran laut dikurangi dengan menekan sampah plastik, mengolah limbah sebelum dibuang, dan tidak membuang minyak bekas ke laut maupun menambang karang.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

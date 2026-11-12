@@ -1,0 +1,17 @@
+{
+  "id": "73b30e9b-1c4e-460c-8e23-82cd82476792",
+  "kind": "pengetahuan",
+  "stem": "Warga membakar sampah plastik. Dampaknya adalah …",
+  "options": [
+    "pencemaran udara dan pelepasan zat berbahaya",
+    "peningkatan kualitas udara",
+    "berkurangnya polutan",
+    "bertambahnya oksigen"
+  ],
+  "answerIndex": 0,
+  "explanation": "Pembakaran sampah plastik melepaskan gas dan partikulat berbahaya ke udara sehingga mencemari udara dan mengganggu pernapasan, bukan meningkatkan kualitas udara.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "b4af8e0e-4219-4fd6-8fa4-aab70e25c611",
+  "kind": "pengetahuan",
+  "stem": "Contoh energi terbarukan adalah …",
+  "options": ["batu bara", "minyak bumi", "energi matahari", "gas alam"],
+  "answerIndex": 2,
+  "explanation": "Energi matahari termasuk energi terbarukan karena tersedia terus-menerus dan tidak habis. Batu bara, minyak bumi, dan gas alam adalah energi fosil yang tidak dapat diperbarui.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

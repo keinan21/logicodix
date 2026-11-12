@@ -1,0 +1,17 @@
+{
+  "id": "7b80bcb1-f8ac-47c6-9254-2b2d2c6940bd",
+  "kind": "pengetahuan",
+  "stem": "Penggunaan energi yang hemat mendukung konservasi karena …",
+  "options": [
+    "meningkatkan penggunaan bahan bakar fosil",
+    "mengurangi eksploitasi sumber daya alam",
+    "menambah pencemaran udara",
+    "mempercepat kerusakan hutan"
+  ],
+  "answerIndex": 1,
+  "explanation": "Energi yang digunakan secara hemat mengurangi pembakaran bahan bakar fosil, sehingga eksploitasi sumber daya alam dan pencemaran ikut berkurang.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

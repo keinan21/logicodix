@@ -1,0 +1,12 @@
+{
+  "id": "7d89ff51-91aa-4cd7-9952-87c8db42c8e0",
+  "kind": "pengetahuan",
+  "stem": "Contoh sampah organik adalah …",
+  "options": ["botol plastik", "sisa sayur", "kaleng", "kaca"],
+  "answerIndex": 1,
+  "explanation": "Sisa sayur dan sisa makanan adalah sampah organik karena berasal dari makhluk hidup dan mudah diuraikan pengurai. Botol plastik, kaleng, dan kaca adalah sampah anorganik.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

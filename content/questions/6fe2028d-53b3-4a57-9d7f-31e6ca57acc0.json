@@ -1,0 +1,12 @@
+{
+  "id": "6fe2028d-53b3-4a57-9d7f-31e6ca57acc0",
+  "kind": "pengetahuan",
+  "stem": "Kawasan konservasi yang melindungi ekosistem laut disebut …",
+  "options": ["taman nasional darat", "taman laut", "hutan produksi", "kawasan industri"],
+  "answerIndex": 1,
+  "explanation": "Taman laut adalah kawasan konservasi yang melindungi ekosistem laut, seperti terumbu karang dan padang lamun. Hutan produksi dan kawasan industri bukan kawasan konservasi laut.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

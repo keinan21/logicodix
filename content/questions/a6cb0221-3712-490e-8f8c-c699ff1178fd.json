@@ -1,0 +1,17 @@
+{
+  "id": "a6cb0221-3712-490e-8f8c-c699ff1178fd",
+  "kind": "pengetahuan",
+  "stem": "Salah satu keuntungan energi terbarukan adalah …",
+  "options": [
+    "tidak cepat habis",
+    "selalu menimbulkan limbah B3",
+    "hanya tersedia dalam jumlah sangat terbatas",
+    "meningkatkan emisi karbon"
+  ],
+  "answerIndex": 0,
+  "explanation": "Keuntungan energi terbarukan adalah tidak cepat habis dan menghasilkan emisi karbon jauh lebih sedikit, sehingga tidak selalu menimbulkan limbah B3 maupun menambah emisi.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

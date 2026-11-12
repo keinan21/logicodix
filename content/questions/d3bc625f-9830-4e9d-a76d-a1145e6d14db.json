@@ -1,0 +1,17 @@
+{
+  "id": "d3bc625f-9830-4e9d-a76d-a1145e6d14db",
+  "kind": "pengetahuan",
+  "stem": "Salah satu upaya konservasi hutan adalah …",
+  "options": [
+    "tebang habis",
+    "tebang pilih",
+    "pembakaran hutan",
+    "alih fungsi hutan menjadi pabrik"
+  ],
+  "answerIndex": 1,
+  "explanation": "Tebang pilih hanya menebang pohon yang sudah layak dan meninggalkan pohon muda serta tegakan lain, sehingga hutan tetap berfungsi. Tebang habis, pembakaran, dan alih fungsi hutan merusak hutan.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

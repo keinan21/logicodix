@@ -1,0 +1,17 @@
+{
+  "id": "95381cef-1cfb-4c0c-bfeb-cc28886a9178",
+  "kind": "pengetahuan",
+  "stem": "Salah satu upaya adaptasi perubahan iklim adalah …",
+  "options": [
+    "membangun sistem drainase dan konservasi air",
+    "menebang hutan",
+    "membuang limbah ke sungai",
+    "meningkatkan emisi"
+  ],
+  "answerIndex": 0,
+  "explanation": "Adaptasi perubahan iklim adalah penyesuaian terhadap dampak yang sudah terjadi, misalnya membangun drainase, memanen air hujan, dan memilih tanaman tahan kekeringan.",
+  "sources": [],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

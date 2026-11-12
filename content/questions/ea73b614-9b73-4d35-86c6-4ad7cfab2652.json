@@ -1,0 +1,17 @@
+{
+  "id": "ea73b614-9b73-4d35-86c6-4ad7cfab2652",
+  "kind": "pengetahuan",
+  "stem": "Sumur resapan berfungsi untuk …",
+  "options": [
+    "menambah cadangan air tanah",
+    "mengurangi cadangan air tanah",
+    "membuang limbah ke sungai",
+    "menyimpan sampah"
+  ],
+  "answerIndex": 0,
+  "explanation": "Sumur resapan menampung air hujan dan meresapkannya ke dalam tanah untuk menambah cadangan air tanah serta mengurangi limpasan yang menyebabkan banjir.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "9edb5f72-71fe-4577-ada6-c7b4c8865412",
+  "kind": "pengetahuan",
+  "stem": "Dampak pencemaran air bagi ekosistem adalah …",
+  "options": [
+    "organisme air berkembang pesat",
+    "kualitas air menurun dan organisme mati",
+    "air menjadi lebih jernih",
+    "rantai makanan menjadi stabil"
+  ],
+  "answerIndex": 1,
+  "explanation": "Pencemaran air menurunkan kualitas air sehingga organisme air mati dan rantai makanan terganggu. Air tidak menjadi jernih dan organisme tidak berkembang pesat.",
+  "sources": [],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

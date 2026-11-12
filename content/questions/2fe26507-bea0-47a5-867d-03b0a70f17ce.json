@@ -1,0 +1,17 @@
+{
+  "id": "2fe26507-bea0-47a5-867d-03b0a70f17ce",
+  "kind": "pengetahuan",
+  "stem": "Komposter digunakan untuk …",
+  "options": [
+    "mengolah sampah organik menjadi kompos",
+    "membakar sampah plastik",
+    "menyimpan limbah B3",
+    "membuang limbah ke sungai"
+  ],
+  "answerIndex": 0,
+  "explanation": "Komposter adalah wadah untuk mengolah sampah organik menjadi kompos melalui penguraian mikroorganisme. Komposter tidak dipakai untuk membakar plastik atau menyimpan limbah B3.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

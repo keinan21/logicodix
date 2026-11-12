@@ -1,0 +1,17 @@
+{
+  "id": "4e931133-9248-4890-851e-841653cb12e5",
+  "kind": "pengetahuan",
+  "stem": "Prinsip 3R dalam pengelolaan sampah adalah …",
+  "options": [
+    "reduce, reuse, recycle",
+    "read, run, repeat",
+    "reduce, remove, repair",
+    "reuse, repair, remove"
+  ],
+  "answerIndex": 0,
+  "explanation": "Prinsip 3R adalah reduce (mengurangi), reuse (memakai kembali), dan recycle (mendaur ulang). Ketiganya dilakukan berurutan agar sampah yang dihasilkan sedikit mungkin.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "5ff34a97-f20d-4e78-a6c6-72bd299cab4d",
+  "kind": "pengetahuan",
+  "stem": "Salah satu manfaat memilah sampah adalah …",
+  "options": [
+    "memudahkan pengolahan dan daur ulang",
+    "menambah pencemaran",
+    "mempercepat banjir",
+    "mengurangi keanekaragaman hayati"
+  ],
+  "answerIndex": 0,
+  "explanation": "Sampah yang sudah dipilah memudahkan pengolahan, karena organik dapat dikompos dan anorganik dapat didaur ulang, sehingga sampah yang ke TPA berkurang.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

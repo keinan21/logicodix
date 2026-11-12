@@ -1,0 +1,17 @@
+{
+  "id": "111f94fc-d029-4e87-b545-23e20f646a29",
+  "kind": "pengetahuan",
+  "stem": "Sampah B3 adalah sampah …",
+  "options": [
+    "berbahaya dan beracun",
+    "basah dan bersih",
+    "biodegradable dan bernilai",
+    "basah dan basah"
+  ],
+  "answerIndex": 0,
+  "explanation": "Sampah B3 adalah sampah berbahaya dan beracun, yaitu limbah yang mengandung bahan yang dapat membahayakan kesehatan manusia dan mencemari lingkungan bila dibuang sembarangan.",
+  "sources": [],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

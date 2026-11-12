@@ -1,0 +1,17 @@
+{
+  "id": "638e5b2d-1c63-4d0c-bff5-2a13cdd72dff",
+  "kind": "pengetahuan",
+  "stem": "Hutan primer adalah hutan yang …",
+  "options": [
+    "belum banyak terganggu aktivitas manusia",
+    "telah ditebang habis",
+    "selalu terbakar",
+    "berubah menjadi kawasan industri"
+  ],
+  "answerIndex": 0,
+  "explanation": "Hutan primer adalah hutan yang belum banyak terganggu aktivitas manusia sehingga struktur dan keanekaragaman hayatinya masih utuh. Hutan yang habis ditebang bukan hutan primer.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

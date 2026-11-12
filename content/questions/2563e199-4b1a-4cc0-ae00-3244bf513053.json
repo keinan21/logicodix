@@ -1,0 +1,12 @@
+{
+  "id": "2563e199-4b1a-4cc0-ae00-3244bf513053",
+  "kind": "pengetahuan",
+  "stem": "Penggundulan hutan secara besar-besaran disebut …",
+  "options": ["reboisasi", "konservasi", "deforestasi", "rehabilitasi"],
+  "answerIndex": 2,
+  "explanation": "Deforestasi adalah penggundulan hutan secara besar-besaran. Reboisasi, konservasi, dan rehabilitasi merupakan upaya pemulihan, bukan penggundulan.",
+  "sources": [],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}
