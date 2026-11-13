@@ -51,6 +51,7 @@ yang memakai sumber yang sama.
 
 ## Batas perubahan riset
 
-Perubahan JSON hanya melengkapi `sources`. Kunci buatan manusia, teks soal,
-penjelasan, penulis, dan status tetap dipertahankan. Usulan koreksi ada pada laporan
-agar penulis dan pemeriksa dapat menilai serta menyetujui perubahan secara nyata.
+Perubahan JSON melengkapi `sources`. Pada soal 045–088, beberapa penjelasan, stem,
+dan pengecoh juga disunting sesuai catatan koreksi pada laporannya agar bukti dan
+rumusan soal lebih selaras. `answerIndex`, `writtenBy`, `reviewedBy`, `reviewedAt`,
+dan `status` tetap dipertahankan; tidak ada soal yang ditandai `terverifikasi`.

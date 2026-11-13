@@ -1,20 +1,26 @@
 {
   "id": "7be1a8db-5104-453e-8a69-71416e797d60",
   "kind": "pengetahuan",
-  "stem": "Fungsi hutan sebagai paru-paru dunia karena …",
+  "stem": "Melalui fotosintesis, pohon membantu siklus karbon dan oksigen dengan cara …",
   "options": [
-    "menyerap karbon dioksida dan menghasilkan oksigen",
-    "menghasilkan karbon dioksida",
-    "mengurangi oksigen",
-    "menghasilkan limbah"
+    "menggunakan CO2 dan air untuk membentuk bahan organik serta melepaskan oksigen",
+    "menggunakan oksigen untuk membentuk karbon dioksida sebagai hasil fotosintesis",
+    "mengubah karbon dioksida menjadi oksigen tanpa menggunakan energi cahaya",
+    "menyimpan seluruh karbon dioksida atmosfer secara permanen di dalam batang"
   ],
   "answerIndex": 0,
-  "explanation": "Hutan disebut paru-paru dunia karena menyerap CO2 dan menghasilkan oksigen melalui fotosintesis. Kemampuan menyerap CO2 berbeda tiap jenis pohon, tergantung jumlah dan luas daunnya.",
+  "explanation": "Dalam fotosintesis, tumbuhan menggunakan karbon dioksida dan air dengan energi cahaya untuk membentuk bahan organik serta melepaskan oksigen. Besar serapan karbon berbeda menurut jenis dan kondisi tumbuhan.",
   "sources": [
     {
-      "judul": "Forest and Water — In more depth",
-      "url": "https://www.fao.org/sustainable-forest-management/toolbox/modules/forest-and-water/in-more-depth/en/",
-      "lembaga": "FAO",
+      "judul": "DOE Explains...the Carbon Cycle",
+      "url": "https://www.energy.gov/science/doe-explainsthe-carbon-cycle",
+      "lembaga": "U.S. Department of Energy",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Full Text Glossary: Photosynthesis",
+      "url": "https://www.energy.gov/cmei/fuels/full-text-glossary",
+      "lembaga": "U.S. Department of Energy",
       "tanggalCek": "2026-11-13"
     }
   ],

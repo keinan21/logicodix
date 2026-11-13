@@ -9,18 +9,12 @@
     "membakar semua sampah"
   ],
   "answerIndex": 0,
-  "explanation": "Bank sampah mengelola sampah yang sudah dipilah menjadi bahan bernilai ekonomi, sehingga mengurangi timbunan sampah di lingkungan sekaligus memberi manfaat bagi warga.",
+  "explanation": "Bank sampah mendukung pengurangan dan penanganan sampah melalui pemanfaatan kembali, pemilahan, pengangkutan, atau pengolahan sesuai jenis sampah dan kemampuan pengelolanya.",
   "sources": [
     {
-      "judul": "Impacts of Plastic Pollution",
-      "url": "https://www.epa.gov/plastics/impacts-plastic-pollution",
-      "lembaga": "U.S. Environmental Protection Agency",
-      "tanggalCek": "2026-11-13"
-    },
-    {
-      "judul": "Microplastics",
-      "url": "https://environment.ec.europa.eu/topics/plastics/microplastics_en",
-      "lembaga": "European Commission",
+      "judul": "Peraturan Menteri Lingkungan Hidup dan Kehutanan Nomor 14 Tahun 2021 tentang Pengelolaan Sampah pada Bank Sampah",
+      "url": "https://jdih.menlhk.go.id/kiosk/files/2021pmlhk014_menlhk_07162021154234.pdf",
+      "lembaga": "Kementerian Lingkungan Hidup dan Kehutanan",
       "tanggalCek": "2026-11-13"
     }
   ],

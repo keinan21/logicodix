@@ -4,12 +4,12 @@
   "stem": "Salah satu contoh energi alternatif adalah …",
   "options": ["biogas dari kotoran hewan", "batu bara", "minyak bumi", "gas alam"],
   "answerIndex": 0,
-  "explanation": "Biogas dari kotoran hewan termasuk energi alternatif terbarukan yang ramah lingkungan. Batu bara, minyak bumi, dan gas alam adalah energi fosil.",
+  "explanation": "Pencernaan anaerob menguraikan bahan organik tanpa oksigen dan menghasilkan biogas; kotoran hewan dapat menjadi bahan bakunya. Batu bara, minyak bumi, dan gas alam adalah bahan bakar fosil.",
   "sources": [
     {
-      "judul": "Chapter 2: Soil and Water",
-      "url": "https://www.fao.org/4/r4082e/r4082e03.htm",
-      "lembaga": "FAO",
+      "judul": "How Does Anaerobic Digestion Work?",
+      "url": "https://www.epa.gov/agstar/how-does-anaerobic-digestion-work",
+      "lembaga": "U.S. Environmental Protection Agency",
       "tanggalCek": "2026-11-13"
     }
   ],

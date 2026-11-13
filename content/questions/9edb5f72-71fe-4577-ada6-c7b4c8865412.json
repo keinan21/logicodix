@@ -12,9 +12,15 @@
   "explanation": "Pencemaran air menurunkan kualitas air sehingga organisme air mati dan rantai makanan terganggu. Air tidak menjadi jernih dan organisme tidak berkembang pesat.",
   "sources": [
     {
-      "judul": "Solar Photovoltaic Cell Basics",
-      "url": "https://www.energy.gov/eere/solar/solar-photovoltaic-cell-basics",
-      "lembaga": "U.S. Department of Energy",
+      "judul": "Water Quality",
+      "url": "https://www.usgs.gov/special-topics/water-science-school/science/water-quality",
+      "lembaga": "U.S. Geological Survey",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "The Effects: Environment",
+      "url": "https://www.epa.gov/nutrientpollution/effects-environment",
+      "lembaga": "US EPA",
       "tanggalCek": "2026-11-13"
     }
   ],

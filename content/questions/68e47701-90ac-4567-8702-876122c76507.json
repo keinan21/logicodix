@@ -9,12 +9,18 @@
     "meningkatkan suhu laut"
   ],
   "answerIndex": 0,
-  "explanation": "Pemutihan karang akibat kenaikan suhu laut ditekan dengan mengurangi emisi gas rumah kaca dan melindungi kawasan karang. Menambang atau mencemari laut memperburuk kerusakan.",
+  "explanation": "Suhu laut yang tinggi dapat menyebabkan karang memutih. Mengurangi emisi gas rumah kaca membantu membatasi pemanasan, sementara perlindungan kawasan membantu mengurangi tekanan lokal pada terumbu.",
   "sources": [
     {
-      "judul": "How Does Anaerobic Digestion Work?",
-      "url": "https://www.epa.gov/agstar/how-does-anaerobic-digestion-work",
-      "lembaga": "U.S. Environmental Protection Agency",
+      "judul": "Shallow Coral Reef Habitat",
+      "url": "https://www.fisheries.noaa.gov/national/habitat-conservation/shallow-coral-reef-habitat",
+      "lembaga": "NOAA Fisheries",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Causes",
+      "url": "https://science.nasa.gov/climate-change/causes/",
+      "lembaga": "NASA",
       "tanggalCek": "2026-11-13"
     }
   ],

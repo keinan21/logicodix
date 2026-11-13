@@ -9,18 +9,18 @@
     "mempercepat kerusakan hutan"
   ],
   "answerIndex": 1,
-  "explanation": "Energi yang digunakan secara hemat mengurangi pembakaran bahan bakar fosil, sehingga eksploitasi sumber daya alam dan pencemaran ikut berkurang.",
+  "explanation": "Menghemat energi mengurangi kebutuhan energi yang harus diproduksi. Pada sistem yang membakar bahan bakar fosil, pengurangan kebutuhan dapat menekan emisi dan dampak lingkungannya.",
   "sources": [
     {
-      "judul": "Composting At Home",
-      "url": "https://www.epa.gov/recycle/composting-home",
-      "lembaga": "U.S. Environmental Protection Agency",
+      "judul": "Reduce the Environmental Impact of Your Energy Use",
+      "url": "https://www.epa.gov/energy/reduce-environmental-impact-your-energy-use",
+      "lembaga": "US EPA",
       "tanggalCek": "2026-11-13"
     },
     {
-      "judul": "Dashboard Pengurangan Sampah: Pertanyaan seputar Produsen",
-      "url": "https://info3r.kemenlh.go.id/faq/detail/id/1",
-      "lembaga": "Kementerian Lingkungan Hidup",
+      "judul": "Causes",
+      "url": "https://science.nasa.gov/climate-change/causes/",
+      "lembaga": "NASA",
       "tanggalCek": "2026-11-13"
     }
   ],

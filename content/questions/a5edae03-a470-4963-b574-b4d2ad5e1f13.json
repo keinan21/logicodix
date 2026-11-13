@@ -12,9 +12,15 @@
   "explanation": "Sampah plastik di laut dapat tertelan hewan laut, menyumbat saluran pencernaan, dan menyebabkan kematian. Plastik juga terurai menjadi mikroplastik yang masuk rantai makanan.",
   "sources": [
     {
-      "judul": "Drinking-water",
-      "url": "https://www.who.int/news-room/fact-sheets/detail/drinking-water",
-      "lembaga": "World Health Organization",
+      "judul": "Impacts of Plastic Pollution",
+      "url": "https://www.epa.gov/plastics/impacts-plastic-pollution",
+      "lembaga": "U.S. Environmental Protection Agency",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Microplastics",
+      "url": "https://environment.ec.europa.eu/topics/plastics/microplastics_en",
+      "lembaga": "European Commission",
       "tanggalCek": "2026-11-13"
     }
   ],

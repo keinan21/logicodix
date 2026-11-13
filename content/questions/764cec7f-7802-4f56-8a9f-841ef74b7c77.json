@@ -12,9 +12,15 @@
   "explanation": "Sampah plastik di pantai harus dikumpulkan, dipilah, dan didaur ulang. Membakar sampah plastik menghasilkan polutan berbahaya, sedangkan membuangnya ke laut mencemari ekosistem.",
   "sources": [
     {
-      "judul": "Climate Change: How Do We Know?",
-      "url": "https://science.nasa.gov/climate-change/evidence/",
-      "lembaga": "NASA",
+      "judul": "Impacts of Plastic Pollution",
+      "url": "https://www.epa.gov/plastics/impacts-plastic-pollution",
+      "lembaga": "U.S. Environmental Protection Agency",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Recycling Basics and Benefits",
+      "url": "https://www.epa.gov/recycle/recycling-basics-and-benefits",
+      "lembaga": "US EPA",
       "tanggalCek": "2026-11-13"
     }
   ],
