@@ -9,18 +9,18 @@
     "meningkatkan emisi karbon"
   ],
   "answerIndex": 0,
-  "explanation": "Keuntungan energi terbarukan adalah tidak cepat habis dan menghasilkan emisi karbon jauh lebih sedikit, sehingga tidak selalu menimbulkan limbah B3 maupun menambah emisi.",
+  "explanation": "Sumber terbarukan pulih secara alami. Emisi dan dampak lingkungannya berbeda menurut teknologi dan siklus hidupnya, sehingga energi terbarukan tidak berarti bebas dampak.",
   "sources": [
     {
-      "judul": "Guidance on solid waste and health",
-      "url": "https://www.who.int/tools/compendium-on-health-and-environment/solid-waste",
-      "lembaga": "World Health Organization",
+      "judul": "Renewable energy explained",
+      "url": "https://www.eia.gov/energyexplained/renewable-sources/index.php",
+      "lembaga": "U.S. Energy Information Administration",
       "tanggalCek": "2026-11-13"
     },
     {
-      "judul": "Water Quality",
-      "url": "https://www.usgs.gov/special-topics/water-science-school/science/water-quality",
-      "lembaga": "U.S. Geological Survey",
+      "judul": "About the U.S. Electricity System and its Impact on the Environment",
+      "url": "https://www.epa.gov/energy/about-us-electricity-system-and-its-impact-environment",
+      "lembaga": "US EPA",
       "tanggalCek": "2026-11-13"
     }
   ],

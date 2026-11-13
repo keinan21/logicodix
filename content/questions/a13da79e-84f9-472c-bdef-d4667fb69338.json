@@ -9,18 +9,12 @@
     "mengurangi keanekaragaman hayati"
   ],
   "answerIndex": 0,
-  "explanation": "Hutan produksi dikelola untuk menghasilkan kayu dan hasil hutan lainnya secara berkelanjutan. Fungsi perlindungan habitat utama berada pada kawasan konservasi.",
+  "explanation": "Hutan produksi ditetapkan terutama untuk menghasilkan kayu dan hasil hutan lainnya. Pemanfaatannya tetap harus mengikuti fungsi kawasan dan aturan pengelolaan yang berlaku.",
   "sources": [
     {
-      "judul": "Renewable energy explained",
-      "url": "https://www.eia.gov/energyexplained/renewable-sources/index.php",
-      "lembaga": "U.S. Energy Information Administration",
-      "tanggalCek": "2026-11-13"
-    },
-    {
-      "judul": "Causes",
-      "url": "https://science.nasa.gov/climate-change/causes/",
-      "lembaga": "NASA",
+      "judul": "FRA 2005 Terms and Definitions: Production Forest",
+      "url": "https://www.fao.org/4/ae349e/AE349E04.htm",
+      "lembaga": "FAO",
       "tanggalCek": "2026-11-13"
     }
   ],

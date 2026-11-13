@@ -2,14 +2,19 @@
   "id": "6fe2028d-53b3-4a57-9d7f-31e6ca57acc0",
   "kind": "pengetahuan",
   "stem": "Kawasan konservasi yang melindungi ekosistem laut disebut …",
-  "options": ["taman nasional darat", "taman laut", "hutan produksi", "kawasan industri"],
+  "options": [
+    "taman nasional darat",
+    "kawasan konservasi perairan",
+    "hutan produksi",
+    "kawasan industri"
+  ],
   "answerIndex": 1,
-  "explanation": "Taman laut adalah kawasan konservasi yang melindungi ekosistem laut, seperti terumbu karang dan padang lamun. Hutan produksi dan kawasan industri bukan kawasan konservasi laut.",
+  "explanation": "Kawasan konservasi perairan dilindungi dan dikelola dengan zonasi untuk menjaga sumber daya ikan serta lingkungannya secara berkelanjutan.",
   "sources": [
     {
-      "judul": "Effects of Acid Rain",
-      "url": "https://www.epa.gov/acidrain/effects-acid-rain",
-      "lembaga": "U.S. Environmental Protection Agency",
+      "judul": "Kamus Hukum: Kawasan Konservasi Perairan",
+      "url": "https://jdih.kkp.go.id/Homedev/KamusHukum/2300",
+      "lembaga": "Kementerian Kelautan dan Perikanan",
       "tanggalCek": "2026-11-13"
     }
   ],

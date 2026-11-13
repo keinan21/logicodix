@@ -4,12 +4,12 @@
   "stem": "Pencemaran yang terjadi di sungai disebut pencemaran …",
   "options": ["udara", "tanah", "air", "suara"],
   "answerIndex": 2,
-  "explanation": "Pencemaran di sungai termasuk pencemaran air, yaitu masuknya polutan ke perairan sehingga terjadi perubahan fisika, kimia, dan biologi yang merugikan.",
+  "explanation": "Pencemaran di sungai termasuk pencemaran air. Polutan dapat mengubah kondisi fisik, kimia, atau biologi perairan dan mengganggu pengguna serta organisme yang hidup di dalamnya.",
   "sources": [
     {
-      "judul": "About Marine Protected Areas",
-      "url": "https://marineprotectedareas.noaa.gov/aboutmpas/",
-      "lembaga": "NOAA",
+      "judul": "Water Quality",
+      "url": "https://www.usgs.gov/special-topics/water-science-school/science/water-quality",
+      "lembaga": "U.S. Geological Survey",
       "tanggalCek": "2026-11-13"
     }
   ],

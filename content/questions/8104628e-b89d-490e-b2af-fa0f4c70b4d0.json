@@ -12,9 +12,15 @@
   "explanation": "Hutan menyimpan cadangan air, menahan erosi, dan menyerap karbon dioksida. Pilihan lain menggambarkan hutan sebagai sumber pencemar dan perusak, yang bertentangan dengan fakta.",
   "sources": [
     {
-      "judul": "What is a mangrove forest?",
-      "url": "https://oceanservice.noaa.gov/facts/mangroves.html",
-      "lembaga": "NOAA",
+      "judul": "Forest and Water — In more depth",
+      "url": "https://www.fao.org/sustainable-forest-management/toolbox/modules/forest-and-water/in-more-depth/en/",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "DOE Explains...the Carbon Cycle",
+      "url": "https://www.energy.gov/science/doe-explainsthe-carbon-cycle",
+      "lembaga": "U.S. Department of Energy",
       "tanggalCek": "2026-11-13"
     }
   ],

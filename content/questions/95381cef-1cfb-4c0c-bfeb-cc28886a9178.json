@@ -3,18 +3,24 @@
   "kind": "pengetahuan",
   "stem": "Salah satu upaya adaptasi perubahan iklim adalah …",
   "options": [
-    "membangun sistem drainase dan konservasi air",
-    "menebang hutan",
-    "membuang limbah ke sungai",
-    "meningkatkan emisi"
+    "melindungi ekosistem dan menjaga daerah resapan air",
+    "menebang hutan di daerah rawan banjir",
+    "membuang limbah ke sungai saat hujan deras",
+    "meningkatkan emisi agar suhu kembali stabil"
   ],
   "answerIndex": 0,
-  "explanation": "Adaptasi perubahan iklim adalah penyesuaian terhadap dampak yang sudah terjadi, misalnya membangun drainase, memanen air hujan, dan memilih tanaman tahan kekeringan.",
+  "explanation": "Adaptasi menyiapkan manusia dan ekosistem menghadapi dampak iklim yang terjadi atau diperkirakan. Perlindungan ekosistem dan daerah resapan dapat mengurangi risiko banjir serta kekeringan sesuai kondisi setempat.",
   "sources": [
     {
-      "judul": "FRA 2005 Terms and Definitions: Production Forest",
-      "url": "https://www.fao.org/4/ae349e/AE349E04.htm",
-      "lembaga": "FAO",
+      "judul": "Ecosystem-based Adaptation",
+      "url": "https://www.unep.org/en/what-we-do/climate-action/adaptation/ecosystem-based-adaptation",
+      "lembaga": "UN Environment Programme",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Kementerian ESDM Imbau Masyarakat Bangun Sumur Resapan untuk Konservasi Air Tanah",
+      "url": "https://www.esdm.go.id/en/media-center/news-archives/kementerian-esdm-imbau-masyarakat-bangun-sumur-resapan-untuk-konservasi-air-tanah",
+      "lembaga": "Kementerian ESDM",
       "tanggalCek": "2026-11-13"
     }
   ],
