@@ -11,7 +11,14 @@
   ],
   "answerIndex": 1,
   "explanation": "Iklim dilihat dari tren suhu rata-rata dalam periode panjang, bukan dari satu hari atau satu kejadian dingin. Menyimpulkan tren global dari cuaca sehari adalah kesalahan menafsirkan data. Sumber resmi menyediakan data suhu jangka panjang.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "What’s the difference between climate and weather?",
+      "url": "https://www.noaa.gov/explainers/what-s-difference-between-climate-and-weather",
+      "lembaga": "NOAA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "misinfoType": "menyesatkan-salah-tafsir-data",
   "topic": "iklim-cuaca",
   "status": "draf",

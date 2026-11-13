@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Kawasan konservasi perairan bertujuan melindungi ekosistem laut dan biota di dalamnya agar sumber daya laut tetap lestari dan dapat dimanfaatkan berkelanjutan.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Climate Change: How Do We Know?",
+      "url": "https://science.nasa.gov/climate-change/evidence/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

@@ -10,7 +10,20 @@
   ],
   "answerIndex": 0,
   "explanation": "Sampah yang sudah dipilah memudahkan pengolahan, karena organik dapat dikompos dan anorganik dapat didaur ulang, sehingga sampah yang ke TPA berkurang.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Dashboard Pengurangan Sampah: Pertanyaan seputar Produsen",
+      "url": "https://info3r.kemenlh.go.id/faq/detail/id/1",
+      "lembaga": "Kementerian Lingkungan Hidup",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Recycling Basics and Benefits",
+      "url": "https://www.epa.gov/recycle/recycling-basics-and-benefits",
+      "lembaga": "U.S. Environmental Protection Agency",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "sampah",
   "status": "draf",
   "writtenBy": "c-keinan"

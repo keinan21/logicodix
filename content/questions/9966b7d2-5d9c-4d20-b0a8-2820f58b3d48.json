@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Agroforestri menjaga tanah dari erosi karena tajuk dan akar pohon melindungi permukaan tanah, sekaligus menambah keanekaragaman hayati dan pendapatan petani.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "How Does Anaerobic Digestion Work?",
+      "url": "https://www.epa.gov/agstar/how-does-anaerobic-digestion-work",
+      "lembaga": "U.S. Environmental Protection Agency",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

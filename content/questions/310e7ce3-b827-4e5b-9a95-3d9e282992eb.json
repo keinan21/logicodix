@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Kebakaran hutan dicegah dengan tidak membakar lahan atau sampah sembarangan dan tidak menyalakan api di kawasan kering. Membiarkan api tanpa pengawasan justru berbahaya.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "WASPADA KARHUTLA, CEGAH KEBAKARAN HUTAN DAN LAHAN SEJAK DINI",
+      "url": "https://bptusembawa.ditjenpkh.pertanian.go.id/berita/waspada-karhutla-cegah-kebakaran-hutan-dan-lahan-sejak-dini",
+      "lembaga": "BPTU HPT Sembawa, Kementerian Pertanian",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

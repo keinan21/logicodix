@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Energi terbarukan menghasilkan emisi gas rumah kaca jauh lebih sedikit dibanding pembakaran fosil, sehingga membantu mencegah pemanasan global dan tidak mempercepat penipisan minyak bumi.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Reduce the Environmental Impact of Your Energy Use",
+      "url": "https://www.epa.gov/energy/reduce-environmental-impact-your-energy-use",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Energi biomassa memanfaatkan limbah organik menjadi sumber energi, sehingga mengurangi timbunan limbah sekaligus mengurangi ketergantungan pada energi fosil.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Groundwater Decline and Depletion",
+      "url": "https://www.usgs.gov/water-science-school/science/groundwater-decline-and-depletion",
+      "lembaga": "U.S. Geological Survey",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

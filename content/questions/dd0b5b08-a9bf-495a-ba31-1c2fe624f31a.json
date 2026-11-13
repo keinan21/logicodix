@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Sampah organik dapur sebaiknya diolah menjadi kompos, misalnya dengan komposter atau lubang biopori. Membakar atau membuangnya ke sungai justru menimbulkan pencemaran.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Composting At Home",
+      "url": "https://www.epa.gov/recycle/composting-home",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "sampah",
   "status": "draf",
   "writtenBy": "c-keinan"

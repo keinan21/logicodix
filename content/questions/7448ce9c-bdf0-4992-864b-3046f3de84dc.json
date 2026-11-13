@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Lahan gambut penting karena menyimpan karbon dalam jumlah besar dan mampu menahan air, sehingga berperan mencegah banjir dan menjaga iklim.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Groundwater Decline and Depletion",
+      "url": "https://www.usgs.gov/water-science-school/science/groundwater-decline-and-depletion",
+      "lembaga": "U.S. Geological Survey",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

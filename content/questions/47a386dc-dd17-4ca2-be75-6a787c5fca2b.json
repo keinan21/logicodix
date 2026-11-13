@@ -10,7 +10,20 @@
   ],
   "answerIndex": 0,
   "explanation": "Penghematan listrik mengurangi pembakaran bahan bakar fosil di pembangkit, sehingga emisi gas rumah kaca dan pencemaran udara ikut berkurang.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "About the U.S. Electricity System and its Impact on the Environment",
+      "url": "https://www.epa.gov/energy/about-us-electricity-system-and-its-impact-environment",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Reduce the Environmental Impact of Your Energy Use",
+      "url": "https://www.epa.gov/energy/reduce-environmental-impact-your-energy-use",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

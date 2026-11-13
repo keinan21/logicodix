@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Saat hutan dibakar, karbon yang tersimpan di biomassa dan tanah terlepas ke atmosfer sebagai karbon dioksida, sehingga memperburuk pemanasan global.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Guidance on solid waste and health",
+      "url": "https://www.who.int/tools/compendium-on-health-and-environment/solid-waste",
+      "lembaga": "World Health Organization",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

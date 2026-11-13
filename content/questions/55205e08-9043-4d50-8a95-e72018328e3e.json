@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Biogas dihasilkan dari penguraian bahan organik oleh mikroorganisme dalam kondisi tanpa oksigen, menghasilkan gas metana yang dapat dibakar sebagai bahan bakar.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "How Does Anaerobic Digestion Work?",
+      "url": "https://www.epa.gov/agstar/how-does-anaerobic-digestion-work",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

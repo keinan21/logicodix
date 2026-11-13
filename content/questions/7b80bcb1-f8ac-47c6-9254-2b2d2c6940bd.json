@@ -10,7 +10,20 @@
   ],
   "answerIndex": 1,
   "explanation": "Energi yang digunakan secara hemat mengurangi pembakaran bahan bakar fosil, sehingga eksploitasi sumber daya alam dan pencemaran ikut berkurang.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Composting At Home",
+      "url": "https://www.epa.gov/recycle/composting-home",
+      "lembaga": "U.S. Environmental Protection Agency",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Dashboard Pengurangan Sampah: Pertanyaan seputar Produsen",
+      "url": "https://info3r.kemenlh.go.id/faq/detail/id/1",
+      "lembaga": "Kementerian Lingkungan Hidup",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

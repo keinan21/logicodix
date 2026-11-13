@@ -11,7 +11,20 @@
   ],
   "answerIndex": 3,
   "explanation": "Catut otoritas terjadi ketika nama lembaga dipakai untuk meminjah kredibilitas tanpa bukti pernyataan asli. Selalu buka situs resmi lembaga yang disebut. Kebijakan air minum berbeda antar daerah dan diatur berdasarkan standar resmi.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "How to check facts",
+      "url": "https://commonslibrary.parliament.uk/research-briefings/cbp-10820/",
+      "lembaga": "House of Commons Library",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Drinking-water",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/drinking-water",
+      "lembaga": "World Health Organization",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "misinfoType": "catut-otoritas",
   "topic": "air",
   "status": "draf",

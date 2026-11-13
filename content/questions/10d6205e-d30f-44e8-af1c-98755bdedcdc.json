@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Reklamasi bertujuan memulihkan fungsi lahan yang rusak akibat penambangan agar dapat digunakan kembali dan tidak menjadi sumber erosi maupun pencemaran.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Lebihi Target, Reklamasi Pascatambang Garap 7.920,77 Hektar di 2023",
+      "url": "https://www.esdm.go.id/id/media-center/arsip-berita/lebihi-target-reklamasi-pascatambang-garap-792077-hektar-di-2023",
+      "lembaga": "Kementerian ESDM",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Penanaman kembali mangrove mengurangi abrasi, memulihkan habitat biota, dan menambah penyerap karbon. Kegiatan ini tidak menambah pencemaran maupun merusak habitat.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "What is a mangrove forest?",
+      "url": "https://oceanservice.noaa.gov/facts/mangroves.html",
+      "lembaga": "NOAA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

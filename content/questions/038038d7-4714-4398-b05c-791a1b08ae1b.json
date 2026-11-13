@@ -5,7 +5,14 @@
   "options": ["fosil", "terbarukan", "tidak dapat diperbarui", "pencemar"],
   "answerIndex": 1,
   "explanation": "Energi matahari, angin, dan air termasuk energi terbarukan karena berasal dari sumber yang terus tersedia di alam dan tidak cepat habis, berbeda dengan energi fosil.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Renewable energy explained",
+      "url": "https://www.eia.gov/energyexplained/renewable-sources/index.php",
+      "lembaga": "U.S. Energy Information Administration",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

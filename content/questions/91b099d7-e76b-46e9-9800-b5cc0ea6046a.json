@@ -10,7 +10,20 @@
   ],
   "answerIndex": 0,
   "explanation": "Konservasi air menjamin ketersediaan air bersih untuk kebutuhan rumah tangga, pertanian, dan industri, sekaligus menjaga ekosistem perairan tetap sehat.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Bank Sampah",
+      "url": "https://sipsn.menlhk.go.id/sipsn/public/bank-sampah",
+      "lembaga": "Kementerian Lingkungan Hidup",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Dashboard Pengurangan Sampah: Pertanyaan seputar Produsen",
+      "url": "https://info3r.kemenlh.go.id/faq/detail/id/1",
+      "lembaga": "Kementerian Lingkungan Hidup",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

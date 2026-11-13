@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Daur ulang kertas mengurangi kebutuhan kayu sehingga menekan penebangan pohon dan menghemat energi dibanding membuat kertas baru dari pulp.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Recycling Basics and Benefits",
+      "url": "https://www.epa.gov/recycle/recycling-basics-and-benefits",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "sampah",
   "status": "draf",
   "writtenBy": "c-keinan"

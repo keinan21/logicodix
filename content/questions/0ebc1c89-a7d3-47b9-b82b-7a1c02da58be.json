@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Limbah minyak di laut membentuk lapisan di permukaan air, menghalangi pertukaran oksigen dan sinar matahari, sehingga biota laut terganggu bahkan mati.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "How does oil impact marine life?",
+      "url": "https://oceanservice.noaa.gov/facts/oilimpacts.html",
+      "lembaga": "NOAA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

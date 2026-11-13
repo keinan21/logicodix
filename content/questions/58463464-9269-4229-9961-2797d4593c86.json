@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Sampah elektronik mengandung logam berat seperti timbal dan merkuri serta bahan berbahaya lain, sehingga harus dikelola khusus agar tidak mencemari tanah dan air.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Electronic waste (e-waste)",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/electronic-waste-(e-waste)",
+      "lembaga": "World Health Organization",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "sampah",
   "status": "draf",
   "writtenBy": "c-keinan"

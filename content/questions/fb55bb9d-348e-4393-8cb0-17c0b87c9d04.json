@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Pembuangan limbah industri ke sungai adalah penyebab utama pencemaran air. Penanaman pohon, pengolahan limbah, dan penghematan air justru upaya pencegahan.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Industrial Wastewater",
+      "url": "https://www.epa.gov/npdes/industrial-wastewater",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

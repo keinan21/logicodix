@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Mangrove berperan menahan abrasi dan gelombang pantai, menangkap sedimen, serta menjadi habitat biota laut seperti ikan, kepiting, dan udang.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "What is a mangrove forest?",
+      "url": "https://oceanservice.noaa.gov/facts/mangroves.html",
+      "lembaga": "NOAA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

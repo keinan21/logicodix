@@ -5,7 +5,14 @@
   "options": ["deforestasi akibat pembakaran", "reboisasi", "konservasi", "reklamasi"],
   "answerIndex": 0,
   "explanation": "Pembakaran hutan untuk membuka lahan merupakan deforestasi akibat pembakaran. Kegiatan ini menghasilkan kabut asap dan menghilangkan habitat, bukan reboisasi atau konservasi.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Water Quality",
+      "url": "https://www.usgs.gov/special-topics/water-science-school/science/water-quality",
+      "lembaga": "U.S. Geological Survey",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

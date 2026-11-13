@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Mitigasi perubahan iklim adalah upaya menekan penyebabnya, terutama mengurangi emisi gas rumah kaca dengan energi terbarukan, hemat energi, dan menjaga hutan.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Mitigation",
+      "url": "https://www.unep.org/en/what-we-do/climate-action/mitigation",
+      "lembaga": "UNEP",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

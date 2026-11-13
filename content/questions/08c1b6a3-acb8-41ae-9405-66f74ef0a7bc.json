@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Agroforestri adalah sistem pertanian yang menggabungkan tanaman pohon dengan tanaman pertanian di lahan yang sama, sehingga lahan produktif sekaligus terjaga.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Overview | About agroforestry",
+      "url": "https://www.fao.org/agroforestry/about-agroforestry/overview/en",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

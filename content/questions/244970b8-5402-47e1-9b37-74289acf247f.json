@@ -10,7 +10,14 @@
   ],
   "answerIndex": 1,
   "explanation": "Hujan asam disebabkan sulfur dioksida (SO2) dan nitrogen oksida (NO2) dari pembakaran bahan bakar fosil yang bereaksi dengan uap air membentuk asam sulfat dan asam nitrat.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "What is Acid Rain?",
+      "url": "https://www.epa.gov/acidrain/what-acid-rain",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

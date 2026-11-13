@@ -5,7 +5,14 @@
   "options": ["biogas dari kotoran hewan", "batu bara", "minyak bumi", "gas alam"],
   "answerIndex": 0,
   "explanation": "Biogas dari kotoran hewan termasuk energi alternatif terbarukan yang ramah lingkungan. Batu bara, minyak bumi, dan gas alam adalah energi fosil.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Chapter 2: Soil and Water",
+      "url": "https://www.fao.org/4/r4082e/r4082e03.htm",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

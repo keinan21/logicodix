@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Kenaikan suhu bumi mencairkan es di kutub dan gletser, sehingga permukaan air laut naik dan pulau-pulau kecil berisiko terendam.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Causes",
+      "url": "https://science.nasa.gov/climate-change/causes/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

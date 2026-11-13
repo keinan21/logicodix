@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Air limbah domestik dialirkan ke septic tank atau instalasi pengolahan limbah agar zat pencemarnya terurai lebih dulu. Membuangnya ke sungai, sumur, atau sawah mencemari lingkungan.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "How Septic Systems Work",
+      "url": "https://www.epa.gov/septic/how-septic-systems-work",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

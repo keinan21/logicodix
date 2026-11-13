@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Sedimentasi mendangkalkan sungai dan waduk, mengurangi daya tampung air, sehingga risiko banjir meningkat dan aliran air terganggu.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Sediment and Suspended Sediment",
+      "url": "https://www.usgs.gov/water-science-school/science/sediment-and-suspended-sediment",
+      "lembaga": "U.S. Geological Survey",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

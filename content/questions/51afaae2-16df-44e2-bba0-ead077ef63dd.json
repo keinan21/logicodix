@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Sedimentasi sungai terjadi karena partikel tanah hasil erosi di daerah hulu terbawa aliran air dan mengendap di bagian hilir atau waduk.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Sediment and Suspended Sediment",
+      "url": "https://www.usgs.gov/water-science-school/science/sediment-and-suspended-sediment",
+      "lembaga": "U.S. Geological Survey",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

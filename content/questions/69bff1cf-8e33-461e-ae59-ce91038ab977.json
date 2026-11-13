@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Saluran vegetatif berupa rumput ditanam mengikuti kontur lahan untuk memperlambat aliran air dan menahan partikel tanah, sehingga erosi berkurang.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "KARHUTLA DI INDONESIA: SAAT ASAP DATANG, KITA SIAP",
+      "url": "https://www.badankebijakan.kemkes.go.id/karhutla-di-indonesia-saat-asap-datang-kita-siap/",
+      "lembaga": "Badan Kebijakan Pembangunan Kesehatan, Kementerian Kesehatan",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

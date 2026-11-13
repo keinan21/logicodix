@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Mikroplastik berukuran sangat kecil sehingga mudah masuk ke rantai makanan melalui plankton dan ikan, lalu terakumulasi pada tubuh makhluk hidup termasuk manusia.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Microplastics",
+      "url": "https://environment.ec.europa.eu/topics/plastics/microplastics_en",
+      "lembaga": "European Commission",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "sampah",
   "status": "draf",
   "writtenBy": "c-keinan"

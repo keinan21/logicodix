@@ -5,7 +5,14 @@
   "options": ["CFC", "oksigen", "nitrogen", "uap air"],
   "answerIndex": 0,
   "explanation": "CFC (klorofluorokarbon) merusak lapisan ozon karena melepaskan atom klor yang menguraikan ozon menjadi oksigen. Karena itu penggunaan CFC harus dihentikan.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Basic Ozone Layer Science",
+      "url": "https://www.epa.gov/ozone-layer-protection/basic-ozone-layer-science",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

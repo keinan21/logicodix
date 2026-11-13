@@ -10,7 +10,20 @@
   ],
   "answerIndex": 0,
   "explanation": "Hutan primer adalah hutan yang belum banyak terganggu aktivitas manusia sehingga struktur dan keanekaragaman hayatinya masih utuh. Hutan yang habis ditebang bukan hutan primer.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Impacts of Plastic Pollution",
+      "url": "https://www.epa.gov/plastics/impacts-plastic-pollution",
+      "lembaga": "U.S. Environmental Protection Agency",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Dashboard Pengurangan Sampah: Pertanyaan seputar Produsen",
+      "url": "https://info3r.kemenlh.go.id/faq/detail/id/1",
+      "lembaga": "Kementerian Lingkungan Hidup",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Perubahan iklim memengaruhi pola cuaca, ketersediaan air, dan ekosistem, sehingga berdampak pada pertanian, kesehatan, dan kehidupan masyarakat secara luas.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "FRA 2025 Terms and Definitions: Primary Forest",
+      "url": "https://www.fao.org/faoterm/viewentry/es/?entryId=41945",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

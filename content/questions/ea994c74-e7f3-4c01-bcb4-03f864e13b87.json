@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Pabrik wajib membangun instalasi pengolahan limbah agar limbah cair diolah sebelum dibuang. Membuang langsung, menutupi dengan tanah, atau memindahkannya ke hutan tetap mencemari.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Industrial Wastewater",
+      "url": "https://www.epa.gov/npdes/industrial-wastewater",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"
