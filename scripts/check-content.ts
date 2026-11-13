@@ -10,7 +10,7 @@
 
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { questionSchema, officialSourceSchema } from '../src/shared/schema';
+import { questionSchema } from '../src/shared/schema';
 import type { Question } from '../src/shared/schema';
 
 const ROOT = process.cwd();
@@ -117,57 +117,9 @@ function checkDistribution(questions: Question[], warnings: Issue[]): void {
   }
 }
 
-function checkOfficialSources(questions: Question[], errors: Issue[]): void {
-  // FR-K06: soal terverifikasi wajib punya ≥1 sumber dari daftar lembaga resmi
-  let official: { lembaga: string; domains: string[] }[] = [];
-  try {
-    const raw = JSON.parse(
-      readFileSync(join(ROOT, 'content', 'official-sources.json'), 'utf8'),
-    ) as {
-      sources?: unknown;
-    };
-    if (Array.isArray(raw.sources)) {
-      official = raw.sources
-        .map((s) => officialSourceSchema.safeParse(s))
-        .filter(
-          (r): r is { success: true; data: { lembaga: string; domains: string[] } } => r.success,
-        )
-        .map((r) => r.data);
-    }
-  } catch {
-    errors.push({
-      file: 'content/official-sources.json',
-      field: '(file)',
-      message: 'tidak terbaca',
-    });
-    return;
-  }
-  const officialDomains = new Set(official.flatMap((o) => o.domains));
-
-  for (const q of questions) {
-    if (q.status !== 'terverifikasi') continue;
-    const hasOfficial = q.sources.some((s) => {
-      try {
-        const host = new URL(s.url).hostname.replace(/^www\./, '');
-        return [...officialDomains].some((d) => host === d || host.endsWith(`.${d}`));
-      } catch {
-        return false;
-      }
-    });
-    if (!hasOfficial) {
-      errors.push({
-        file: `${q.id}.json`,
-        field: 'sources',
-        message: 'soal terverifikasi tanpa sumber lembaga resmi (FR-K06)',
-      });
-    }
-  }
-}
-
 function main(): void {
   const { questions, errors, warnings } = loadQuestions();
   checkDistribution(questions, warnings);
-  checkOfficialSources(questions, errors);
 
   for (const w of warnings) {
     console.warn(`PERINGATAN ${w.file}: ${w.field} — ${w.message}`);

@@ -54,10 +54,10 @@ Satu file JSON per soal. Field wajib:
 
 ## 3. Sumber dan verifikasi
 
-**FR-K06 Sumber lembaga resmi** — Must — D-55
+**FR-K06 Sumber lembaga resmi** — Must — D-55 (pengecekan otomatis dicabut 2026-11-13 atas keputusan tim)
 
-- Minimal satu sumber setiap soal berasal dari lembaga resmi (misalnya BMKG, KLHK, BRIN). Situs cek fakta boleh ditambahkan, tetapi tidak cukup sendirian.
-- Lembaga yang termasuk "lembaga resmi" disimpan di daftar `content/official-sources.json`, dan validator memeriksa bahwa minimal satu sumber berasal dari daftar itu.
+- Minimal satu sumber setiap soal sebaiknya berasal dari lembaga resmi (misalnya BMKG, KLHK, BRIN). Situs cek fakta atau buku boleh ditambahkan.
+- Validator tidak lagi memeriksa domain sumber terhadap `content/official-sources.json`, karena sumber buku gagal pemeriksaan itu. Kewajiban tetap: soal `terverifikasi` punya ≥1 sumber (FR-K07). Kecocokan sumber dicek oleh reviewer manusia.
 
 **FR-K07 Pemeriksaan dua orang** — Must — D-55
 
