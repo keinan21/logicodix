@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Efek rumah kaca terjadi karena gas rumah kaca di atmosfer meneruskan sinar matahari tetapi menahan panas yang dipancarkan bumi, sehingga suhu bumi meningkat.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Causes",
+      "url": "https://science.nasa.gov/climate-change/causes/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

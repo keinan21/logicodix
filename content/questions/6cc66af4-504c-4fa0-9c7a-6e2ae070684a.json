@@ -5,7 +5,14 @@
   "options": ["udara", "tanah", "air", "suara"],
   "answerIndex": 2,
   "explanation": "Pencemaran di sungai termasuk pencemaran air, yaitu masuknya polutan ke perairan sehingga terjadi perubahan fisika, kimia, dan biologi yang merugikan.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "About Marine Protected Areas",
+      "url": "https://marineprotectedareas.noaa.gov/aboutmpas/",
+      "lembaga": "NOAA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

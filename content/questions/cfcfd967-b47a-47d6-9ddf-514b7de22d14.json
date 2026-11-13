@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Saat alga tumbuh berlebihan, alga yang mati diuraikan pengurai yang menghabiskan oksigen terlarut, sehingga ikan dan organisme lain kekurangan oksigen dan mati.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "What is nutrient pollution?",
+      "url": "https://oceanservice.noaa.gov/facts/nutpollution.html",
+      "lembaga": "NOAA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

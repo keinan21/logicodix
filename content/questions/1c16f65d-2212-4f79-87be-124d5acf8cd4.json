@@ -10,7 +10,20 @@
   ],
   "answerIndex": 0,
   "explanation": "Daerah resapan air menyerap air hujan ke dalam tanah, mengisi cadangan air tanah, dan mengurangi limpasan permukaan. Jika resapan berkurang, banjir dan kekeringan meningkat.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Biopori dan Drainase Vertikal",
+      "url": "https://www.jakarta.go.id/index.php/biopori-dan-drainase-vertikal",
+      "lembaga": "Dinas Sumber Daya Air Provinsi DKI Jakarta",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Forest and Water — In more depth",
+      "url": "https://www.fao.org/sustainable-forest-management/toolbox/modules/forest-and-water/in-more-depth/en/",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

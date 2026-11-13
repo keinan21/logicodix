@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Hujan asam merusak tanaman dan hutan, mengganggu kehidupan air, serta mengorosi bangunan dan logam. Hujan asam tidak menyuburkan tanah maupun memperbaiki ekosistem.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Drinking-water",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/drinking-water",
+      "lembaga": "World Health Organization",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

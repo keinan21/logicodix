@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Komposter adalah wadah untuk mengolah sampah organik menjadi kompos melalui penguraian mikroorganisme. Komposter tidak dipakai untuk membakar plastik atau menyimpan limbah B3.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Composting At Home",
+      "url": "https://www.epa.gov/recycle/composting-home",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "sampah",
   "status": "draf",
   "writtenBy": "c-keinan"

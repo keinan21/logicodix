@@ -11,7 +11,14 @@
   ],
   "answerIndex": 2,
   "explanation": "Mengklaim foto lama sebagai kejadian baru adalah salah konteks. Periksa tanggal, lokasi, dan sumber asli media sebelum mempercayai atau membagikannya. Lembaga resmi setempat biasanya mengonfirmasi kejadian terbaru.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "How to verify images and videos",
+      "url": "https://commonslibrary.parliament.uk/research-briefings/cbp-10816/",
+      "lembaga": "House of Commons Library",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "misinfoType": "konteks-salah",
   "topic": "sampah",
   "status": "draf",

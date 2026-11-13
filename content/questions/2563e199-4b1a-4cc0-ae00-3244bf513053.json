@@ -5,7 +5,14 @@
   "options": ["reboisasi", "konservasi", "deforestasi", "rehabilitasi"],
   "answerIndex": 2,
   "explanation": "Deforestasi adalah penggundulan hutan secara besar-besaran. Reboisasi, konservasi, dan rehabilitasi merupakan upaya pemulihan, bukan penggundulan.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "FRA 2000 on definitions of forest and forest change",
+      "url": "https://www.fao.org/4/ad665e/ad665e04.htm",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

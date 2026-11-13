@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Air tanah menurun karena pengambilan berlebihan dan berkurangnya daerah resapan akibat lahan tertutup bangunan. Bertambahnya hutan dan penghematan air justru memperbaiki cadangan air.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Groundwater Decline and Depletion",
+      "url": "https://www.usgs.gov/water-science-school/science/groundwater-decline-and-depletion",
+      "lembaga": "U.S. Geological Survey",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

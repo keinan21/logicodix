@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Pembakaran sampah plastik melepaskan gas dan partikulat berbahaya ke udara sehingga mencemari udara dan mengganggu pernapasan, bukan meningkatkan kualitas udara.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Peatlands",
+      "url": "https://www.unep.org/en/what-we-do/peatlands",
+      "lembaga": "UN Environment Programme",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "sampah",
   "status": "draf",
   "writtenBy": "c-keinan"

@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Pemanasan global terutama disebabkan meningkatnya gas rumah kaca akibat pembakaran bahan bakar fosil dan deforestasi. Penurunan suhu dan penanaman pohon bukan penyebabnya.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Causes",
+      "url": "https://science.nasa.gov/climate-change/causes/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

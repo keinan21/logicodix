@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Salah satu dampak pemanasan global adalah mencairnya es di kutub yang menyebabkan naiknya permukaan air laut dan pulau kecil terendam.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Forests and climate change",
+      "url": "https://www.fao.org/forestry/climatechange/53459/en/",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

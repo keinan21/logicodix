@@ -10,7 +10,14 @@
   ],
   "answerIndex": 1,
   "explanation": "Membawa tumbler dan tas belanja sendiri menerapkan reduce, yaitu mengurangi sampah plastik sejak awal. Membeli plastik baru atau membakar plastik justru menambah masalah.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "SIGAP SAMPAH B3 Hadir di Kantor Kecamatan Samarinda Ilir!",
+      "url": "https://dlh.samarindakota.go.id/artikel/sigap-sampah-b3-hadir-di-kantor-kecamatan-samarinda-ilir",
+      "lembaga": "Dinas Lingkungan Hidup Kota Samarinda",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "sampah",
   "status": "draf",
   "writtenBy": "c-keinan"

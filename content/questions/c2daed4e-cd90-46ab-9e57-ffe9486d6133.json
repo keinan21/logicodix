@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Kabut asap kebakaran hutan mengandung partikulat dan gas berbahaya yang langsung menyebabkan gangguan pernapasan, iritasi mata, dan menurunkan jarak pandang.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "How Wildfire Smoke Affects Your Body",
+      "url": "https://www.cdc.gov/wildfires/risk-factors/index.html",
+      "lembaga": "CDC",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Perubahan iklim menyebabkan musim tidak menentu, kekeringan, dan banjir, sehingga pertanian berisiko gagal panen dan produktivitas menurun.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Bencana Alam (Banjir dan Kekeringan) Penghambat Produksi Hortikultura",
+      "url": "https://hortikultura.pertanian.go.id/bencana-alam-banjir-dan-kekeringan-penghambat-produksi-hortikultura/",
+      "lembaga": "Direktorat Jenderal Hortikultura, Kementerian Pertanian",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

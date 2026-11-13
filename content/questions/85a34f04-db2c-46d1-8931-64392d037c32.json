@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Penebangan mangrove untuk tambak menghilangkan pelindung pantai dan habitat biota, sehingga abrasi meningkat dan populasi ikan, kepiting, serta udang menurun.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "About Marine Protected Areas",
+      "url": "https://marineprotectedareas.noaa.gov/aboutmpas/",
+      "lembaga": "NOAA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

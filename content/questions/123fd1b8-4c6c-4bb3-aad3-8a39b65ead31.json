@@ -10,7 +10,14 @@
   ],
   "answerIndex": 1,
   "explanation": "Plastik sulit terurai sehingga tertimbun lama di lingkungan, mencemari tanah dan air, serta membahayakan hewan yang memakannya. Plastik tidak cepat menjadi pupuk.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Impacts of Plastic Pollution",
+      "url": "https://www.epa.gov/plastics/impacts-plastic-pollution",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "sampah",
   "status": "draf",
   "writtenBy": "c-keinan"

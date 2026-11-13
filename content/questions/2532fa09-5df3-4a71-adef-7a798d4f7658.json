@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Sebelum hutan dijadikan pabrik, wajib dilakukan kajian dampak lingkungan (AMDAL) dan penataan ruang. Langsung menebang atau mengabaikan kawasan lindung melanggar aturan.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Peraturan Menteri Lingkungan Hidup dan Kehutanan Nomor 4 Tahun 2021",
+      "url": "https://peraturan.bpk.go.id/Home/Download/205143/permen%20LHK%20No.%204%20tahun%202021.pdf",
+      "lembaga": "Kementerian Lingkungan Hidup dan Kehutanan / JDIH BPK",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

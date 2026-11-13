@@ -10,7 +10,20 @@
   ],
   "answerIndex": 0,
   "explanation": "Siswa dapat mendukung mitigasi perubahan iklim dengan menghemat listrik dan air, mengurangi sampah, bersepeda, serta menanam pohon di lingkungan sekolah.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Reduce the Environmental Impact of Your Energy Use",
+      "url": "https://www.epa.gov/energy/reduce-environmental-impact-your-energy-use",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Start Saving",
+      "url": "https://www.epa.gov/watersense/start-saving",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

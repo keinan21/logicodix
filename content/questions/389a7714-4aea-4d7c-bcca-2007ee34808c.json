@@ -10,7 +10,20 @@
   ],
   "answerIndex": 0,
   "explanation": "Banjir setelah hutan hulu ditebang terjadi karena hilangnya penyerap dan penahan air. Solusinya reboisasi di hulu disertai penataan ruang agar lahan resapan tidak dibangun.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Forest and Water — In more depth",
+      "url": "https://www.fao.org/sustainable-forest-management/toolbox/modules/forest-and-water/in-more-depth/en/",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Peraturan Pemerintah Nomor 26 Tahun 2020 tentang Rehabilitasi dan Reklamasi Hutan",
+      "url": "https://peraturan.bpk.go.id/Details/138323/pp-no-26-tahun-2020",
+      "lembaga": "Pemerintah Republik Indonesia / JDIH BPK",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

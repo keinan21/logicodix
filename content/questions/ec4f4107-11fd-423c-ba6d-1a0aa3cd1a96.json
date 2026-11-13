@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Memanen air hujan, membuat sumur resapan, dan menghemat pemakaian adalah cara konservasi air. Membuang air bersih atau membiarkan keran bocor memboroskan air.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Kementerian ESDM Imbau Masyarakat Bangun Sumur Resapan untuk Konservasi Air Tanah",
+      "url": "https://esdm.go.id/en/media-center/news-archives/kementerian-esdm-imbau-masyarakat-bangun-sumur-resapan-untuk-konservasi-air-tanah",
+      "lembaga": "Kementerian ESDM",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

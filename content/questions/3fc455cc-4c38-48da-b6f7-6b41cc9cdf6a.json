@@ -10,7 +10,20 @@
   ],
   "answerIndex": 0,
   "explanation": "Emisi karbon berkurang bila memakai energi terbarukan dan menekan pembakaran fosil. Menebang hutan justru menghilangkan penyerap karbon dan menambah emisi.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Reduce the Environmental Impact of Your Energy Use",
+      "url": "https://www.epa.gov/energy/reduce-environmental-impact-your-energy-use",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Causes",
+      "url": "https://science.nasa.gov/climate-change/causes/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

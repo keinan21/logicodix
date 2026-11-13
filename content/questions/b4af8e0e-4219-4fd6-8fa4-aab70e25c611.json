@@ -5,7 +5,14 @@
   "options": ["batu bara", "minyak bumi", "energi matahari", "gas alam"],
   "answerIndex": 2,
   "explanation": "Energi matahari termasuk energi terbarukan karena tersedia terus-menerus dan tidak habis. Batu bara, minyak bumi, dan gas alam adalah energi fosil yang tidak dapat diperbarui.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Renewable energy explained",
+      "url": "https://www.eia.gov/energyexplained/renewable-sources/index.php",
+      "lembaga": "U.S. Energy Information Administration",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-keinan"

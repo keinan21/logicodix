@@ -5,7 +5,14 @@
   "options": ["daun kering", "sisa makanan", "botol plastik", "kulit buah"],
   "answerIndex": 2,
   "explanation": "Botol plastik termasuk sampah anorganik karena bahan plastik sulit diuraikan oleh mikroorganisme. Daun kering, sisa makanan, dan kulit buah termasuk sampah organik.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "YUK MEMILAH SAMPAH : jaga ekosistem, dengan mulai memilah sampah.",
+      "url": "https://puskesmaskuta2.badungkab.go.id/artikel/70840-yuk-memilah-sampah-jaga-ekosistem-dengan-mulai-memilah-sampah-",
+      "lembaga": "UPTD Puskesmas Kuta II, Pemerintah Kabupaten Badung",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "sampah",
   "status": "draf",
   "writtenBy": "c-keinan"

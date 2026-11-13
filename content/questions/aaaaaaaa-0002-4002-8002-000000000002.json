@@ -11,7 +11,14 @@
   ],
   "answerIndex": 2,
   "explanation": "Klaim bahwa suatu video adalah rekayasa perlu bukti, begitu pula sebaliknya. Keputusan harus berdasarkan pemeriksaan sumber resmi atau lembaga cek fakta, bukan dari klaim di unggahan. Jangan sebarkan sebelum terverifikasi.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "How to verify images and videos",
+      "url": "https://commonslibrary.parliament.uk/research-briefings/cbp-10816/",
+      "lembaga": "House of Commons Library",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "misinfoType": "konten-palsu-konspirasi",
   "topic": "sampah",
   "status": "draf",

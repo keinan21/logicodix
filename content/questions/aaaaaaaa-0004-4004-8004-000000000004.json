@@ -11,7 +11,14 @@
   ],
   "answerIndex": 3,
   "explanation": "Grafik yang sumbunya dipotong atau skalanya tidak lengkap bisa membuat kenaikan besar terlihat kecil. Membaca grafik perlu memperhatikan skala, sumbu, dan periode waktu. Data resmi dari lembaga terkait adalah acuan yang tepat.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "A Bite-Sized Guide to Visualising Data",
+      "url": "https://www.gov.uk/government/publications/a-bite-sized-guide-to-visualising-data-a-dstl-biscuit-book/a-bite-sized-guide-to-visualising-data",
+      "lembaga": "Defence Science and Technology Laboratory",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "misinfoType": "menyesatkan-salah-tafsir-data",
   "topic": "air",
   "status": "draf",

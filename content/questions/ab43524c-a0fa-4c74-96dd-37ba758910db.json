@@ -5,7 +5,14 @@
   "options": ["kompos", "plastik", "logam", "baterai"],
   "answerIndex": 0,
   "explanation": "Sampah organik seperti sisa tanaman dan sisa dapur dapat diolah menjadi kompos melalui pengomposan, sehingga menjadi pupuk dan tidak menumpuk di TPA.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Composting At Home",
+      "url": "https://www.epa.gov/recycle/composting-home",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "sampah",
   "status": "draf",
   "writtenBy": "c-keinan"

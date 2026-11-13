@@ -10,7 +10,20 @@
   ],
   "answerIndex": 0,
   "explanation": "Deterjen mengandung fosfat dan surfaktan yang menyuburkan perairan sehingga memicu eutrofikasi, menurunkan oksigen terlarut, dan membahayakan biota air.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Sources and Solutions: Wastewater",
+      "url": "https://www.epa.gov/nutrientpollution/sources-and-solutions-wastewater",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "The Effects: Environment",
+      "url": "https://www.epa.gov/nutrientpollution/effects-environment",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

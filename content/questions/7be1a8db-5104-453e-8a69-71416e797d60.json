@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Hutan disebut paru-paru dunia karena menyerap CO2 dan menghasilkan oksigen melalui fotosintesis. Kemampuan menyerap CO2 berbeda tiap jenis pohon, tergantung jumlah dan luas daunnya.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Forest and Water — In more depth",
+      "url": "https://www.fao.org/sustainable-forest-management/toolbox/modules/forest-and-water/in-more-depth/en/",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

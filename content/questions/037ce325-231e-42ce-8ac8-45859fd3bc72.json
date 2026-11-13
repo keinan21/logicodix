@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Terassering (terasering) membuat lahan miring bertingkat sehingga aliran air permukaan melambat dan tanah tidak mudah tererosi. Tujuannya mengurangi erosi, bukan mempercepatnya.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Manual on integrated soil management and conservation practices",
+      "url": "https://www.fao.org/4/x4799e/x4799e.pdf",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

@@ -5,7 +5,14 @@
   "options": ["taman nasional darat", "taman laut", "hutan produksi", "kawasan industri"],
   "answerIndex": 1,
   "explanation": "Taman laut adalah kawasan konservasi yang melindungi ekosistem laut, seperti terumbu karang dan padang lamun. Hutan produksi dan kawasan industri bukan kawasan konservasi laut.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Effects of Acid Rain",
+      "url": "https://www.epa.gov/acidrain/effects-acid-rain",
+      "lembaga": "U.S. Environmental Protection Agency",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

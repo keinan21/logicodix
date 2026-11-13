@@ -10,7 +10,20 @@
   ],
   "answerIndex": 1,
   "explanation": "Air bersih dibutuhkan semua makhluk hidup dan mudah tercemar, sedangkan jumlahnya terbatas. Karena itu air harus dijaga kualitas dan ketersediaannya.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Kementerian ESDM Imbau Masyarakat Bangun Sumur Resapan untuk Konservasi Air Tanah",
+      "url": "https://www.esdm.go.id/en/media-center/news-archives/kementerian-esdm-imbau-masyarakat-bangun-sumur-resapan-untuk-konservasi-air-tanah",
+      "lembaga": "Kementerian ESDM",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Groundwater Decline and Depletion",
+      "url": "https://www.usgs.gov/water-science-school/science/groundwater-decline-and-depletion",
+      "lembaga": "U.S. Geological Survey",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"

@@ -1,8 +1,13 @@
-# Konten — Semua DRAF (TODO-SUMBER)
+# Konten — Draf untuk pemeriksaan manusia
 
 Seluruh soal di `questions/` berstatus **`draf`** (D-58): dibuat oleh agen/peran C, **belum terverifikasi**.
 
-- Sumber (`sources`) sengaja kosong: **TODO-SUMBER**. Tidak boleh ada sumber yang dikarang (AGENTS.md §4).
+- Sumber (`sources`) dilengkapi melalui penelusuran halaman lembaga penerbit. Jika belum ada bukti yang cocok,
+  tandai **TODO-SUMBER**; jangan mengarang sumber (AGENTS.md §4).
+- `tanggalCek` mencatat tanggal halaman sumber diperiksa dalam riset, **bukan** tanggal persetujuan manusia.
+  Sumber yang terisi dan validator yang lulus tidak berarti kunci, pengecoh, atau penjelasan telah disetujui.
+- Bukti per soal, batas dukungan sumber, dan usulan koreksi ada di
+  [panduan pemeriksaan bank soal](../docs/research/verifikasi-bank-soal.md).
 - Verifikasi (FR-K07): C membuka sumber resmi tiap soal, D memeriksa ulang secara independen, lalu mengisi
   `reviewedBy`, `reviewedAt`, sumber, dan mengubah `status` menjadi `terverifikasi`. Hanya manusia C+D yang boleh.
 - Server menolak soal `draf` masuk room (WORKFLOW §10). Butuh ≥10 soal terverifikasi agar server start (FR-K01).

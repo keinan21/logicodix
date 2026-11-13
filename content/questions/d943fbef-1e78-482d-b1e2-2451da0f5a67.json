@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Gambut yang rusak dan mengering mudah terbakar serta melepaskan karbon dalam jumlah besar ke atmosfer, sehingga memperparah kabut asap dan pemanasan global.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Peatlands Journey",
+      "url": "https://www.unep.org/interactive/explore-ecosystems/peatlands/en/index.php",
+      "lembaga": "UNEP",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-keinan"

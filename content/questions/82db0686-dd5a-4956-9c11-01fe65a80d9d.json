@@ -10,7 +10,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Pestisida berlebihan mencemari sungai. Tindakan tepat adalah memakai pestisida alami atau sesuai dosis, tidak menyemprot sebelum hujan, dan tidak membuang sisa pestisida ke air.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Forests and climate change",
+      "url": "https://www.fao.org/forestry/climatechange/53459/en/",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-keinan"
