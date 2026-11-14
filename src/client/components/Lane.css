@@ -44,22 +44,80 @@
   object-fit: contain;
   transform: translate(-50%, -50%);
   transition: left var(--motion-step) ease-out;
-  animation: lane-bob var(--motion-bob) ease-in-out infinite;
 }
-.lane-animal {
+.lane-sprite {
+  /* Cut lines follow the lower limbs in the original 128 × 128 artwork. */
+  --limb-top: 68%;
+  --limb-split: 55%;
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.lane-animal,
+.lane-limb {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
-.lane:not([data-animal='orangutan']) .lane-animal {
+.lane-animal {
+  clip-path: inset(0 0 calc(100% - var(--limb-top)) 0);
+}
+.lane-limb-front {
+  clip-path: inset(var(--limb-top) calc(100% - var(--limb-split)) 0 0);
+  transform-origin: calc(var(--limb-split) / 2) var(--limb-top);
+}
+.lane-limb-back {
+  clip-path: inset(var(--limb-top) 0 0 var(--limb-split));
+  transform-origin: calc((100% + var(--limb-split)) / 2) var(--limb-top);
+}
+.lane[data-animal='penyu'] .lane-sprite {
+  --limb-top: 79%;
+  --limb-split: 46%;
+}
+.lane[data-animal='orangutan'] .lane-sprite {
+  --limb-top: 72%;
+  --limb-split: 40%;
+}
+.lane[data-animal='burung'] .lane-sprite {
+  --limb-top: 81%;
+  --limb-split: 43%;
+}
+.lane:not([data-animal='orangutan']) .lane-sprite {
   transform: scaleX(-1);
 }
-.lane:not([data-status='racing']) .lane-runner {
-  animation: none;
+.lane-runner[data-moving='true'] {
+  animation: lane-bob var(--motion-step) ease-in-out infinite;
 }
-.lane-left .lane-animal {
+.lane-runner[data-moving='true'] .lane-limb {
+  animation: lane-stride calc(var(--motion-step) / 2) ease-in-out infinite;
+}
+.lane-runner[data-moving='true'] .lane-limb-back {
+  animation-delay: calc(var(--motion-step) / -4);
+}
+.lane-left .lane-sprite {
   opacity: 0.5;
   filter: grayscale(1);
+}
+@keyframes lane-stride {
+  0%,
+  100% {
+    transform: skewX(-12deg);
+  }
+  50% {
+    transform: skewX(12deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lane-runner {
+    transition: none !important;
+  }
+  .lane-runner[data-moving='true'],
+  .lane-runner[data-moving='true'] .lane-limb {
+    animation: none;
+  }
 }
 .lane-sprout {
   position: absolute;

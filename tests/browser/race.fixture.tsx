@@ -4,6 +4,8 @@ import { RaceScreen } from '../../src/client/screens/Race';
 import { GAME } from '../../src/shared/constants';
 import type { RaceAnswerPayload, RaceFeedback, RoomState } from '../../src/shared/schema';
 import '../../src/client/styles.css';
+import { ANIMAL_ASSETS } from '../../src/client/components/animalAssets';
+import { animalIdSchema } from '../../src/shared/schema';
 
 const question = {
   stem: 'Pilih jawaban untuk soal contoh ini.',
@@ -107,6 +109,27 @@ function Fixture() {
         onSkipToResults={() => {}}
       />
       <aside aria-label="Kontrol pengujian">
+        <label>
+          Hewan pengujian
+          <select
+            value={state.participants[0]?.animalId ?? 'harimau'}
+            onChange={(event) => {
+              const animalId = animalIdSchema.parse(event.target.value);
+              setState((previous) => ({
+                ...previous,
+                participants: previous.participants.map((p) =>
+                  p.id === 'me' ? { ...p, animalId } : p,
+                ),
+              }));
+            }}
+          >
+            {Object.entries(ANIMAL_ASSETS).map(([id, animal]) => (
+              <option key={id} value={id}>
+                {animal.nama}
+              </option>
+            ))}
+          </select>
+        </label>
         <output aria-label="Jumlah kiriman">{answers.length}</output>
         <button onClick={() => setAnswerError({ pesan: 'Jawaban tidak valid.' })}>
           Tolak jawaban
