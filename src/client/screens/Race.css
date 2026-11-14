@@ -1,197 +1,201 @@
+/*
+ * Race.css — layar Balapan gaya "cozy", kompak satu layar.
+ * Lintasan = panel jalur hijau-krem; kartu soal & penjelasan tidak boleh memaksa scroll.
+ */
+
 .screen.race-screen {
   padding: 0;
 }
+
 .race-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
   width: 100%;
+  margin: 0 auto;
+  margin-block: auto;
 }
+
+/* ---------- Kepala: timer saja, nomor soal tampil di kartu ---------- */
+
 .race-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: var(--space-2);
-  min-height: var(--size-race-header);
-  padding: var(--space-3) var(--space-4);
-  background: var(--color-forest-700);
-  color: var(--color-surface);
+  padding: var(--space-2) var(--space-4) 0;
+  background: none;
+  color: var(--color-ink);
 }
-.race-meta {
-  margin: 0;
-  font: var(--text-body);
-  font-weight: 700;
-}
-.race-time {
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-pill);
-  background: var(--color-header-pill);
-  font: var(--text-small);
-  font-variant-numeric: tabular-nums;
-}
+
 .race-header-status {
   display: flex;
   align-items: center;
   gap: var(--space-2);
   flex-shrink: 0;
 }
+
 .race-spectating {
+  padding: var(--space-1) var(--space-2);
+  border: 2px solid var(--color-wood-soft);
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-deep);
   font: var(--text-small);
 }
+
+.race-time {
+  padding: var(--space-1) var(--space-3);
+  border: 2px solid var(--color-wood-soft);
+  border-radius: var(--radius-pill);
+  background: var(--color-cream);
+  box-shadow: 0 3px 0 var(--color-shadow-strong);
+  color: var(--color-ink);
+  font: var(--text-small);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Lintasan ---------- */
+
 .race-track {
   position: relative;
-  padding-top: var(--size-race-sky);
-  padding-bottom: var(--space-2);
-  background: linear-gradient(
-    to bottom,
-    var(--color-sky-100) 0 var(--size-race-sky),
-    var(--color-forest-100) var(--size-race-sky)
-  );
-}
-.race-scenery {
-  position: absolute;
-  inset: 0 0 auto;
-  height: var(--size-race-sky);
+  margin: 0;
+  padding: var(--space-1) var(--space-2) var(--space-1) 0;
+  border: 3px solid var(--color-wood-soft);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(to bottom, var(--color-forest-100), var(--color-cream));
+  box-shadow: var(--shadow-card);
   overflow: hidden;
-  pointer-events: none;
 }
-.race-scenery::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  right: calc(-1 * var(--size-race-tree-repeat));
-  background: url('../assets/home/tree.svg') left bottom / var(--size-race-tree-repeat)
-    var(--size-race-tree) repeat-x;
-  opacity: 0.65;
-  animation: race-parallax var(--motion-parallax) linear infinite;
-}
-@keyframes race-parallax {
-  to {
-    transform: translateX(calc(-1 * var(--size-race-tree-repeat)));
-  }
-}
+
+/* ---------- Isi: kartu soal + jawaban ---------- */
+
 .race-content {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-2);
   width: 100%;
   max-width: var(--size-race-card);
   margin: 0 auto;
-  padding: var(--space-4) var(--space-3);
+  padding: var(--space-3);
 }
+
+.race-answer-error {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border: 2px solid var(--color-err-600);
+  border-radius: var(--radius-md);
+  background: var(--color-err-100);
+  color: var(--color-err-600);
+  font: var(--text-body);
+}
+
 .race-options {
   display: grid;
   gap: var(--space-2);
 }
-.race-option-cell {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-width: 0;
-}
-.race-option-cell .answer-option {
-  align-self: stretch;
-}
-.race-shortcut {
-  display: none;
-}
+
 .race-hint {
   margin: 0;
   font: var(--text-small);
   color: var(--color-muted);
   text-align: center;
 }
-.race-answer-error {
-  margin: 0;
-  padding: var(--space-3);
-  border-radius: var(--radius-md);
-  font: var(--text-body);
-  color: var(--color-err-600);
-  background: var(--color-err-100);
-}
+
+/* ---------- Menonton: banner & dialog ---------- */
+
 .race-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
   margin: 0;
-  padding: var(--space-4);
-  border-radius: var(--radius-md);
-  background: var(--color-bg);
+  padding: var(--space-3) var(--space-4);
+  border: 3px solid var(--color-wood-soft);
+  border-radius: var(--radius-lg);
+  background: var(--color-cream);
+  box-shadow: var(--shadow-card);
   color: var(--color-forest-900);
   font: var(--text-title);
   text-align: center;
 }
+
 .race-banner-sub {
-  display: block;
   margin-top: var(--space-2);
   font: var(--text-body);
 }
+
 .race-banner-action {
   display: inline-block;
   margin-top: var(--space-4);
 }
+
 .race-result {
   width: calc(100% - var(--space-8));
   max-width: var(--size-race-dialog);
   padding: var(--space-6);
-  border: 2px solid var(--color-line);
+  border: 3px solid var(--color-wood-soft);
   border-radius: var(--radius-lg);
-  background: var(--color-surface);
+  background: var(--color-cream);
   color: var(--color-ink);
   box-shadow: var(--shadow-card);
   text-align: center;
 }
+
 .race-result[open] {
   display: grid;
   gap: var(--space-4);
 }
+
 .race-result::backdrop {
   background: var(--color-dialog-backdrop);
 }
+
 .race-result-title {
   margin: 0;
   font: var(--text-title);
   color: var(--color-forest-900);
 }
+
 .race-result-text {
   margin: 0;
   font: var(--text-body);
   color: var(--color-muted);
 }
+
 .race-result-actions {
   display: grid;
   gap: var(--space-2);
 }
+
 .race-result-actions .btn,
 .race-banner-action .btn {
   font: var(--text-body) !important;
   font-weight: 700 !important;
 }
+
 @media (hover: hover) {
   .race-result-actions .btn:hover,
   .race-banner-action .btn:hover {
     filter: brightness(0.95);
   }
 }
+
 @media (min-width: 1024px) {
-  .race-result-actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .race-header {
-    padding-inline: calc(var(--space-6) + var(--space-1));
-  }
   .race-content {
-    margin-block: var(--space-6);
-    padding: var(--space-6);
+    margin-block: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border: 3px solid var(--color-wood-soft);
     border-radius: var(--radius-lg);
-    background: var(--color-surface);
+    background: var(--color-cream);
     box-shadow: var(--shadow-card);
   }
+
   .race-options {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-3);
+    gap: var(--space-2);
   }
-  .race-shortcut {
-    display: block;
-    flex-shrink: 0;
-    padding: var(--space-1);
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-sm);
-    font: var(--text-label);
-    color: var(--color-muted);
+
+  .race-result-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

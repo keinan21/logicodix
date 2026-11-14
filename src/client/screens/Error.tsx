@@ -19,19 +19,24 @@ export function ErrorScreen({
   const expired = code === 'resume-expired' || code === 'session-not-found';
   return (
     <main className="screen error-screen" role="alert">
-      <div className="error-content">
+      <div className="card error-panel error-content">
         <span className="error-icon" aria-hidden="true">
           {expired ? '🚪' : '⚠️'}
         </span>
-        <h1>{expired ? 'Kamu keluar dari room' : 'Koneksi terputus'}</h1>
-        <p style={{ font: 'var(--text-body)', color: 'var(--color-muted)' }}>
+        <h1 className="error-title">{expired ? 'Kamu keluar dari room' : 'Koneksi terputus'}</h1>
+        <p className="error-text">
           {expired
             ? 'Balapan ini sudah berakhir untukmu.'
             : retrying
               ? 'Mencoba menyambung lagi…'
               : pesan || 'Terjadi kesalahan.'}
         </p>
-        {retrying && !expired ? <span aria-hidden="true">⌛</span> : null}
+        {retrying && !expired ? (
+          <span className="error-code" aria-hidden="true">
+            ⌛
+          </span>
+        ) : null}
+        {code && !expired ? <p className="error-code">Kode: {code}</p> : null}
         {expired && onPlayAgain ? <Button onClick={onPlayAgain}>Main lagi</Button> : null}
       </div>
     </main>

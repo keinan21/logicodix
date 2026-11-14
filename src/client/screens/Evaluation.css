@@ -122,3 +122,18 @@
     gap: var(--space-2);
   }
 }
+
+/* Tema cozy: papan judul menggantikan bilah hijau */
+.evaluation-header {
+  justify-content: center;
+  background: none;
+  padding: var(--space-3) var(--space-4);
+}
+
+.evaluation-header .plank {
+  margin: 0;
+}
+
+.evaluation-header .plank-title {
+  font-size: clamp(28px, 4vw, 42px);
+}

@@ -5,6 +5,7 @@ import { QuestionCard } from '../components/QuestionCard';
 import { AnswerOption, type AnswerOptionState } from '../components/AnswerOption';
 import { Button } from '../components/Button';
 import { RaceResultDialog } from './RaceResultDialog';
+import { playSound } from '../sound';
 import type {
   QuestionPublic,
   RaceAnswerPayload,
@@ -50,8 +51,9 @@ export interface RaceScreenProps {
  * Layar Balapan (DESIGN §3 screen 4; FR-B02..B08).
  *
  * Server sudah mengirim soal berikutnya tepat setelah jawaban, jadi layar ini menahan tampilan
- * sejenak supaya umpan balik terbaca: benar "Benar!" 1 dtk (FR-B04), salah sampai lock 5 dtk habis
- * (FR-B05). Selama tahan, soal yang dijawab tetap tampil beserta kunci/penjelasan dari race:feedback.
+ * sejenak supaya umpan balik terbaca: benar → penjelasan sampai 8 dtk dan bisa dilewati dengan
+ * tombol "Lanjut" (FR-B04), salah → penjelasan sampai lock 5 dtk habis (FR-B05). Selama tahan,
+ * soal yang dijawab tetap tampil beserta kunci/penjelasan dari race:feedback.
  * Kunci tidak pernah datang sebelum menjawab (FR-K11).
  */
 export function RaceScreen({
@@ -80,6 +82,25 @@ export function RaceScreen({
     }
   }, [answerError]);
   const [resultDismissed, setResultDismissed] = useState(false);
+
+  // Suara umpan balik: sekali per soal, tidak berulang saat render ulang.
+  const playedFeedback = useRef<string | null>(null);
+  useEffect(() => {
+    if (feedback === null) return;
+    const key = `${feedback.questionIndex}:${feedback.correct}`;
+    if (playedFeedback.current === key) return;
+    playedFeedback.current = key;
+    playSound(feedback.correct ? 'correct' : 'wrong');
+  }, [feedback]);
+
+  // Fanfare saat pelari sendiri mencapai finish (sebelum sisa balapan selesai).
+  const previousStatus = useRef(me?.status);
+  useEffect(() => {
+    if (me?.status === 'finished' && previousStatus.current !== 'finished') playSound('finish');
+    previousStatus.current = me?.status;
+  }, [me?.status]);
+  /** Tombol "Lanjut" melewati masa baca penjelasan jawaban benar (FR-B04). */
+  const [holdSkipped, setHoldSkipped] = useState(false);
   const watchActions = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -89,6 +110,11 @@ export function RaceScreen({
   useEffect(() => {
     setResultDismissed(false);
   }, [state.roomId]);
+
+  // Feedback baru = masa baca baru; tombol "Lanjut" hanya berlaku untuk feedback itu.
+  useEffect(() => {
+    setHoldSkipped(false);
+  }, [feedback]);
 
   // Jam berjalan lokal: room:state hanya datang saat ada kejadian (bot menjawab, lock habis),
   // jadi "Sisa" dan hitung mundur lock dihitung sendiri dari nilai server terakhir supaya
@@ -108,10 +134,13 @@ export function RaceScreen({
   // Derive the feedback hold in the same render as new server props, so the next
   // question cannot briefly reset the selected answer before feedback is shown.
   const untilMs = feedback?.correct
-    ? (feedbackAtMs ?? 0) + GAME.CORRECT_FLASH_S * 1000
+    ? (feedbackAtMs ?? 0) + GAME.CORRECT_EXPLANATION_S * 1000
     : (feedback?.lockEndsAtMs ?? 0);
   const holding =
-    feedback !== null && feedback.questionIndex === lastQuestion?.index && nowMs < untilMs;
+    feedback !== null &&
+    feedback.questionIndex === lastQuestion?.index &&
+    nowMs < untilMs &&
+    !holdSkipped;
   const waiting = myChoice !== null && feedback?.questionIndex !== lastQuestion?.index;
   const retainQuestion = holding || waiting;
   const shown = retainQuestion ? (lastQuestion?.question ?? null) : active;
@@ -162,7 +191,8 @@ export function RaceScreen({
     return () => window.removeEventListener('keydown', onKey);
   }, [canAnswer, selectAnswer]);
 
-  const wrongFeedback = holding && feedback !== null && !feedback.correct ? feedback : null;
+  const shownFeedback = holding ? feedback : null;
+  const wrongFeedback = shownFeedback !== null && !shownFeedback.correct ? shownFeedback : null;
   const correctFlash = holding && feedback?.correct === true;
 
   const lockRemainingS =
@@ -190,9 +220,6 @@ export function RaceScreen({
     <main className="screen race-screen">
       <div className="race-layout">
         <header className="race-header">
-          <h1 className="race-meta">
-            Soal {shown !== null ? shownIndex + 1 : state.questionIndex + 1}
-          </h1>
           <div className="race-header-status">
             {spectatorStatus !== null && <span className="race-spectating">Menonton</span>}
             <span className="race-time">Sisa {formatClock(displayLeftS)}</span>
@@ -200,7 +227,6 @@ export function RaceScreen({
         </header>
 
         <section className="race-track" aria-label="Lintasan">
-          <div className="race-scenery" aria-hidden="true" />
           {state.participants.map((p) => (
             <Lane
               key={p.id}
@@ -251,16 +277,12 @@ export function RaceScreen({
             <QuestionCard
               question={shown}
               displayNumber={shownIndex + 1}
-              explanation={wrongFeedback?.explanation}
-              sources={wrongFeedback?.sources}
+              explanation={shownFeedback?.explanation}
+              sources={shownFeedback?.sources}
               lockRemainingS={lockRemainingS}
+              correct={shownFeedback?.correct}
+              onSkipExplanation={correctFlash ? () => setHoldSkipped(true) : undefined}
             />
-          ) : null}
-
-          {correctFlash ? (
-            <p className="visually-hidden" role="status" aria-live="assertive">
-              <span aria-hidden="true">✓</span> Benar!
-            </p>
           ) : null}
 
           {shown !== null && spectatorStatus === null ? (
@@ -270,18 +292,14 @@ export function RaceScreen({
                   const letter = LETTERS[index];
                   if (letter === undefined) return null;
                   return (
-                    <div className="race-option-cell" key={letter}>
-                      <AnswerOption
-                        letter={letter}
-                        text={text}
-                        state={optionState(index)}
-                        disabled={!canAnswer}
-                        onSelect={selectAnswer}
-                      />
-                      <kbd className="race-shortcut" aria-hidden="true">
-                        {letter} / {index + 1}
-                      </kbd>
-                    </div>
+                    <AnswerOption
+                      key={letter}
+                      letter={letter}
+                      text={text}
+                      state={optionState(index)}
+                      disabled={!canAnswer}
+                      onSelect={selectAnswer}
+                    />
                   );
                 })}
               </div>

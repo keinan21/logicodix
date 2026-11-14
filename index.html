@@ -11,6 +11,35 @@
     <title>Balap Fakta Lingkungan</title>
   </head>
   <body>
+    <svg
+      class="scene"
+      viewBox="0 0 1600 900"
+      preserveAspectRatio="xMidYMax slice"
+      aria-hidden="true"
+    >
+      <defs>
+        <g id="pine">
+          <rect x="-8" y="0" width="16" height="36" fill="var(--trunk)" />
+          <path d="M-48 8L0-56L48 8Z" fill="var(--t1)" />
+          <path d="M-38-24L0-96L38-24Z" fill="var(--t2)" />
+        </g>
+        <g id="cl">
+          <rect y="20" width="170" height="44" rx="22" fill="var(--cloud)" />
+          <circle cx="60" cy="22" r="28" fill="var(--cloud)" />
+          <circle cx="105" cy="26" r="22" fill="var(--cloud)" />
+        </g>
+      </defs>
+      <rect width="1600" height="900" fill="var(--sky)" />
+      <circle cx="610" cy="118" r="56" fill="var(--sun)" />
+      <use href="#cl" x="120" y="100" />
+      <use href="#cl" x="820" y="60" />
+      <path d="M0 640Q300 540 640 620T1280 600T1600 580V900H0Z" fill="var(--h1)" />
+      <path d="M0 760Q400 680 800 740T1600 710V900H0Z" fill="var(--h2)" />
+      <use href="#pine" transform="translate(70 700) scale(1.3)" />
+      <use href="#pine" transform="translate(190 730)" />
+      <use href="#pine" transform="translate(1530 690) scale(1.3)" />
+      <use href="#pine" transform="translate(1410 720)" />
+    </svg>
     <div id="root"></div>
     <script type="module" src="/src/client/main.tsx"></script>
   </body>

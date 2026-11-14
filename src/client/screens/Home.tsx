@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { GAME } from '../../shared/constants';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { randomChoice } from '../../shared/rng';
 import tree from '../assets/home/tree.svg';
 import tiger from '../assets/home/tiger.svg';
@@ -7,18 +6,20 @@ import seedling from '../assets/home/seedling.svg';
 import turtle from '../assets/home/turtle.svg';
 import palm from '../assets/home/palm.svg';
 import './Home.css';
-import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { AnimalCard } from '../components/AnimalCard';
+import { ANIMAL_ASSETS } from '../components/animalAssets';
 import { nicknameSchema, animalIdSchema } from '../../shared/schema';
 import type { AnimalId } from '../../shared/schema';
-import { ANIMAL_ASSETS } from '../components/animalAssets';
 
 const ANIMAL_IDS: AnimalId[] = ['orangutan', 'harimau', 'gajah', 'penyu', 'badak', 'burung'];
+
+const SCENERY = [tree, tiger, seedling, turtle, palm];
 
 /**
  * Layar Beranda (DESIGN §3 screen 1; FR-M01, M02, M03, M14).
  * Nickname tanpa akun; disimpan di sessionStorage; pilihan hewan tersimpan bersama nickname.
+ * Fakta hewan diambil dari server (`/api/animals`); teks cadangan kosong sampai data tiba.
  */
 export function HomeScreen({
   onJoin,
@@ -79,76 +80,88 @@ export function HomeScreen({
 
   return (
     <main className="home">
-      <section className="home-hero" aria-labelledby="home-title">
-        <h1 id="home-title">
-          Balap Fakta
-          <br />
-          Lingkungan
+      <div className="home-hero">
+        <h1 className="home-title">
+          Balap Fakta <span>Lingkungan</span>
         </h1>
-        <p className="home-intro">Jawab benar, hewanmu melaju. Siapa paling cepat sampai finish?</p>
+        <p className="home-intro">
+          Jawab benar, hewanmu melaju. Siapa paling cepat sampai garis finish?
+        </p>
         <div className="home-scenery" aria-hidden="true">
-          {[tree, tiger, seedling, turtle, palm].map((src) => (
-            <img key={src} src={src} alt="" />
+          {SCENERY.map((src, i) => (
+            <img key={src} src={src} alt="" style={{ '--i': i } as CSSProperties} />
           ))}
         </div>
-        <p className="home-summary">
-          {GAME.MAX_PLAYERS} pemain · {GAME.STEPS_TO_FINISH} jawaban benar untuk finish · evaluasi
-          AI di akhir
-        </p>
-      </section>
-      <div className="home-form-column">
-        <form
-          className="home-form"
-          onSubmit={(event) => {
-            event.preventDefault();
-            start('quick');
-          }}
-        >
-          <Input
-            label="Nickname"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-            onBlur={() => setTouched(true)}
-            error={touched && nicknameError ? nicknameError : undefined}
-            placeholder="2–16 huruf, angka, spasi"
-            maxLength={16}
-            autoComplete="nickname"
-          />
-          <fieldset className="home-runners">
-            <legend>Pilih pelarimu</legend>
-            <div className="home-animal-grid">
-              {ANIMAL_IDS.map((id) => (
-                <AnimalCard
-                  key={id}
-                  animalId={id}
-                  nama={ANIMAL_ASSETS[id].nama}
-                  fakta={facts[id] ?? ''}
-                  selected={animalId === id}
-                  onSelect={setAnimalId}
-                  compact
-                />
-              ))}
-            </div>
-          </fieldset>
-          <p id="home-fact" className="home-fact" aria-live="polite" aria-atomic="true">
-            {ANIMAL_ASSETS[animalId].nama}
-            {facts[animalId] ? ` — ${facts[animalId]}` : ''}
-          </p>
-          {joinError ? (
-            <p className="home-error" role="alert">
-              {joinError}
-            </p>
-          ) : null}
-          <div className="home-actions">
-            <Button type="submit" variant="primary" disabled={!valid}>
-              Main
-            </Button>
-            <Button variant="secondary" onClick={() => start('bot')} disabled={!valid}>
-              Lawan bot
-            </Button>
-          </div>
-        </form>
+        <ul className="home-points">
+          <li>4 pemain</li>
+          <li>5 jawaban benar</li>
+          <li>Evaluasi AI</li>
+        </ul>
       </div>
+
+      <section className="home-card" aria-label="Masuk permainan">
+        <div className="home-card-head">
+          <h2>Siap di garis start?</h2>
+          <p>Isi nickname, pilih pelarimu, lalu mulai balapan.</p>
+        </div>
+        <Input
+          label="Nickname"
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+          onBlur={() => setTouched(true)}
+          error={touched && nicknameError ? nicknameError : undefined}
+          placeholder="2–16 huruf, angka, spasi"
+          maxLength={16}
+          autoComplete="nickname"
+        />
+        <div className="home-lbl" id="pelari">
+          Pilih pelarimu
+        </div>
+        <div className="home-grid" role="radiogroup" aria-labelledby="pelari">
+          {ANIMAL_IDS.map((id) => (
+            <AnimalCard
+              key={id}
+              animalId={id}
+              nama={ANIMAL_ASSETS[id].nama}
+              fakta={facts[id] ?? ''}
+              selected={animalId === id}
+              onSelect={setAnimalId}
+              compact
+            />
+          ))}
+        </div>
+        <div id="home-fact" className="home-fact" aria-live="polite" aria-atomic="true">
+          <img src={ANIMAL_ASSETS[animalId].src} alt="" />
+          <span className="home-fact-text">
+            <span className="home-fact-name">{ANIMAL_ASSETS[animalId].nama}</span>
+            {facts[animalId] ? ` — ${facts[animalId]}` : ''}
+            <span className="home-fact-source">Sumber diisi dari folder konten.</span>
+          </span>
+        </div>
+        {joinError ? (
+          <p className="home-error" role="alert">
+            {joinError}
+          </p>
+        ) : null}
+        <div className="home-btns">
+          <button
+            type="button"
+            className="btn btn-primary home-btn"
+            disabled={!valid}
+            onClick={() => start('quick')}
+          >
+            Main
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary home-btn"
+            disabled={!valid}
+            onClick={() => start('bot')}
+          >
+            Lawan bot
+          </button>
+        </div>
+      </section>
     </main>
   );
 }

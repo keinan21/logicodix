@@ -48,7 +48,9 @@ export function EvaluationScreen({
   return (
     <main className="screen evaluation-screen">
       <header className="evaluation-header">
-        <h1>Evaluasimu</h1>
+        <div className="plank">
+          <h1 className="plank-title">Evaluasimu</h1>
+        </div>
       </header>
       <div className="screen-inner evaluation-inner">
         <div className="evaluation-columns">

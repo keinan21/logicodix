@@ -26,43 +26,27 @@ export function AIPanel({ content, badge, loading }: AIPanelProps) {
     <section
       aria-live="polite"
       aria-busy={loading === true}
-      className={`evaluation-message-panel ${isAutomatic ? 'is-automatic' : ''} ${isExample ? 'is-example' : ''}`}
+      className={`ai-panel ${isAutomatic ? 'is-automatic' : ''} ${isExample ? 'is-example' : ''}`}
     >
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          gap: 'var(--space-2)',
-          marginBottom: 'var(--space-2)',
-        }}
-      >
-        <h2 className="evaluation-panel-title">
+      <div className="ai-panel-head">
+        <h2 className="ai-panel-title">
           {isExample ? 'Mode Contoh' : isAutomatic ? 'Ringkasan Otomatis' : 'Evaluasi AI'}
         </h2>
         {/* Badge asal teks baru bermakna setelah teksnya ada (FR-H05). */}
         {loading || badge === null ? null : <Badge kind={badgeKind} />}
       </div>
 
-      {loading ? (
-        <p style={{ margin: 0, font: 'var(--text-body)', color: 'var(--color-muted)' }}>
-          AI sedang menyusun evaluasi…
-        </p>
-      ) : null}
+      {loading ? <p>AI sedang menyusun evaluasi…</p> : null}
       {!loading && !content ? (
         <p role="status">Evaluasi belum tersedia. Kamu tetap bisa membaca penjelasan soal.</p>
       ) : null}
 
-      {content?.motivation ? (
-        <p style={{ margin: 0, font: 'var(--text-body)' }}>{content.motivation}</p>
-      ) : null}
+      {content?.motivation ? <p>{content.motivation}</p> : null}
 
-      {content?.pattern ? (
-        <p style={{ margin: 0, font: 'var(--text-body)' }}>{content.pattern}</p>
-      ) : null}
+      {content?.pattern ? <p>{content.pattern}</p> : null}
 
       {content?.tip ? (
-        <p className="evaluation-tip">
+        <p className="ai-panel-tip">
           <strong>Tips:</strong> {content.tip}
         </p>
       ) : null}

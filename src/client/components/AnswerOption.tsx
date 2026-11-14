@@ -1,5 +1,3 @@
-import './AnswerOption.css';
-
 export type AnswerOptionState =
   'default' | 'hover' | 'selected-waiting' | 'correct' | 'wrong' | 'dimmed';
 export interface AnswerOptionProps {
@@ -9,32 +7,50 @@ export interface AnswerOptionProps {
   disabled?: boolean;
   onSelect?: (letter: 'A' | 'B' | 'C' | 'D') => void;
 }
+
+/**
+ * AnswerOption — DESIGN §4 + §6.
+ * Status tidak pernah dibedakan dengan warna saja: selalu ada ikon ✓/✗ (DESIGN §6, §8).
+ * Tampilan chunky ada di `.answer-option` (styles.css).
+ */
 export function AnswerOption({ letter, text, state, disabled, onSelect }: AnswerOptionProps) {
-  const result =
-    state === 'correct'
-      ? 'Benar'
-      : state === 'wrong'
-        ? 'Salah'
-        : state === 'selected-waiting'
-          ? 'Menunggu respons'
-          : '';
+  const isCorrect = state === 'correct';
+  const isWrong = state === 'wrong';
+  const dimmed = state === 'dimmed';
+  const modifier = isCorrect ? ' is-correct' : isWrong ? ' is-wrong' : dimmed ? ' is-dimmed' : '';
+  const result = isCorrect
+    ? 'Benar'
+    : isWrong
+      ? 'Salah'
+      : state === 'selected-waiting'
+        ? 'Menunggu respons'
+        : '';
+
   return (
     <button
       type="button"
-      className="answer-option"
+      className={`answer-option${modifier}`}
       data-state={state}
-      disabled={disabled || state === 'dimmed'}
+      disabled={disabled || dimmed}
       onClick={() => onSelect?.(letter)}
       aria-label={`Pilihan ${letter}: ${text}${result ? ` — ${result}` : ''}`}
     >
-      <span className="answer-letter" aria-hidden="true">
+      <span aria-hidden="true" className="answer-letter">
         {letter}
       </span>
       <span className="answer-text">{text}</span>
-      {result && (
-        <span className="answer-mark" aria-hidden="true">
-          {state === 'correct' ? '✓' : state === 'wrong' ? '✗' : '…'}
+      {isCorrect ? (
+        <span aria-hidden="true" className="answer-mark answer-mark-ok">
+          ✓
         </span>
+      ) : null}
+      {isWrong ? (
+        <span aria-hidden="true" className="answer-mark answer-mark-err">
+          ✗
+        </span>
+      ) : null}
+      {(isCorrect || isWrong) && (
+        <span className="visually-hidden">{isCorrect ? 'Benar' : 'Salah'}</span>
       )}
     </button>
   );

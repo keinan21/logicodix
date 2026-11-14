@@ -174,13 +174,14 @@ export type RoomState = z.infer<typeof roomStateSchema>;
 export const raceFeedbackSchema = z.object({
   questionIndex: z.number().int().min(0),
   correct: z.boolean(),
-  /** hanya dikirim bila salah (FR-B05) */
+  /** kunci hanya dikirim bila salah (FR-B05) */
   answerIndex: z
     .number()
     .int()
     .min(0)
     .max(CONTENT.OPTIONS_PER_QUESTION - 1)
     .optional(),
+  /** penjelasan dikirim setelah menjawab, benar maupun salah (FR-B05) */
   explanation: z.string().optional(),
   sources: z.array(sourceSchema).optional(),
   lockEndsAtMs: z.number().int().optional(),

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { animalIdSchema, nicknameSchema, type AnimalId } from '../shared/schema';
 import { HomeScreen } from './screens/Home';
@@ -9,6 +9,7 @@ import { PodiumScreen } from './screens/Podium';
 import { EvaluationScreen } from './screens/Evaluation';
 import { ErrorScreen } from './screens/Error';
 import { useRoom } from './socket';
+import { playSound } from './sound';
 
 /**
  * App — satu state machine untuk alur Beranda → Antre → Lobby → Balapan → Podium → Evaluasi.
@@ -39,6 +40,21 @@ export function App() {
   }, [route, queuedAtMs]);
 
   const phase = session.state?.phase;
+  const roomId = session.state?.roomId;
+
+  // Setiap layar baru mulai dari atas: tanpa ini, layar hasil terbuka di tengah halaman
+  // karena posisi gulir dari layar balapan ikut terbawa.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [route, phase, roomId]);
+
+  // Suara transisi fase: mulai balapan dan fanfare saat balapan usai.
+  const previousPhase = useRef(phase);
+  useEffect(() => {
+    if (phase === 'racing' && previousPhase.current !== 'racing') playSound('start');
+    if (phase === 'finished' && previousPhase.current !== 'finished') playSound('finish');
+    previousPhase.current = phase;
+  }, [phase]);
 
   const me = session.state?.participants.find((p) => p.id === session.myId) ?? null;
   const myNickname = me?.nickname ?? sessionStorage.getItem('nickname') ?? '';

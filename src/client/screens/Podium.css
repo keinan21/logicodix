@@ -1,234 +1,350 @@
+/*
+ * Podium.css — layar hasil yang sederhana: dua panel terang, tangga juara
+ * pipih, dan daftar peringkat satu baris per peserta.
+ */
+
 .screen.podium-screen {
-  padding: 0;
-  gap: 0;
-}
-.podium-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: var(--space-4);
-  background: var(--color-forest-700);
-  color: var(--color-surface);
-}
-.podium-header .podium-title {
-  margin: 0;
-  color: inherit;
-  font: var(--text-body);
-  font-weight: 700;
-}
-.podium-status {
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-pill);
-  background: var(--color-header-pill);
-  font: var(--text-small);
-}
-.podium-layout {
-  width: 100%;
-  display: grid;
-}
-.podium-scene {
-  background: linear-gradient(
-    to top,
-    var(--color-forest-100) 0 var(--size-home-animal),
-    var(--color-sky-100) var(--size-home-animal)
-  );
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  min-height: calc(var(--space-8) * 8);
-  min-width: 0;
-}
-.podium-results {
-  padding: var(--space-4);
-  min-width: 0;
+  gap: var(--space-3);
+  min-height: 100vh;
+  padding: var(--space-3) var(--space-4) var(--space-6);
+  background: none;
 }
 
-.podium-title {
-  margin: 0 0 var(--space-4);
+/* ---------- Kepala ---------- */
+
+.podium-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) var(--space-4) 0;
+  background: none;
+}
+
+.podium-plank {
+  margin: 0;
+}
+
+.podium-plank .plank-title {
+  white-space: nowrap;
+}
+
+.podium-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  border: 2px solid var(--color-wood-soft);
+  border-radius: var(--radius-pill);
+  background: var(--color-ok-600);
+  color: var(--color-cream);
+  font: var(--text-label);
+  font-weight: 700;
+}
+
+.podium-status.is-provisional {
+  background: var(--color-sun-500);
+  color: var(--color-sun-ink);
+}
+
+/* ---------- Dua panel ---------- */
+
+.podium-layout {
+  display: flex;
+  flex: 1;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 1160px;
+  margin-block: auto;
+  align-items: stretch;
+}
+
+.podium-board,
+.podium-results {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--space-4);
+  border: 3px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow:
+    0 5px 0 var(--color-bark-soft),
+    0 16px 26px rgba(74, 45, 28, 0.14);
+}
+
+.podium-board {
+  justify-content: space-evenly;
+}
+
+.podium-panel-title {
+  margin: 0 0 var(--space-3);
+  color: var(--color-bark);
   font: var(--text-title);
-  color: var(--color-forest-900);
+  font-size: 20px;
+  text-align: center;
 }
 
 .podium-note {
-  margin: calc(-1 * var(--space-2)) 0 var(--space-4);
+  margin: 0 0 var(--space-2);
   font: var(--text-small);
   color: var(--color-muted);
+  text-align: center;
 }
 
-.podium-heading {
-  margin: 0 0 var(--space-2);
-  font: var(--text-label);
-  color: var(--color-muted);
-}
+/* ---------- Tangga juara ---------- */
 
 .podium-steps {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 0;
+  gap: var(--space-3);
   margin: 0;
-  padding: 0 var(--space-8);
+  padding: 0;
   list-style: none;
 }
 
 .podium-step {
   display: flex;
-  flex: 1 1 0;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   gap: var(--space-1);
   min-width: 0;
-  padding: 0;
   text-align: center;
 }
 
 .podium-rank-1 {
-  min-height: calc(var(--space-8) * 4);
-  border-color: var(--color-earth-500);
+  flex: 1.15 1 0;
 }
 
-.podium-rank-2 {
-  min-height: calc(var(--space-8) * 3);
-}
-
+.podium-rank-2,
 .podium-rank-3 {
-  min-height: calc(var(--space-8) * 2.5);
-}
-
-.podium-me {
-  font-weight: 700;
-}
-
-.podium-animal {
-  width: var(--space-8);
-  height: var(--space-8);
-  object-fit: contain;
+  flex: 0.9 1 0;
 }
 
 .podium-nickname {
   max-width: 100%;
   font: var(--text-label);
+  font-weight: 700;
   color: var(--color-ink);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+.podium-animal {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.podium-rank-1 .podium-animal {
+  width: 76px;
+  height: 76px;
+}
+
+.podium-rank-2 .podium-animal {
+  width: 58px;
+  height: 58px;
+}
+
 .podium-rank {
-  font: var(--text-display);
-  font-size: var(--size-podium-rank);
-  color: var(--color-surface);
-  background: var(--color-earth-500);
-  width: 100%;
   display: grid;
   place-items: center;
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
-  height: calc(var(--space-8) * 2.5);
+  width: 100%;
+  border-radius: var(--radius-md);
+  font: var(--text-display);
+  font-size: 32px;
+  font-weight: 700;
 }
+
 .podium-rank-1 .podium-rank {
-  height: calc(var(--space-8) * 3.75);
+  height: 108px;
+  background: var(--color-rank-1);
+  color: var(--color-ink);
 }
+
+.podium-rank-2 .podium-rank {
+  height: 86px;
+  background: var(--color-rank-2);
+  color: var(--color-ink);
+}
+
 .podium-rank-3 .podium-rank {
-  height: calc(var(--space-8) * 1.875);
+  height: 66px;
+  background: var(--color-rank-3);
+  color: var(--color-cream);
 }
+
+.podium-standing {
+  margin: var(--space-3) 0 0;
+  font: var(--text-small);
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.podium-empty {
+  margin: var(--space-4) 0;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+/* ---------- Daftar peringkat ---------- */
+
 .podium-table {
-  table-layout: fixed;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 var(--space-2);
+  table-layout: auto;
+}
+
+.podium-table td {
+  padding: var(--space-2) var(--space-3);
+  border-block: 2px solid var(--color-wood-soft);
+  background: var(--color-cream);
+  vertical-align: middle;
+}
+
+.podium-table td:first-child {
+  width: 30px;
+  border-left: 2px solid var(--color-wood-soft);
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  text-align: center;
+}
+
+.podium-table td:last-child {
+  width: 1%;
+  padding-inline: var(--space-2);
+  border-right: 2px solid var(--color-wood-soft);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.result-rank-num {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.result-player {
+  display: table-cell;
+  min-width: 0;
+}
+
+.result-player img {
+  vertical-align: middle;
+}
+
+.result-player-text {
+  display: inline-flex;
+  min-width: 0;
+  flex-direction: column;
+  vertical-align: middle;
+}
+
+.result-animal {
+  width: 30px;
+  height: 30px;
+  margin-right: var(--space-2);
+  object-fit: contain;
+}
+
+.result-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-ink);
   overflow-wrap: anywhere;
 }
-.podium-table th:first-child {
-  width: 15%;
+
+.result-score {
+  font: var(--text-small);
+  color: var(--color-muted);
 }
-.podium-table th:nth-child(2) {
-  width: 35%;
+
+.result-bot,
+.result-you {
+  display: inline-block;
+  margin-left: var(--space-1);
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-pill);
+  font: var(--text-small);
+  font-weight: 700;
+  vertical-align: middle;
 }
-.podium-table tr {
-  border-bottom: 1px solid var(--color-line);
+
+.result-bot {
+  background: var(--color-bot);
+  color: var(--color-cream);
 }
-.podium-table td:first-child {
-  width: 10%;
+
+.result-you {
+  background: var(--color-sun-500);
+  color: var(--color-sun-ink);
 }
-.podium-table td:nth-child(2) {
-  width: 40%;
+
+.result-pill {
+  display: inline-block;
+  padding: 3px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-ok-600);
+  color: var(--color-cream);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
 }
-.podium-table td:nth-child(3),
-.podium-table td:nth-child(4) {
-  width: 25%;
-  font: var(--text-label);
+
+.result-pill[data-status='outOfQuestions'],
+.result-pill[data-status='locked'],
+.result-pill[data-status='racing'] {
+  background: var(--color-earth-300);
+  color: var(--color-ink);
 }
+
+.result-pill[data-status='left'] {
+  background: var(--color-err-100);
+  color: var(--color-err-600);
+}
+
+.result-row.is-me td {
+  border-color: var(--color-sun-500);
+  background: var(--color-claim-tint);
+}
+
+/* ---------- Aksi ---------- */
+
+.podium-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-4);
+}
+
 .podium-actions .btn {
   min-height: var(--size-home-action);
   font: var(--text-home-action) !important;
 }
 
-.podium-empty {
-  margin: 0;
-  font: var(--text-body);
-  color: var(--color-muted);
+.podium-actions .btn-secondary {
+  background: var(--color-cream);
+  color: var(--color-ink);
 }
 
-.podium-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.podium-table th {
-  padding: var(--space-2);
-  font: var(--text-label);
-  color: var(--color-muted);
-  text-align: left;
-}
-
-.podium-table th:nth-child(3),
-.podium-table th:nth-child(4) {
-  text-align: center;
-}
-
-.podium-actions {
-  display: grid;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
-}
-
-@media (min-width: 1024px) {
-  .podium-actions {
-    grid-template-columns: 1fr;
-  }
-
-  .podium-rank {
-    font-size: calc(var(--size-podium-rank) * 1.5);
-  }
+/* Layar sempit: panel menumpuk, tinggi mengikuti isi. */
+@media (max-width: 860px) {
   .podium-layout {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-8);
-    padding: var(--space-8);
-    min-height: calc(100dvh - var(--size-race-header));
+    flex-direction: column;
   }
-  .podium-scene {
-    border-radius: var(--radius-lg);
-    padding-bottom: calc(var(--space-8) * 3);
-  }
-  .podium-steps {
-    max-width: calc(var(--size-home-card) * 5);
-    width: 100%;
-    align-self: center;
-  }
+
+  .podium-board,
   .podium-results {
-    align-self: center;
-    padding: 0;
-  }
-  .podium-animal {
-    width: var(--size-lane-animal);
-    height: var(--size-lane-animal);
-  }
-  .podium-rank-1 .podium-rank {
-    height: calc(var(--space-8) * 6.875);
-  }
-  .podium-rank-2 .podium-rank {
-    height: calc(var(--space-8) * 4.6875);
-  }
-  .podium-rank-3 .podium-rank {
-    height: calc(var(--space-8) * 3.4375);
+    flex: none;
   }
 }

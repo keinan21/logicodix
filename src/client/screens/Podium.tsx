@@ -1,4 +1,3 @@
-import { Badge } from '../components/Badge';
 import { Button } from '../components/Button';
 import { ResultRow } from '../components/ResultRow';
 import { ANIMAL_ASSETS } from '../components/animalAssets';
@@ -20,7 +19,7 @@ type Row = RaceEnd['ranking'][number];
 
 /**
  * Layar Podium (DESIGN §3 screen 5; FR-H01).
- * Podium 1-2-3 (juara 2 di kiri, juara 1 di tengah) + tabel semua peserta.
+ * Podium 1-2-3 (juara 2 di kiri, juara 1 di tengah) + daftar semua peserta.
  * Tampil tanpa menunggu AI; baris pemain sendiri disorot.
  */
 export function PodiumScreen({
@@ -34,17 +33,26 @@ export function PodiumScreen({
   const ranking = raceEnd?.ranking ?? [];
   const top3 = ranking.slice(0, 3);
   const visual = [top3[1], top3[0], top3[2]].filter((row): row is Row => row !== undefined);
+  const mine = ranking.find((row) => row.nickname === myNickname) ?? null;
 
   return (
     <main className="screen podium-screen">
       <header className="podium-header">
-        <h1 id="podium-title" className="podium-title">
-          {provisional ? 'Hasil sementara' : 'Hasil balapan'}
-        </h1>
-        <span className="podium-status">{provisional ? 'Sementara' : 'Selesai'}</span>
+        <div className="plank podium-plank">
+          <h1 id="podium-title" className="plank-title">
+            {provisional ? 'Hasil sementara' : 'Hasil balapan'}
+          </h1>
+        </div>
+        <span className={`podium-status${provisional ? ' is-provisional' : ''}`}>
+          {provisional ? 'Sementara' : 'Selesai'}
+          <span aria-hidden="true">{provisional ? '…' : ' ✓'}</span>
+        </span>
       </header>
+
       <div className="podium-layout">
-        <section className="podium-scene" aria-labelledby="podium-title">
+        <section className="podium-board" aria-labelledby="podium-title">
+          <h2 className="podium-panel-title">Podium</h2>
+
           {provisional ? (
             <p className="podium-note" role="status">
               Balapan masih berjalan; peringkat bisa berubah sampai semua peserta selesai.
@@ -53,32 +61,33 @@ export function PodiumScreen({
 
           {visual.length > 0 ? (
             <ol className="podium-steps">
-              {visual.map((row) => {
-                const isMe = row.nickname === myNickname;
-                return (
-                  <li
-                    key={row.rank}
-                    className={`podium-step podium-rank-${row.rank}${isMe ? ' podium-me' : ''}`}
-                  >
-                    <span className="podium-nickname">{row.nickname}</span>
-                    <img className="podium-animal" src={ANIMAL_ASSETS[row.animalId].src} alt="" />
-                    {row.isBot ? <Badge kind="bot" /> : null}
-                    <span className="podium-rank" aria-label={`Posisi ${row.rank}`}>
-                      {row.rank}
-                    </span>
-                  </li>
-                );
-              })}
+              {visual.map((row) => (
+                <li key={row.rank} className={`podium-step podium-rank-${row.rank}`}>
+                  <span className="podium-nickname">{row.nickname}</span>
+                  <img className="podium-animal" src={ANIMAL_ASSETS[row.animalId].src} alt="" />
+                  <span className="podium-rank" aria-label={`Posisi ${row.rank}`}>
+                    {row.rank}
+                  </span>
+                </li>
+              ))}
             </ol>
           ) : (
             <p className="podium-empty">Belum ada hasil balapan.</p>
           )}
+
+          {mine ? (
+            <p className="podium-standing">
+              {mine.nickname} di peringkat {mine.rank} · {mine.correctCount} jawaban benar
+            </p>
+          ) : null}
         </section>
 
         <section className="podium-results" aria-labelledby="podium-table">
-          <h2 id="podium-table" className="visually-hidden">
-            Semua peserta
+          <h2 id="podium-table" className="podium-panel-title">
+            Peringkat akhir
+            <span className="visually-hidden">Semua peserta</span>
           </h2>
+
           <table className="podium-table">
             <thead className="visually-hidden">
               <tr>
@@ -112,9 +121,7 @@ export function PodiumScreen({
           </table>
 
           <div className="podium-actions">
-            <Button variant="ai" onClick={onViewEvaluation}>
-              Lihat evaluasi AI
-            </Button>
+            <Button onClick={onViewEvaluation}>Lihat evaluasi AI</Button>
             {provisional && onBackToRace ? (
               <Button variant="secondary" onClick={onBackToRace}>
                 Kembali menonton

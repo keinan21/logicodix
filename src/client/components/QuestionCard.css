@@ -20,13 +20,8 @@
   color: var(--color-muted);
 }
 .question-meta .countdown-ring {
-  position: absolute;
-  right: var(--space-3);
-  top: calc(-1 * var(--space-8));
-  background: var(--color-bg);
-  border-radius: var(--radius-pill);
-  width: var(--size-lobby-countdown);
-  height: var(--size-lobby-countdown);
+  width: var(--size-error-icon);
+  height: var(--size-error-icon);
 }
 .question-meta .countdown-ring-number {
   font: var(--text-title);
@@ -61,4 +56,48 @@
 }
 .question-explanation a {
   color: var(--color-forest-700);
+}
+
+/* Kartu soal cozy: ringkas supaya panel penjelasan tidak memaksa scroll. */
+.question-card {
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 3px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-cream);
+}
+
+.question-stem {
+  font: var(--text-title);
+  font-size: clamp(18px, 1.6vw, 24px);
+}
+
+.question-explanation {
+  max-height: 168px;
+  overflow: auto;
+  border: 2px solid var(--color-ok-600);
+  background: var(--color-ok-100);
+  color: var(--color-forest-900);
+}
+
+.question-explanation-wrong {
+  border-color: var(--color-err-600);
+  background: var(--color-err-100);
+}
+
+.question-explanation-title {
+  margin: 0 0 var(--space-1);
+  font: var(--text-label);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.question-lock {
+  margin: var(--space-1) 0 0;
+  font: var(--text-small);
+  color: var(--color-muted);
+}
+
+.question-skip {
+  margin-top: var(--space-2);
 }
