@@ -117,7 +117,11 @@ describe('satu socket satu room (regresi tampilan soal tertukar)', () => {
     clients.push(client1);
 
     await new Promise<void>((res) => client1.once('connect', () => res()));
-    const token = client1.id!;
+    const publicId = client1.id!;
+    let token = '';
+    client1.on('session:token', (payload: { token: string }) => {
+      token = payload.token;
+    });
 
     let firstState: RoomState | null = null;
     client1.on('room:state', (raw: unknown) => {
@@ -131,6 +135,9 @@ describe('satu socket satu room (regresi tampilan soal tertukar)', () => {
     await waitFor(() => firstState !== null, 10_000);
     const activeStem = firstState!.activeQuestion?.stem;
     expect(activeStem).toBeDefined();
+    expect(token).not.toBe('');
+    expect(token).not.toBe(publicId);
+    expect(JSON.stringify(firstState)).not.toContain(token);
 
     // client1 putus koneksi
     client1.disconnect();
@@ -146,6 +153,10 @@ describe('satu socket satu room (regresi tampilan soal tertukar)', () => {
       if (parsed.success) resumedState = parsed.data;
     });
 
+    const rejected = new Promise<{ code: string }>((resolve) => client2.once('error', resolve));
+    client2.emit('session:resume', { token: publicId });
+    expect((await rejected).code).toBe('session-not-found');
+    expect(resumedState).toBeNull();
     client2.emit('session:resume', { token });
     await waitFor(() => resumedState !== null, 5000);
 

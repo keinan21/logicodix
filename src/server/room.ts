@@ -81,6 +81,8 @@ export class Room {
   private questionBank: Question[];
   private finishCounter = 0;
   private evalRequested = false;
+  private destroyed = false;
+  private evaluations = new Map<number, EvalReady>();
   private lobbyEndsAtMs = 0;
   private disconnectTimers = new Map<string, ReturnType<typeof setTimeout>>();
   /** Jadwal tiap timer supaya bisa dibekukan saat pause (hanya room 1 manusia lawan bot). */
@@ -336,9 +338,9 @@ export class Room {
         lockEndsAtMs,
       });
       const t = this.schedule(() => {
-        const cur = this.state.participants.find((x) => x.id === socketId);
+        const cur = this.state.participants.find((x) => x.slot === p.slot);
         if (cur && cur.status === 'locked') {
-          this.replaceParticipant(socketId, unlock(cur));
+          this.replaceParticipant(cur.id, unlock(cur));
         }
         // Bot terkunci butuh penjadwalan ulang dari server (manusia menjawab sendiri).
         this.scheduleBots();
@@ -394,16 +396,24 @@ export class Room {
       'player.resumed',
       this.state.phase,
       'info',
-      `peserta ${p.nickname} melanjutkan balapan`,
+      'peserta melanjutkan balapan',
     );
 
     this.sendStateTo(newSocketId);
+    if (this.state.phase === 'finished') {
+      this.cfg.emitTo(newSocketId, 'race:end', this.standingsPayload());
+      const evaluation = this.evaluations.get(p.slot);
+      if (evaluation) this.cfg.emitTo(newSocketId, 'eval:ready', evaluation);
+    } else if (p.status === 'finished' || p.status === 'outOfQuestions') {
+      this.emitStandings(newSocketId);
+    }
     this.broadcast();
     return true;
   }
 
   /** Peserta keluar / putus (FR-M12, FR-B11, FR-B13). */
   leave(socketId: string): void {
+    if (this.state.phase === 'finished') return;
     const p = this.state.participants.find((x) => x.id === socketId);
     if (!p) return;
 
@@ -522,6 +532,7 @@ export class Room {
     this.evalRequested = true;
     const evaluations: {
       playerId: string;
+      slot: number;
       input: EvalRequest;
       questions: EvalReady['questions'];
     }[] = [];
@@ -551,6 +562,7 @@ export class Room {
 
       evaluations.push({
         playerId: p.id,
+        slot: p.slot,
         input,
         questions: pairs.map(({ a, question }) => ({
           questionId: question.id,
@@ -569,18 +581,20 @@ export class Room {
     }
 
     // Kirim daftar ke semua pemain sebelum menunggu panggilan AI mana pun.
-    for (const { playerId, questions } of evaluations) {
+    for (const { playerId, slot, questions } of evaluations) {
       const pendingPayload = evalReadySchema.parse({
         questions,
         aiSection: null,
         badge: null,
       });
+      this.evaluations.set(slot, pendingPayload);
       this.cfg.emitTo(playerId, 'eval:ready', pendingPayload);
     }
 
-    for (const { playerId, input, questions } of evaluations) {
+    for (const { slot, input, questions } of evaluations) {
       // Maksimal 1 panggilan AI per pemain per balapan ditegakkan di evaluator (FR-H10).
       const result = await this.cfg.evaluator(input, this.cfg.seed);
+      if (this.destroyed) return;
 
       const payload = evalReadySchema.parse({
         questions,
@@ -593,7 +607,11 @@ export class Room {
         },
         badge: result.badge,
       });
-      this.cfg.emitTo(playerId, 'eval:ready', payload);
+      this.evaluations.set(slot, payload);
+      const participant = this.state.participants.find((p) => p.slot === slot);
+      if (participant && participant.status !== 'left') {
+        this.cfg.emitTo(participant.id, 'eval:ready', payload);
+      }
     }
     logEvent(
       this.cfg.roomId,
@@ -810,6 +828,8 @@ export class Room {
   }
 
   destroy(): void {
+    this.destroyed = true;
+    this.evaluations.clear();
     for (const t of this.timers) this.cfg.clearTimer(t);
     this.timers.clear();
     this.meta.clear();

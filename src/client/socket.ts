@@ -6,6 +6,7 @@ import {
   raceEndSchema,
   raceFeedbackSchema,
   roomStateSchema,
+  sessionTokenSchema,
 } from '../shared/schema';
 import type {
   EvalReady,
@@ -181,7 +182,7 @@ function ensureSocket(): Socket {
 
   socket.on('connect', () => {
     dispatch({ type: 'connection', connected: true, myId: socket.id ?? null });
-    if (lastResumeToken && socket.id && lastResumeToken !== socket.id) {
+    if (lastResumeToken && socket.id) {
       socket.emit('session:resume', { token: lastResumeToken });
     } else if (pendingQueue) {
       socket.emit('queue:join', pendingQueue);
@@ -198,13 +199,12 @@ function ensureSocket(): Socket {
     const parsed = roomStateSchema.safeParse(raw);
     if (parsed.success) {
       pendingQueue = null;
-      if (parsed.data.phase === 'racing' || parsed.data.phase === 'lobby') {
-        if (socket.id) lastResumeToken = socket.id;
-      } else if (parsed.data.phase === 'finished') {
-        lastResumeToken = null;
-      }
       dispatch({ type: 'state', state: parsed.data });
     }
+  });
+  socket.on('session:token', (raw: unknown) => {
+    const parsed = sessionTokenSchema.safeParse(raw);
+    if (parsed.success) lastResumeToken = parsed.data.token;
   });
   socket.on('race:feedback', (raw: unknown) => {
     const parsed = raceFeedbackSchema.safeParse(raw);

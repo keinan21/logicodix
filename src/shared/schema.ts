@@ -146,6 +146,9 @@ export const sessionResumePayloadSchema = z.object({
   token: z.string().min(1),
 });
 
+/** Token rahasia, dikirim hanya kepada pemilik sesi. */
+export const sessionTokenSchema = z.object({ token: z.string().uuid() });
+
 export const participantPublicSchema = z.object({
   id: z.string(),
   nickname: z.string(),
