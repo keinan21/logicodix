@@ -84,7 +84,7 @@
   width: 100%;
   max-width: 600px;
   justify-self: center;
-  padding: 0 26px 26px;
+  padding: 14px 26px 26px;
   border: solid transparent;
   border-width: 86px 44px 22px;
   border-image: var(--card-wood) 86 44 22 44 fill / 86px 44px 22px 44px stretch;
@@ -94,7 +94,7 @@
 
 .home-card h2 {
   height: 40px;
-  margin: -74px 0 14px;
+  margin: -77px 0 14px;
   font-size: 22px;
   line-height: 40px;
   text-align: center;
