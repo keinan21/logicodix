@@ -28,7 +28,7 @@
 }
 
 .home-plank {
-  padding: 2px 10px 6px;
+  padding: 6px 16px 12px;
   border: solid transparent;
   border-width: 16px 24px 12px;
   border-image: var(--plank) 16 24 12 24 fill / 16px 24px 12px 24px stretch;
@@ -37,12 +37,12 @@
 
 .home-plank h1 {
   margin: 0;
-  font-size: clamp(38px, 5.4vw, 80px);
-  line-height: 1;
+  font-size: clamp(32px, 4.6vw, 66px);
+  line-height: 1.08;
   font-weight: 700;
   letter-spacing: 0.01em;
   color: var(--cream);
-  -webkit-text-stroke: 7px var(--br);
+  -webkit-text-stroke: 0.09em var(--br);
   paint-order: stroke fill;
 }
 
