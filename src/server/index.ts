@@ -27,10 +27,28 @@ import type { Animal } from '../shared/schema';
 
 const PORT = Number(process.env.PORT ?? 3000);
 const DEBUG_PANEL = process.env.DEBUG_PANEL === 'true';
+/**
+ * Origin frontend saat dipisah (mis. Vercel/Netlify) yang memanggil backend ini.
+ * Kosong = same-origin (server menyajikan web + socket di satu port).
+ */
+const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN ?? '';
 
 export function createApp(animals: Animal[] = []) {
   const app = express();
   app.use(express.json());
+  // CORS manual (tanpa dependency): header hanya diberikan bila Origin sama dengan
+  // CLIENT_ORIGIN, sehingga browser menolak origin lain. OPTIONS dijawab 204.
+  app.use((req, res, next) => {
+    if (!CLIENT_ORIGIN || req.headers.origin !== CLIENT_ORIGIN) return next();
+    res.setHeader('Access-Control-Allow-Origin', CLIENT_ORIGIN);
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    if (req.method === 'OPTIONS') {
+      res.sendStatus(204);
+      return;
+    }
+    next();
+  });
   app.get('/api/animals', (_req, res) => {
     res.json(animals);
   });
@@ -64,7 +82,9 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
 
   const app = createApp(content.animals);
   const server = createServer(app);
-  const io = new SocketIOServer(server);
+  const io = new SocketIOServer(server, {
+    cors: { origin: CLIENT_ORIGIN || true, methods: ['GET', 'POST'] },
+  });
 
   // Evaluasi AI: pilih mode; live tanpa key → contoh otomatis (ARCHITECTURE §7).
   const { mode } = selectMode({

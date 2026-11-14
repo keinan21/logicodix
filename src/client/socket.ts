@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import { io, type Socket } from 'socket.io-client';
 import { z } from 'zod';
+import { SERVER_URL } from './server-url';
 import {
   evalReadySchema,
   raceEndSchema,
@@ -180,8 +181,11 @@ let activeRequestId: string | null = null;
 
 function ensureSocket(): Socket {
   if (socketInstance) return socketInstance;
-  // Sama-origin: server menyajikan web + socket di satu port (ARCHITECTURE §1).
-  const socket = io({ autoConnect: true, reconnection: true });
+  // Default same-origin (server menyajikan web + socket di satu port). Bila
+  // VITE_SERVER_URL diset, frontend boleh di-host terpisah (Vercel/Netlify).
+  const socket = SERVER_URL
+    ? io(SERVER_URL, { autoConnect: true, reconnection: true })
+    : io({ autoConnect: true, reconnection: true });
   socketInstance = socket;
 
   socket.on('connect', () => {
