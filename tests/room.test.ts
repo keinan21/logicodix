@@ -106,6 +106,88 @@ function deriveOrder(seed: number, questions: Question[]) {
 }
 
 describe('room (integrasi skeleton)', () => {
+  describe('validasi jawaban dan riwayat evaluasi', () => {
+    const questions = [
+      q('11111111-0001-4001-8001-000000000001', 0),
+      q('11111111-0002-4002-8002-000000000002', 0),
+      q('11111111-0003-4003-8003-000000000003', 0),
+    ];
+    const seed = 42;
+    const { optionOrder } = deriveOrder(seed, questions);
+    const correctChoice = String.fromCharCode(65 + optionOrder.indexOf(0));
+    const wrongChoice = String.fromCharCode(65 + optionOrder.indexOf(1));
+
+    it.each(['lobby', 'deadline', 'finished'] as const)(
+      'menolak jawaban pada %s tanpa feedback atau riwayat',
+      async (phase) => {
+        const events: RecordedEvent[] = [];
+        const inputs: EvalRequest[] = [];
+        const { room, sched } = makeRoom(seed, questions, events, 0, inputs);
+        room.start();
+        if (phase !== 'lobby') sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+        if (phase === 'deadline') {
+          // Jam melewati batas sebelum callback timer mendapat giliran.
+          sched.now += GAME.RACE_DURATION_S * 1000;
+        }
+        if (phase === 'finished') sched.advance(GAME.RACE_DURATION_S * 1000);
+        room.answer('h1', { questionIndex: 0, choice: correctChoice });
+        await room.requestEvaluation();
+        expect(events.filter((e) => e.event === 'race:feedback')).toHaveLength(0);
+        expect(events.filter((e) => e.event === 'eval:ready')).toHaveLength(0);
+        expect(inputs).toHaveLength(0);
+        const states = events
+          .filter((e) => e.event === 'room:state')
+          .map((e) => roomStateSchema.parse(e.payload));
+        expect(states.every((state) => state.participants[0]?.steps === 0)).toBe(true);
+        room.destroy();
+      },
+    );
+
+    it.each([0, 2])('menolak indeks %s ketika soal aktif 1', async (questionIndex) => {
+      const events: RecordedEvent[] = [];
+      const inputs: EvalRequest[] = [];
+      const { room, sched } = makeRoom(seed, questions, events, 0, inputs);
+      room.start();
+      sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+      room.answer('h1', { questionIndex: 0, choice: correctChoice });
+      room.answer('h1', { questionIndex, choice: correctChoice });
+      await room.requestEvaluation();
+      expect(events.filter((e) => e.event === 'race:feedback')).toHaveLength(1);
+      const state = roomStateSchema.parse(
+        events.filter((e) => e.event === 'room:state').at(-1)?.payload,
+      );
+      expect(state.questionIndex).toBe(1);
+      expect(state.participants[0]?.steps).toBe(1);
+      expect(inputs).toHaveLength(1);
+      expect(inputs[0]?.questions).toHaveLength(1);
+      room.destroy();
+    });
+
+    it('tidak memasukkan jawaban saat locked ke evaluasi dan menerima setelah unlock', async () => {
+      const events: RecordedEvent[] = [];
+      const inputs: EvalRequest[] = [];
+      const { room, sched } = makeRoom(seed, questions, events, 0, inputs);
+      room.start();
+      sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+      room.answer('h1', { questionIndex: 0, choice: wrongChoice });
+      room.answer('h1', { questionIndex: 1, choice: wrongChoice });
+      sched.advance(GAME.LOCK_DURATION_S * 1000);
+      room.answer('h1', { questionIndex: 1, choice: correctChoice });
+      await room.requestEvaluation();
+      expect(events.filter((e) => e.event === 'race:feedback')).toHaveLength(2);
+      expect(inputs).toHaveLength(1);
+      expect(inputs[0]?.questions.map((item) => item.chosenIndex)).toEqual([
+        optionOrder.indexOf(1),
+        optionOrder.indexOf(0),
+      ]);
+      const evaluation = evalReadySchema.parse(
+        events.filter((e) => e.event === 'eval:ready').at(-1)?.payload,
+      );
+      expect(evaluation.questions).toHaveLength(2);
+      room.destroy();
+    });
+  });
+
   it('mengirim countdown lobby dari jam server sampai balapan dimulai', () => {
     const events: RecordedEvent[] = [];
     const { room, sched } = makeRoom(42, [q('11111111-0001-4001-8001-000000000001', 0)], events);

@@ -188,8 +188,11 @@ export class Room {
       );
       return;
     }
+    if (this.state.phase !== 'racing') return;
+    const nowMs = this.cfg.now();
+    if (this.state.raceEndsAtMs === undefined || nowMs >= this.state.raceEndsAtMs) return;
     const p = this.state.participants.find((x) => x.id === socketId);
-    if (!p) return;
+    if (!p || p.status !== 'racing' || parsed.data.questionIndex !== p.nextQuestionIndex) return;
     const question = this.currentQuestion(p);
     if (!question) return;
 
@@ -199,16 +202,16 @@ export class Room {
     if (originalIndex === undefined) return;
 
     const correct = originalIndex === question.answerIndex;
-    // Catat jawaban untuk Evaluasi AI (FR-H06: tanpa nickname)
-    const list = this.answers.get(socketId);
-    if (list) list.push({ questionIndex: p.nextQuestionIndex, chosenIndex: originalIndex });
-
     let next: Participant;
     try {
-      next = applyAnswer(p, correct, this.cfg.now(), this.questionBank.length);
+      next = applyAnswer(p, correct, nowMs, this.questionBank.length);
     } catch {
       return; // jawaban kedua / saat locked / sudah finish → ditolak (NFR-08)
     }
+
+    // Hanya jawaban yang diterima masuk Evaluasi (FR-H02/H06).
+    const list = this.answers.get(socketId);
+    if (list) list.push({ questionIndex: p.nextQuestionIndex, chosenIndex: originalIndex });
 
     if (next.status === 'finished') {
       this.finishCounter += 1;
