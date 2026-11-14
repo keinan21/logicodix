@@ -3,7 +3,7 @@
  * - Input hanya ID soal, jenis, pilihan, kunci, penjelasan, tipe, topik. TANPA nickname.
  * - Timeout 8 detik dengan AbortController (FR-H07).
  * - Keluaran lolos check.ts atau dibuang.
- * TODO(P-06): nama model Flash termurah dicek saat setup; GEMINI_MODEL dari env.
+ * Model bawaan gemini-3.1-flash-lite (dicek 2026-11-12); ganti lewat GEMINI_MODEL.
  */
 
 import { GoogleGenAI } from '@google/genai';
@@ -15,26 +15,46 @@ import { checkAiOutput } from './check';
 
 export class LiveEvaluateError extends Error {}
 
+export interface GenAiClient {
+  models: {
+    generateContent(params: {
+      model: string;
+      contents: string;
+      config?: { responseMimeType?: string };
+    }): Promise<{ text?: string | null }>;
+  };
+}
+
 export async function liveEvaluate(
   req: EvalRequest,
   apiKey: string,
   model: string,
   timeoutMs: number = AI.TIMEOUT_S * 1000,
+  client?: GenAiClient,
 ): Promise<EvalAiOutput> {
   if (!apiKey) throw new LiveEvaluateError('GEMINI_API_KEY kosong');
 
-  const ai = new GoogleGenAI({ apiKey });
+  const ai = client ?? new GoogleGenAI({ apiKey });
   const prompt = buildPrompt(req);
 
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => {
+      controller.abort();
+      reject(new LiveEvaluateError(`timeout ${timeoutMs}ms terlampaui (FR-H07)`));
+    }, timeoutMs);
+  });
+
   try {
-    // TODO(T-15): verifikasi respons mode JSON @google/genai 2.31 (responseMimeType application/json).
-    const resp = await ai.models.generateContent({
-      model,
-      contents: prompt,
-      config: { responseMimeType: 'application/json' },
-    });
+    const resp = await Promise.race([
+      ai.models.generateContent({
+        model,
+        contents: prompt,
+        config: { responseMimeType: 'application/json' },
+      }),
+      timeoutPromise,
+    ]);
     const text = resp.text ?? '';
     const parsed = parseJson(text);
     const schemaResult = evalAiOutputSchema.safeParse(parsed);
@@ -49,7 +69,7 @@ export async function liveEvaluate(
     }
     return normalize(parsed);
   } finally {
-    clearTimeout(timer);
+    if (timer) clearTimeout(timer);
   }
 }
 

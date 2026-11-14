@@ -1,0 +1,30 @@
+{
+  "id": "6134d0f1-60ed-4972-ad17-ffc6fff3046d",
+  "kind": "pengetahuan",
+  "stem": "Kawasan mangrove dipulihkan dengan penanaman kembali. Manfaatnya adalah …",
+  "options": [
+    "mengurangi abrasi dan meningkatkan habitat biota",
+    "meningkatkan abrasi",
+    "mengurangi habitat biota",
+    "menambah pencemaran"
+  ],
+  "answerIndex": 0,
+  "explanation": "Penanaman kembali mangrove mengurangi abrasi, memulihkan habitat biota, dan menambah penyerap karbon. Kegiatan ini tidak menambah pencemaran maupun merusak habitat.",
+  "sources": [
+    {
+      "judul": "What is a mangrove forest?",
+      "url": "https://oceanservice.noaa.gov/facts/mangroves.html",
+      "lembaga": "NOAA",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "DOE Explains...the Carbon Cycle",
+      "url": "https://www.energy.gov/science/doe-explainsthe-carbon-cycle",
+      "lembaga": "U.S. Department of Energy",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

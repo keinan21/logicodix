@@ -1,0 +1,19 @@
+{
+  "id": "3bf413dd-c204-4e7c-bdfd-e5cac1013522",
+  "kind": "pengetahuan",
+  "stem": "Karbon tersimpan dalam hutan terutama pada …",
+  "options": ["biomassa pohon dan tanah", "udara saja", "air sungai saja", "batu karang"],
+  "answerIndex": 0,
+  "explanation": "Karbon di hutan tersimpan terutama pada biomassa pohon (batang, ranting, daun, akar) dan bahan organik tanah, bukan di udara, air sungai, atau batu karang.",
+  "sources": [
+    {
+      "judul": "Sustainable forest-based industries",
+      "url": "https://www.fao.org/forestry-fao/industries/98951/en/",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

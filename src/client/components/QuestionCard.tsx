@@ -1,26 +1,21 @@
 import type { QuestionPublic } from '../../shared/schema';
+import { GAME } from '../../shared/constants';
+import { CountdownRing } from './CountdownRing';
+import './QuestionCard.css';
 
 export interface QuestionCardProps {
   question: QuestionPublic;
-  /** Indeks soal dalam urutan room (1-based untuk tampilan). */
   displayNumber: number;
   /** Penjelasan + sumber tampil setelah menjawab — benar maupun salah (FR-B05). */
   explanation?: string | undefined;
   sources?: { judul: string; url: string; lembaga: string }[] | undefined;
-  /** Sisa detik lock (5..1) bila sedang terkunci. */
   lockRemainingS?: number | undefined;
   /** Hasil jawaban terakhir; menentukan warna panel penjelasan. */
   correct?: boolean | undefined;
   /** Lewati masa baca penjelasan lebih cepat (hanya saat jawaban benar). */
   onSkipExplanation?: (() => void) | undefined;
 }
-
-/**
- * QuestionCard — DESIGN §4: variant klaim / pengetahuan; dengan/tanpa penjelasan.
- * Kunci, penjelasan, sumber hanya tampil setelah menjawab (FR-K11).
- * Catatan: sebelum menjawab, payload hanya stem/claim/options (FR-K11) —
- * chip jenis soal sengaja TIDAK tampil di layar balapan; chip tampil di Evaluasi.
- */
+/** FR-K11: no type/answer metadata is added to the public question contract. */
 export function QuestionCard({
   question,
   displayNumber,
@@ -34,6 +29,9 @@ export function QuestionCard({
     <article className="card question-card" aria-labelledby={`question-${displayNumber}`}>
       <div className="question-meta">
         <span className="eyebrow">Soal {displayNumber}</span>
+        {lockRemainingS !== undefined && (
+          <CountdownRing remaining={lockRemainingS} total={GAME.LOCK_DURATION_S} />
+        )}
       </div>
 
       <h2 id={`question-${displayNumber}`} className="question-stem">
@@ -49,6 +47,7 @@ export function QuestionCard({
               ? 'question-explanation question-explanation-wrong'
               : 'question-explanation'
           }
+          role="status"
         >
           <p className="question-explanation-title">Penjelasan</p>
           <p>{explanation}</p>

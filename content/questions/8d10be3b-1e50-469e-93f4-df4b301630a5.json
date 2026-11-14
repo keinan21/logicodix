@@ -1,0 +1,24 @@
+{
+  "id": "8d10be3b-1e50-469e-93f4-df4b301630a5",
+  "kind": "pengetahuan",
+  "stem": "Pembuangan sampah sembarangan dapat menyebabkan …",
+  "options": [
+    "pencemaran lingkungan dan penyakit",
+    "peningkatan kesuburan tanah",
+    "berkurangnya banjir",
+    "bertambahnya keanekaragaman hayati"
+  ],
+  "answerIndex": 0,
+  "explanation": "Sampah yang dibuang sembarangan mencemari lingkungan, menyumbat saluran air, dan menjadi sarang penyakit. Sampah tidak menyuburkan tanah maupun menambah keanekaragaman.",
+  "sources": [
+    {
+      "judul": "Guidance on solid waste and health",
+      "url": "https://www.who.int/tools/compendium-on-health-and-environment/solid-waste",
+      "lembaga": "World Health Organization",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

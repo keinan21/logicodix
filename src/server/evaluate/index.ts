@@ -19,6 +19,13 @@ export interface EvalResult {
   source: 'live' | 'contoh' | 'mock' | 'fallback';
 }
 
+export type LiveEvaluatorFn = (
+  req: EvalRequest,
+  apiKey: string,
+  model: string,
+  timeoutMs: number,
+) => Promise<EvalAiOutput>;
+
 export interface EvaluateDeps {
   mode: AiMode;
   geminiApiKey?: string | undefined;
@@ -26,6 +33,7 @@ export interface EvaluateDeps {
   tips: Tip[];
   contoh: Record<string, unknown>;
   cache?: EvalCache | undefined;
+  liveEvaluator?: LiveEvaluatorFn | undefined;
 }
 
 export function selectMode(env: {
@@ -64,10 +72,11 @@ export function createEvaluator(deps: EvaluateDeps) {
           if (calls > AI.MAX_CALLS_PER_PLAYER_PER_RACE) {
             throw new Error('batas 1 panggilan AI per pemain per balapan terlampaui (FR-H10)');
           }
-          const output = await liveEvaluate(
+          const evaluator = deps.liveEvaluator ?? liveEvaluate;
+          const output = await evaluator(
             req,
             deps.geminiApiKey,
-            deps.geminiModel ?? 'gemini-2.0-flash',
+            deps.geminiModel ?? 'gemini-3.1-flash-lite',
             AI.TIMEOUT_S * 1000,
           );
           const result: EvalResult = { output, badge: 'dibuat-oleh-ai', source: 'live' };

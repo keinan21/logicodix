@@ -69,6 +69,7 @@ export const initialSession: RoomSession = {
 };
 
 export type SessionEvent =
+  | { type: 'answer-start' }
   | { type: 'connection'; connected: boolean; myId: string | null }
   | { type: 'state'; state: RoomState }
   | { type: 'feedback'; feedback: RaceFeedback; atMs: number }
@@ -85,6 +86,8 @@ export type SessionEvent =
  */
 export function sessionReducer(session: RoomSession, event: SessionEvent): RoomSession {
   switch (event.type) {
+    case 'answer-start':
+      return { ...session, error: null };
     case 'connection':
       return {
         ...session,
@@ -167,6 +170,8 @@ const errorPayloadSchema = z.object({
 });
 
 let socketInstance: Socket | null = null;
+let lastResumeToken: string | null = null;
+let pendingQueue: JoinQueuePayload | null = null;
 
 function ensureSocket(): Socket {
   if (socketInstance) return socketInstance;
@@ -176,6 +181,11 @@ function ensureSocket(): Socket {
 
   socket.on('connect', () => {
     dispatch({ type: 'connection', connected: true, myId: socket.id ?? null });
+    if (lastResumeToken && socket.id && lastResumeToken !== socket.id) {
+      socket.emit('session:resume', { token: lastResumeToken });
+    } else if (pendingQueue) {
+      socket.emit('queue:join', pendingQueue);
+    }
   });
   socket.on('disconnect', () => {
     dispatch({ type: 'connection', connected: false, myId: null });
@@ -186,7 +196,15 @@ function ensureSocket(): Socket {
 
   socket.on('room:state', (raw: unknown) => {
     const parsed = roomStateSchema.safeParse(raw);
-    if (parsed.success) dispatch({ type: 'state', state: parsed.data });
+    if (parsed.success) {
+      pendingQueue = null;
+      if (parsed.data.phase === 'racing' || parsed.data.phase === 'lobby') {
+        if (socket.id) lastResumeToken = socket.id;
+      } else if (parsed.data.phase === 'finished') {
+        lastResumeToken = null;
+      }
+      dispatch({ type: 'state', state: parsed.data });
+    }
   });
   socket.on('race:feedback', (raw: unknown) => {
     const parsed = raceFeedbackSchema.safeParse(raw);
@@ -218,7 +236,13 @@ function ensureSocket(): Socket {
   });
   socket.on('error', (raw: unknown) => {
     const parsed = errorPayloadSchema.safeParse(raw);
-    if (parsed.success) dispatch({ type: 'error', error: parsed.data });
+    if (parsed.success) {
+      pendingQueue = null;
+      if (parsed.data.code === 'resume-expired' || parsed.data.code === 'session-not-found') {
+        lastResumeToken = null;
+      }
+      dispatch({ type: 'error', error: parsed.data });
+    }
   });
 
   return socket;
@@ -226,21 +250,26 @@ function ensureSocket(): Socket {
 
 /**
  * Hook akses room. Satu sumber kebenaran untuk semua layar.
- * TODO(T-12): `session:resume` belum bisa memulihkan room karena server memetakan socket ID
- * baru ke room lama; sampai itu ada, reconnect hanya menampilkan status "mencoba menyambung".
  */
 export function useRoom() {
   const current = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 
   const joinQueue = (payload: JoinQueuePayload) => {
-    ensureSocket().emit('queue:join', payload);
+    pendingQueue = payload;
+    dispatch({ type: 'reset' });
+    const socket = ensureSocket();
+    if (socket.connected) socket.emit('queue:join', payload);
   };
 
   const leaveQueue = () => {
-    ensureSocket().emit('queue:leave');
+    pendingQueue = null;
+    const socket = ensureSocket();
+    if (socket.connected) socket.emit('queue:leave');
+    dispatch({ type: 'reset' });
   };
 
   const answer = (payload: RaceAnswerPayload) => {
+    dispatch({ type: 'answer-start' });
     ensureSocket().emit('race:answer', payload);
   };
 
@@ -249,6 +278,8 @@ export function useRoom() {
   };
 
   const reset = () => {
+    pendingQueue = null;
+    lastResumeToken = null;
     dispatch({ type: 'reset' });
   };
 

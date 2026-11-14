@@ -2,37 +2,73 @@
   {
     "id": "orangutan",
     "nama": "Orangutan",
-    "fakta": "Hewan pemalu yang hidup di hutan Kalimantan dan Sumatera.",
-    "flip": true
+    "fakta": "Orangutan hidup di Kalimantan dan Sumatera, dan termasuk satwa yang terancam punah.",
+    "flip": true,
+    "sumber": {
+      "judul": "Peneliti BRIN Lakukan Pendekatan Teknik Pemantauan Hormon Stres Feses untuk Optimalkan Rehabilitasi Orangutan",
+      "url": "https://www.brin.go.id/news/121492/peneliti-brin-lakukan-pendekatan-teknik-pemantauan-hormon-stres-feses-untuk-optimalkan-rehabilitasi-orangutan",
+      "lembaga": "BRIN",
+      "tanggalCek": "2026-11-12"
+    }
   },
   {
     "id": "harimau",
     "nama": "Harimau",
-    "fakta": "Harimau Sumatera adalah satwa endemik Indonesia yang dilindungi.",
-    "flip": true
+    "fakta": "Harimau sumatera (Panthera tigris sumatrae) adalah satwa dilindungi di Indonesia.",
+    "flip": true,
+    "sumber": {
+      "judul": "Permen LHK No. P.20/MENLHK/SETJEN/KUM.1/6/2018 tentang Jenis Tumbuhan dan Satwa yang Dilindungi",
+      "url": "https://tntessonilo.ksdae.kehutanan.go.id/wp-content/uploads/2024/04/JENIS-TUMBUHAN-DAN-SATWA-LIAR-YANG-DILINDUNGI.pdf",
+      "lembaga": "Kementerian Lingkungan Hidup dan Kehutanan",
+      "tanggalCek": "2026-11-12"
+    }
   },
   {
     "id": "gajah",
     "nama": "Gajah",
-    "fakta": "Gajah Sumatera termasuk spesies yang terancam punah.",
-    "flip": true
+    "fakta": "Gajah asia (Elephas maximus), termasuk gajah Sumatera, adalah satwa dilindungi di Indonesia.",
+    "flip": true,
+    "sumber": {
+      "judul": "Permen LHK No. P.20/MENLHK/SETJEN/KUM.1/6/2018 tentang Jenis Tumbuhan dan Satwa yang Dilindungi",
+      "url": "https://tntessonilo.ksdae.kehutanan.go.id/wp-content/uploads/2024/04/JENIS-TUMBUHAN-DAN-SATWA-LIAR-YANG-DILINDUNGI.pdf",
+      "lembaga": "Kementerian Lingkungan Hidup dan Kehutanan",
+      "tanggalCek": "2026-11-12"
+    }
   },
   {
     "id": "penyu",
     "nama": "Penyu",
-    "fakta": "Penyu bertelur di pantai-pantai Indonesia yang dilindungi.",
-    "flip": true
+    "fakta": "Penyu hijau adalah satwa dilindungi di Indonesia.",
+    "flip": true,
+    "sumber": {
+      "judul": "KKP Lepasliarkan 21 Penyu Hijau yang Terancam Punah ke Habitat Aslinya",
+      "url": "https://kkp.go.id/djpk/kkp-lepasliarkan-21-penyu-hijau-yang-terancam-punah-ke-habitat-aslinya-l291/detail.html",
+      "lembaga": "KKP",
+      "tanggalCek": "2026-11-12"
+    }
   },
   {
     "id": "badak",
     "nama": "Badak",
-    "fakta": "Badak Jawa dan badak Sumatera adalah spesies langka Indonesia.",
-    "flip": true
+    "fakta": "Badak jawa dan badak sumatera adalah satwa dilindungi di Indonesia.",
+    "flip": true,
+    "sumber": {
+      "judul": "Permen LHK No. P.20/MENLHK/SETJEN/KUM.1/6/2018 tentang Jenis Tumbuhan dan Satwa yang Dilindungi",
+      "url": "https://tntessonilo.ksdae.kehutanan.go.id/wp-content/uploads/2024/04/JENIS-TUMBUHAN-DAN-SATWA-LIAR-YANG-DILINDUNGI.pdf",
+      "lembaga": "Kementerian Lingkungan Hidup dan Kehutanan",
+      "tanggalCek": "2026-11-12"
+    }
   },
   {
     "id": "burung",
     "nama": "Burung",
-    "fakta": "Cendrawasih dan kakaktua adalah burung endemik Nusantara.",
-    "flip": true
+    "fakta": "Cenderawasih dan kakatua adalah burung dilindungi di Indonesia.",
+    "flip": true,
+    "sumber": {
+      "judul": "Permen LHK No. P.20/MENLHK/SETJEN/KUM.1/6/2018 tentang Jenis Tumbuhan dan Satwa yang Dilindungi",
+      "url": "https://tntessonilo.ksdae.kehutanan.go.id/wp-content/uploads/2024/04/JENIS-TUMBUHAN-DAN-SATWA-LIAR-YANG-DILINDUNGI.pdf",
+      "lembaga": "Kementerian Lingkungan Hidup dan Kehutanan",
+      "tanggalCek": "2026-11-12"
+    }
   }
 ]

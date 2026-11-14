@@ -10,7 +10,14 @@
   ],
   "answerIndex": 2,
   "explanation": "Hutan hujan tropis adalah salah satu ekosistem dengan keanekaragaman hayati tertinggi di dunia. Indonesia termasuk negara megabiodiversitas. Perlindungan hutan menjaga keanekaragaman tersebut.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Indonesia - Country Profile",
+      "url": "https://www.cbd.int/countries/profile/default.shtml?country=id",
+      "lembaga": "Secretariat of the Convention on Biological Diversity",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "hutan",
   "status": "draf",
   "writtenBy": "c-rakyan"

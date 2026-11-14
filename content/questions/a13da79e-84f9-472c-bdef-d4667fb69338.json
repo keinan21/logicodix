@@ -1,0 +1,24 @@
+{
+  "id": "a13da79e-84f9-472c-bdef-d4667fb69338",
+  "kind": "pengetahuan",
+  "stem": "Hutan produksi digunakan terutama untuk …",
+  "options": [
+    "menghasilkan kayu dan produk hutan",
+    "melindungi habitat satwa langka",
+    "menyimpan limbah B3",
+    "mengurangi keanekaragaman hayati"
+  ],
+  "answerIndex": 0,
+  "explanation": "Hutan produksi ditetapkan terutama untuk menghasilkan kayu dan hasil hutan lainnya. Pemanfaatannya tetap harus mengikuti fungsi kawasan dan aturan pengelolaan yang berlaku.",
+  "sources": [
+    {
+      "judul": "FRA 2005 Terms and Definitions: Production Forest",
+      "url": "https://www.fao.org/4/ae349e/AE349E04.htm",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "6cc66af4-504c-4fa0-9c7a-6e2ae070684a",
+  "kind": "pengetahuan",
+  "stem": "Pencemaran yang terjadi di sungai disebut pencemaran …",
+  "options": ["udara", "tanah", "air", "suara"],
+  "answerIndex": 2,
+  "explanation": "Pencemaran di sungai termasuk pencemaran air. Polutan dapat mengubah kondisi fisik, kimia, atau biologi perairan dan mengganggu pengguna serta organisme yang hidup di dalamnya.",
+  "sources": [
+    {
+      "judul": "Water Quality",
+      "url": "https://www.usgs.gov/special-topics/water-science-school/science/water-quality",
+      "lembaga": "U.S. Geological Survey",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -10,7 +10,20 @@
   ],
   "answerIndex": 3,
   "explanation": "Air tawar yang layak pakai umumnya berasal dari sungai, danau, dan air tanah, sering kali melalui pengolahan. Air laut mengandung garam dan tidak bisa langsung diminum. Air hujan perlu ditampung dan diolah dengan benar.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Drinking Water Sources: An Overview",
+      "url": "https://www.cdc.gov/drinking-water/about/drinking-water-sources-an-overview.html",
+      "lembaga": "CDC",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Drinking-water",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/drinking-water",
+      "lembaga": "World Health Organization",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "air",
   "status": "draf",
   "writtenBy": "c-rakyan"

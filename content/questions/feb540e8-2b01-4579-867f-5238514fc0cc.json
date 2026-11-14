@@ -1,0 +1,30 @@
+{
+  "id": "feb540e8-2b01-4579-867f-5238514fc0cc",
+  "kind": "pengetahuan",
+  "stem": "Salah satu tantangan penggunaan energi terbarukan adalah …",
+  "options": [
+    "membutuhkan teknologi dan investasi awal",
+    "tidak memiliki manfaat",
+    "selalu mencemari udara",
+    "tidak dapat digunakan sama sekali"
+  ],
+  "answerIndex": 0,
+  "explanation": "Tantangan energi terbarukan antara lain kebutuhan teknologi dan investasi awal yang besar serta ketergantungan pada kondisi alam, meski pemanfaatannya terus berkembang.",
+  "sources": [
+    {
+      "judul": "Solar Photovoltaic System Cost Benchmarks",
+      "url": "https://www.energy.gov/cmei/systems/solar-photovoltaic-system-cost-benchmarks",
+      "lembaga": "U.S. Department of Energy",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Renewable energy explained",
+      "url": "https://www.eia.gov/energyexplained/renewable-sources/index.php",
+      "lembaga": "U.S. Energy Information Administration",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

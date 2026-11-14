@@ -1,0 +1,30 @@
+{
+  "id": "7b80bcb1-f8ac-47c6-9254-2b2d2c6940bd",
+  "kind": "pengetahuan",
+  "stem": "Penggunaan energi yang hemat mendukung konservasi karena …",
+  "options": [
+    "meningkatkan penggunaan bahan bakar fosil",
+    "mengurangi eksploitasi sumber daya alam",
+    "menambah pencemaran udara",
+    "mempercepat kerusakan hutan"
+  ],
+  "answerIndex": 1,
+  "explanation": "Menghemat energi mengurangi kebutuhan energi yang harus diproduksi. Pada sistem yang membakar bahan bakar fosil, pengurangan kebutuhan dapat menekan emisi dan dampak lingkungannya.",
+  "sources": [
+    {
+      "judul": "Reduce the Environmental Impact of Your Energy Use",
+      "url": "https://www.epa.gov/energy/reduce-environmental-impact-your-energy-use",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Causes",
+      "url": "https://science.nasa.gov/climate-change/causes/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

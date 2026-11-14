@@ -1,0 +1,24 @@
+{
+  "id": "26df2395-7bdd-4e87-bb7c-653d09e49171",
+  "kind": "pengetahuan",
+  "stem": "Efek rumah kaca berlebihan menyebabkan …",
+  "options": [
+    "pemanasan global",
+    "pendinginan bumi",
+    "berkurangnya karbon dioksida",
+    "menurunnya suhu laut"
+  ],
+  "answerIndex": 0,
+  "explanation": "Efek rumah kaca yang berlebihan membuat panas terperangkap di atmosfer sehingga suhu bumi naik dan terjadi pemanasan global, bukan pendinginan bumi.",
+  "sources": [
+    {
+      "judul": "Causes",
+      "url": "https://science.nasa.gov/climate-change/causes/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "f2935168-ae3c-4cde-a3d0-53b98c413abb",
+  "kind": "pengetahuan",
+  "stem": "Sampah plastik yang menumpuk di tanah merupakan pencemaran …",
+  "options": ["udara", "air", "tanah", "suara"],
+  "answerIndex": 2,
+  "explanation": "Sampah plastik yang menumpuk di tanah termasuk pencemaran tanah karena mengganggu keseimbangan ekologi tanah dan sulit terurai dalam waktu lama.",
+  "sources": [
+    {
+      "judul": "How plastic is infiltrating the world’s soils",
+      "url": "https://www.unep.org/en/news-and-stories/story/how-plastic-infiltrating-worlds-soils",
+      "lembaga": "UNEP",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

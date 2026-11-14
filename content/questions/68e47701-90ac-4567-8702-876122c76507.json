@@ -1,0 +1,30 @@
+{
+  "id": "68e47701-90ac-4567-8702-876122c76507",
+  "kind": "pengetahuan",
+  "stem": "Terumbu karang memutih akibat suhu laut meningkat. Upaya yang dapat dilakukan adalah …",
+  "options": [
+    "mengurangi emisi gas rumah kaca dan melindungi karang",
+    "menambang karang",
+    "membuang limbah ke laut",
+    "meningkatkan suhu laut"
+  ],
+  "answerIndex": 0,
+  "explanation": "Suhu laut yang tinggi dapat menyebabkan karang memutih. Mengurangi emisi gas rumah kaca membantu membatasi pemanasan, sementara perlindungan kawasan membantu mengurangi tekanan lokal pada terumbu.",
+  "sources": [
+    {
+      "judul": "Shallow Coral Reef Habitat",
+      "url": "https://www.fisheries.noaa.gov/national/habitat-conservation/shallow-coral-reef-habitat",
+      "lembaga": "NOAA Fisheries",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Causes",
+      "url": "https://science.nasa.gov/climate-change/causes/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

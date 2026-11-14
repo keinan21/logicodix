@@ -1,0 +1,30 @@
+{
+  "id": "fd2d3393-5e6d-4523-8dce-0b78c76e2085",
+  "kind": "pengetahuan",
+  "stem": "Sekolah menerapkan pemilahan sampah. Manfaatnya adalah …",
+  "options": [
+    "memudahkan daur ulang dan mengurangi limbah",
+    "menambah sampah di TPA",
+    "meningkatkan pencemaran",
+    "mengurangi kesadaran lingkungan"
+  ],
+  "answerIndex": 0,
+  "explanation": "Pemilahan sampah di sekolah memudahkan daur ulang dan pengomposan sehingga sampah yang dikirim ke TPA berkurang dan pencemaran menurun.",
+  "sources": [
+    {
+      "judul": "YUK MEMILAH SAMPAH : jaga ekosistem, dengan mulai memilah sampah.",
+      "url": "https://puskesmaskuta2.badungkab.go.id/artikel/70840-yuk-memilah-sampah-jaga-ekosistem-dengan-mulai-memilah-sampah-",
+      "lembaga": "UPTD Puskesmas Kuta II, Pemerintah Kabupaten Badung",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Recycling Basics and Benefits",
+      "url": "https://www.epa.gov/recycle/recycling-basics-and-benefits",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

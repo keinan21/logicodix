@@ -1,0 +1,30 @@
+{
+  "id": "50c9f582-a638-426e-b40b-5a40ac609247",
+  "kind": "pengetahuan",
+  "stem": "Salah satu indikator air tercemar adalah …",
+  "options": [
+    "air berwarna, berbau, dan banyak organisme mati",
+    "air jernih dan tidak berbau",
+    "ikan hidup dengan baik",
+    "tumbuhan air tumbuh normal"
+  ],
+  "answerIndex": 0,
+  "explanation": "Air tercemar ditandai warna dan bau tidak normal, pH menyimpang, berasa, serta banyak organisme mati. Air jernih, tidak berbau, dan berisi ikan sehat adalah ciri air belum tercemar.",
+  "sources": [
+    {
+      "judul": "Protect Your Home's Water",
+      "url": "https://www.epa.gov/privatewells/protect-your-homes-water",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "The Effects: Environment",
+      "url": "https://www.epa.gov/nutrientpollution/effects-environment",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

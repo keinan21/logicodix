@@ -1,0 +1,19 @@
+{
+  "id": "d48c83cd-4176-422f-817a-1606507b145d",
+  "kind": "pengetahuan",
+  "stem": "Contoh sampah anorganik adalah …",
+  "options": ["daun kering", "sisa makanan", "botol plastik", "kulit buah"],
+  "answerIndex": 2,
+  "explanation": "Botol plastik termasuk sampah anorganik karena bahan plastik sulit diuraikan oleh mikroorganisme. Daun kering, sisa makanan, dan kulit buah termasuk sampah organik.",
+  "sources": [
+    {
+      "judul": "YUK MEMILAH SAMPAH : jaga ekosistem, dengan mulai memilah sampah.",
+      "url": "https://puskesmaskuta2.badungkab.go.id/artikel/70840-yuk-memilah-sampah-jaga-ekosistem-dengan-mulai-memilah-sampah-",
+      "lembaga": "UPTD Puskesmas Kuta II, Pemerintah Kabupaten Badung",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

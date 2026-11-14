@@ -1,0 +1,24 @@
+{
+  "id": "123fd1b8-4c6c-4bb3-aad3-8a39b65ead31",
+  "kind": "pengetahuan",
+  "stem": "Sampah plastik berbahaya bagi lingkungan karena …",
+  "options": [
+    "mudah terurai secara alami",
+    "sulit terurai dan dapat mencemari lingkungan lama",
+    "cepat menjadi pupuk",
+    "tidak berbahaya bagi hewan"
+  ],
+  "answerIndex": 1,
+  "explanation": "Plastik sulit terurai sehingga tertimbun lama di lingkungan, mencemari tanah dan air, serta membahayakan hewan yang memakannya. Plastik tidak cepat menjadi pupuk.",
+  "sources": [
+    {
+      "judul": "Impacts of Plastic Pollution",
+      "url": "https://www.epa.gov/plastics/impacts-plastic-pollution",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

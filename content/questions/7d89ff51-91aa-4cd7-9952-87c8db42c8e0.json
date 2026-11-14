@@ -1,0 +1,19 @@
+{
+  "id": "7d89ff51-91aa-4cd7-9952-87c8db42c8e0",
+  "kind": "pengetahuan",
+  "stem": "Contoh sampah organik adalah …",
+  "options": ["botol plastik", "sisa sayur", "kaleng", "kaca"],
+  "answerIndex": 1,
+  "explanation": "Sisa sayur dan makanan tertentu dapat dikomposkan karena bahan organiknya diuraikan mikroorganisme. Plastik, logam, dan kaca tidak terurai dengan cara yang sama.",
+  "sources": [
+    {
+      "judul": "Composting At Home",
+      "url": "https://www.epa.gov/recycle/composting-home",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

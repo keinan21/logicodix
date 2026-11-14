@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 import { GAME } from '../../shared/constants';
+import { randomChoice } from '../../shared/rng';
 import tree from '../assets/home/tree.svg';
 import tiger from '../assets/home/tiger.svg';
 import seedling from '../assets/home/seedling.svg';
@@ -14,24 +15,12 @@ import type { AnimalId } from '../../shared/schema';
 
 const ANIMAL_IDS: AnimalId[] = ['orangutan', 'harimau', 'gajah', 'penyu', 'badak', 'burung'];
 
-/** Konten hewan sementara hingga konten lengkap dari server di-load (FR-M14). */
-const ANIMAL_PLACEHOLDERS: Record<AnimalId, { nama: string; fakta: string }> = {
-  orangutan: { nama: 'Orangutan', fakta: 'Kupu-kupu makan daun mertil setiap harinya.' },
-  harimau: { nama: 'Harimau', fakta: 'Harimau adalah pemangsa top di hutan.' },
-  gajah: {
-    nama: 'Gajah',
-    fakta: 'Gajah terbuat dari tus ivory yang hanya boleh dipakai untuk tus yang jatuh.',
-  },
-  penyu: { nama: 'Penyu', fakta: 'Penyu dapat mempertahankan napas saat air.' },
-  badak: { nama: 'Badak', fakta: 'Badak berkulit tebal untuk melindungi dari serangan.' },
-  burung: { nama: 'Burung', fakta: 'Burung bisa melihat warna lebih banyak dari manusia.' },
-};
-
 const SCENERY = [tree, tiger, seedling, turtle, palm];
 
 /**
  * Layar Beranda (DESIGN §3 screen 1; FR-M01, M02, M03, M14).
  * Nickname tanpa akun; disimpan di sessionStorage; pilihan hewan tersimpan bersama nickname.
+ * Fakta hewan diambil dari server (`/api/animals`); teks cadangan kosong sampai data tiba.
  */
 export function HomeScreen({
   onJoin,
@@ -44,9 +33,25 @@ export function HomeScreen({
   const [nickname, setNickname] = useState(() => sessionStorage.getItem('nickname') ?? '');
   const [animalId, setAnimalId] = useState<AnimalId>(() => {
     const saved = sessionStorage.getItem('animalId');
-    return saved && animalIdSchema.safeParse(saved).success ? (saved as AnimalId) : 'orangutan';
+    return saved && animalIdSchema.safeParse(saved).success
+      ? (saved as AnimalId)
+      : randomChoice(crypto.getRandomValues(new Uint32Array(1))[0] ?? 1, ANIMAL_IDS).value;
   });
   const [touched, setTouched] = useState(false);
+  const [facts, setFacts] = useState<Partial<Record<AnimalId, string>>>({});
+
+  useEffect(() => {
+    let active = true;
+    fetch('/api/animals')
+      .then((r) => (r.ok ? (r.json() as Promise<{ id: AnimalId; fakta: string }[]>) : []))
+      .then((list) => {
+        if (active) setFacts(Object.fromEntries(list.map((a) => [a.id, a.fakta])));
+      })
+      .catch(() => undefined);
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const nicknameError = nicknameSchema.safeParse(nickname).success
     ? undefined
@@ -116,8 +121,8 @@ export function HomeScreen({
             <AnimalCard
               key={id}
               animalId={id}
-              nama={ANIMAL_PLACEHOLDERS[id].nama}
-              fakta={ANIMAL_PLACEHOLDERS[id].fakta}
+              nama={ANIMAL_ASSETS[id].nama}
+              fakta={facts[id] ?? ''}
               selected={animalId === id}
               onSelect={setAnimalId}
               compact
@@ -127,7 +132,8 @@ export function HomeScreen({
         <div className="home-fact" aria-live="polite" aria-atomic="true">
           <img src={ANIMAL_ASSETS[animalId].src} alt="" />
           <span>
-            {ANIMAL_PLACEHOLDERS[animalId].nama} — {ANIMAL_PLACEHOLDERS[animalId].fakta}
+            {ANIMAL_ASSETS[animalId].nama}
+            {facts[animalId] ? ` — ${facts[animalId]}` : ''}
           </span>
         </div>
         {joinError ? (

@@ -3,6 +3,9 @@ import arrow from '../assets/cozy/arrow.png';
 export interface EvalItemProps {
   questionNumber: number;
   stem: string;
+  claim?: string | undefined;
+  chosenText?: string | undefined;
+  answerText?: string | undefined;
   /** Pilihan pemain (huruf A–D) — hanya untuk soal salah. */
   chosenLetter?: string | undefined;
   /** Kunci (huruf A–D) — hanya untuk soal salah. */
@@ -21,6 +24,9 @@ export interface EvalItemProps {
 export function EvalItem({
   questionNumber,
   stem,
+  claim,
+  chosenText,
+  answerText,
   chosenLetter,
   answerLetter,
   explanation,
@@ -30,7 +36,7 @@ export function EvalItem({
   onToggle,
 }: EvalItemProps) {
   return (
-    <li className="card eval-item">
+    <li className={`card eval-item${wrong ? ' is-wrong' : ''}`}>
       <button type="button" onClick={onToggle} aria-expanded={open} className="eval-toggle">
         <span className={wrong ? 'eval-status eval-status-wrong' : 'eval-status eval-status-ok'}>
           Soal {questionNumber} — {wrong ? 'Salah' : 'Benar'}
@@ -40,9 +46,10 @@ export function EvalItem({
       </button>
       {open ? (
         <div className="eval-body">
+          {claim ? <blockquote className="eval-claim">{claim}</blockquote> : null}
           {wrong ? (
             <p>
-              Kamu memilih {chosenLetter}, jawabannya {answerLetter}.
+              Kamu memilih {chosenText ?? chosenLetter}, jawabannya {answerText ?? answerLetter}.
             </p>
           ) : null}
           {explanation ? <p>{explanation}</p> : null}

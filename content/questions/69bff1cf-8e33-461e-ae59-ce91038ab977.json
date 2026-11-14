@@ -1,0 +1,24 @@
+{
+  "id": "69bff1cf-8e33-461e-ae59-ce91038ab977",
+  "kind": "pengetahuan",
+  "stem": "Saluran vegetatif seperti rumput pada lahan miring berfungsi untuk …",
+  "options": [
+    "menahan erosi",
+    "mempercepat aliran air",
+    "mengurangi kesuburan tanah",
+    "menambah pencemaran"
+  ],
+  "answerIndex": 0,
+  "explanation": "Saluran vegetatif berupa rumput ditanam mengikuti kontur lahan untuk memperlambat aliran air dan menahan partikel tanah, sehingga erosi berkurang.",
+  "sources": [
+    {
+      "judul": "Manual on integrated soil management and conservation practices",
+      "url": "https://www.fao.org/4/x4799e/x4799e.pdf",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

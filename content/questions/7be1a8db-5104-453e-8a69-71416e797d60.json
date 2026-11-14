@@ -1,0 +1,30 @@
+{
+  "id": "7be1a8db-5104-453e-8a69-71416e797d60",
+  "kind": "pengetahuan",
+  "stem": "Melalui fotosintesis, pohon membantu siklus karbon dan oksigen dengan cara …",
+  "options": [
+    "menggunakan CO2 dan air untuk membentuk bahan organik serta melepaskan oksigen",
+    "menggunakan oksigen untuk membentuk karbon dioksida sebagai hasil fotosintesis",
+    "mengubah karbon dioksida menjadi oksigen tanpa menggunakan energi cahaya",
+    "menyimpan seluruh karbon dioksida atmosfer secara permanen di dalam batang"
+  ],
+  "answerIndex": 0,
+  "explanation": "Dalam fotosintesis, tumbuhan menggunakan karbon dioksida dan air dengan energi cahaya untuk membentuk bahan organik serta melepaskan oksigen. Besar serapan karbon berbeda menurut jenis dan kondisi tumbuhan.",
+  "sources": [
+    {
+      "judul": "DOE Explains...the Carbon Cycle",
+      "url": "https://www.energy.gov/science/doe-explainsthe-carbon-cycle",
+      "lembaga": "U.S. Department of Energy",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Full Text Glossary: Photosynthesis",
+      "url": "https://www.energy.gov/cmei/fuels/full-text-glossary",
+      "lembaga": "U.S. Department of Energy",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

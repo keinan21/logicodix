@@ -29,6 +29,8 @@ export function buildPrompt(req: EvalRequest): string {
     '- "tip": satu kalimat tips bahasa Indonesia (maks 200 karakter).',
     'Larangan: tanpa URL, tanpa angka yang tidak ada di input, tanpa menyebut kunci jawaban',
     'yang berbeda dari kunci di input, hanya tipe/topik yang ada di input.',
+    'Jangan memakai kata "menyesatkan", "salah tafsir", "konspirasi", "konten palsu", "catut otoritas",',
+    '"iklim", "cuaca", "hutan", atau "air" kecuali tipe/topik itu ada di input.',
     'Input:',
     JSON.stringify(req.questions),
     'Keluaran JSON: {"pattern": "...", "tip": "..."}',

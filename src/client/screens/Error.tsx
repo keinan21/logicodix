@@ -1,3 +1,4 @@
+import { Button } from '../components/Button';
 import './Error.css';
 
 /**
@@ -8,19 +9,35 @@ export function ErrorScreen({
   code,
   pesan,
   retrying,
+  onPlayAgain,
 }: {
   code: string;
   pesan: string;
   retrying: boolean;
+  onPlayAgain?: () => void;
 }) {
+  const expired = code === 'resume-expired' || code === 'session-not-found';
   return (
     <main className="screen error-screen" role="alert">
-      <div className="card error-panel">
-        <h1 className="error-title">Koneksi terputus</h1>
+      <div className="card error-panel error-content">
+        <span className="error-icon" aria-hidden="true">
+          {expired ? '🚪' : '⚠️'}
+        </span>
+        <h1 className="error-title">{expired ? 'Kamu keluar dari room' : 'Koneksi terputus'}</h1>
         <p className="error-text">
-          {retrying ? 'Mencoba menyambung lagi…' : pesan || 'Terjadi kesalahan.'}
+          {expired
+            ? 'Balapan ini sudah berakhir untukmu.'
+            : retrying
+              ? 'Mencoba menyambung lagi…'
+              : pesan || 'Terjadi kesalahan.'}
         </p>
-        {code ? <p className="error-code">Kode: {code}</p> : null}
+        {retrying && !expired ? (
+          <span className="error-code" aria-hidden="true">
+            ⌛
+          </span>
+        ) : null}
+        {code && !expired ? <p className="error-code">Kode: {code}</p> : null}
+        {expired && onPlayAgain ? <Button onClick={onPlayAgain}>Main lagi</Button> : null}
       </div>
     </main>
   );

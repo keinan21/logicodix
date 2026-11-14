@@ -1,0 +1,30 @@
+{
+  "id": "64da7907-3932-444d-8d77-5cf05fe0c3e6",
+  "kind": "pengetahuan",
+  "stem": "Baterai bekas dibuang sembarangan. Dampaknya adalah …",
+  "options": [
+    "pencemaran tanah dan air oleh bahan berbahaya",
+    "peningkatan kesuburan tanah",
+    "berkurangnya pencemaran",
+    "bertambahnya organisme tanah"
+  ],
+  "answerIndex": 0,
+  "explanation": "Baterai bekas termasuk sampah yang mengandung B3 dan perlu dipisahkan serta diserahkan ke pengumpulan yang sesuai. Baterai tidak semestinya dibuang bersama sampah biasa.",
+  "sources": [
+    {
+      "judul": "Peraturan Menteri Lingkungan Hidup Dan Kehutanan Nomor 9 Tahun 2024 tentang Pengelolaan Sampah yang Mengandung Bahan Berbahaya dan Beracun dan Limbah Bahan Berbahaya dan Beracun",
+      "url": "https://peraturan.bpk.go.id/Details/291985/permen-lhk-no-9-tahun-2024",
+      "lembaga": "Kementerian Lingkungan Hidup dan Kehutanan / JDIH BPK",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "SIGAP SAMPAH B3 Hadir di Kantor Kecamatan Samarinda Ilir!",
+      "url": "https://dlh.samarindakota.go.id/artikel/sigap-sampah-b3-hadir-di-kantor-kecamatan-samarinda-ilir",
+      "lembaga": "Dinas Lingkungan Hidup Kota Samarinda",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

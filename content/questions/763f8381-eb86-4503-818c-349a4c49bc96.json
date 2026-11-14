@@ -1,0 +1,30 @@
+{
+  "id": "763f8381-eb86-4503-818c-349a4c49bc96",
+  "kind": "pengetahuan",
+  "stem": "Sumber air tanah dapat menurun karena …",
+  "options": [
+    "pengambilan air berlebihan dan berkurangnya daerah resapan",
+    "bertambahnya hutan",
+    "berkurangnya penebangan pohon",
+    "penghematan air"
+  ],
+  "answerIndex": 0,
+  "explanation": "Air tanah menurun karena pengambilan berlebihan dan berkurangnya daerah resapan akibat lahan tertutup bangunan. Bertambahnya hutan dan penghematan air justru memperbaiki cadangan air.",
+  "sources": [
+    {
+      "judul": "Groundwater Decline and Depletion",
+      "url": "https://www.usgs.gov/water-science-school/science/groundwater-decline-and-depletion",
+      "lembaga": "U.S. Geological Survey",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Kementerian ESDM Imbau Masyarakat Bangun Sumur Resapan untuk Konservasi Air Tanah",
+      "url": "https://www.esdm.go.id/en/media-center/news-archives/kementerian-esdm-imbau-masyarakat-bangun-sumur-resapan-untuk-konservasi-air-tanah",
+      "lembaga": "Kementerian ESDM",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "85a34f04-db2c-46d1-8931-64392d037c32",
+  "kind": "pengetahuan",
+  "stem": "Hutan bakau ditebang untuk tambak. Dampaknya adalah …",
+  "options": [
+    "meningkatnya abrasi dan berkurangnya habitat biota",
+    "meningkatnya pelindung pantai",
+    "berkurangnya abrasi",
+    "bertambahnya hutan bakau"
+  ],
+  "answerIndex": 0,
+  "explanation": "Penebangan mangrove untuk tambak menghilangkan pelindung pantai dan habitat biota, sehingga abrasi meningkat dan populasi ikan, kepiting, serta udang menurun.",
+  "sources": [
+    {
+      "judul": "What is a mangrove forest?",
+      "url": "https://oceanservice.noaa.gov/facts/mangroves.html",
+      "lembaga": "NOAA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

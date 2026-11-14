@@ -1,0 +1,24 @@
+{
+  "id": "dd0b5b08-a9bf-495a-ba31-1c2fe624f31a",
+  "kind": "pengetahuan",
+  "stem": "Sampah organik dapur menumpuk. Solusi yang tepat adalah …",
+  "options": [
+    "mengolah menjadi kompos",
+    "membakar sampah",
+    "membuang ke sungai",
+    "mencampur dengan limbah B3"
+  ],
+  "answerIndex": 0,
+  "explanation": "Sampah organik dapur sebaiknya diolah menjadi kompos, misalnya dengan komposter atau lubang biopori. Membakar atau membuangnya ke sungai justru menimbulkan pencemaran.",
+  "sources": [
+    {
+      "judul": "Composting At Home",
+      "url": "https://www.epa.gov/recycle/composting-home",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

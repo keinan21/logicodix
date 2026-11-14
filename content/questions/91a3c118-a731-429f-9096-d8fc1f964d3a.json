@@ -1,0 +1,24 @@
+{
+  "id": "91a3c118-a731-429f-9096-d8fc1f964d3a",
+  "kind": "pengetahuan",
+  "stem": "Peningkatan suhu bumi dapat menyebabkan …",
+  "options": [
+    "mencairnya es kutub dan naiknya permukaan laut",
+    "menurunnya permukaan laut",
+    "bertambahnya es kutub",
+    "berkurangnya suhu global"
+  ],
+  "answerIndex": 0,
+  "explanation": "Kenaikan suhu bumi mencairkan es di kutub dan gletser, sehingga permukaan air laut naik dan pulau-pulau kecil berisiko terendam.",
+  "sources": [
+    {
+      "judul": "Climate Change: How Do We Know?",
+      "url": "https://science.nasa.gov/climate-change/evidence/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "62256d93-f89f-4afe-94be-8a1098fa46ee",
+  "kind": "pengetahuan",
+  "stem": "Perubahan iklim dapat memengaruhi …",
+  "options": [
+    "pola curah hujan, ketersediaan air, dan kondisi ekosistem",
+    "hanya suhu harian, tanpa mengubah pola hujan jangka panjang",
+    "hanya wilayah kutub; wilayah tropis tidak terdampak",
+    "hanya manusia; tumbuhan dan satwa tidak terdampak"
+  ],
+  "answerIndex": 0,
+  "explanation": "Perubahan iklim memengaruhi pola cuaca, ketersediaan air, dan ekosistem, sehingga berdampak pada pertanian, kesehatan, dan kehidupan masyarakat secara luas.",
+  "sources": [
+    {
+      "judul": "Climate Change: How Do We Know?",
+      "url": "https://science.nasa.gov/climate-change/evidence/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Bencana Alam (Banjir dan Kekeringan) Penghambat Produksi Hortikultura",
+      "url": "https://hortikultura.pertanian.go.id/bencana-alam-banjir-dan-kekeringan-penghambat-produksi-hortikultura/",
+      "lembaga": "Direktorat Jenderal Hortikultura, Kementerian Pertanian",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

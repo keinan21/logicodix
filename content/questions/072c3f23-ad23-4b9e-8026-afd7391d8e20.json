@@ -1,0 +1,19 @@
+{
+  "id": "072c3f23-ad23-4b9e-8026-afd7391d8e20",
+  "kind": "pengetahuan",
+  "stem": "Gas rumah kaca utama dari pembakaran bahan bakar fosil adalah …",
+  "options": ["oksigen", "nitrogen", "karbon dioksida", "argon"],
+  "answerIndex": 2,
+  "explanation": "Pembakaran bahan bakar fosil menghasilkan karbon dioksida (CO2) dalam jumlah besar. CO2 adalah gas rumah kaca utama penyumbang pemanasan global.",
+  "sources": [
+    {
+      "judul": "Causes",
+      "url": "https://science.nasa.gov/climate-change/causes/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

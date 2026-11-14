@@ -1,0 +1,24 @@
+{
+  "id": "b5f5dd2d-567f-4ffc-a825-a4e1943e790e",
+  "kind": "pengetahuan",
+  "stem": "Air limbah domestik sebaiknya dialirkan ke …",
+  "options": [
+    "septic tank atau instalasi pengolahan limbah",
+    "sungai secara langsung",
+    "sumur warga",
+    "sawah tanpa pengolahan"
+  ],
+  "answerIndex": 0,
+  "explanation": "Air limbah domestik dialirkan ke septic tank atau instalasi pengolahan limbah agar zat pencemarnya terurai lebih dulu. Membuangnya ke sungai, sumur, atau sawah mencemari lingkungan.",
+  "sources": [
+    {
+      "judul": "How Septic Systems Work",
+      "url": "https://www.epa.gov/septic/how-septic-systems-work",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

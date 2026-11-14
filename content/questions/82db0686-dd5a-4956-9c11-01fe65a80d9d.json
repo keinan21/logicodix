@@ -1,0 +1,24 @@
+{
+  "id": "82db0686-dd5a-4956-9c11-01fe65a80d9d",
+  "kind": "pengetahuan",
+  "stem": "Petani menggunakan pestisida berlebihan hingga sungai tercemar. Tindakan yang tepat adalah …",
+  "options": [
+    "menggunakan pestisida sesuai label dan dosis serta mencegah limpasan",
+    "menambah dosis pestisida agar residu cepat hilang",
+    "menyemprot pestisida sebelum hujan deras",
+    "membuang sisa pestisida ke sungai"
+  ],
+  "answerIndex": 0,
+  "explanation": "Pestisida yang terbawa limpasan dapat mencemari perairan. Ikuti label dan dosis penggunaan, cegah limpasan, serta jangan membuang sisa pestisida ke sungai.",
+  "sources": [
+    {
+      "judul": "Pesticides and Water Quality",
+      "url": "https://www.epa.gov/pesticide-science-and-assessing-pesticide-risks/pesticides-and-water-quality",
+      "lembaga": "U.S. Environmental Protection Agency",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

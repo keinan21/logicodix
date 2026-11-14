@@ -38,10 +38,13 @@ import {
   type RaceFeedback,
   type RaceEnd,
   type EvalRequest,
+  type EvalReady,
 } from '../shared/schema';
 import type { EvalResult } from './evaluate';
 import { logEvent } from './log';
 import { uniquifyNickname } from './nickname';
+
+const ALL_ANIMALS = ['orangutan', 'harimau', 'gajah', 'penyu', 'badak', 'burung'] as const;
 
 export type EmitFn = (event: string, payload: unknown) => void;
 export type EmitToFn = (socketId: string, event: string, payload: unknown) => void;
@@ -78,6 +81,8 @@ export class Room {
   private questionBank: Question[];
   private finishCounter = 0;
   private evalRequested = false;
+  private lobbyEndsAtMs = 0;
+  private disconnectTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
   constructor(cfg: RoomConfig) {
     this.cfg = cfg;
@@ -101,10 +106,12 @@ export class Room {
     // Susun peserta: manusia dulu (slot 1..n), bot sisanya (FR-M10: profil berurutan).
     // Nickname kembar di room dapat suffix #2/#3 (FR-M04).
     const taken: string[] = [];
+    const usedAnimals = new Set<string>();
     let slot = 1 as 1 | 2 | 3 | 4;
     for (const h of cfg.humans) {
       const nickname = uniquifyNickname(h.nickname, taken);
       taken.push(nickname);
+      usedAnimals.add(h.animalId);
       this.state.participants.push({
         id: h.id,
         nickname,
@@ -121,10 +128,12 @@ export class Room {
     }
     for (let i = 0; i < cfg.botCount; i++) {
       const profile: BotProfile = nextBotProfile(i);
+      const animalId = ALL_ANIMALS.find((a) => !usedAnimals.has(a)) ?? 'burung';
+      usedAnimals.add(animalId);
       this.state.participants.push({
         id: `bot-${profile.id}-${i}`,
         nickname: profile.label,
-        animalId: 'burung', // TODO(T-07): hewan belum dipakai di room (FR-M14)
+        animalId,
         isBot: true,
         slot,
         status: 'racing',
@@ -139,7 +148,14 @@ export class Room {
   /** Fase lobby: hitung mundur 3-2-1, lalu balapan mulai bersamaan (FR-M11). */
   start(): void {
     this.state.phase = 'lobby';
+    this.lobbyEndsAtMs = this.cfg.now() + GAME.LOBBY_COUNTDOWN_S * 1000;
     this.broadcast();
+    for (let second = 1; second < GAME.LOBBY_COUNTDOWN_S; second++) {
+      const tick = this.cfg.setTimer(() => {
+        if (this.state.phase === 'lobby') this.broadcast();
+      }, second * 1000);
+      this.timers.add(tick);
+    }
     const t = this.cfg.setTimer(() => this.beginRace(), GAME.LOBBY_COUNTDOWN_S * 1000);
     this.timers.add(t);
   }
@@ -172,8 +188,11 @@ export class Room {
       );
       return;
     }
+    if (this.state.phase !== 'racing') return;
+    const nowMs = this.cfg.now();
+    if (this.state.raceEndsAtMs === undefined || nowMs >= this.state.raceEndsAtMs) return;
     const p = this.state.participants.find((x) => x.id === socketId);
-    if (!p) return;
+    if (!p || p.status !== 'racing' || parsed.data.questionIndex !== p.nextQuestionIndex) return;
     const question = this.currentQuestion(p);
     if (!question) return;
 
@@ -183,16 +202,16 @@ export class Room {
     if (originalIndex === undefined) return;
 
     const correct = originalIndex === question.answerIndex;
-    // Catat jawaban untuk Evaluasi AI (FR-H06: tanpa nickname)
-    const list = this.answers.get(socketId);
-    if (list) list.push({ questionIndex: p.nextQuestionIndex, chosenIndex: originalIndex });
-
     let next: Participant;
     try {
-      next = applyAnswer(p, correct, this.cfg.now(), this.questionBank.length);
+      next = applyAnswer(p, correct, nowMs, this.questionBank.length);
     } catch {
       return; // jawaban kedua / saat locked / sudah finish → ditolak (NFR-08)
     }
+
+    // Hanya jawaban yang diterima masuk Evaluasi (FR-H02/H06).
+    const list = this.answers.get(socketId);
+    if (list) list.push({ questionIndex: p.nextQuestionIndex, chosenIndex: originalIndex });
 
     if (next.status === 'finished') {
       this.finishCounter += 1;
@@ -223,7 +242,7 @@ export class Room {
       this.emitFeedback(socketId, {
         questionIndex: parsed.data.questionIndex,
         correct: false,
-        answerIndex: question.answerIndex,
+        answerIndex: this.toDisplayIndex(question.answerIndex),
         explanation: question.explanation,
         sources: question.sources,
         lockEndsAtMs,
@@ -245,24 +264,152 @@ export class Room {
     this.checkRaceEnd();
   }
 
+  /** Memeriksa apakah peserta dengan ID/token tertentu ada di room ini. */
+  hasParticipant(idOrToken: string): boolean {
+    return this.state.participants.some((x) => x.id === idOrToken);
+  }
+
   /** Reconnect ≤ 10 detik: lanjut soal yang sama dengan sisa waktu berjalan (FR-B11). */
-  resume(socketId: string, _token: string): boolean {
-    const p = this.state.participants.find((x) => x.id === socketId);
+  resume(newSocketId: string, token: string): boolean {
+    const p = this.state.participants.find((x) => x.id === token || x.id === newSocketId);
     if (!p) return false;
-    if (p.status === 'left') {
-      this.replaceParticipant(socketId, { ...p, status: 'racing' });
+    if (p.isBot || p.status === 'left') {
+      // Lewat 10 detik / sudah "Keluar" → tidak bisa kembali (FR-B11)
+      return false;
     }
+
+    // Batalkan timer disconnect bila ada
+    const timerKey = p.id;
+    const t = this.disconnectTimers.get(timerKey);
+    if (t) {
+      this.cfg.clearTimer(t);
+      this.disconnectTimers.delete(timerKey);
+      this.timers.delete(t);
+    }
+
+    // Ganti ID peserta bila reconnect dengan socket ID baru
+    if (newSocketId !== p.id) {
+      const oldId = p.id;
+      const updated: Participant = { ...p, id: newSocketId };
+      this.replaceParticipant(oldId, updated);
+      const ans = this.answers.get(oldId);
+      if (ans) {
+        this.answers.delete(oldId);
+        this.answers.set(newSocketId, ans);
+      }
+    }
+
+    logEvent(
+      this.cfg.roomId,
+      this.cfg.seed,
+      'player.resumed',
+      this.state.phase,
+      'info',
+      `peserta ${p.nickname} melanjutkan balapan`,
+    );
+
+    this.sendStateTo(newSocketId);
     this.broadcast();
     return true;
   }
 
-  /** Peserta keluar / putus > 10 dtk (FR-B11, FR-B12, FR-B13). */
+  /** Peserta keluar / putus (FR-M12, FR-B11, FR-B13). */
   leave(socketId: string): void {
     const p = this.state.participants.find((x) => x.id === socketId);
     if (!p) return;
+
+    if (this.state.phase === 'lobby') {
+      if (p.isBot) return;
+      // Periksa apakah masih ada pemain manusia lain di lobby (FR-M12)
+      const remainingHumans = this.state.participants.filter(
+        (x) => !x.isBot && x.id !== socketId && x.status !== 'left',
+      );
+      if (remainingHumans.length === 0) {
+        logEvent(
+          this.cfg.roomId,
+          this.cfg.seed,
+          'lobby.abandoned',
+          this.state.phase,
+          'info',
+          'semua manusia keluar saat lobby; room dibatalkan',
+        );
+        this.destroy();
+        return;
+      }
+
+      // Slot diganti bot profil berikutnya (FR-M12)
+      const botCount = this.state.participants.filter((x) => x.isBot).length;
+      const profile = nextBotProfile(botCount);
+      const usedAnimals = new Set(this.state.participants.map((x) => x.animalId));
+      const animalId = ALL_ANIMALS.find((a) => !usedAnimals.has(a)) ?? 'burung';
+
+      const replacement: Participant = {
+        id: `bot-${profile.id}-${botCount}`,
+        nickname: profile.label,
+        animalId,
+        isBot: true,
+        slot: p.slot,
+        status: 'racing',
+        correctCount: 0,
+        wrongCount: 0,
+        nextQuestionIndex: 0,
+      };
+      this.replaceParticipant(socketId, replacement);
+      this.answers.delete(socketId);
+      logEvent(
+        this.cfg.roomId,
+        this.cfg.seed,
+        'lobby.player.replaced',
+        this.state.phase,
+        'info',
+        `slot ${p.slot} diganti ${profile.label}`,
+      );
+      this.broadcast();
+      return;
+    }
+
+    if (this.state.phase === 'racing') {
+      if (p.isBot || p.status === 'left') return;
+      if (p.status === 'finished' || p.status === 'outOfQuestions') {
+        // Yang sudah selesai menjawab tidak perlu timer 10s untuk markLeft
+        return;
+      }
+      if (this.disconnectTimers.has(socketId)) return;
+
+      // Timer 10 detik untuk reconnect sebelum status menjadi "Keluar" (FR-B11)
+      const t = this.cfg.setTimer(() => {
+        this.disconnectTimers.delete(socketId);
+        this.timers.delete(t);
+        const cur = this.state.participants.find((x) => x.id === socketId);
+        if (cur && cur.status !== 'left') {
+          this.replaceParticipant(socketId, markLeft(cur));
+          logEvent(
+            this.cfg.roomId,
+            this.cfg.seed,
+            'player.left.timeout',
+            this.state.phase,
+            'info',
+            'batas reconnect 10 dtk habis; status menjadi left',
+          );
+          this.broadcast();
+          this.checkRaceEnd();
+        }
+      }, GAME.RECONNECT_LIMIT_S * 1000);
+      this.disconnectTimers.set(socketId, t);
+      this.timers.add(t);
+      logEvent(
+        this.cfg.roomId,
+        this.cfg.seed,
+        'player.disconnect',
+        this.state.phase,
+        'info',
+        'peserta putus; menunggu reconnect 10 dtk',
+      );
+      return;
+    }
+
     this.replaceParticipant(socketId, markLeft(p));
     if (!p.isBot) {
-      // TODO(T-12): ganti slot manusia yang keluar saat lobby dengan bot profil berikutnya (FR-M12).
       logEvent(
         this.cfg.roomId,
         this.cfg.seed,
@@ -280,6 +427,12 @@ export class Room {
   async requestEvaluation(): Promise<void> {
     if (this.evalRequested) return;
     this.evalRequested = true;
+    const evaluations: {
+      playerId: string;
+      input: EvalRequest;
+      questions: EvalReady['questions'];
+    }[] = [];
+
     for (const p of this.state.participants) {
       if (p.isBot) continue; // FR-H06: bot tidak mendapat Evaluasi
       const list = this.answers.get(p.id) ?? [];
@@ -295,31 +448,49 @@ export class Room {
         questions: pairs.map(({ a, question }) => ({
           questionId: question.id,
           kind: question.kind,
-          chosenIndex: a.chosenIndex,
-          answerIndex: question.answerIndex,
+          chosenIndex: this.toDisplayIndex(a.chosenIndex),
+          answerIndex: this.toDisplayIndex(question.answerIndex),
           explanation: question.explanation,
           misinfoType: question.misinfoType ?? null,
           topic: question.topic,
         })),
       };
 
-      // Maksimal 1 panggilan AI per pemain per balapan ditegakkan di evaluator (FR-H10).
-      const result = await this.cfg.evaluator(input, this.cfg.seed);
-
-      const payload = evalReadySchema.parse({
+      evaluations.push({
+        playerId: p.id,
+        input,
         questions: pairs.map(({ a, question }) => ({
           questionId: question.id,
           kind: question.kind,
           stem: question.stem,
           claim: question.claim ?? null,
           options: this.state.optionOrder.map((oi) => question.options[oi] ?? ''),
-          chosenIndex: a.chosenIndex,
-          answerIndex: question.answerIndex,
+          chosenIndex: this.toDisplayIndex(a.chosenIndex),
+          answerIndex: this.toDisplayIndex(question.answerIndex),
           explanation: question.explanation,
           sources: question.sources,
           topic: question.topic,
           misinfoType: question.misinfoType ?? null,
         })),
+      });
+    }
+
+    // Kirim daftar ke semua pemain sebelum menunggu panggilan AI mana pun.
+    for (const { playerId, questions } of evaluations) {
+      const pendingPayload = evalReadySchema.parse({
+        questions,
+        aiSection: null,
+        badge: null,
+      });
+      this.cfg.emitTo(playerId, 'eval:ready', pendingPayload);
+    }
+
+    for (const { playerId, input, questions } of evaluations) {
+      // Maksimal 1 panggilan AI per pemain per balapan ditegakkan di evaluator (FR-H10).
+      const result = await this.cfg.evaluator(input, this.cfg.seed);
+
+      const payload = evalReadySchema.parse({
+        questions,
         aiSection: {
           pattern: result.output.pattern.length > 0 ? result.output.pattern : null,
           tip: result.output.tip.length > 0 ? result.output.tip : null,
@@ -329,7 +500,7 @@ export class Room {
         },
         badge: result.badge,
       });
-      this.cfg.emitTo(p.id, 'eval:ready', payload);
+      this.cfg.emitTo(playerId, 'eval:ready', payload);
     }
     logEvent(
       this.cfg.roomId,
@@ -347,6 +518,11 @@ export class Room {
 
   private currentQuestion(p: Participant): Question | undefined {
     return this.questionBank[p.nextQuestionIndex];
+  }
+
+  /** Indeks asli bank soal → indeks urutan pilihan yang dilihat pemain (FR-K05). */
+  private toDisplayIndex(originalIndex: number): number {
+    return this.state.optionOrder.indexOf(originalIndex);
   }
 
   private replaceParticipant(id: string, next: Participant): void {
@@ -486,6 +662,10 @@ export class Room {
     const raw = {
       roomId: this.state.roomId,
       phase: this.state.phase,
+      lobbyCountdownS:
+        this.state.phase === 'lobby'
+          ? Math.max(0, Math.ceil((this.lobbyEndsAtMs - this.cfg.now()) / 1000))
+          : 0,
       participants: this.state.participants.map((p) => ({
         id: p.id,
         nickname: p.nickname,
@@ -536,6 +716,7 @@ export class Room {
   destroy(): void {
     for (const t of this.timers) this.cfg.clearTimer(t);
     this.timers.clear();
+    this.disconnectTimers.clear();
     this.cfg.onEmpty(this.cfg.roomId);
   }
 }

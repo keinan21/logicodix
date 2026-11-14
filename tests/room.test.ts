@@ -8,7 +8,7 @@ import {
   raceEndSchema,
   evalReadySchema,
 } from '../src/shared/schema';
-import type { Question } from '../src/shared/schema';
+import type { Question, EvalRequest, RoomState } from '../src/shared/schema';
 import type { RaceFeedback, RaceEnd, EvalReady } from '../src/shared/schema';
 
 /** Penjadwal timer palsu agar timer room (3s/5s/4menit) bisa dijalankan instan. */
@@ -64,7 +64,13 @@ interface RecordedEvent {
   target?: string;
 }
 
-function makeRoom(seed: number, questions: Question[], events: RecordedEvent[], botCount = 3) {
+function makeRoom(
+  seed: number,
+  questions: Question[],
+  events: RecordedEvent[],
+  botCount = 3,
+  evalInputs?: EvalRequest[],
+) {
   const sched = new FakeScheduler();
   const room = new Room({
     roomId: 'r1',
@@ -77,11 +83,14 @@ function makeRoom(seed: number, questions: Question[], events: RecordedEvent[], 
     onEmpty: () => {
       events.push({ event: 'room.destroyed', payload: null });
     },
-    evaluator: async () => ({
-      output: { pattern: 'Pola uji.', tip: 'Tips uji.', motivation: '' },
-      badge: 'ringkasan-otomatis-bukan-ai',
-      source: 'mock',
-    }),
+    evaluator: async (req) => {
+      evalInputs?.push(req);
+      return {
+        output: { pattern: 'Pola uji.', tip: 'Tips uji.', motivation: '' },
+        badge: 'ringkasan-otomatis-bukan-ai',
+        source: 'mock',
+      };
+    },
     now: () => sched.now,
     setTimer: (fn, ms) => sched.setTimer(fn, ms),
     clearTimer: (id) => sched.clearTimer(id),
@@ -97,6 +106,103 @@ function deriveOrder(seed: number, questions: Question[]) {
 }
 
 describe('room (integrasi skeleton)', () => {
+  describe('validasi jawaban dan riwayat evaluasi', () => {
+    const questions = [
+      q('11111111-0001-4001-8001-000000000001', 0),
+      q('11111111-0002-4002-8002-000000000002', 0),
+      q('11111111-0003-4003-8003-000000000003', 0),
+    ];
+    const seed = 42;
+    const { optionOrder } = deriveOrder(seed, questions);
+    const correctChoice = String.fromCharCode(65 + optionOrder.indexOf(0));
+    const wrongChoice = String.fromCharCode(65 + optionOrder.indexOf(1));
+
+    it.each(['lobby', 'deadline', 'finished'] as const)(
+      'menolak jawaban pada %s tanpa feedback atau riwayat',
+      async (phase) => {
+        const events: RecordedEvent[] = [];
+        const inputs: EvalRequest[] = [];
+        const { room, sched } = makeRoom(seed, questions, events, 0, inputs);
+        room.start();
+        if (phase !== 'lobby') sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+        if (phase === 'deadline') {
+          // Jam melewati batas sebelum callback timer mendapat giliran.
+          sched.now += GAME.RACE_DURATION_S * 1000;
+        }
+        if (phase === 'finished') sched.advance(GAME.RACE_DURATION_S * 1000);
+        room.answer('h1', { questionIndex: 0, choice: correctChoice });
+        await room.requestEvaluation();
+        expect(events.filter((e) => e.event === 'race:feedback')).toHaveLength(0);
+        expect(events.filter((e) => e.event === 'eval:ready')).toHaveLength(0);
+        expect(inputs).toHaveLength(0);
+        const states = events
+          .filter((e) => e.event === 'room:state')
+          .map((e) => roomStateSchema.parse(e.payload));
+        expect(states.every((state) => state.participants[0]?.steps === 0)).toBe(true);
+        room.destroy();
+      },
+    );
+
+    it.each([0, 2])('menolak indeks %s ketika soal aktif 1', async (questionIndex) => {
+      const events: RecordedEvent[] = [];
+      const inputs: EvalRequest[] = [];
+      const { room, sched } = makeRoom(seed, questions, events, 0, inputs);
+      room.start();
+      sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+      room.answer('h1', { questionIndex: 0, choice: correctChoice });
+      room.answer('h1', { questionIndex, choice: correctChoice });
+      await room.requestEvaluation();
+      expect(events.filter((e) => e.event === 'race:feedback')).toHaveLength(1);
+      const state = roomStateSchema.parse(
+        events.filter((e) => e.event === 'room:state').at(-1)?.payload,
+      );
+      expect(state.questionIndex).toBe(1);
+      expect(state.participants[0]?.steps).toBe(1);
+      expect(inputs).toHaveLength(1);
+      expect(inputs[0]?.questions).toHaveLength(1);
+      room.destroy();
+    });
+
+    it('tidak memasukkan jawaban saat locked ke evaluasi dan menerima setelah unlock', async () => {
+      const events: RecordedEvent[] = [];
+      const inputs: EvalRequest[] = [];
+      const { room, sched } = makeRoom(seed, questions, events, 0, inputs);
+      room.start();
+      sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+      room.answer('h1', { questionIndex: 0, choice: wrongChoice });
+      room.answer('h1', { questionIndex: 1, choice: wrongChoice });
+      sched.advance(GAME.LOCK_DURATION_S * 1000);
+      room.answer('h1', { questionIndex: 1, choice: correctChoice });
+      await room.requestEvaluation();
+      expect(events.filter((e) => e.event === 'race:feedback')).toHaveLength(2);
+      expect(inputs).toHaveLength(1);
+      expect(inputs[0]?.questions.map((item) => item.chosenIndex)).toEqual([
+        optionOrder.indexOf(1),
+        optionOrder.indexOf(0),
+      ]);
+      const evaluation = evalReadySchema.parse(
+        events.filter((e) => e.event === 'eval:ready').at(-1)?.payload,
+      );
+      expect(evaluation.questions).toHaveLength(2);
+      room.destroy();
+    });
+  });
+
+  it('mengirim countdown lobby dari jam server sampai balapan dimulai', () => {
+    const events: RecordedEvent[] = [];
+    const { room, sched } = makeRoom(42, [q('11111111-0001-4001-8001-000000000001', 0)], events);
+    room.start();
+    const latest = () =>
+      roomStateSchema.parse(events.filter((e) => e.event === 'room:state').at(-1)?.payload);
+    expect(latest().lobbyCountdownS).toBe(3);
+    sched.advance(1000);
+    expect(latest().lobbyCountdownS).toBe(2);
+    sched.advance(1000);
+    expect(latest().lobbyCountdownS).toBe(1);
+    sched.advance(1000);
+    expect(latest().phase).toBe('racing');
+    expect(latest().lobbyCountdownS).toBe(0);
+  });
   it('balapan penuh: benar, salah+lock, soal habis, race:end, eval:ready per manusia', async () => {
     const seed = 42;
     const questions = [
@@ -129,7 +235,7 @@ describe('room (integrasi skeleton)', () => {
     room.answer('h1', { questionIndex: 1, choice: wrongLetter(1) });
     fb = lastEvent(events, 'race:feedback') as RaceFeedback;
     expect(fb.correct).toBe(false);
-    expect(fb.answerIndex).toBe(bank[1]!.answerIndex);
+    expect(fb.answerIndex).toBe(optionOrder.indexOf(bank[1]!.answerIndex));
     expect(fb.explanation).toBe(bank[1]!.explanation);
     expect(fb.sources).toEqual(bank[1]!.sources);
     expect(fb.lockEndsAtMs).toBe(8000); // now=3000 (lobby 3 dtk) + lock 5 dtk
@@ -169,11 +275,54 @@ describe('room (integrasi skeleton)', () => {
       const ev = events.find((e) => e.event === 'eval:ready' && e.target === 'h1');
       expect(ev).toBeDefined();
     });
-    const evalReady = events.find((e) => e.event === 'eval:ready' && e.target === 'h1')!;
+    const evalReady = events.filter((e) => e.event === 'eval:ready' && e.target === 'h1').at(-1)!;
     const ready = evalReadySchema.parse(evalReady.payload) as EvalReady;
     expect(ready.questions.length).toBeGreaterThan(0);
     expect(ready.badge).toBe('ringkasan-otomatis-bukan-ai'); // mode mock bukan AI
     expect(JSON.stringify(ready)).not.toContain('Budi'); // FR-H06: nickname tidak dikirim
+    const pendingEvent = events.find((e) => e.event === 'eval:ready' && e.target === 'h1')!;
+    const pending = evalReadySchema.parse(pendingEvent.payload);
+    expect(pending.questions.length).toBe(ready.questions.length);
+    expect(pending.aiSection).toBeNull();
+    expect(pending.badge).toBeNull();
+  });
+
+  it('feedback dan evaluasi memakai indeks tampilan saat pilihan diacak (FR-B05, FR-H02)', async () => {
+    const seed = 42;
+    const questions = [q('66666666-0001-4001-8001-000000000001', 3)];
+    const events: RecordedEvent[] = [];
+    const evalInputs: EvalRequest[] = [];
+    const { room, sched } = makeRoom(seed, questions, events, 0, evalInputs);
+    const { bank, optionOrder } = deriveOrder(seed, questions);
+    // Kunci asli 3 tampil sebagai pilihan B (indeks tampilan 1).
+    expect(optionOrder).toEqual([0, 3, 1, 2]);
+
+    room.start();
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+
+    // Pilih A (asli 0) → salah; kunci yang disorot harus indeks tampilan 1.
+    room.answer('h1', { questionIndex: 0, choice: 'A' });
+    const fb = lastEvent(events, 'race:feedback') as RaceFeedback;
+    expect(fb.correct).toBe(false);
+    expect(fb.answerIndex).toBe(1);
+    expect(optionOrder[fb.answerIndex!]).toBe(bank[0]!.answerIndex);
+
+    await vi.waitFor(() => {
+      expect(events.some((e) => e.event === 'eval:ready' && e.target === 'h1')).toBe(true);
+    });
+    const evalReady = events.filter((e) => e.event === 'eval:ready' && e.target === 'h1').at(-1)!;
+    const ready = evalReadySchema.parse(evalReady.payload) as EvalReady;
+    const item = ready.questions[0]!;
+
+    // Opsi, pilihan pemain, dan kunci memakai urutan tampilan yang sama.
+    expect(item.options).toEqual(optionOrder.map((i) => bank[0]!.options[i]));
+    expect(item.chosenIndex).toBe(0);
+    expect(item.answerIndex).toBe(1);
+    expect(item.options[item.chosenIndex]).toBe(bank[0]!.options[0]);
+    expect(item.options[item.answerIndex]).toBe(bank[0]!.options[bank[0]!.answerIndex]);
+    // Input AI memakai indeks tampilan yang sama, supaya huruf kunci di keluarannya cocok.
+    expect(evalInputs[0]!.questions[0]!.chosenIndex).toBe(0);
+    expect(evalInputs[0]!.questions[0]!.answerIndex).toBe(1);
   });
 
   it('deterministik: seed sama → urutan event sama persis (ARCH §1 prinsip 6)', () => {
@@ -204,16 +353,159 @@ describe('room (integrasi skeleton)', () => {
     expect(stripTargets(a)).toEqual(stripTargets(b));
   });
 
-  it('semua manusia keluar → race:end tidak dikirim, room dihapus (FR-B13)', () => {
+  it('semua manusia keluar saat balapan → setelah 10 dtk room dihapus tanpa race:end (FR-B11, FR-B13)', () => {
     const seed = 9;
     const questions = [q('33333333-0001-4001-8001-000000000001', 0)];
     const events: RecordedEvent[] = [];
     const { room, sched } = makeRoom(seed, questions, events);
     room.start();
-    sched.advance(3000);
+    sched.advance(3000); // balapan mulai
     room.leave('h1');
+    // Belum lewat 10 detik: masih dalam tenggat reconnect (FR-B11)
+    expect(events.some((e) => e.event === 'room.destroyed')).toBe(false);
+
+    sched.advance(GAME.RECONNECT_LIMIT_S * 1000); // lewat 10 detik
     expect(events.some((e) => e.event === 'race:end')).toBe(false);
     expect(events.some((e) => e.event === 'room.destroyed')).toBe(true);
+  });
+
+  it('keluar saat lobby diganti bot profil berikutnya bila masih ada manusia (FR-M12)', () => {
+    const seed = 10;
+    const questions = [q('77777777-0001-4001-8001-000000000001', 0)];
+    const events: RecordedEvent[] = [];
+    const sched = new FakeScheduler();
+    const room = new Room({
+      roomId: 'r1',
+      seed,
+      humans: [
+        { id: 'h1', nickname: 'Budi', animalId: 'orangutan' },
+        { id: 'h2', nickname: 'Siti', animalId: 'harimau' },
+      ],
+      botCount: 2,
+      questions,
+      emit: (event, payload) => events.push({ event, payload }),
+      emitTo: (socketId, event, payload) => events.push({ event, payload, target: socketId }),
+      onEmpty: () => events.push({ event: 'room.destroyed', payload: null }),
+      evaluator: async () => ({
+        output: { pattern: '', tip: '', motivation: 'Hebat!' },
+        badge: 'ringkasan-otomatis-bukan-ai',
+        source: 'mock',
+      }),
+      now: () => sched.now,
+      setTimer: (fn, ms) => sched.setTimer(fn, ms),
+      clearTimer: (id) => sched.clearTimer(id),
+    });
+
+    room.start(); // fase lobby
+    expect(events.some((e) => e.event === 'room.destroyed')).toBe(false);
+
+    // h1 keluar saat lobby
+    room.leave('h1');
+    expect(events.some((e) => e.event === 'room.destroyed')).toBe(false);
+
+    // h1 diganti bot; slot 1 sekarang bot
+    const lastState = lastEvent(
+      events.filter((e) => e.target === 'h2'),
+      'room:state',
+    ) as RoomState;
+    const slot1 = lastState.participants.find((p) => p.slot === 1);
+    expect(slot1?.isBot).toBe(true);
+    expect(slot1?.status).toBe('racing');
+
+    // Hitung mundur tetap berjalan dan balapan dimulai bersama
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+    const racingState = lastEvent(
+      events.filter((e) => e.target === 'h2'),
+      'room:state',
+    ) as RoomState;
+    expect(racingState.phase).toBe('racing');
+  });
+
+  it('semua manusia keluar saat lobby → room dibatalkan dan dihapus seketika (FR-M12)', () => {
+    const seed = 12;
+    const questions = [q('88888888-0001-4001-8001-000000000001', 0)];
+    const events: RecordedEvent[] = [];
+    const { room } = makeRoom(seed, questions, events);
+    room.start(); // fase lobby
+    room.leave('h1');
+    // Langsung dihapus tanpa menunggu timer
+    expect(events.some((e) => e.event === 'room.destroyed')).toBe(true);
+  });
+
+  it('reconnect saat balapan ≤ 10 detik memulihkan soal aktif (FR-B11)', () => {
+    const seed = 13;
+    const questions = [q('99999999-0001-4001-8001-000000000001', 0)];
+    const events: RecordedEvent[] = [];
+    const { room, sched } = makeRoom(seed, questions, events);
+    room.start();
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000); // balapan mulai
+
+    // h1 putus koneksi
+    room.leave('h1');
+    sched.advance(5000); // 5 detik kemudian tersambung lagi
+
+    // Resume dengan socket ID baru
+    const resumed = room.resume('h1-new', 'h1');
+    expect(resumed).toBe(true);
+
+    // State terbaru terkirim ke socket baru
+    const stateNew = lastEvent(
+      events.filter((e) => e.target === 'h1-new'),
+      'room:state',
+    ) as RoomState;
+    expect(stateNew.phase).toBe('racing');
+    expect(stateNew.activeQuestion).not.toBeNull();
+
+    // Maju 10 detik lagi: room TIDAK boleh dihapus karena h1 sudah resume
+    sched.advance(10000);
+    expect(events.some((e) => e.event === 'room.destroyed')).toBe(false);
+  });
+
+  it('reconnect setelah 10 detik ditolak dan pemain berstatus left (FR-B11)', () => {
+    const seed = 14;
+    const questions = [q('00000000-0001-4001-8001-000000000001', 0)];
+    const events: RecordedEvent[] = [];
+    const sched = new FakeScheduler();
+    const room = new Room({
+      roomId: 'r1',
+      seed,
+      humans: [
+        { id: 'h1', nickname: 'Budi', animalId: 'orangutan' },
+        { id: 'h2', nickname: 'Siti', animalId: 'harimau' },
+      ],
+      botCount: 2,
+      questions,
+      emit: (event, payload) => events.push({ event, payload }),
+      emitTo: (socketId, event, payload) => events.push({ event, payload, target: socketId }),
+      onEmpty: () => events.push({ event: 'room.destroyed', payload: null }),
+      evaluator: async () => ({
+        output: { pattern: '', tip: '', motivation: 'Hebat!' },
+        badge: 'ringkasan-otomatis-bukan-ai',
+        source: 'mock',
+      }),
+      now: () => sched.now,
+      setTimer: (fn, ms) => sched.setTimer(fn, ms),
+      clearTimer: (id) => sched.clearTimer(id),
+    });
+
+    room.start();
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+
+    // h1 putus koneksi
+    room.leave('h1');
+    sched.advance(GAME.RECONNECT_LIMIT_S * 1000 + 1); // lewat 10 detik
+
+    // h1 mencoba reconnect terlambat
+    const resumed = room.resume('h1-new', 'h1');
+    expect(resumed).toBe(false);
+
+    // h2 masih berjalan
+    const lastH2 = lastEvent(
+      events.filter((e) => e.target === 'h2'),
+      'room:state',
+    ) as RoomState;
+    const p1 = lastH2.participants.find((p) => p.nickname === 'Budi');
+    expect(p1?.status).toBe('left');
   });
 
   it('nickname kembar di room dapat suffix #2 (FR-M04)', () => {
@@ -302,6 +594,53 @@ describe('room (integrasi skeleton)', () => {
     st = lastHumanState();
     expect(st.questionIndex).toBe(2);
     expect(st.activeQuestion).not.toBeNull();
+  });
+
+  it('bot mendapat hewan yang belum dipakai oleh peserta di room (FR-M14)', () => {
+    const seed = 20;
+    const questions = [q('55555555-0001-4001-8001-000000000001', 0)];
+    const events: RecordedEvent[] = [];
+    const sched = new FakeScheduler();
+    const room = new Room({
+      roomId: 'r1',
+      seed,
+      humans: [
+        { id: 'h1', nickname: 'Budi', animalId: 'burung' },
+        { id: 'h2', nickname: 'Siti', animalId: 'orangutan' },
+      ],
+      botCount: 2,
+      questions,
+      emit: (event, payload) => events.push({ event, payload }),
+      emitTo: (socketId, event, payload) => events.push({ event, payload, target: socketId }),
+      onEmpty: () => {},
+      evaluator: async () => ({
+        output: { pattern: '', tip: '', motivation: '' },
+        badge: 'ringkasan-otomatis-bukan-ai',
+        source: 'mock',
+      }),
+      now: () => sched.now,
+      setTimer: (fn, ms) => sched.setTimer(fn, ms),
+      clearTimer: (id) => sched.clearTimer(id),
+    });
+
+    room.start();
+    const states = events.filter((e) => e.event === 'room:state' && e.target === 'h1');
+    const state = roomStateSchema.parse(states[0]!.payload);
+    const bots = state.participants.filter((p) => p.isBot);
+    const humans = state.participants.filter((p) => !p.isBot);
+
+    const humanAnimals = new Set(humans.map((h) => h.animalId));
+    expect(humanAnimals).toEqual(new Set(['burung', 'orangutan']));
+
+    // Bot tidak boleh memakai hewan manusia
+    for (const bot of bots) {
+      expect(humanAnimals.has(bot.animalId)).toBe(false);
+    }
+
+    // Setiap bot mendapat hewan berbeda yang belum terpakai
+    const botAnimals = bots.map((b) => b.animalId);
+    expect(new Set(botAnimals).size).toBe(bots.length);
+    expect(botAnimals).toEqual(['harimau', 'gajah']);
   });
 });
 

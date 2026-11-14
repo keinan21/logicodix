@@ -1,0 +1,30 @@
+{
+  "id": "73f96ab0-f338-41e5-a34f-e94306869958",
+  "kind": "pengetahuan",
+  "stem": "Air bersih termasuk sumber daya yang perlu dijaga karena …",
+  "options": [
+    "jumlahnya tidak terbatas",
+    "dibutuhkan makhluk hidup dan mudah tercemar",
+    "tidak dapat tercemar",
+    "tidak berhubungan dengan ekosistem"
+  ],
+  "answerIndex": 1,
+  "explanation": "Sumber air bersih perlu dijaga karena air dapat tercemar oleh kuman dan bahan kimia. Perlindungan daerah aliran air membantu menjaga kualitas dan ketersediaan sumber air.",
+  "sources": [
+    {
+      "judul": "Drinking Water Sources: An Overview",
+      "url": "https://www.cdc.gov/drinking-water/about/drinking-water-sources-an-overview.html",
+      "lembaga": "CDC",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Drinking-water",
+      "url": "https://www.who.int/news-room/fact-sheets/detail/drinking-water",
+      "lembaga": "World Health Organization",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

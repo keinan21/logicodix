@@ -1,0 +1,24 @@
+{
+  "id": "5da4635c-6753-4928-b963-ed765c637885",
+  "kind": "pengetahuan",
+  "stem": "Efek rumah kaca terjadi karena …",
+  "options": [
+    "gas rumah kaca menyerap inframerah dari permukaan bumi",
+    "gas rumah kaca memantulkan cahaya Matahari ke permukaan",
+    "permukaan bumi melepaskan panas terutama sebagai cahaya tampak",
+    "keluaran energi Matahari meningkat terus selama satu abad"
+  ],
+  "answerIndex": 0,
+  "explanation": "Gas rumah kaca menyerap dan memancarkan kembali sebagian radiasi inframerah yang dipancarkan permukaan bumi, sehingga panas tertahan dalam sistem bumi.",
+  "sources": [
+    {
+      "judul": "Causes",
+      "url": "https://science.nasa.gov/climate-change/causes/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "3787ed9a-e1c7-4936-8822-9194dff72ca0",
+  "kind": "pengetahuan",
+  "stem": "Salah satu upaya rehabilitasi lahan kritis adalah …",
+  "options": [
+    "penanaman pohon dan pengendalian erosi",
+    "penebangan hutan",
+    "pembakaran lahan",
+    "pembuangan limbah"
+  ],
+  "answerIndex": 0,
+  "explanation": "Rehabilitasi lahan kritis dilakukan dengan penanaman pohon dan pengendalian erosi agar tanah kembali berfungsi menahan air dan mendukung pertumbuhan tanaman.",
+  "sources": [
+    {
+      "judul": "Peraturan Pemerintah Nomor 26 Tahun 2020 tentang Rehabilitasi dan Reklamasi Hutan",
+      "url": "https://peraturan.bpk.go.id/Details/138323/pp-no-26-tahun-2020",
+      "lembaga": "Pemerintah Republik Indonesia / JDIH BPK",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Manual on integrated soil management and conservation practices",
+      "url": "https://www.fao.org/4/x4799e/x4799e.pdf",
+      "lembaga": "FAO",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

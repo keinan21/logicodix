@@ -10,7 +10,20 @@
   ],
   "answerIndex": 0,
   "explanation": "Karbondioksida dari pembakaran bahan bakar fosil dan deforestasi adalah penyumbang utama peningkatan efek rumah kaca. Oksigen dan nitrogen bukan gas rumah kaca utama. Informasi ini standar dalam sains iklim.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "Causes of climate change",
+      "url": "https://www.canada.ca/en/environment-climate-change/services/climate-change/causes.html",
+      "lembaga": "Environment and Climate Change Canada",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Causes",
+      "url": "https://science.nasa.gov/climate-change/causes/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "topic": "iklim-cuaca",
   "status": "draf",
   "writtenBy": "c-rakyan"

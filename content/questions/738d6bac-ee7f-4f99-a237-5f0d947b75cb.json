@@ -1,0 +1,24 @@
+{
+  "id": "738d6bac-ee7f-4f99-a237-5f0d947b75cb",
+  "kind": "pengetahuan",
+  "stem": "Dampak hujan asam adalah …",
+  "options": [
+    "merusak tanaman dan bangunan",
+    "meningkatkan kesuburan tanah",
+    "mengurangi pencemaran udara",
+    "memperbaiki ekosistem"
+  ],
+  "answerIndex": 0,
+  "explanation": "Hujan asam merusak tanaman dan hutan, mengganggu kehidupan air, serta mengorosi bangunan dan logam. Hujan asam tidak menyuburkan tanah maupun memperbaiki ekosistem.",
+  "sources": [
+    {
+      "judul": "Effects of Acid Rain",
+      "url": "https://www.epa.gov/acidrain/effects-acid-rain",
+      "lembaga": "U.S. Environmental Protection Agency",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

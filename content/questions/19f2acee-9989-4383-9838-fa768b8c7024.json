@@ -1,0 +1,24 @@
+{
+  "id": "19f2acee-9989-4383-9838-fa768b8c7024",
+  "kind": "pengetahuan",
+  "stem": "Salah satu manfaat menggunakan energi terbarukan adalah …",
+  "options": [
+    "mengurangi emisi gas rumah kaca",
+    "meningkatkan pencemaran udara",
+    "mempercepat penipisan minyak bumi",
+    "menambah limbah B3"
+  ],
+  "answerIndex": 0,
+  "explanation": "Energi terbarukan menghasilkan emisi gas rumah kaca jauh lebih sedikit dibanding pembakaran fosil, sehingga membantu mencegah pemanasan global dan tidak mempercepat penipisan minyak bumi.",
+  "sources": [
+    {
+      "judul": "Reduce the Environmental Impact of Your Energy Use",
+      "url": "https://www.epa.gov/energy/reduce-environmental-impact-your-energy-use",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

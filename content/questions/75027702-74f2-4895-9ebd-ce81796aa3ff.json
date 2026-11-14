@@ -1,0 +1,24 @@
+{
+  "id": "75027702-74f2-4895-9ebd-ce81796aa3ff",
+  "kind": "pengetahuan",
+  "stem": "Air tanah di suatu wilayah menurun. Upaya yang tepat adalah …",
+  "options": [
+    "membuat sumur resapan dan menghemat air",
+    "mengambil air tanah lebih banyak",
+    "menutup daerah resapan",
+    "membuang air bersih ke sungai"
+  ],
+  "answerIndex": 0,
+  "explanation": "Air tanah yang menurun dipulihkan dengan membuat sumur resapan, biopori, dan memanen air hujan, serta menghemat pemakaian. Mengambil lebih banyak justru memperparah penurunan.",
+  "sources": [
+    {
+      "judul": "Kementerian ESDM Imbau Masyarakat Bangun Sumur Resapan untuk Konservasi Air Tanah",
+      "url": "https://www.esdm.go.id/en/media-center/news-archives/kementerian-esdm-imbau-masyarakat-bangun-sumur-resapan-untuk-konservasi-air-tanah",
+      "lembaga": "Kementerian ESDM",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

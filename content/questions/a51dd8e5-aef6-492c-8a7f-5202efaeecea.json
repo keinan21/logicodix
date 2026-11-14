@@ -1,0 +1,24 @@
+{
+  "id": "a51dd8e5-aef6-492c-8a7f-5202efaeecea",
+  "kind": "pengetahuan",
+  "stem": "Panel suria mengubah energi …",
+  "options": [
+    "matahari menjadi listrik",
+    "angin menjadi bahan bakar",
+    "air menjadi batu bara",
+    "karbon menjadi minyak"
+  ],
+  "answerIndex": 0,
+  "explanation": "Panel surya (sel fotovoltaik) mengubah energi cahaya matahari menjadi energi listrik. Pilihan lain menggambarkan perubahan energi yang tidak sesuai.",
+  "sources": [
+    {
+      "judul": "Solar Photovoltaic Cell Basics",
+      "url": "https://www.energy.gov/eere/solar/solar-photovoltaic-cell-basics",
+      "lembaga": "U.S. Department of Energy",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

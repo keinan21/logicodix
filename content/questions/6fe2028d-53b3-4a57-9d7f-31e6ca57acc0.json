@@ -1,0 +1,24 @@
+{
+  "id": "6fe2028d-53b3-4a57-9d7f-31e6ca57acc0",
+  "kind": "pengetahuan",
+  "stem": "Kawasan konservasi yang melindungi ekosistem laut disebut …",
+  "options": [
+    "taman nasional darat",
+    "kawasan konservasi perairan",
+    "hutan produksi",
+    "kawasan industri"
+  ],
+  "answerIndex": 1,
+  "explanation": "Kawasan konservasi perairan dilindungi dan dikelola dengan zonasi untuk menjaga sumber daya ikan serta lingkungannya secara berkelanjutan.",
+  "sources": [
+    {
+      "judul": "Kamus Hukum: Kawasan Konservasi Perairan",
+      "url": "https://jdih.kkp.go.id/Homedev/KamusHukum/2300",
+      "lembaga": "Kementerian Kelautan dan Perikanan",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

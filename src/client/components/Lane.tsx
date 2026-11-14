@@ -2,11 +2,13 @@ import { GAME } from '../../shared/constants';
 import type { ParticipantPublic } from '../../shared/schema';
 import { ANIMAL_ASSETS } from './animalAssets';
 import './Lane.css';
+import seedling from '../assets/home/seedling.svg';
 
 export interface LaneProps {
   participant: ParticipantPublic;
   /** Posisi langkah 0..5 (0 = start). */
   steps: number;
+  correct?: boolean;
 }
 
 /**
@@ -15,7 +17,7 @@ export interface LaneProps {
  * satu tunas per langkah yang sudah ditempuh, garis finish kotak-kotak, dan label status.
  * Gerak dimatikan otomatis oleh `prefers-reduced-motion` (DESIGN §8).
  */
-export function Lane({ participant, steps }: LaneProps) {
+export function Lane({ participant, steps, correct = false }: LaneProps) {
   const animal = ANIMAL_ASSETS[participant.animalId];
   const safeSteps = Math.min(GAME.STEPS_TO_FINISH, Math.max(0, steps));
   const progress = safeSteps / GAME.STEPS_TO_FINISH;
@@ -24,31 +26,20 @@ export function Lane({ participant, steps }: LaneProps) {
     : (`var(--color-slot-${participant.slot})` as string);
 
   return (
-    <div className={`lane${participant.status === 'left' ? ' lane-left' : ''}`}>
-      <span className="lane-label" style={{ color: labelColor }}>
-        {participant.nickname}
-        {participant.isBot ? ' · BOT' : ''}
+    <div
+      className={`lane${participant.status === 'left' ? ' lane-left' : ''}`}
+      data-status={participant.status}
+      data-animal={participant.animalId}
+    >
+      <span className="lane-label" style={{ color: labelColor }} title={participant.nickname}>
+        <span className="lane-label-text">
+          {participant.nickname}
+          {participant.isBot && !participant.nickname.startsWith('BOT ') ? ' · BOT' : ''}
+        </span>
       </span>
 
       <div className="lane-track">
         <div className="lane-rail">
-          <span className="lane-dots" aria-hidden="true">
-            {Array.from({ length: GAME.STEPS_TO_FINISH + 1 }, (_, index) => {
-              const at = index / GAME.STEPS_TO_FINISH;
-              return (
-                <span
-                  key={index}
-                  className="lane-dot"
-                  style={{
-                    left: `${at * 100}%`,
-                    backgroundColor:
-                      at <= progress ? 'var(--color-forest-500)' : 'var(--color-earth-300)',
-                  }}
-                />
-              );
-            })}
-          </span>
-
           {Array.from({ length: safeSteps }, (_, index) => (
             <span
               key={index}
@@ -56,16 +47,19 @@ export function Lane({ participant, steps }: LaneProps) {
               aria-hidden="true"
               style={{ left: `${(index / GAME.STEPS_TO_FINISH) * 100}%` }}
             >
-              🌱
+              <img src={seedling} alt="" />
             </span>
           ))}
 
-          <img
-            className="lane-animal"
-            src={animal.src}
-            alt=""
-            style={{ left: `${progress * 100}%` }}
-          />
+          <span className="lane-runner" style={{ left: `${progress * 100}%` }}>
+            <img className="lane-animal" src={animal.src} alt="" />
+            {correct && (
+              <span className="lane-check" role="status" aria-label="Benar">
+                <span aria-hidden="true">✓</span>
+                <span aria-hidden="true">Benar!</span>
+              </span>
+            )}
+          </span>
         </div>
         <span className="lane-finish" aria-hidden="true" />
       </div>

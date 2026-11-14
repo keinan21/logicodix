@@ -1,0 +1,24 @@
+{
+  "id": "cfcfd967-b47a-47d6-9ddf-514b7de22d14",
+  "kind": "pengetahuan",
+  "stem": "Dampak eutrofikasi adalah …",
+  "options": [
+    "pertumbuhan alga berlebihan dan berkurangnya oksigen",
+    "air menjadi lebih jernih",
+    "ikan semakin banyak",
+    "pencemaran berkurang"
+  ],
+  "answerIndex": 0,
+  "explanation": "Saat alga tumbuh berlebihan, alga yang mati diuraikan pengurai yang menghabiskan oksigen terlarut, sehingga ikan dan organisme lain kekurangan oksigen dan mati.",
+  "sources": [
+    {
+      "judul": "What is nutrient pollution?",
+      "url": "https://oceanservice.noaa.gov/facts/nutpollution.html",
+      "lembaga": "NOAA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

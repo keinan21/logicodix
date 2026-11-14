@@ -11,7 +11,14 @@
   ],
   "answerIndex": 0,
   "explanation": "Foto atau video yang dipakai di luar tempat dan waktu aslinya disebut salah konteks. Sebelum membagikan, periksa apakah media benar-benar berasal dari peristiwa yang diklaim. Sumber resmi atau arsip media dapat membantu memastikannya.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "How to verify images and videos",
+      "url": "https://commonslibrary.parliament.uk/research-briefings/cbp-10816/",
+      "lembaga": "House of Commons Library",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "misinfoType": "konteks-salah",
   "topic": "hutan",
   "status": "draf",

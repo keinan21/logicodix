@@ -1,0 +1,19 @@
+{
+  "id": "b7077ee5-0a36-475a-850a-fb3dc1f5876a",
+  "kind": "pengetahuan",
+  "stem": "Pembangkit listrik tenaga angin memanfaatkan …",
+  "options": ["angin", "minyak bumi", "batu bara", "gas alam"],
+  "answerIndex": 0,
+  "explanation": "Pembangkit listrik tenaga angin (PLTB) memanfaatkan energi kinetik angin untuk memutar turbin dan menghasilkan listrik, bukan minyak, batu bara, atau gas alam.",
+  "sources": [
+    {
+      "judul": "Wind explained Electricity generation from wind",
+      "url": "https://www.eia.gov/energyexplained/wind/electricity-generation-from-wind.php",
+      "lembaga": "U.S. Energy Information Administration",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "538d6aa4-e83f-43d3-90ab-9aa6be4eac8c",
+  "kind": "pengetahuan",
+  "stem": "Salah satu cara menghemat air di rumah adalah …",
+  "options": [
+    "membiarkan keran terbuka",
+    "menggunakan air secukupnya",
+    "mencuci mobil setiap hari",
+    "menyiram tanaman berlebihan"
+  ],
+  "answerIndex": 1,
+  "explanation": "Menghemat air dilakukan dengan memakai air secukupnya, mematikan keran, dan memperbaiki kebocoran. Membiarkan keran terbuka atau menyiram berlebihan justru memboroskan air.",
+  "sources": [
+    {
+      "judul": "Start Saving",
+      "url": "https://www.epa.gov/watersense/start-saving",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

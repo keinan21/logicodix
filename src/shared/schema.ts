@@ -160,6 +160,8 @@ export type ParticipantPublic = z.infer<typeof participantPublicSchema>;
 export const roomStateSchema = z.object({
   roomId: z.string(),
   phase: z.enum(['waiting', 'lobby', 'racing', 'finished']),
+  /** Sisa hitung mundur dari server; tidak dihitung ulang ketika peserta berubah. */
+  lobbyCountdownS: z.number().int().min(0).optional(),
   participants: z.array(participantPublicSchema),
   timeLeftS: z.number().int().min(0),
   questionIndex: z.number().int().min(0),
@@ -281,7 +283,7 @@ export const evalReadySchema = z.object({
       badge: evalBadgeSchema,
     })
     .nullable(),
-  badge: evalBadgeSchema,
+  badge: evalBadgeSchema.nullable(),
 });
 export type EvalReady = z.infer<typeof evalReadySchema>;
 

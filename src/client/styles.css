@@ -24,9 +24,23 @@
 }
 
 :root {
-  --text-lobby-title: 600 22px/1.25 var(--font-family);
-  --size-lobby-countdown: 72px;
-  --size-lobby-ring: 4px;
+  --size-error-icon: 36px;
+  --size-race-header: 56px;
+  --size-race-sky: 40px;
+  --size-race-tree: 32px;
+  --size-race-tree-repeat: 64px;
+  --size-race-lane: 44px;
+  --size-race-card: 1000px;
+  --size-race-dialog: 520px;
+  --size-lane-label: 88px;
+  --size-answer-height: 56px;
+  --color-claim-tint: color-mix(in srgb, var(--color-sun-500) 12%, var(--color-bg));
+  --color-header-pill: color-mix(in srgb, var(--color-surface) 18%, transparent);
+  --color-dialog-backdrop: color-mix(in srgb, var(--color-forest-900) 45%, transparent);
+  --text-lobby-title: 700 19px/26px var(--font-family);
+  --size-lobby-countdown: 52px;
+  --size-lobby-hero: 112px;
+  --size-lobby-ring: 6px;
   --size-lane-animal: 32px;
   --size-podium-rank: 32px;
   --size-queue-action-width: 220px;
@@ -168,6 +182,11 @@
     --text-title: 600 24px/1.3 var(--font-family);
     /* DESIGN §5: hewan 32 px di HP, 56 px di laptop. */
     --size-lane-animal: 56px;
+    --size-race-sky: 56px;
+    --size-race-tree: 44px;
+    --size-race-tree-repeat: 88px;
+    --size-race-lane: 60px;
+    --size-lane-label: 120px;
   }
 }
 

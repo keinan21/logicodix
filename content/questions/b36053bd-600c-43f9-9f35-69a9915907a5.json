@@ -1,0 +1,19 @@
+{
+  "id": "b36053bd-600c-43f9-9f35-69a9915907a5",
+  "kind": "pengetahuan",
+  "stem": "Lapisan ozon berfungsi melindungi bumi dari …",
+  "options": ["radiasi ultraviolet", "hujan deras", "angin kencang", "gelombang laut"],
+  "answerIndex": 0,
+  "explanation": "Lapisan ozon di stratosfer melindungi bumi dari radiasi ultraviolet matahari. Jika ozon rusak, radiasi UV yang berbahaya bagi manusia dan makhluk hidup meningkat.",
+  "sources": [
+    {
+      "judul": "Basic Ozone Layer Science",
+      "url": "https://www.epa.gov/ozone-layer-protection/basic-ozone-layer-science",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

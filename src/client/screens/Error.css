@@ -4,13 +4,25 @@
 
 .error-panel {
   width: 100%;
-  max-width: 420px;
+  max-width: 460px;
   padding: var(--space-6);
   text-align: center;
 }
 
+.error-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.error-icon {
+  font-size: var(--size-error-icon);
+  line-height: 1;
+}
+
 .error-title {
-  margin: 0 0 var(--space-2);
+  margin: 0;
   font: var(--text-title);
   font-size: 24px;
   color: var(--color-err-600);
@@ -23,7 +35,13 @@
 }
 
 .error-code {
-  margin: var(--space-2) 0 0;
+  margin: 0;
   font: var(--text-small);
   color: var(--color-muted);
+}
+
+.error-content .btn {
+  width: var(--size-queue-action-width);
+  max-width: 100%;
+  min-height: var(--size-queue-action-height);
 }

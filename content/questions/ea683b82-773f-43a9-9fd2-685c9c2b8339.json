@@ -1,0 +1,19 @@
+{
+  "id": "ea683b82-773f-43a9-9fd2-685c9c2b8339",
+  "kind": "pengetahuan",
+  "stem": "Contoh sampah B3 adalah …",
+  "options": ["sisa makanan", "baterai bekas", "daun kering", "kulit pisang"],
+  "answerIndex": 1,
+  "explanation": "Baterai bekas termasuk sampah B3 karena mengandung logam berat dan bahan kimia beracun yang dapat mencemari tanah serta air. Sisa makanan dan daun kering adalah sampah organik.",
+  "sources": [
+    {
+      "judul": "SIGAP SAMPAH B3 Hadir di Kantor Kecamatan Samarinda Ilir!",
+      "url": "https://dlh.samarindakota.go.id/artikel/sigap-sampah-b3-hadir-di-kantor-kecamatan-samarinda-ilir",
+      "lembaga": "Dinas Lingkungan Hidup Kota Samarinda",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

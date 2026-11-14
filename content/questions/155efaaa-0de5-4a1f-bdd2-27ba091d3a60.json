@@ -1,0 +1,19 @@
+{
+  "id": "155efaaa-0de5-4a1f-bdd2-27ba091d3a60",
+  "kind": "pengetahuan",
+  "stem": "Zat yang merusak lapisan ozon adalah …",
+  "options": ["CFC", "oksigen", "nitrogen", "uap air"],
+  "answerIndex": 0,
+  "explanation": "CFC (klorofluorokarbon) merusak lapisan ozon karena melepaskan atom klor yang menguraikan ozon menjadi oksigen. Karena itu penggunaan CFC harus dihentikan.",
+  "sources": [
+    {
+      "judul": "Basic Ozone Layer Science",
+      "url": "https://www.epa.gov/ozone-layer-protection/basic-ozone-layer-science",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "6112a2fb-c6c1-4dc0-8555-f3f5c4ee553d",
+  "kind": "pengetahuan",
+  "stem": "Dampak sedimentasi bagi sungai adalah …",
+  "options": [
+    "pendangkalan alur yang dapat mengganggu aliran sungai",
+    "pendalaman alur yang selalu memperlancar aliran",
+    "penghilangan seluruh partikel yang terbawa air",
+    "peningkatan kejernihan air karena sedimen mengendap"
+  ],
+  "answerIndex": 0,
+  "explanation": "Sedimen yang mengendap dapat mengubah dasar dan mendangkalkan alur sungai. Dampaknya pada aliran dan risiko banjir bergantung pada jumlah endapan serta kondisi sungai setempat.",
+  "sources": [
+    {
+      "judul": "Sediment and Suspended Sediment",
+      "url": "https://www.usgs.gov/water-science-school/science/sediment-and-suspended-sediment",
+      "lembaga": "U.S. Geological Survey",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "111f94fc-d029-4e87-b545-23e20f646a29",
+  "kind": "pengetahuan",
+  "stem": "Sampah B3 adalah sampah …",
+  "options": [
+    "berbahaya dan beracun",
+    "basah dan bersih",
+    "biodegradable dan bernilai",
+    "basah dan basah"
+  ],
+  "answerIndex": 0,
+  "explanation": "Sampah B3 adalah sampah berbahaya dan beracun, yaitu limbah yang mengandung bahan yang dapat membahayakan kesehatan manusia dan mencemari lingkungan bila dibuang sembarangan.",
+  "sources": [
+    {
+      "judul": "Peraturan Menteri Lingkungan Hidup Dan Kehutanan Nomor 9 Tahun 2024 tentang Pengelolaan Sampah yang Mengandung Bahan Berbahaya dan Beracun dan Limbah Bahan Berbahaya dan Beracun",
+      "url": "https://peraturan.bpk.go.id/Details/291985/permen-lhk-no-9-tahun-2024",
+      "lembaga": "Kementerian Lingkungan Hidup dan Kehutanan / JDIH BPK",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "sampah",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

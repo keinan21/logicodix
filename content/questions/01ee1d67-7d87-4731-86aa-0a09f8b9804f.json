@@ -1,0 +1,24 @@
+{
+  "id": "01ee1d67-7d87-4731-86aa-0a09f8b9804f",
+  "kind": "pengetahuan",
+  "stem": "Mangrove berperan penting sebagai …",
+  "options": [
+    "penahan abrasi pantai",
+    "penghasil limbah industri",
+    "penyebab banjir",
+    "perusak ekosistem laut"
+  ],
+  "answerIndex": 0,
+  "explanation": "Mangrove berperan menahan abrasi dan gelombang pantai, menangkap sedimen, serta menjadi habitat biota laut seperti ikan, kepiting, dan udang.",
+  "sources": [
+    {
+      "judul": "What is a mangrove forest?",
+      "url": "https://oceanservice.noaa.gov/facts/mangroves.html",
+      "lembaga": "NOAA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

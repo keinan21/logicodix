@@ -1,0 +1,24 @@
+{
+  "id": "0a3a94f5-4ba3-4fcb-b4ca-3443a84b750e",
+  "kind": "pengetahuan",
+  "stem": "Hutan bakau berfungsi sebagai …",
+  "options": [
+    "tempat hidup biota dan pelindung pantai",
+    "sumber pencemaran laut",
+    "penyebab abrasi",
+    "penghambat pertumbuhan ikan"
+  ],
+  "answerIndex": 0,
+  "explanation": "Hutan bakau (mangrove) menjadi tempat hidup biota dan pelindung pantai dari abrasi serta gelombang. Mangrove tidak mencemari laut maupun menghambat pertumbuhan ikan.",
+  "sources": [
+    {
+      "judul": "What is a mangrove forest?",
+      "url": "https://oceanservice.noaa.gov/facts/mangroves.html",
+      "lembaga": "NOAA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

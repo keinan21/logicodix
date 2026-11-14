@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { GAME } from '../../shared/constants';
 import { Lane } from '../components/Lane';
 import { QuestionCard } from '../components/QuestionCard';
 import { AnswerOption, type AnswerOptionState } from '../components/AnswerOption';
-import { CountdownRing } from '../components/CountdownRing';
 import { Button } from '../components/Button';
+import { RaceResultDialog } from './RaceResultDialog';
 import type {
   QuestionPublic,
   RaceAnswerPayload,
@@ -35,6 +35,7 @@ function formatClock(totalS: number): string {
 }
 
 export interface RaceScreenProps {
+  answerError?: { pesan: string } | null;
   state: RoomState;
   feedback: RaceFeedback | null;
   /** Waktu client saat feedback diterima (dipakai untuk masa tahan tampilan). */
@@ -55,6 +56,7 @@ export interface RaceScreenProps {
  * Kunci tidak pernah datang sebelum menjawab (FR-K11).
  */
 export function RaceScreen({
+  answerError = null,
   state,
   feedback,
   feedbackAtMs,
@@ -69,31 +71,32 @@ export function RaceScreen({
     question: QuestionPublic;
     index: number;
   } | null>(null);
-  const [hold, setHold] = useState<{ index: number; untilMs: number } | null>(null);
   const [nowMs, setNowMs] = useState(() => Date.now());
   const [myChoice, setMyChoice] = useState<Letter | null>(null);
+  const submitted = useRef(false);
+  useEffect(() => {
+    if (answerError) {
+      setMyChoice(null);
+      submitted.current = false;
+    }
+  }, [answerError]);
   const [resultDismissed, setResultDismissed] = useState(false);
+  /** Tombol "Lanjut" melewati masa baca penjelasan jawaban benar (FR-B04). */
+  const [holdSkipped, setHoldSkipped] = useState(false);
+  const watchActions = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (resultDismissed) watchActions.current?.querySelector('button')?.focus();
+  }, [resultDismissed]);
 
   useEffect(() => {
     setResultDismissed(false);
   }, [state.roomId]);
 
-  // Mulai masa tahan saat feedback baru datang.
+  // Feedback baru = masa baca baru; tombol "Lanjut" hanya berlaku untuk feedback itu.
   useEffect(() => {
-    if (!feedback) return;
-    const startMs = feedbackAtMs ?? Date.now();
-    const untilMs = feedback.correct
-      ? startMs + GAME.CORRECT_EXPLANATION_S * 1000
-      : (feedback.lockEndsAtMs ?? startMs + GAME.LOCK_DURATION_S * 1000);
-    setHold({ index: feedback.questionIndex, untilMs });
-  }, [feedback, feedbackAtMs]);
-
-  // Ingat soal yang sedang tampil supaya tetap terlihat selama masa tahan.
-  useEffect(() => {
-    if (active !== null && hold === null) {
-      setLastQuestion({ question: active, index: state.questionIndex });
-    }
-  }, [active, hold, state.questionIndex]);
+    setHoldSkipped(false);
+  }, [feedback]);
 
   // Jam berjalan lokal: room:state hanya datang saat ada kejadian (bot menjawab, lock habis),
   // jadi "Sisa" dan hitung mundur lock dihitung sendiri dari nilai server terakhir supaya
@@ -110,32 +113,65 @@ export function RaceScreen({
   const elapsedS = Math.max(0, Math.floor((nowMs - clockBase.at) / 1000));
   const displayLeftS = Math.max(0, clockBase.left - elapsedS);
 
-  useEffect(() => {
-    if (hold !== null && nowMs >= hold.untilMs) setHold(null);
-  }, [hold, nowMs]);
-
-  const holding = hold !== null;
-  const shown = holding ? (lastQuestion?.question ?? null) : active;
-  const shownIndex = holding ? (lastQuestion?.index ?? hold.index) : state.questionIndex;
+  // Derive the feedback hold in the same render as new server props, so the next
+  // question cannot briefly reset the selected answer before feedback is shown.
+  const untilMs = feedback?.correct
+    ? (feedbackAtMs ?? 0) + GAME.CORRECT_EXPLANATION_S * 1000
+    : (feedback?.lockEndsAtMs ?? 0);
+  const holding =
+    feedback !== null &&
+    feedback.questionIndex === lastQuestion?.index &&
+    nowMs < untilMs &&
+    !holdSkipped;
+  const waiting = myChoice !== null && feedback?.questionIndex !== lastQuestion?.index;
+  const retainQuestion = holding || waiting;
+  const shown = retainQuestion ? (lastQuestion?.question ?? null) : active;
+  const shownIndex = retainQuestion
+    ? (lastQuestion?.index ?? state.questionIndex)
+    : state.questionIndex;
 
   // Pilihan baru bisa ditekan saat tidak menahan umpan balik dan peserta masih balapan.
-  const canAnswer = !holding && me?.status === 'racing' && shown !== null;
+  const canAnswer = !holding && myChoice === null && me?.status === 'racing' && shown !== null;
 
   useEffect(() => {
     setMyChoice(null);
+    submitted.current = false;
   }, [shownIndex, state.roomId]);
+
+  const selectAnswer = useCallback(
+    (letter: Letter) => {
+      if (!canAnswer || submitted.current || shown === null) return;
+      submitted.current = true;
+      setLastQuestion({ question: shown, index: shownIndex });
+      setMyChoice(letter);
+      onAnswer({ questionIndex: shownIndex, choice: letter });
+    },
+    [canAnswer, onAnswer, shown, shownIndex],
+  );
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       const letter = KEY_TO_LETTER[event.key.toLowerCase()];
-      if (letter === undefined || !canAnswer || shown === null) return;
+      if (
+        letter === undefined ||
+        !canAnswer ||
+        event.repeat ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey
+      )
+        return;
+      if (
+        event.target instanceof HTMLElement &&
+        event.target.closest('input, textarea, select, [contenteditable="true"]')
+      )
+        return;
       event.preventDefault();
-      setMyChoice(letter);
-      onAnswer({ questionIndex: shownIndex, choice: letter });
+      selectAnswer(letter);
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [canAnswer, onAnswer, shown, shownIndex]);
+  }, [canAnswer, selectAnswer]);
 
   const shownFeedback = holding ? feedback : null;
   const wrongFeedback = shownFeedback !== null && !shownFeedback.correct ? shownFeedback : null;
@@ -147,128 +183,134 @@ export function RaceScreen({
       : undefined;
 
   const optionState = (index: number): AnswerOptionState => {
-    if (wrongFeedback === null) return 'default';
+    if (correctFlash && myChoice === LETTERS[index]) return 'correct';
+    if (wrongFeedback === null) return myChoice === LETTERS[index] ? 'selected-waiting' : 'default';
     if (wrongFeedback.answerIndex === index) return 'correct';
     if (myChoice !== null && LETTERS.indexOf(myChoice) === index) return 'wrong';
     return 'dimmed';
   };
 
   const spectatorStatus =
-    me === null || me.status === 'racing' || me.status === 'locked' ? null : me.status;
+    ((holding || waiting) && me?.status !== 'left') ||
+    me === null ||
+    me.status === 'racing' ||
+    me.status === 'locked'
+      ? null
+      : me.status;
 
   return (
     <main className="screen race-screen">
-      <div className="screen-inner race-layout">
+      <div className="race-layout">
         <header className="race-header">
-          <span className="race-meta">
+          <h1 className="race-meta">
             Soal {shown !== null ? shownIndex + 1 : state.questionIndex + 1}
-          </span>
-          <span className="race-meta">Sisa {formatClock(displayLeftS)}</span>
+          </h1>
+          <div className="race-header-status">
+            {spectatorStatus !== null && <span className="race-spectating">Menonton</span>}
+            <span className="race-time">Sisa {formatClock(displayLeftS)}</span>
+          </div>
         </header>
 
         <section className="race-track" aria-label="Lintasan">
+          <div className="race-scenery" aria-hidden="true" />
           {state.participants.map((p) => (
-            <Lane key={p.id} participant={p} steps={p.steps} />
+            <Lane
+              key={p.id}
+              participant={p}
+              steps={p.steps}
+              correct={p.id === myId && correctFlash}
+            />
           ))}
         </section>
 
-        {spectatorStatus !== null && !resultDismissed ? (
-          <section
-            className="race-result"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="race-result-title"
-          >
-            <h2 id="race-result-title" className="race-result-title">
+        <div className="race-content">
+          {answerError ? (
+            <p role="alert" className="race-answer-error">
+              {answerError.pesan} Silakan pilih jawaban lagi.
+            </p>
+          ) : null}
+          {spectatorStatus !== null && !resultDismissed ? (
+            <RaceResultDialog
+              title={
+                spectatorStatus === 'finished'
+                  ? `Finish! Posisi ke-${me?.finishOrder ?? '–'}`
+                  : spectatorStatus === 'outOfQuestions'
+                    ? 'Soalmu habis'
+                    : 'Kamu keluar'
+              }
+              onWatch={() => setResultDismissed(true)}
+              onResults={onSkipToResults}
+            />
+          ) : null}
+
+          {spectatorStatus !== null && resultDismissed ? (
+            <p className="race-banner" role="status">
               {spectatorStatus === 'finished'
                 ? `Finish! Posisi ke-${me?.finishOrder ?? '–'}`
                 : spectatorStatus === 'outOfQuestions'
-                  ? 'Soalmu habis'
-                  : 'Kamu keluar'}
-            </h2>
-            <p className="race-result-text">
-              Balapan masih berjalan. Mau menonton sisanya atau langsung melihat hasil?
+                  ? 'Soal habis'
+                  : 'Keluar'}
+              <span className="race-banner-sub"> Menonton sisa balapan…</span>
+              <span className="race-banner-action" ref={watchActions}>
+                <Button variant="secondary" onClick={onSkipToResults}>
+                  Lihat hasil
+                </Button>
+              </span>
             </p>
-            <div className="race-result-actions">
-              <Button variant="secondary" onClick={() => setResultDismissed(true)}>
-                Tonton sisa balapan
-              </Button>
-              <Button onClick={onSkipToResults}>Lihat hasil sekarang</Button>
-            </div>
-          </section>
-        ) : null}
+          ) : null}
 
-        {spectatorStatus !== null && resultDismissed ? (
-          <p className="race-banner" role="status">
-            {spectatorStatus === 'finished'
-              ? `Finish! Posisi ke-${me?.finishOrder ?? '–'}`
-              : spectatorStatus === 'outOfQuestions'
-                ? 'Soal habis'
-                : 'Keluar'}
-            <span className="race-banner-sub"> Menonton sisa balapan…</span>
-            <span className="race-banner-action">
-              <Button variant="secondary" onClick={onSkipToResults}>
-                Lihat hasil
-              </Button>
-            </span>
-          </p>
-        ) : null}
+          {shown !== null && spectatorStatus === null ? (
+            <QuestionCard
+              question={shown}
+              displayNumber={shownIndex + 1}
+              explanation={shownFeedback?.explanation}
+              sources={shownFeedback?.sources}
+              lockRemainingS={lockRemainingS}
+              correct={shownFeedback?.correct}
+              onSkipExplanation={correctFlash ? () => setHoldSkipped(true) : undefined}
+            />
+          ) : null}
 
-        {shown !== null && spectatorStatus === null ? (
-          <QuestionCard
-            question={shown}
-            displayNumber={shownIndex + 1}
-            explanation={shownFeedback?.explanation}
-            sources={shownFeedback?.sources}
-            lockRemainingS={lockRemainingS}
-            correct={shownFeedback?.correct}
-            onSkipExplanation={() => setHold(null)}
-          />
-        ) : null}
+          {correctFlash ? (
+            <p className="race-flash" role="status" aria-live="assertive">
+              <span aria-hidden="true">✓</span> Benar!
+            </p>
+          ) : null}
 
-        {correctFlash ? (
-          <p className="race-flash" role="status" aria-live="assertive">
-            <span aria-hidden="true">✓</span> Benar!
-          </p>
-        ) : null}
-
-        {wrongFeedback ? (
-          <p className="race-flash race-flash-wrong" role="status" aria-live="assertive">
-            <span aria-hidden="true">✗</span> Salah
-          </p>
-        ) : null}
-
-        {shown !== null && spectatorStatus === null ? (
-          <>
-            <div className="race-options" role="group" aria-label="Pilihan jawaban">
-              {shown.options.map((text, index) => {
-                const letter = LETTERS[index];
-                if (letter === undefined) return null;
-                return (
-                  <AnswerOption
-                    key={letter}
-                    letter={letter}
-                    text={text}
-                    state={optionState(index)}
-                    disabled={!canAnswer}
-                    onSelect={() => {
-                      if (!canAnswer) return;
-                      setMyChoice(letter);
-                      onAnswer({ questionIndex: shownIndex, choice: letter });
-                    }}
-                  />
-                );
-              })}
-            </div>
-            <p className="race-hint">Tekan A–D atau 1–4 untuk menjawab.</p>
-          </>
-        ) : null}
-
-        {lockRemainingS !== undefined ? (
-          <div className="race-lock">
-            <CountdownRing remaining={lockRemainingS} total={GAME.LOCK_DURATION_S} />
-          </div>
-        ) : null}
+          {shown !== null && spectatorStatus === null ? (
+            <>
+              <div className="race-options" role="group" aria-label="Pilihan jawaban">
+                {shown.options.map((text, index) => {
+                  const letter = LETTERS[index];
+                  if (letter === undefined) return null;
+                  return (
+                    <div className="race-option-cell" key={letter}>
+                      <AnswerOption
+                        letter={letter}
+                        text={text}
+                        state={optionState(index)}
+                        disabled={!canAnswer}
+                        onSelect={selectAnswer}
+                      />
+                      <kbd className="race-shortcut" aria-hidden="true">
+                        {letter} / {index + 1}
+                      </kbd>
+                    </div>
+                  );
+                })}
+              </div>
+              <p className="race-hint" role="status">
+                {waiting
+                  ? 'Jawaban terkirim. Menunggu respons…'
+                  : wrongFeedback
+                    ? 'Jawaban belum tepat. Baca penjelasannya sebelum lanjut.'
+                    : correctFlash
+                      ? 'Benar! Hewanmu maju satu langkah.'
+                      : 'Pilih satu jawaban. Tekan A–D atau 1–4 untuk menjawab.'}
+              </p>
+            </>
+          ) : null}
+        </div>
       </div>
     </main>
   );

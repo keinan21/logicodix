@@ -11,7 +11,20 @@
   ],
   "answerIndex": 0,
   "explanation": "Persemaian awan adalah teknologi yang ada, tetapi kemampuannya terbatas dan diatur resmi. Klaim bahwa cuaca suatu daerah dikendalikan sepihak untuk merugikan daerah lain belum memiliki bukti resmi. Cek sumber resmi sebelum membagikan.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "WMO Statement on Weather Modification",
+      "url": "https://wmo.int/content/wmo-statement-weather-modification",
+      "lembaga": "World Meteorological Organization",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "How to check facts",
+      "url": "https://commonslibrary.parliament.uk/research-briefings/cbp-10820/",
+      "lembaga": "House of Commons Library",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "misinfoType": "konten-palsu-konspirasi",
   "topic": "iklim-cuaca",
   "status": "draf",

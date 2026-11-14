@@ -1,0 +1,24 @@
+{
+  "id": "7448ce9c-bdf0-4992-864b-3046f3de84dc",
+  "kind": "pengetahuan",
+  "stem": "Lahan gambut penting karena …",
+  "options": [
+    "menyimpan banyak karbon dan air",
+    "menghasilkan banyak karbon dioksida",
+    "tidak menyimpan air",
+    "tidak berperan dalam ekosistem"
+  ],
+  "answerIndex": 0,
+  "explanation": "Lahan gambut menyimpan karbon dalam tanah dan menahan air. Pengeringan atau kerusakannya dapat mengganggu fungsi penyimpanan karbon dan pengaturan air.",
+  "sources": [
+    {
+      "judul": "Peatlands",
+      "url": "https://www.unep.org/en/what-we-do/peatlands",
+      "lembaga": "UN Environment Programme",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "hutan",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

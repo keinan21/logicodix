@@ -1,0 +1,24 @@
+{
+  "id": "4a414a2a-70cf-41db-8261-4faa844ecb1d",
+  "kind": "pengetahuan",
+  "stem": "Konservasi laut dapat dilakukan melalui …",
+  "options": [
+    "penetapan kawasan konservasi perairan",
+    "penambangan karang",
+    "pembuangan limbah ke laut",
+    "penangkapan ikan dengan bom"
+  ],
+  "answerIndex": 0,
+  "explanation": "Konservasi laut dilakukan antara lain dengan menetapkan kawasan konservasi perairan. Penambangan karang, pembuangan limbah, dan penangkapan dengan bom justru merusak laut.",
+  "sources": [
+    {
+      "judul": "About Marine Protected Areas",
+      "url": "https://marineprotectedareas.noaa.gov/aboutmpas/",
+      "lembaga": "NOAA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "air",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -11,7 +11,20 @@
   ],
   "answerIndex": 1,
   "explanation": "Menyandarkan klaim pada nama besar tanpa tautan pernyataan asli adalah tanda catut otoritas. Pernyataan perlu dicek ke sumber aslinya. Konsensus ilmiah internasional mengakui perubahan iklim dan peran aktivitas manusia.",
-  "sources": [],
+  "sources": [
+    {
+      "judul": "How to check facts",
+      "url": "https://commonslibrary.parliament.uk/research-briefings/cbp-10820/",
+      "lembaga": "House of Commons Library",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "Causes",
+      "url": "https://science.nasa.gov/climate-change/causes/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
   "misinfoType": "catut-otoritas",
   "topic": "iklim-cuaca",
   "status": "draf",

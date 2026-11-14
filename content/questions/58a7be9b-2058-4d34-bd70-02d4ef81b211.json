@@ -1,0 +1,24 @@
+{
+  "id": "58a7be9b-2058-4d34-bd70-02d4ef81b211",
+  "kind": "pengetahuan",
+  "stem": "Salah satu dampak perubahan iklim bagi pertanian adalah …",
+  "options": [
+    "kekeringan dan gagal panen",
+    "hasil panen selalu meningkat",
+    "curah hujan selalu stabil",
+    "tidak ada dampak"
+  ],
+  "answerIndex": 0,
+  "explanation": "Perubahan iklim menyebabkan musim tidak menentu, kekeringan, dan banjir, sehingga pertanian berisiko gagal panen dan produktivitas menurun.",
+  "sources": [
+    {
+      "judul": "Bencana Alam (Banjir dan Kekeringan) Penghambat Produksi Hortikultura",
+      "url": "https://hortikultura.pertanian.go.id/bencana-alam-banjir-dan-kekeringan-penghambat-produksi-hortikultura/",
+      "lembaga": "Direktorat Jenderal Hortikultura, Kementerian Pertanian",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "4a41b60a-968b-4cfa-a711-bded4692aff0",
+  "kind": "pengetahuan",
+  "stem": "Pembakaran bahan bakar fosil menghasilkan …",
+  "options": ["karbon dioksida dan polutan udara", "oksigen murni", "nitrogen saja", "air bersih"],
+  "answerIndex": 0,
+  "explanation": "Pembakaran bahan bakar fosil menghasilkan karbon dioksida dan polutan udara lain seperti CO, SO2, NO2, dan partikulat. Oksigen, nitrogen saja, atau air bersih bukan hasil utamanya.",
+  "sources": [
+    {
+      "judul": "Causes",
+      "url": "https://science.nasa.gov/climate-change/causes/",
+      "lembaga": "NASA",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "What is Acid Rain?",
+      "url": "https://www.epa.gov/acidrain/what-acid-rain",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    },
+    {
+      "judul": "About the U.S. Electricity System and its Impact on the Environment",
+      "url": "https://www.epa.gov/energy/about-us-electricity-system-and-its-impact-environment",
+      "lembaga": "US EPA",
+      "tanggalCek": "2026-11-13"
+    }
+  ],
+  "topic": "iklim-cuaca",
+  "status": "draf",
+  "writtenBy": "c-keinan"
+}
