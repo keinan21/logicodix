@@ -46,6 +46,39 @@ afterAll(async () => {
 });
 
 describe('satu socket satu room (regresi tampilan soal tertukar)', () => {
+  it('server memberi identitas permintaan pada pesan room dan mempertahankannya saat reconnect', async () => {
+    const client = connect(baseUrl, { transports: ['websocket'] });
+    clients.push(client);
+    const requestId = 'request-regression';
+    let token = '';
+    let racing = false;
+    const contexts: unknown[] = [];
+    client.on('session:token', (payload: { token: string }, context: unknown) => {
+      token = payload.token;
+      contexts.push(context);
+    });
+    client.on('room:state', (raw: unknown, context: unknown) => {
+      contexts.push(context);
+      racing = roomStateSchema.parse(raw).phase === 'racing';
+    });
+    await new Promise<void>((resolve) => client.once('connect', resolve));
+    client.emit('queue:join', { nickname: 'SesiBaru', animalId: 'gajah', mode: 'bot', requestId });
+    await waitFor(() => racing, 5000);
+    expect(contexts.length).toBeGreaterThan(1);
+    expect(
+      contexts.every((context) => JSON.stringify(context) === JSON.stringify({ requestId })),
+    ).toBe(true);
+    client.disconnect();
+    const resumed = connect(baseUrl, { transports: ['websocket'] });
+    clients.push(resumed);
+    await new Promise<void>((resolve) => resumed.once('connect', resolve));
+    const nextState = new Promise<unknown>((resolve) =>
+      resumed.once('room:state', (_raw: unknown, context: unknown) => resolve(context)),
+    );
+    resumed.emit('session:resume', { token, requestId });
+    expect(await nextState).toEqual({ requestId });
+    resumed.close();
+  }, 10000);
   it('batal antre setelah lobby terbentuk menghentikan room dan membatalkan token', async () => {
     const client = connect(baseUrl, { transports: ['websocket'] });
     clients.push(client);

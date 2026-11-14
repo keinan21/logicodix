@@ -19,6 +19,7 @@ import {
   joinQueuePayloadSchema,
   racePausePayloadSchema,
   sessionResumePayloadSchema,
+  sessionEventContextSchema,
 } from '../shared/schema';
 import { createEvaluator, selectMode } from './evaluate';
 import { createRNGSeed } from '../shared/rng';
@@ -85,6 +86,10 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
   const rooms = new Map<string, Room>();
   const sessions = new Map<string, { roomId: string; participantId: string }>();
   const roomBySocket = new Map<string, string>();
+  const emitTo = (socketId: string, event: string, payload: unknown) => {
+    const socket = io.sockets.sockets.get(socketId);
+    if (socket) socket.emit(event, payload, { requestId: socket.data.requestId });
+  };
   const revokeSession = (socketId: string) => {
     for (const [token, session] of sessions) {
       if (session.participantId === socketId) sessions.delete(token);
@@ -115,9 +120,13 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
         })),
         botCount: req.botCount,
         questions: content.verified,
-        emit: (event, payload) => io.to(roomId).emit(event, payload),
+        emit: (event, payload) => {
+          for (const socketId of io.sockets.adapter.rooms.get(roomId) ?? []) {
+            if (roomBySocket.get(socketId) === roomId) emitTo(socketId, event, payload);
+          }
+        },
         emitTo: (socketId, event, payload) => {
-          if (roomBySocket.get(socketId) === roomId) io.to(socketId).emit(event, payload);
+          if (roomBySocket.get(socketId) === roomId) emitTo(socketId, event, payload);
         },
         onEmpty: removeRoom,
         evaluator: (evalReq, roomSeed) => evaluate.evaluate(evalReq, roomSeed),
@@ -129,14 +138,14 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
       for (const h of req.humanPlayers) {
         const token = randomUUID();
         sessions.set(token, { roomId, participantId: h.socketId });
-        io.to(h.socketId).emit('session:token', { token });
+        emitTo(h.socketId, 'session:token', { token });
         roomBySocket.set(h.socketId, roomId);
         io.sockets.sockets.get(h.socketId)?.join(roomId);
       }
       room.start();
     },
     (socketId, status) => {
-      io.to(socketId).emit('queue:status', status);
+      emitTo(socketId, 'queue:status', status);
     },
   );
 
@@ -144,15 +153,20 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
     logEvent(undefined, undefined, 'socket.connect', undefined, 'info', 'koneksi baru');
 
     socket.on('queue:join', (raw: unknown) => {
+      socket.data.requestId = sessionEventContextSchema.safeParse(raw).data?.requestId;
       const parsed = joinQueuePayloadSchema.safeParse(raw);
       if (!parsed.success) {
-        socket.emit('error', { code: 'invalid-payload', pesan: 'Payload queue:join tidak valid.' });
+        emitTo(socket.id, 'error', {
+          code: 'invalid-payload',
+          pesan: 'Payload queue:join tidak valid.',
+        });
         return;
       }
+      socket.data.requestId = parsed.data.requestId;
       // Filter kata kasar + format nickname di server (FR-M02, FR-M01)
       const checked = checkNickname(parsed.data.nickname);
       if (!checked.ok) {
-        socket.emit('error', { code: 'nickname-invalid', pesan: checked.reason });
+        emitTo(socket.id, 'error', { code: 'nickname-invalid', pesan: checked.reason });
         return;
       }
       // Satu socket hanya boleh berada di SATU room. Tanpa ini, join ganda (klik dobel atau
@@ -202,17 +216,25 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
     });
 
     socket.on('session:resume', (raw: unknown) => {
+      socket.data.requestId = sessionEventContextSchema.safeParse(raw).data?.requestId;
       const parsed = sessionResumePayloadSchema.safeParse(raw);
       if (!parsed.success) {
-        socket.emit('error', { code: 'invalid-payload', pesan: 'Payload resume tidak valid.' });
+        emitTo(socket.id, 'error', {
+          code: 'invalid-payload',
+          pesan: 'Payload resume tidak valid.',
+        });
         return;
       }
       const token = parsed.data.token;
+      socket.data.requestId = parsed.data.requestId;
       const session = sessions.get(token);
       const targetRoomId = session?.roomId;
       const targetRoom = targetRoomId ? rooms.get(targetRoomId) : undefined;
       if (!targetRoom || !targetRoomId) {
-        socket.emit('error', { code: 'session-not-found', pesan: 'Sesi balapan tidak ditemukan.' });
+        emitTo(socket.id, 'error', {
+          code: 'session-not-found',
+          pesan: 'Sesi balapan tidak ditemukan.',
+        });
         return;
       }
       if (
@@ -220,7 +242,7 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
         io.sockets.sockets.has(session.participantId) ||
         roomBySocket.has(socket.id)
       ) {
-        socket.emit('error', { code: 'resume-denied', pesan: 'Sesi masih aktif.' });
+        emitTo(socket.id, 'error', { code: 'resume-denied', pesan: 'Sesi masih aktif.' });
         return;
       }
       const oldId = session.participantId;
@@ -233,7 +255,7 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
         socket.join(targetRoomId);
       } else {
         roomBySocket.delete(socket.id);
-        socket.emit('error', {
+        emitTo(socket.id, 'error', {
           code: 'resume-expired',
           pesan: 'Batas waktu reconnect telah habis.',
         });

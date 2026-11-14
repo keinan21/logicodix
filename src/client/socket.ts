@@ -7,6 +7,7 @@ import {
   raceFeedbackSchema,
   roomStateSchema,
   sessionTokenSchema,
+  sessionEventContextSchema,
 } from '../shared/schema';
 import type {
   EvalReady,
@@ -174,6 +175,8 @@ let socketInstance: Socket | null = null;
 let lastResumeToken: string | null = null;
 let pendingQueue: JoinQueuePayload | null = null;
 let acceptingRoom = false;
+let requestCounter = 0;
+let activeRequestId: string | null = null;
 
 function ensureSocket(): Socket {
   if (socketInstance) return socketInstance;
@@ -184,7 +187,7 @@ function ensureSocket(): Socket {
   socket.on('connect', () => {
     dispatch({ type: 'connection', connected: true, myId: socket.id ?? null });
     if (lastResumeToken && socket.id) {
-      socket.emit('session:resume', { token: lastResumeToken });
+      socket.emit('session:resume', { token: lastResumeToken, requestId: activeRequestId });
     } else if (pendingQueue) {
       socket.emit('queue:join', pendingQueue);
     }
@@ -196,7 +199,15 @@ function ensureSocket(): Socket {
     dispatch({ type: 'connection', connected: false, myId: null });
   });
 
-  socket.on('room:state', (raw: unknown) => {
+  const onSession = (event: string, handle: (raw: unknown) => void) => {
+    socket.on(event, (raw: unknown, context: unknown) => {
+      const parsed = sessionEventContextSchema.safeParse(context);
+      if (!acceptingRoom || !parsed.success || parsed.data.requestId !== activeRequestId) return;
+      handle(raw);
+    });
+  };
+
+  onSession('room:state', (raw: unknown) => {
     if (!acceptingRoom) return;
     const parsed = roomStateSchema.safeParse(raw);
     if (parsed.success) {
@@ -204,30 +215,30 @@ function ensureSocket(): Socket {
       dispatch({ type: 'state', state: parsed.data });
     }
   });
-  socket.on('session:token', (raw: unknown) => {
+  onSession('session:token', (raw: unknown) => {
     if (!acceptingRoom) return;
     const parsed = sessionTokenSchema.safeParse(raw);
     if (parsed.success) lastResumeToken = parsed.data.token;
   });
-  socket.on('race:feedback', (raw: unknown) => {
+  onSession('race:feedback', (raw: unknown) => {
     const parsed = raceFeedbackSchema.safeParse(raw);
     if (parsed.success) {
       dispatch({ type: 'feedback', feedback: parsed.data, atMs: Date.now() });
     }
   });
-  socket.on('race:end', (raw: unknown) => {
+  onSession('race:end', (raw: unknown) => {
     const parsed = raceEndSchema.safeParse(raw);
     if (parsed.success) dispatch({ type: 'race-end', raceEnd: parsed.data });
   });
-  socket.on('race:standings', (raw: unknown) => {
+  onSession('race:standings', (raw: unknown) => {
     const parsed = raceEndSchema.safeParse(raw);
     if (parsed.success) dispatch({ type: 'standings', standings: parsed.data });
   });
-  socket.on('eval:ready', (raw: unknown) => {
+  onSession('eval:ready', (raw: unknown) => {
     const parsed = evalReadySchema.safeParse(raw);
     if (parsed.success) dispatch({ type: 'evaluation', evaluation: parsed.data });
   });
-  socket.on('queue:status', (raw: unknown) => {
+  onSession('queue:status', (raw: unknown) => {
     const parsed = queueStatusSchema.safeParse(raw);
     if (parsed.success) {
       dispatch({
@@ -237,7 +248,7 @@ function ensureSocket(): Socket {
       });
     }
   });
-  socket.on('error', (raw: unknown) => {
+  onSession('error', (raw: unknown) => {
     const parsed = errorPayloadSchema.safeParse(raw);
     if (parsed.success) {
       pendingQueue = null;
@@ -258,12 +269,13 @@ export function useRoom() {
   const current = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 
   const joinQueue = (payload: JoinQueuePayload) => {
+    activeRequestId = String(++requestCounter);
     acceptingRoom = true;
     lastResumeToken = null;
-    pendingQueue = payload;
+    pendingQueue = { ...payload, requestId: activeRequestId };
     dispatch({ type: 'reset' });
     const socket = ensureSocket();
-    if (socket.connected) socket.emit('queue:join', payload);
+    if (socket.connected) socket.emit('queue:join', pendingQueue);
   };
 
   const leaveQueue = () => {
@@ -295,7 +307,7 @@ export function useRoom() {
   };
 
   const resume = (token: string) => {
-    ensureSocket().emit('session:resume', { token });
+    ensureSocket().emit('session:resume', { token, requestId: activeRequestId });
   };
 
   const reset = () => {
