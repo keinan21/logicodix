@@ -118,8 +118,8 @@
   --card: url('./assets/kenney/panel_brown.png');
   --check: url('./assets/kenney/check.png'); /* checkbox_brown_checked 24x24 */
   /* Kontainer hijau DEMO Mega Cozy UI Pack (dobo_ui) — lihat docs/ASSETS.md */
-  --title-green: url('./assets/dobo/title-green.png'); /* DoubleStripeContainer1_green 66x37, bingkai 8/8/10/8 */
-  --note-rope: url('./assets/dobo/note-rope.png'); /* RopeContainer1_green 66x65, bingkai 43/20/8/20 */
+  --plank-wood: url('./assets/dobo/plank-wood.png'); /* WoodenContainer1 1511x384, bingkai 12/24/16/24 */
+  --panel-dark: url('./assets/kenney/panel_brown_dark.png'); /* 128x128, bingkai 16px */
 
   /* Aksen Beranda (mockup referensi) */
   --color-title-accent: #fff6b0;

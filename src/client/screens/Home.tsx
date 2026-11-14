@@ -87,20 +87,18 @@ export function HomeScreen({
             Balap Fakta <span>Lingkungan</span>
           </h1>
         </div>
-        <div className="home-hero-panel">
-          <p className="home-intro">
-            Jawab benar, hewanmu melaju. Siapa paling cepat sampai finish?
-          </p>
-          <div className="home-emo" aria-hidden="true">
-            {SCENERY.map((src, i) => (
-              <img key={src} src={src} alt="" style={{ '--i': i } as CSSProperties} />
-            ))}
-          </div>
-          <p className="home-summary">
-            {GAME.MAX_PLAYERS} pemain · {GAME.STEPS_TO_FINISH} jawaban benar untuk finish · evaluasi
-            AI di akhir
-          </p>
+        <p className="home-note home-intro">
+          Jawab benar, hewanmu melaju. Siapa paling cepat sampai finish?
+        </p>
+        <div className="home-emo" aria-hidden="true">
+          {SCENERY.map((src, i) => (
+            <img key={src} src={src} alt="" style={{ '--i': i } as CSSProperties} />
+          ))}
         </div>
+        <p className="home-note home-summary">
+          {GAME.MAX_PLAYERS} pemain · {GAME.STEPS_TO_FINISH} jawaban benar untuk finish · evaluasi
+          AI di akhir
+        </p>
       </div>
 
       <section className="home-card" aria-label="Masuk permainan">
@@ -133,9 +131,10 @@ export function HomeScreen({
         </div>
         <div className="home-fact" aria-live="polite" aria-atomic="true">
           <img src={ANIMAL_ASSETS[animalId].src} alt="" />
-          <span>
-            {ANIMAL_ASSETS[animalId].nama}
+          <span className="home-fact-text">
+            <span className="home-fact-name">{ANIMAL_ASSETS[animalId].nama}</span>
             {facts[animalId] ? ` — ${facts[animalId]}` : ''}
+            <span className="home-fact-source">Sumber diisi dari folder konten.</span>
           </span>
         </div>
         {joinError ? (
@@ -161,6 +160,11 @@ export function HomeScreen({
             Lawan bot
           </button>
         </div>
+        {valid ? (
+          <p className="home-status">
+            {ANIMAL_ASSETS[animalId].nama} milik {nickname} bersiap mencari pemain…
+          </p>
+        ) : null}
       </section>
     </main>
   );

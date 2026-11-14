@@ -1,5 +1,5 @@
 /**
- * Home.css — Beranda: hero kiri (judul + panel tali), kartu form kanan.
+ * Home.css — Beranda: hero kiri (plank judul + tiga kotak info), kartu form kanan.
  * Tekstur panel memakai border-image dari aset lokal.
  */
 
@@ -29,67 +29,55 @@
 }
 
 .home-plank {
-  width: min(100%, 540px);
-  width: min(100%, 540px);
-  padding: 12px 20px 16px;
+  width: min(100%, 560px);
+  padding: 10px 16px 14px;
   border: solid transparent;
-  border-width: 8px 8px 10px;
-  border-image: var(--title-green) 8 8 10 8 fill / 8px 8px 10px 8px stretch;
+  border-width: 12px 24px 16px;
+  border-image: var(--plank-wood) 12 24 16 24 fill / 12px 24px 16px 24px stretch;
   text-align: center;
 }
 
 .home-plank h1 {
   margin: 0;
-  font-size: clamp(32px, 4.6vw, 62px);
-  line-height: 1.08;
+  font-size: clamp(30px, 4.2vw, 56px);
+  line-height: 1.1;
   font-weight: 700;
   letter-spacing: 0.01em;
-  color: var(--color-ink);
-  -webkit-text-stroke: 0.055em #fff;
+  color: var(--color-cream);
+  -webkit-text-stroke: 0.06em var(--br);
   paint-order: stroke fill;
-  text-shadow: 0 3px 0 rgba(74, 45, 28, 0.18);
 }
 
-.home-plank h1 span {
-  display: block;
-  color: var(--color-forest-500);
-}
-
-/* Satu panel hero: tagline, deretan hewan, ringkasan — bukan tiga kotak lepas. */
-.home-hero-panel {
-  width: min(100%, 560px);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 14px 18px 16px;
+.home-note {
+  width: min(100%, 480px);
+  margin: 0;
+  padding: 12px 16px;
   border: solid transparent;
-  border-width: 43px 20px 8px;
-  border-image: var(--note-rope) 43 20 8 20 fill / 43px 20px 8px 20px stretch;
+  border-width: 16px;
+  border-image: var(--card) 16 16 16 16 fill / 16px stretch;
 }
 
 .home-intro {
-  margin: 0;
-  font-size: clamp(17px, 1.9vw, 21px);
+  font-size: clamp(16px, 1.8vw, 20px);
   font-weight: 600;
   line-height: 1.4;
   color: var(--ink);
 }
 
 .home-summary {
-  margin: 0;
   font-size: clamp(14px, 1.5vw, 16px);
-  color: var(--color-muted);
+  color: var(--ink);
 }
 
 .home-emo {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
+  width: min(100%, 480px);
+  padding: 10px 14px;
   border: solid transparent;
-  border-width: 8px;
-  border-image: var(--field) 8 8 8 8 fill / 8px stretch;
-  background: var(--color-surface);
+  border-width: 16px;
+  border-image: var(--card) 16 16 16 16 fill / 16px stretch;
 }
 
 .home-emo img {
@@ -170,6 +158,8 @@
 }
 
 .home-animal[aria-pressed='true'] {
+  border-image: var(--panel-dark) 16 16 16 16 fill / 16px stretch;
+  color: var(--color-cream);
   box-shadow:
     0 0 0 4px var(--color-sun),
     0 6px 0 4px var(--br);
@@ -191,7 +181,7 @@
   align-items: flex-start;
   gap: 10px;
   margin: 0 0 16px;
-  padding: 8px 10px 0;
+  padding: 10px 12px 12px;
   border: solid transparent;
   border-width: 8px;
   border-image: var(--field) 8 8 8 8 fill / 8px stretch;
@@ -204,6 +194,28 @@
   width: 26px;
   height: 26px;
   object-fit: contain;
+}
+
+.home-fact-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.home-fact-name {
+  font-weight: 700;
+}
+
+.home-fact-source {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.home-status {
+  margin: 10px 0 0;
+  font: var(--text-small);
+  color: var(--color-muted);
+  text-align: center;
 }
 
 /* Remove small attribution text - fact source handled separately */
