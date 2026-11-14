@@ -13,6 +13,8 @@ export interface PodiumScreenProps {
   provisional?: boolean;
   /** Kembali menonton sisa balapan (hanya saat peringkat masih sementara). */
   onBackToRace?: () => void;
+  /** Keluar ke beranda. */
+  onGoHome?: () => void;
 }
 
 type Row = RaceEnd['ranking'][number];
@@ -29,6 +31,7 @@ export function PodiumScreen({
   onPlayAgain,
   provisional = false,
   onBackToRace,
+  onGoHome,
 }: PodiumScreenProps) {
   const ranking = raceEnd?.ranking ?? [];
   const top3 = ranking.slice(0, 3);
@@ -131,6 +134,11 @@ export function PodiumScreen({
                 Main lagi
               </Button>
             )}
+            {onGoHome ? (
+              <Button variant="secondary" className="podium-home" onClick={onGoHome}>
+                Ke beranda
+              </Button>
+            ) : null}
           </div>
         </section>
       </div>

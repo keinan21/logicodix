@@ -4,7 +4,7 @@
   align-items: center;
   gap: var(--space-2);
   height: var(--size-race-lane);
-  margin-top: var(--space-1);
+  margin-top: 0;
   padding-inline: var(--space-2) var(--space-6);
   border-top: 2px dashed var(--color-earth-500);
   background: var(--color-earth-300);
@@ -43,8 +43,15 @@
   height: var(--size-lane-animal);
   object-fit: contain;
   transform: translate(-50%, -50%);
-  transition: left var(--motion-step) ease-out;
+  transition: left var(--motion-run) cubic-bezier(0.3, 1.35, 0.5, 1);
   animation: lane-bob var(--motion-bob) ease-in-out infinite;
+}
+.lane-hopper {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 100%;
+  animation: lane-hop 520ms cubic-bezier(0.3, 0.7, 0.4, 1);
 }
 .lane-animal {
   width: 100%;
@@ -98,20 +105,27 @@
 .lane-check {
   position: absolute;
   z-index: 2;
-  top: calc(-1 * var(--space-4));
-  left: 50%;
-  align-items: center;
-  min-width: var(--space-6);
+  top: 50%;
+  left: calc(100% + var(--space-1));
   display: flex;
+  align-items: center;
   gap: var(--space-1);
-  padding-inline: var(--space-1);
-  height: var(--space-6);
+  height: var(--space-5);
+  padding-inline: var(--space-2);
   border: 2px solid var(--color-surface);
   border-radius: var(--radius-pill);
   background: var(--color-ok-600);
   color: var(--color-surface);
   font: var(--text-label);
-  transform: translateX(-50%);
+  white-space: nowrap;
+  transform: translateY(-50%);
+  animation: lane-check-in 300ms cubic-bezier(0.3, 1.5, 0.5, 1);
+}
+@keyframes lane-check-in {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.6);
+  }
 }
 @keyframes lane-bob {
   0%,
@@ -119,7 +133,7 @@
     transform: translate(-50%, -50%);
   }
   50% {
-    transform: translate(-50%, calc(-50% - var(--space-1)));
+    transform: translate(-50%, calc(-50% - 2px));
   }
 }
 @keyframes lane-sprout-in {
@@ -147,4 +161,22 @@
 
 .lane-status {
   background: transparent;
+}
+
+@keyframes lane-hop {
+  0% {
+    transform: translateY(0) scale(1, 1);
+  }
+  25% {
+    transform: translateY(0) scale(1.12, 0.88);
+  }
+  55% {
+    transform: translateY(-22%) scale(0.94, 1.08);
+  }
+  80% {
+    transform: translateY(0) scale(1.08, 0.92);
+  }
+  100% {
+    transform: translateY(0) scale(1, 1);
+  }
 }

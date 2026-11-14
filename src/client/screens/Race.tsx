@@ -2,12 +2,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { GAME } from '../../shared/constants';
 import { Lane } from '../components/Lane';
 import { QuestionCard } from '../components/QuestionCard';
+import { FeedbackSheet } from '../components/FeedbackSheet';
 import { AnswerOption, type AnswerOptionState } from '../components/AnswerOption';
 import { Button } from '../components/Button';
 import { RaceResultDialog } from './RaceResultDialog';
 import type {
   QuestionPublic,
   RaceAnswerPayload,
+  RaceEnd,
   RaceFeedback,
   RoomState,
 } from '../../shared/schema';
@@ -44,6 +46,37 @@ export interface RaceScreenProps {
   onAnswer: (payload: RaceAnswerPayload) => void;
   /** Lompat ke layar hasil tanpa menunggu bot menyelesaikan sisa balapan. */
   onSkipToResults: () => void;
+  /** Peringkat akhir dari server; ada = balapan sudah berakhir untuk semua. */
+  raceEnd?: RaceEnd | null;
+  /** Jeda / lanjut (server hanya menerima di room satu manusia lawan bot). */
+  onPause?: (paused: boolean) => void;
+  /** Keluar dari balapan lalu kembali ke beranda. */
+  onLeave?: () => void;
+}
+
+/** Ringkasan hasil untuk dialog akhir balapan: menang, kalah, atau alasan berhenti. */
+function describeOutcome(
+  raceEnd: RaceEnd,
+  myNickname: string | undefined,
+  timeUp: boolean,
+): { title: string; text: string } {
+  const mine = raceEnd.ranking.find((row) => row.nickname === myNickname);
+  if (!mine) return { title: 'Balapan selesai', text: 'Lihat hasil lengkapnya.' };
+  if (mine.status === 'left') return { title: 'Kamu keluar', text: 'Balapan ini sudah selesai.' };
+  if (mine.status === 'finished') {
+    return mine.rank === 1
+      ? { title: 'Kamu juara 1!', text: 'Kamu finish paling depan. Lihat hasilnya.' }
+      : { title: `Finish di posisi ${mine.rank}`, text: 'Balapan selesai. Lihat hasilnya.' };
+  }
+  if (mine.status === 'outOfQuestions') {
+    return { title: 'Kamu kalah', text: 'Soalmu habis sebelum sampai garis finish.' };
+  }
+  return {
+    title: 'Kamu kalah',
+    text: timeUp
+      ? 'Waktu habis sebelum kamu sampai garis finish.'
+      : 'Semua lawan sudah finish lebih dulu.',
+  };
 }
 
 /**
@@ -63,8 +96,12 @@ export function RaceScreen({
   myId,
   onAnswer,
   onSkipToResults,
+  raceEnd = null,
+  onPause,
+  onLeave,
 }: RaceScreenProps) {
   const me = state.participants.find((p) => p.id === myId) ?? null;
+  const myNickname = me?.nickname;
   const active = state.activeQuestion;
 
   const [lastQuestion, setLastQuestion] = useState<{
@@ -84,6 +121,9 @@ export function RaceScreen({
   /** Tombol "Lanjut" melewati masa baca penjelasan jawaban benar (FR-B04). */
   const [holdSkipped, setHoldSkipped] = useState(false);
   const watchActions = useRef<HTMLSpanElement>(null);
+  const [confirmQuit, setConfirmQuit] = useState(false);
+  const paused = state.paused === true;
+  const soloVsBot = state.participants.filter((p) => !p.isBot).length === 1;
 
   useEffect(() => {
     if (resultDismissed) watchActions.current?.querySelector('button')?.focus();
@@ -106,11 +146,12 @@ export function RaceScreen({
     setClockBase({ left: state.timeLeftS, at: Date.now() });
   }, [state.timeLeftS, state.roomId]);
   useEffect(() => {
+    if (paused) return;
     setNowMs(Date.now());
     const id = setInterval(() => setNowMs(Date.now()), 200);
     return () => clearInterval(id);
-  }, []);
-  const elapsedS = Math.max(0, Math.floor((nowMs - clockBase.at) / 1000));
+  }, [paused]);
+  const elapsedS = paused ? 0 : Math.max(0, Math.floor((nowMs - clockBase.at) / 1000));
   const displayLeftS = Math.max(0, clockBase.left - elapsedS);
 
   // Derive the feedback hold in the same render as new server props, so the next
@@ -131,7 +172,13 @@ export function RaceScreen({
     : state.questionIndex;
 
   // Pilihan baru bisa ditekan saat tidak menahan umpan balik dan peserta masih balapan.
-  const canAnswer = !holding && myChoice === null && me?.status === 'racing' && shown !== null;
+  const canAnswer =
+    !holding &&
+    !paused &&
+    raceEnd === null &&
+    myChoice === null &&
+    me?.status === 'racing' &&
+    shown !== null;
 
   useEffect(() => {
     setMyChoice(null);
@@ -173,14 +220,20 @@ export function RaceScreen({
     return () => window.removeEventListener('keydown', onKey);
   }, [canAnswer, selectAnswer]);
 
-  const shownFeedback = holding ? feedback : null;
-  const wrongFeedback = shownFeedback !== null && !shownFeedback.correct ? shownFeedback : null;
+  const wrongFeedback = holding && feedback !== null && !feedback.correct ? feedback : null;
   const correctFlash = holding && feedback?.correct === true;
 
-  const lockRemainingS =
-    wrongFeedback?.lockEndsAtMs !== undefined
-      ? Math.max(0, Math.ceil((wrongFeedback.lockEndsAtMs - nowMs) / 1000))
-      : undefined;
+  const holdRemainingS = Math.max(0, Math.ceil((untilMs - nowMs) / 1000));
+  const sheetFeedback = holding ? feedback : null;
+
+  const askQuit = () => {
+    if (soloVsBot && me?.status !== 'left') onPause?.(true);
+    setConfirmQuit(true);
+  };
+  const cancelQuit = () => {
+    setConfirmQuit(false);
+    if (soloVsBot) onPause?.(false);
+  };
 
   const optionState = (index: number): AnswerOptionState => {
     if (correctFlash && myChoice === LETTERS[index]) return 'correct';
@@ -202,9 +255,27 @@ export function RaceScreen({
     <main className="screen race-screen">
       <div className="race-layout">
         <header className="race-header">
+          <Button
+            variant="secondary"
+            className="race-nav"
+            onClick={askQuit}
+            aria-label="Keluar dari balapan"
+          >
+            <span aria-hidden="true">←</span> Keluar
+          </Button>
           <div className="race-header-status">
             {spectatorStatus !== null && <span className="race-spectating">Menonton</span>}
             <span className="race-time">Sisa {formatClock(displayLeftS)}</span>
+            {soloVsBot && onPause && (me?.status === 'racing' || me?.status === 'locked') ? (
+              <Button
+                variant="secondary"
+                className="race-nav"
+                onClick={() => onPause(true)}
+                aria-label="Jeda balapan"
+              >
+                <span aria-hidden="true">❚❚</span> Jeda
+              </Button>
+            ) : null}
           </div>
         </header>
 
@@ -225,7 +296,39 @@ export function RaceScreen({
               {answerError.pesan} Silakan pilih jawaban lagi.
             </p>
           ) : null}
-          {spectatorStatus !== null && !resultDismissed ? (
+          {raceEnd !== null ? (
+            <RaceResultDialog
+              {...describeOutcome(raceEnd, myNickname, displayLeftS === 0)}
+              actions={[
+                { label: 'Lihat hasil', onClick: onSkipToResults, variant: 'primary' },
+                ...(onLeave ? [{ label: 'Ke beranda', onClick: onLeave }] : []),
+              ]}
+            />
+          ) : confirmQuit ? (
+            <RaceResultDialog
+              title="Keluar dari balapan?"
+              text={
+                spectatorStatus === null
+                  ? 'Kamu dihitung keluar dan tidak bisa kembali ke balapan ini.'
+                  : 'Kamu tidak akan melihat hasil dan evaluasi balapan ini.'
+              }
+              onCancel={cancelQuit}
+              actions={[
+                { label: 'Tetap main', onClick: cancelQuit, variant: 'primary' },
+                { label: 'Keluar', onClick: () => onLeave?.() },
+              ]}
+            />
+          ) : paused ? (
+            <RaceResultDialog
+              title="Balapan dijeda"
+              text="Waktu dan lawan berhenti. Lanjut kapan saja."
+              onCancel={() => onPause?.(false)}
+              actions={[
+                { label: 'Lanjut', onClick: () => onPause?.(false), variant: 'primary' },
+                { label: 'Keluar', onClick: askQuit },
+              ]}
+            />
+          ) : spectatorStatus !== null && !resultDismissed ? (
             <RaceResultDialog
               title={
                 spectatorStatus === 'finished'
@@ -234,8 +337,12 @@ export function RaceScreen({
                     ? 'Soalmu habis'
                     : 'Kamu keluar'
               }
-              onWatch={() => setResultDismissed(true)}
-              onResults={onSkipToResults}
+              text="Balapan masih berjalan. Mau menonton sisanya atau langsung melihat hasil?"
+              onCancel={() => setResultDismissed(true)}
+              actions={[
+                { label: 'Tonton sisa balapan', onClick: () => setResultDismissed(true) },
+                { label: 'Lihat hasil sekarang', onClick: onSkipToResults, variant: 'primary' },
+              ]}
             />
           ) : null}
 
@@ -256,15 +363,7 @@ export function RaceScreen({
           ) : null}
 
           {shown !== null && spectatorStatus === null ? (
-            <QuestionCard
-              question={shown}
-              displayNumber={shownIndex + 1}
-              explanation={shownFeedback?.explanation}
-              sources={shownFeedback?.sources}
-              lockRemainingS={lockRemainingS}
-              correct={shownFeedback?.correct}
-              onSkipExplanation={correctFlash ? () => setHoldSkipped(true) : undefined}
-            />
+            <QuestionCard question={shown} displayNumber={shownIndex + 1} />
           ) : null}
 
           {shown !== null && spectatorStatus === null ? (
@@ -273,9 +372,12 @@ export function RaceScreen({
                 {shown.options.map((text, index) => {
                   const letter = LETTERS[index];
                   if (letter === undefined) return null;
+                  // Saat penjelasan tampil, hanya pilihanmu dan kunci yang tersisa supaya muat satu layar.
+                  if (holding && optionState(index) === 'dimmed') return null;
                   return (
                     <AnswerOption
-                      key={letter}
+                      key={`${shownIndex}-${letter}`}
+                      order={index}
                       letter={letter}
                       text={text}
                       state={optionState(index)}
@@ -285,15 +387,20 @@ export function RaceScreen({
                   );
                 })}
               </div>
-              <p className="race-hint" role="status">
-                {waiting
-                  ? 'Jawaban terkirim. Menunggu respons…'
-                  : wrongFeedback
-                    ? 'Jawaban belum tepat. Baca penjelasannya sebelum lanjut.'
-                    : correctFlash
-                      ? 'Benar! Hewanmu maju satu langkah.'
-                      : 'Pilih satu jawaban. Tekan A–D atau 1–4 untuk menjawab.'}
-              </p>
+              {sheetFeedback !== null ? (
+                <FeedbackSheet
+                  feedback={sheetFeedback}
+                  holdS={sheetFeedback.correct ? GAME.CORRECT_EXPLANATION_S : GAME.LOCK_DURATION_S}
+                  remainingS={holdRemainingS}
+                  onSkip={correctFlash ? () => setHoldSkipped(true) : undefined}
+                />
+              ) : (
+                <p className="race-hint" role="status">
+                  {waiting
+                    ? 'Jawaban terkirim. Menunggu respons…'
+                    : 'Pilih satu jawaban. Tekan A–D atau 1–4 untuk menjawab.'}
+                </p>
+              )}
             </>
           ) : null}
         </div>

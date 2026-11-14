@@ -1,5 +1,6 @@
 import type { RoomState } from '../../shared/schema';
 import { GAME } from '../../shared/constants';
+import { Button } from '../components/Button';
 import { Badge } from '../components/Badge';
 import { CountdownRing } from '../components/CountdownRing';
 import { ANIMAL_ASSETS } from '../components/animalAssets';
@@ -9,9 +10,12 @@ import './Lobby.css';
 export function LobbyScreen({
   state,
   countdown = null,
+  onLeave,
 }: {
   state: RoomState | null;
   countdown?: number | null;
+  /** Batal dan kembali ke beranda. */
+  onLeave?: () => void;
 }) {
   const participants = state?.participants ?? [];
   const ready = participants.length === GAME.MAX_PLAYERS;
@@ -44,6 +48,11 @@ export function LobbyScreen({
             })}
           </ul>
         )}
+        {onLeave ? (
+          <Button variant="secondary" className="lobby-leave" onClick={onLeave}>
+            Keluar
+          </Button>
+        ) : null}
       </div>
     </main>
   );

@@ -273,6 +273,19 @@ export function useRoom() {
     ensureSocket().emit('race:answer', payload);
   };
 
+  const pause = (paused: boolean) => {
+    ensureSocket().emit('race:pause', { paused });
+  };
+
+  /** Keluar dari room (lobby/balapan/hasil) dan kembali ke keadaan awal. */
+  const leaveRoom = () => {
+    pendingQueue = null;
+    lastResumeToken = null;
+    const socket = ensureSocket();
+    if (socket.connected) socket.emit('room:leave');
+    dispatch({ type: 'reset' });
+  };
+
   const resume = (token: string) => {
     ensureSocket().emit('session:resume', { token });
   };
@@ -283,7 +296,7 @@ export function useRoom() {
     dispatch({ type: 'reset' });
   };
 
-  return { session: current, joinQueue, leaveQueue, answer, resume, reset };
+  return { session: current, joinQueue, leaveQueue, answer, pause, leaveRoom, resume, reset };
 }
 
 function getSocket(): Socket {

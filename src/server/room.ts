@@ -83,6 +83,13 @@ export class Room {
   private evalRequested = false;
   private lobbyEndsAtMs = 0;
   private disconnectTimers = new Map<string, ReturnType<typeof setTimeout>>();
+  /** Jadwal tiap timer supaya bisa dibekukan saat pause (hanya room 1 manusia lawan bot). */
+  private meta = new Map<
+    ReturnType<typeof setTimeout>,
+    { fn: () => void; at: number; pausable: boolean }
+  >();
+  private pausedAtMs: number | undefined;
+  private frozen: { fn: () => void; remaining: number }[] = [];
 
   constructor(cfg: RoomConfig) {
     this.cfg = cfg;
@@ -145,18 +152,99 @@ export class Room {
     }
   }
 
+  private schedule(fn: () => void, ms: number, pausable = true): ReturnType<typeof setTimeout> {
+    const t = this.cfg.setTimer(() => {
+      this.meta.delete(t);
+      fn();
+    }, ms);
+    this.meta.set(t, { fn, at: this.cfg.now() + ms, pausable });
+    return t;
+  }
+
+  /** Jam room: berhenti di saat pause supaya sisa waktu tidak berjalan. */
+  private clockNow(): number {
+    return this.pausedAtMs ?? this.cfg.now();
+  }
+
+  /**
+   * Pause hanya untuk room satu manusia melawan bot (tidak ada lawan manusia yang dirugikan).
+   * Semua timer room dibekukan; saat lanjut, batas waktu digeser sebesar lama pause.
+   */
+  setPaused(socketId: string, paused: boolean): void {
+    if (this.state.phase !== 'racing' || this.state.raceEndsAtMs === undefined) return;
+    const humans = this.state.participants.filter((p) => !p.isBot);
+    if (humans.length !== 1 || humans[0]?.id !== socketId || humans[0].status === 'left') return;
+    if (paused === (this.pausedAtMs !== undefined)) return;
+    const now = this.cfg.now();
+    if (paused) {
+      this.pausedAtMs = now;
+      for (const [t, m] of this.meta) {
+        if (!m.pausable) continue;
+        this.cfg.clearTimer(t);
+        this.timers.delete(t);
+        this.meta.delete(t);
+        this.frozen.push({ fn: m.fn, remaining: Math.max(0, m.at - now) });
+      }
+    } else {
+      const gap = now - (this.pausedAtMs ?? now);
+      this.state.raceEndsAtMs += gap;
+      this.pausedAtMs = undefined;
+      const frozen = this.frozen;
+      this.frozen = [];
+      for (const f of frozen) this.timers.add(this.schedule(f.fn, f.remaining));
+    }
+    logEvent(
+      this.cfg.roomId,
+      this.cfg.seed,
+      paused ? 'race.paused' : 'race.resumed',
+      this.state.phase,
+      'info',
+      paused ? 'balapan dijeda' : 'balapan dilanjutkan',
+    );
+    this.broadcast();
+  }
+
+  /** Keluar atas kemauan sendiri: langsung "Keluar", tanpa menunggu timer reconnect 10 dtk. */
+  quit(socketId: string): void {
+    const p = this.state.participants.find((x) => x.id === socketId);
+    if (!p || p.isBot) return;
+    if (this.state.phase === 'lobby') {
+      this.leave(socketId);
+      return;
+    }
+    if (this.state.phase !== 'racing' || p.status === 'left') return;
+    const t = this.disconnectTimers.get(socketId);
+    if (t) {
+      this.cfg.clearTimer(t);
+      this.disconnectTimers.delete(socketId);
+      this.timers.delete(t);
+      this.meta.delete(t);
+    }
+    this.replaceParticipant(socketId, markLeft(p));
+    logEvent(
+      this.cfg.roomId,
+      this.cfg.seed,
+      'player.quit',
+      this.state.phase,
+      'info',
+      'peserta keluar',
+    );
+    this.broadcast();
+    this.checkRaceEnd();
+  }
+
   /** Fase lobby: hitung mundur 3-2-1, lalu balapan mulai bersamaan (FR-M11). */
   start(): void {
     this.state.phase = 'lobby';
     this.lobbyEndsAtMs = this.cfg.now() + GAME.LOBBY_COUNTDOWN_S * 1000;
     this.broadcast();
     for (let second = 1; second < GAME.LOBBY_COUNTDOWN_S; second++) {
-      const tick = this.cfg.setTimer(() => {
+      const tick = this.schedule(() => {
         if (this.state.phase === 'lobby') this.broadcast();
       }, second * 1000);
       this.timers.add(tick);
     }
-    const t = this.cfg.setTimer(() => this.beginRace(), GAME.LOBBY_COUNTDOWN_S * 1000);
+    const t = this.schedule(() => this.beginRace(), GAME.LOBBY_COUNTDOWN_S * 1000);
     this.timers.add(t);
   }
 
@@ -166,7 +254,7 @@ export class Room {
     // Batas 4 menit harus punya timer sendiri: isRaceOver() hanya diperiksa saat ada
     // jawaban/peserta keluar, jadi tanpa timer ini room menggantung selamanya bila
     // peserta yang tersisa berhenti menjawab (FR-B09).
-    const capTimer = this.cfg.setTimer(() => this.checkRaceEnd(), GAME.RACE_DURATION_S * 1000);
+    const capTimer = this.schedule(() => this.checkRaceEnd(), GAME.RACE_DURATION_S * 1000);
     this.timers.add(capTimer);
     this.broadcast();
     this.scheduleBots();
@@ -188,7 +276,7 @@ export class Room {
       );
       return;
     }
-    if (this.state.phase !== 'racing') return;
+    if (this.state.phase !== 'racing' || this.pausedAtMs !== undefined) return;
     const nowMs = this.cfg.now();
     if (this.state.raceEndsAtMs === undefined || nowMs >= this.state.raceEndsAtMs) return;
     const p = this.state.participants.find((x) => x.id === socketId);
@@ -247,7 +335,7 @@ export class Room {
         sources: question.sources,
         lockEndsAtMs,
       });
-      const t = this.cfg.setTimer(() => {
+      const t = this.schedule(() => {
         const cur = this.state.participants.find((x) => x.id === socketId);
         if (cur && cur.status === 'locked') {
           this.replaceParticipant(socketId, unlock(cur));
@@ -285,6 +373,7 @@ export class Room {
       this.cfg.clearTimer(t);
       this.disconnectTimers.delete(timerKey);
       this.timers.delete(t);
+      this.meta.delete(t);
     }
 
     // Ganti ID peserta bila reconnect dengan socket ID baru
@@ -377,24 +466,28 @@ export class Room {
       if (this.disconnectTimers.has(socketId)) return;
 
       // Timer 10 detik untuk reconnect sebelum status menjadi "Keluar" (FR-B11)
-      const t = this.cfg.setTimer(() => {
-        this.disconnectTimers.delete(socketId);
-        this.timers.delete(t);
-        const cur = this.state.participants.find((x) => x.id === socketId);
-        if (cur && cur.status !== 'left') {
-          this.replaceParticipant(socketId, markLeft(cur));
-          logEvent(
-            this.cfg.roomId,
-            this.cfg.seed,
-            'player.left.timeout',
-            this.state.phase,
-            'info',
-            'batas reconnect 10 dtk habis; status menjadi left',
-          );
-          this.broadcast();
-          this.checkRaceEnd();
-        }
-      }, GAME.RECONNECT_LIMIT_S * 1000);
+      const t = this.schedule(
+        () => {
+          this.disconnectTimers.delete(socketId);
+          this.timers.delete(t);
+          const cur = this.state.participants.find((x) => x.id === socketId);
+          if (cur && cur.status !== 'left') {
+            this.replaceParticipant(socketId, markLeft(cur));
+            logEvent(
+              this.cfg.roomId,
+              this.cfg.seed,
+              'player.left.timeout',
+              this.state.phase,
+              'info',
+              'batas reconnect 10 dtk habis; status menjadi left',
+            );
+            this.broadcast();
+            this.checkRaceEnd();
+          }
+        },
+        GAME.RECONNECT_LIMIT_S * 1000,
+        false,
+      );
       this.disconnectTimers.set(socketId, t);
       this.timers.add(t);
       logEvent(
@@ -541,7 +634,7 @@ export class Room {
       const decision = botDecide(profile, this.botRng, question.answerIndex);
       this.botRng = decision.state;
       this.scheduledBots.add(p.id);
-      const t = this.cfg.setTimer(() => {
+      const t = this.schedule(() => {
         this.scheduledBots.delete(p.id);
         const cur = this.state.participants.find((x) => x.id === p.id);
         if (!cur || cur.status !== 'racing') return;
@@ -564,12 +657,14 @@ export class Room {
 
   private checkRaceEnd(): void {
     if (this.state.phase !== 'racing') return;
-    if (!isRaceOver(this.state, this.cfg.now())) return;
+    if (!isRaceOver(this.state, this.clockNow())) return;
 
     const humansLeft = this.state.participants.some((p) => !p.isBot && p.status !== 'left');
     this.state.phase = 'finished';
+    this.pausedAtMs = undefined;
     for (const t of this.timers) this.cfg.clearTimer(t);
     this.timers.clear();
+    this.meta.clear();
 
     if (!humansLeft) {
       // FR-B13: semua manusia keluar → balapan berakhir tanpa layar hasil, room dihapus.
@@ -607,7 +702,7 @@ export class Room {
     });
 
     // FR-H12: data room dihapus dari memori setelah hasil tidak dibuka lagi.
-    const t = this.cfg.setTimer(() => this.destroy(), GAME.RESULT_RETENTION_S * 1000);
+    const t = this.schedule(() => this.destroy(), GAME.RESULT_RETENTION_S * 1000);
     this.timers.add(t);
   }
 
@@ -678,8 +773,9 @@ export class Room {
       })),
       timeLeftS:
         this.state.raceEndsAtMs !== undefined
-          ? Math.max(0, Math.ceil((this.state.raceEndsAtMs - this.cfg.now()) / 1000))
+          ? Math.max(0, Math.ceil((this.state.raceEndsAtMs - this.clockNow()) / 1000))
           : 0,
+      paused: this.pausedAtMs !== undefined,
       questionIndex: active?.nextQuestionIndex ?? 0,
       activeQuestion: activeQuestion
         ? questionPublicSchema.parse({
@@ -716,6 +812,7 @@ export class Room {
   destroy(): void {
     for (const t of this.timers) this.cfg.clearTimer(t);
     this.timers.clear();
+    this.meta.clear();
     this.disconnectTimers.clear();
     this.cfg.onEmpty(this.cfg.roomId);
   }

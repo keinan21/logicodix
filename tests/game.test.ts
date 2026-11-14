@@ -156,6 +156,27 @@ describe('game.isRaceOver (FR-B09)', () => {
     expect(isRaceOver(s, 1001)).toBe(true);
   });
 
+  it('tinggal satu peserta belum finish, semua lawan sudah finish → selesai, ia kalah', () => {
+    const s = base([
+      makeP('a', { status: 'racing' }),
+      makeP('bot1', { isBot: true, status: 'finished' }),
+      makeP('bot2', { isBot: true, status: 'finished' }),
+      makeP('bot3', { isBot: true, status: 'finished' }),
+    ]);
+    s.raceEndsAtMs = 999_999;
+    expect(isRaceOver(s, 1000)).toBe(true);
+  });
+
+  it('dua peserta masih balapan → belum selesai walau lainnya sudah finish', () => {
+    const s = base([
+      makeP('a', { status: 'racing' }),
+      makeP('b', { status: 'locked' }),
+      makeP('bot1', { isBot: true, status: 'finished' }),
+    ]);
+    s.raceEndsAtMs = 999_999;
+    expect(isRaceOver(s, 1000)).toBe(false);
+  });
+
   it('semua manusia keluar → selesai (FR-B13)', () => {
     const s = base([
       makeP('a', { status: 'left' }),

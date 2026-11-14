@@ -11,6 +11,8 @@ export interface EvaluationScreenProps {
   evaluation: EvalReady | null;
   onPlayAgain: () => void;
   onBackToResults: () => void;
+  /** Keluar ke beranda. */
+  onGoHome?: () => void;
 }
 
 /**
@@ -23,6 +25,7 @@ export function EvaluationScreen({
   evaluation,
   onPlayAgain,
   onBackToResults,
+  onGoHome,
 }: EvaluationScreenProps) {
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
   const questions = evaluation?.questions ?? [];
@@ -138,6 +141,11 @@ export function EvaluationScreen({
               <Button variant="primary" onClick={onPlayAgain}>
                 Main lagi
               </Button>
+              {onGoHome ? (
+                <Button variant="secondary" className="evaluation-home" onClick={onGoHome}>
+                  Ke beranda
+                </Button>
+              ) : null}
             </div>
           </div>
         </div>

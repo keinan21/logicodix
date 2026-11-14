@@ -16,7 +16,7 @@ import { useRoom } from './socket';
  * Yang disimpan lokal hanya navigasi (antre/evaluasi) dan timer tampilan.
  */
 export function App() {
-  const { session, joinQueue, leaveQueue, answer, reset } = useRoom();
+  const { session, joinQueue, leaveQueue, answer, pause, leaveRoom, reset } = useRoom();
   const [route, setRoute] = useState<'home' | 'queue' | 'evaluation' | 'result'>('home');
   const [queuedAtMs, setQueuedAtMs] = useState<number | null>(null);
   const [waitingS, setWaitingS] = useState(0);
@@ -59,6 +59,13 @@ export function App() {
 
   const cancelQueue = () => {
     leaveQueue();
+    setRoute('home');
+    setQueuedAtMs(null);
+  };
+
+  /** Keluar ke beranda dari layar mana pun (lobi, balapan, hasil, evaluasi). */
+  const goHome = () => {
+    leaveRoom();
     setRoute('home');
     setQueuedAtMs(null);
   };
@@ -112,7 +119,13 @@ export function App() {
   }
 
   if (phase === 'lobby') {
-    return <LobbyScreen state={session.state} countdown={session.state.lobbyCountdownS ?? null} />;
+    return (
+      <LobbyScreen
+        state={session.state}
+        countdown={session.state.lobbyCountdownS ?? null}
+        onLeave={goHome}
+      />
+    );
   }
 
   // "Lihat hasil sekarang": pemain sudah selesai menjawab, jadi layar hasil memakai peringkat
@@ -126,6 +139,7 @@ export function App() {
         onViewEvaluation={() => setRoute('evaluation')}
         onPlayAgain={playAgain}
         onBackToRace={() => setRoute('home')}
+        onGoHome={goHome}
       />
     );
   }
@@ -136,6 +150,7 @@ export function App() {
         evaluation={session.evaluation}
         onPlayAgain={playAgain}
         onBackToResults={() => setRoute('result')}
+        onGoHome={goHome}
       />
     );
   }
@@ -150,6 +165,9 @@ export function App() {
         myId={session.myId}
         onAnswer={answer}
         onSkipToResults={() => setRoute('result')}
+        raceEnd={session.raceEnd}
+        onPause={pause}
+        onLeave={goHome}
       />
     );
   }
@@ -160,6 +178,7 @@ export function App() {
       myNickname={myNickname}
       onViewEvaluation={() => setRoute('evaluation')}
       onPlayAgain={playAgain}
+      onGoHome={goHome}
     />
   );
 }

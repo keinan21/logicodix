@@ -341,6 +341,10 @@
   font: var(--text-home-action) !important;
 }
 
+.podium-actions .podium-home {
+  grid-column: 1 / -1;
+}
+
 .podium-actions .btn-secondary {
   background: var(--color-cream);
   color: var(--color-ink);
