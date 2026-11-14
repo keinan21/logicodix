@@ -103,14 +103,14 @@
   --ink: var(--color-ink);
   --cream: var(--color-cream);
 
-  /* Tekstur DEMO Cozy UI Pack (dobo_ui) — lihat docs/ASSETS.md */
-  --plank: url('./assets/cozy/plank.png');
-  --note: url('./assets/cozy/note.png');
-  --field: url('./assets/cozy/field.png');
-  --slot: url('./assets/cozy/slot-selected.png');
-  --card: url('./assets/cozy/card.png');
-  --card-red: url('./assets/cozy/card-red.png');
-  --check: url('./assets/cozy/check.png');
+  /* Tekstur Kenney UI Pack Adventure (CC0) — lihat docs/ASSETS.md */
+  --plank: url('./assets/kenney/banner.png'); /* banner_hanging 256x64, pinggir 16/24/12/24 */
+  --note: url('./assets/kenney/panel.png'); /* panel_brown 64x64, bingkai 8px */
+  --field: url('./assets/kenney/button.png'); /* button_brown 48x24, bingkai 4px */
+  --slot: url('./assets/kenney/panel.png');
+  --card: url('./assets/kenney/panel.png');
+  --card-red: url('./assets/kenney/panel.png');
+  --check: url('./assets/kenney/check.png'); /* checkbox_brown_checked 24x24 */
 
   /* Aksen Beranda (mockup referensi) */
   --color-title-accent: #fff6b0;
@@ -196,8 +196,8 @@
   display: inline-block;
   padding: 2px 12px 6px;
   border: solid transparent;
-  border-width: 12px 24px 20px;
-  border-image: var(--plank) 12 24 20 24 fill / 12px 24px 20px 24px stretch;
+  border-width: 14px 22px 12px;
+  border-image: var(--plank) 16 24 12 24 fill / 14px 22px 12px 22px stretch;
   filter: drop-shadow(0 5px 0 var(--color-shadow-strong));
 }
 
@@ -419,7 +419,7 @@ button,
   background: none;
   border: solid transparent;
   border-width: 9px 9px 29px;
-  border-image: var(--field) 9 9 29 9 fill / 9px 9px 29px 9px stretch;
+  border-image: var(--field) 4 4 4 4 fill / 4px 4px 4px 4px stretch;
 }
 
 .field-control::placeholder {
@@ -842,15 +842,15 @@ button,
 
 .eval-arrow {
   flex-shrink: 0;
-  width: 12px;
+  width: 14px;
   height: auto;
-  margin-top: 6px;
-  transform: rotate(-90deg);
+  margin-top: 4px;
+  transform: rotate(180deg);
   transition: transform var(--motion-fast) ease;
 }
 
 .eval-toggle[aria-expanded='true'] .eval-arrow {
-  transform: rotate(90deg);
+  transform: rotate(0deg);
 }
 
 .eval-body {

@@ -27,14 +27,15 @@
   margin: 0;
   padding: 2px 12px 6px;
   border: solid transparent;
-  border-width: 12px 24px 20px;
-  border-image: var(--plank) 12 24 20 24 fill / 12px 24px 20px 24px stretch;
+  border-width: 14px 22px 12px;
+  border-image: var(--plank) 16 24 12 24 fill / 14px 22px 12px 22px stretch;
   filter: drop-shadow(0 6px 0 var(--color-shadow-strong));
 }
 
 .podium-plank .plank-title {
   margin: 0;
   font-size: clamp(26px, 3.4vw, 44px);
+  color: var(--color-cream);
   text-shadow: 0 2px 0 var(--color-bark);
 }
 
@@ -72,23 +73,22 @@
 .podium-results {
   position: relative;
   min-width: 0;
-  padding: 0 var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--space-3) var(--space-4);
   border: solid transparent;
-  border-width: 86px 44px 20px;
-  border-image: var(--card-red) 86 44 20 44 fill / 86px 44px 20px 44px stretch;
+  border-width: 8px;
+  border-image: var(--card-red) 8 8 8 8 fill / 8px stretch;
   background: none;
   box-shadow: none;
 }
 
 .podium-panel-title {
-  margin: -58px 0 var(--space-3);
+  margin: 0 0 var(--space-3);
   padding: 0;
   background: none;
-  color: var(--color-cream);
+  color: var(--color-bark);
   font: var(--text-title);
   font-size: 20px;
   text-align: center;
-  filter: drop-shadow(0 2px 0 var(--color-shadow-strong));
 }
 
 .podium-note {
@@ -106,7 +106,7 @@
   justify-content: center;
   gap: var(--space-2);
   margin: 0;
-  padding: var(--space-3) var(--space-3) 0;
+  padding: 0 0 0;
   list-style: none;
 }
 

@@ -30,8 +30,8 @@
 .home-plank {
   padding: 2px 10px 6px;
   border: solid transparent;
-  border-width: 12px 24px 20px;
-  border-image: var(--plank) 12 24 20 24 fill / 12px 24px 20px 24px stretch;
+  border-width: 14px 22px 12px;
+  border-image: var(--plank) 16 24 12 24 fill / 14px 22px 12px 22px stretch;
   filter: drop-shadow(0 6px 0 var(--color-shadow-strong));
 }
 
@@ -54,10 +54,10 @@
 .home-note {
   width: min(100%, 440px);
   margin: 0;
-  padding: 0;
+  padding: 10px 12px;
   border: solid transparent;
-  border-width: 14px 9px 16px 9px;
-  border-image: var(--note) 14 9 16 9 fill / 14px 9px 16px 9px stretch;
+  border-width: 8px;
+  border-image: var(--note) 8 8 8 8 fill / 8px stretch;
   font-size: clamp(16px, 1.8vw, 20px);
   color: var(--ink);
   filter: drop-shadow(0 4px 0 var(--color-shadow-medium));
@@ -66,10 +66,10 @@
 .home-emo {
   display: flex;
   gap: 6px;
-  padding: 4px 14px 0;
+  padding: 6px 14px;
   border: solid transparent;
-  border-width: 9px 9px 29px;
-  border-image: var(--field) 9 9 29 9 fill / 9px 9px 29px 9px stretch;
+  border-width: 4px 4px 4px;
+  border-image: var(--field) 4 4 4 4 fill / 4px 4px 4px 4px stretch;
   filter: drop-shadow(0 4px 0 var(--color-shadow-medium));
 }
 
@@ -95,23 +95,19 @@
   width: 100%;
   max-width: 580px;
   justify-self: center;
-  padding: 4px 10px 12px;
+  padding: 18px 18px 22px;
   border: solid transparent;
-  border-width: 86px 44px 20px;
-  border-image: var(--card) 86 44 20 44 fill / 86px 44px 20px 44px stretch;
+  border-width: 8px;
+  border-image: var(--card) 8 8 8 8 fill / 8px stretch;
   filter: drop-shadow(0 8px 0 var(--color-shadow-strong));
 }
 
 .home-card h2 {
-  height: 44px;
-  margin: -65px 0 14px;
+  margin: 0 0 14px;
   font-size: 24px;
-  line-height: 44px;
+  line-height: 1.2;
   text-align: center;
-  color: var(--cream);
-  text-shadow:
-    0 3px 0 var(--br),
-    0 0 6px var(--br);
+  color: var(--br);
 }
 
 .home-lbl {
@@ -143,9 +139,8 @@
   background: none;
   cursor: pointer;
   border: solid transparent;
-  border-width: 18px 14px 20px;
-  border-image: var(--slot) 18 14 20 14 fill / 18px 14px 20px 14px stretch;
-  border-radius: 16px;
+  border-width: 8px;
+  border-image: var(--slot) 8 8 8 8 fill / 8px stretch;
   transition: transform var(--motion-fast) ease;
 }
 
@@ -179,8 +174,8 @@
   margin: 0 0 16px;
   padding: 8px 10px 0;
   border: solid transparent;
-  border-width: 9px 9px 29px;
-  border-image: var(--field) 9 9 29 9 fill / 9px 9px 29px 9px stretch;
+  border-width: 4px 4px 4px;
+  border-image: var(--field) 4 4 4 4 fill / 4px 4px 4px 4px stretch;
   font-size: 15px;
   color: var(--ink);
 }

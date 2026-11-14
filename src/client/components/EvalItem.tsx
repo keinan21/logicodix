@@ -1,4 +1,4 @@
-import arrow from '../assets/cozy/arrow.png';
+import arrow from '../assets/kenney/arrow.png';
 
 export interface EvalItemProps {
   questionNumber: number;
