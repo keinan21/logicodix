@@ -81,20 +81,29 @@ export function HomeScreen({
   return (
     <main className="home">
       <div className="home-hero">
-        <div className="home-plank">
-          <h1>
-            Balap Fakta <span>Lingkungan</span>
-          </h1>
-        </div>
-        <div className="home-emo" aria-hidden="true">
+        <h1 className="home-title">
+          Balap Fakta <span>Lingkungan</span>
+        </h1>
+        <p className="home-intro">
+          Jawab benar, hewanmu melaju. Siapa paling cepat sampai garis finish?
+        </p>
+        <div className="home-scenery" aria-hidden="true">
           {SCENERY.map((src, i) => (
             <img key={src} src={src} alt="" style={{ '--i': i } as CSSProperties} />
           ))}
         </div>
+        <ul className="home-points">
+          <li>4 pemain</li>
+          <li>5 jawaban benar</li>
+          <li>Evaluasi AI</li>
+        </ul>
       </div>
 
       <section className="home-card" aria-label="Masuk permainan">
-        <h2>Siap di garis start?</h2>
+        <div className="home-card-head">
+          <h2>Siap di garis start?</h2>
+          <p>Isi nickname, pilih pelarimu, lalu mulai balapan.</p>
+        </div>
         <Input
           label="Nickname"
           value={nickname}
@@ -121,7 +130,7 @@ export function HomeScreen({
             />
           ))}
         </div>
-        <div className="home-fact" aria-live="polite" aria-atomic="true">
+        <div id="home-fact" className="home-fact" aria-live="polite" aria-atomic="true">
           <img src={ANIMAL_ASSETS[animalId].src} alt="" />
           <span className="home-fact-text">
             <span className="home-fact-name">{ANIMAL_ASSETS[animalId].nama}</span>
@@ -137,7 +146,7 @@ export function HomeScreen({
         <div className="home-btns">
           <button
             type="button"
-            className="home-cta"
+            className="btn btn-primary home-btn"
             disabled={!valid}
             onClick={() => start('quick')}
           >
@@ -145,7 +154,7 @@ export function HomeScreen({
           </button>
           <button
             type="button"
-            className="home-cta home-cta-danger"
+            className="btn btn-secondary home-btn"
             disabled={!valid}
             onClick={() => start('bot')}
           >

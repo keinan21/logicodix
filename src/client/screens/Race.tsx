@@ -5,6 +5,7 @@ import { QuestionCard } from '../components/QuestionCard';
 import { AnswerOption, type AnswerOptionState } from '../components/AnswerOption';
 import { Button } from '../components/Button';
 import { RaceResultDialog } from './RaceResultDialog';
+import { playSound } from '../sound';
 import type {
   QuestionPublic,
   RaceAnswerPayload,
@@ -81,6 +82,23 @@ export function RaceScreen({
     }
   }, [answerError]);
   const [resultDismissed, setResultDismissed] = useState(false);
+
+  // Suara umpan balik: sekali per soal, tidak berulang saat render ulang.
+  const playedFeedback = useRef<string | null>(null);
+  useEffect(() => {
+    if (feedback === null) return;
+    const key = `${feedback.questionIndex}:${feedback.correct}`;
+    if (playedFeedback.current === key) return;
+    playedFeedback.current = key;
+    playSound(feedback.correct ? 'correct' : 'wrong');
+  }, [feedback]);
+
+  // Fanfare saat pelari sendiri mencapai finish (sebelum sisa balapan selesai).
+  const previousStatus = useRef(me?.status);
+  useEffect(() => {
+    if (me?.status === 'finished' && previousStatus.current !== 'finished') playSound('finish');
+    previousStatus.current = me?.status;
+  }, [me?.status]);
   /** Tombol "Lanjut" melewati masa baca penjelasan jawaban benar (FR-B04). */
   const [holdSkipped, setHoldSkipped] = useState(false);
   const watchActions = useRef<HTMLSpanElement>(null);

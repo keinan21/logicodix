@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
 import type { RoomState } from '../../shared/schema';
 import { GAME } from '../../shared/constants';
 import { Badge } from '../components/Badge';
 import { CountdownRing } from '../components/CountdownRing';
 import { ANIMAL_ASSETS } from '../components/animalAssets';
+import { playSound } from '../sound';
 import './Lobby.css';
 
 /** FR-M11: presentation only; countdown must be supplied by the room integration. */
@@ -17,6 +19,11 @@ export function LobbyScreen({
   const ready = participants.length === GAME.MAX_PLAYERS;
   const counting =
     ready && countdown !== null && countdown > 0 && countdown <= GAME.LOBBY_COUNTDOWN_S;
+
+  // Bunyi "tik" pada tiap angka hitung mundur 3-2-1.
+  useEffect(() => {
+    if (counting) playSound('tick');
+  }, [counting, countdown]);
   return (
     <main className="screen lobby-screen">
       <div className="lobby-content">
