@@ -8,7 +8,7 @@
   flex-direction: column;
   gap: var(--space-3);
   min-height: 100vh;
-  padding: var(--space-3) var(--space-4) var(--space-5);
+  padding: var(--space-3) var(--space-4) var(--space-6);
   background: none;
 }
 
@@ -26,21 +26,10 @@
 }
 
 .podium-plank {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: min(100%, 420px);
-  aspect-ratio: 420 / 128;
   margin: 0;
-  padding: 0 6%;
-  background: var(--plank) center / 100% 100% no-repeat;
 }
 
 .podium-plank .plank-title {
-  margin: 0;
-  font-size: clamp(24px, 2.8vw, 38px);
-  color: var(--color-cream);
-  text-shadow: 0 2px 0 var(--color-bark);
   white-space: nowrap;
 }
 
@@ -70,7 +59,7 @@
   gap: var(--space-4);
   width: 100%;
   max-width: 1160px;
-  margin: auto;
+  margin-block: auto;
   align-items: stretch;
 }
 
@@ -81,10 +70,12 @@
   flex-direction: column;
   min-width: 0;
   padding: var(--space-4);
-  border: solid transparent;
-  border-width: 16px;
-  border-image: var(--card) 16 16 16 16 fill / 16px stretch;
-  background: none;
+  border: 3px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow:
+    0 5px 0 var(--color-bark-soft),
+    0 16px 26px rgba(74, 45, 28, 0.14);
 }
 
 .podium-board {
@@ -216,7 +207,7 @@
 .podium-table td {
   padding: var(--space-2) var(--space-3);
   border-block: 2px solid var(--color-wood-soft);
-  background: var(--color-surface);
+  background: var(--color-cream);
   vertical-align: middle;
 }
 

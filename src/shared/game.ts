@@ -157,26 +157,17 @@ export function rankParticipants(participants: Participant[]): RankedParticipant
 
 /**
  * Balapan selesai bila semua peserta finish / soal habis / keluar, batas waktu habis, atau
- * tinggal satu peserta yang belum finish (ia pasti terakhir).
+ * podium penuh (GAME.PODIUM_SIZE peserta sudah finish).
  */
 export function isRaceOver(state: RaceState, nowMs: number): boolean {
   if (state.raceEndsAtMs !== undefined && nowMs >= state.raceEndsAtMs) return true;
   // FR-B13: semua manusia KELUAR (bukan soal habis — yang soal habis tetap menonton, FR-B07/B08).
   const humans = state.participants.filter((p) => !p.isBot);
   if (humans.length > 0 && humans.every((p) => p.status === 'left')) return true;
-  const active = state.participants.filter((p) => p.status === 'racing' || p.status === 'locked');
-  // Sisa satu peserta yang belum finish sementara semua lain sudah finish/keluar: urutannya
-  // sudah pasti paling bawah, jadi balapan selesai dan ia kalah (tanpa menunggu 4 menit).
-  if (
-    active.length <= 1 &&
-    state.participants.length > 1 &&
-    state.participants.some((p) => p.status === 'finished') &&
-    state.participants.every(
-      (p) => active.includes(p) || p.status === 'finished' || p.status === 'left',
-    )
-  ) {
-    return true;
-  }
+  // Podium penuh (juara 1-3 sudah finish): sisa peserta pasti di bawah, jadi balapan selesai
+  // dan mereka kalah tanpa menunggu 4 menit.
+  const finished = state.participants.filter((p) => p.status === 'finished').length;
+  if (finished >= GAME.PODIUM_SIZE) return true;
   return state.participants.every(
     (p) => p.status === 'finished' || p.status === 'outOfQuestions' || p.status === 'left',
   );

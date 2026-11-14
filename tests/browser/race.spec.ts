@@ -30,8 +30,9 @@ test('mengunci klik dan keyboard sebelum respons server, lalu membuka soal berik
   await page.getByRole('button', { name: 'Respons salah' }).click();
   await expect(options.first()).toHaveAccessibleName(/Salah/);
   await expect(options.nth(1)).toHaveAccessibleName(/Benar/);
-  await expect(page.getByRole('article')).toContainText('Penjelasan contoh');
-  await expect(page.getByRole('article').getByRole('timer')).toBeVisible();
+  const sheet = page.getByRole('region', { name: 'Penjelasan jawaban' });
+  await expect(sheet).toContainText('Penjelasan contoh');
+  await expect(sheet.getByRole('timer')).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Soal berikutnya.' })).toBeVisible({
     timeout: 8000,
   });
@@ -119,7 +120,9 @@ test('feedback benar delapan detik, soal habis, dan aset tampil tanpa error', as
   await expect(page.getByRole('heading', { name: 'Soal berikutnya.' })).toBeVisible();
   await page.keyboard.press('a');
   await page.getByRole('button', { name: 'Respons salah' }).click();
-  await expect(page.getByRole('article').getByRole('timer')).toBeVisible();
+  await expect(
+    page.getByRole('region', { name: 'Penjelasan jawaban' }).getByRole('timer'),
+  ).toBeVisible();
   await main.screenshot({ path: `test-results/race-${testInfo.project.name}-wrong.png` });
   await page.clock.runFor(5200);
   await page.getByRole('button', { name: 'Simulasikan soal habis' }).click();

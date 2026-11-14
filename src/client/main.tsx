@@ -1,6 +1,8 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
+import { SoundToggle } from './components/SoundToggle';
+import { primeAudio } from './sound';
 import './styles.css';
 
 const container = document.getElementById('root');
@@ -18,9 +20,12 @@ if (import.meta.env.DEV && new URLSearchParams(location.search).get('preview') =
     );
   });
 } else {
+  // AudioContext hanya boleh dibuat setelah interaksi pengguna; siapkan sekali di sini.
+  window.addEventListener('pointerdown', primeAudio, { once: true });
   root.render(
     <StrictMode>
       <App />
+      <SoundToggle />
     </StrictMode>,
   );
 }

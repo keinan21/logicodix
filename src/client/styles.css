@@ -104,16 +104,6 @@
   --ink: var(--color-ink);
   --cream: var(--color-cream);
 
-  /* Tekstur Kenney UI Pack Adventure (CC0) — lihat docs/ASSETS.md */
-  --plank: url('./assets/kenney/banner_hanging.png'); /* 512x128, diregangkan proporsional */
-  --card: url('./assets/kenney/panel_brown.png');
-  /* Kontainer hijau DEMO Mega Cozy UI Pack (dobo_ui) — lihat docs/ASSETS.md */
-  --plank-wood: url('./assets/dobo/plank-wood.png'); /* WoodenContainer1 1511x384, bingkai 12/24/16/24 */
-  --card-wood: url('./assets/dobo/card-wood.png'); /* CardRegular1_wood 281x343, bingkai 86/44/22/44 */
-  --tile-brown: url('./assets/dobo/tile-brown.svg'); /* tile hewan baku 64x64 */
-  --tile-grey: url('./assets/dobo/tile-grey.svg'); /* tile hewan terpilih 64x64 */
-  --btn-wood: url('./assets/dobo/button-wood.svg'); /* tombol kayu 48x24 */
-
   /* Aksen Beranda (mockup referensi) */
   --color-title-accent: #fff6b0;
   /* Warna blok tangga juara (mengikuti mockup hasil) */
@@ -198,28 +188,30 @@
   }
 }
 
-/* Papan judul (plank) — dipakai di layar selain Beranda.
- * Banner diregangkan proporsional (bukan 9-slice) supaya garis krem
- * dalamnya ikut melengkung seperti aset aslinya. */
+/* Papan judul (plank) — papan kayu CSS, dipakai di layar selain Beranda. */
 .plank {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: min(100%, 400px);
-  aspect-ratio: 400 / 128;
-  padding: 0 10%;
-  background: var(--plank) center / 100% 100% no-repeat;
+  max-width: 100%;
+  padding: var(--space-2) var(--space-6);
+  border: 3px solid var(--color-bark);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--color-wood-light), var(--color-wood));
+  box-shadow:
+    0 5px 0 var(--color-bark),
+    0 14px 22px rgba(74, 45, 28, 0.2);
 }
 
 .plank-title {
   margin: 0;
   font-family: var(--font-family);
-  font-size: clamp(26px, 3.4vw, 42px);
+  font-size: clamp(24px, 3vw, 38px);
   font-weight: 700;
-  line-height: 1.1;
-  color: var(--cream);
-  -webkit-text-stroke: 0.1em var(--br);
-  paint-order: stroke fill;
+  line-height: 1.15;
+  color: var(--color-cream);
+  text-shadow: 0 2px 0 var(--color-bark);
+  text-align: center;
 }
 
 /* Reset ringan */
@@ -313,6 +305,44 @@ button,
   padding: var(--space-4);
 }
 
+/* Tombol bisu suara — selalu terlihat di pojok kanan bawah. */
+.sound-toggle {
+  position: fixed;
+  right: var(--space-3);
+  bottom: var(--space-3);
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 3px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: var(--color-cream);
+  color: var(--color-ink);
+  box-shadow: 0 4px 0 var(--color-shadow-strong);
+  cursor: pointer;
+  transition:
+    transform var(--motion-fast) ease,
+    box-shadow var(--motion-fast) ease;
+}
+
+.sound-toggle svg {
+  width: 22px;
+  height: 22px;
+}
+
+.sound-toggle[aria-pressed='true'] {
+  background: var(--color-cream-deep);
+  color: var(--color-muted);
+}
+
+@media (hover: hover) {
+  .sound-toggle:hover {
+    transform: translateY(-2px);
+  }
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -359,7 +389,7 @@ button,
   gap: var(--space-2);
   min-height: 48px;
   padding: var(--space-3) var(--space-6);
-  border: 2px solid var(--color-line);
+  border: 3px solid var(--color-line);
   border-radius: var(--radius-md);
   font: var(--text-button);
   color: var(--color-ink);
@@ -374,7 +404,8 @@ button,
 
 .btn-primary {
   color: var(--color-cream);
-  background: var(--color-forest-500);
+  background: var(--color-forest-700);
+  box-shadow: 0 4px 0 var(--color-forest-900);
 }
 
 .btn-secondary {

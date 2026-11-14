@@ -1,6 +1,7 @@
 /**
- * Home.css — Beranda: hero kiri (plank judul + tiga kotak info), kartu form kanan.
- * Tekstur panel memakai border-image dari aset lokal.
+ * Home.css — Beranda: judul chunky di kiri, panel form krem di kanan.
+ * Semua bentuk (panel, papan judul, tile, tombol) dibuat dengan CSS + token,
+ * bukan gambar yang diregangkan, supaya tetap tajam di segala ukuran.
  */
 
 .home {
@@ -10,11 +11,11 @@
   min-height: 100vh;
   min-height: 100dvh;
   margin: 0 auto;
-  padding: clamp(20px, 4vw, 56px);
+  padding: clamp(24px, 5vw, 64px) clamp(16px, 6vw, 72px);
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 440px);
   align-items: center;
-  gap: clamp(20px, 4vw, 64px);
+  gap: clamp(24px, 5vw, 72px);
 }
 
 /* ---------- Hero kiri ---------- */
@@ -23,146 +24,218 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 18px;
+  gap: var(--space-4);
   width: 100%;
-  max-width: 560px;
+  max-width: 620px;
 }
 
-.home-plank {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: min(100%, 560px);
-  aspect-ratio: 1511 / 384;
-  padding: 0 8%;
-  background: var(--plank-wood) center / contain no-repeat;
-  text-align: center;
-}
-
-.home-plank h1 {
+.home-title {
   margin: 0;
-  font-size: clamp(28px, 4vw, 50px);
-  line-height: 1.1;
+  font-family: var(--font-family);
+  font-size: clamp(38px, 5.4vw, 68px);
   font-weight: 700;
-  letter-spacing: 0.01em;
-  color: var(--color-cream);
-  -webkit-text-stroke: 0.06em var(--br);
-  paint-order: stroke fill;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  color: var(--color-forest-900);
+  /* Outline putih lebar: tumpukan bayangan dari 8 arah (skala ikut ukuran font)
+     plus bayangan jatuh lembut supaya huruf tetap terbaca di atas langit. */
+  text-shadow:
+    0 -0.11em 0 var(--color-cream),
+    0 0.11em 0 var(--color-cream),
+    -0.11em 0 0 var(--color-cream),
+    0.11em 0 0 var(--color-cream),
+    -0.08em -0.08em 0 var(--color-cream),
+    0.08em -0.08em 0 var(--color-cream),
+    -0.08em 0.08em 0 var(--color-cream),
+    0.08em 0.08em 0 var(--color-cream),
+    0 0.14em 0 rgba(36, 80, 42, 0.2),
+    0 0.24em 0.4em rgba(36, 80, 42, 0.25);
 }
 
-.home-emo {
+.home-title span {
+  display: block;
+  color: var(--color-forest-500);
+}
+
+.home-intro {
+  margin: 0;
+  max-width: 36ch;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-cream) 84%, transparent);
+  box-shadow: 0 3px 0 rgba(74, 45, 28, 0.14);
+  font-size: clamp(16px, 1.5vw, 20px);
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+
+/* Strip pemandangan: hewan dan tumbuhan berbaris di atas bukit kecil */
+.home-scenery {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: min(100%, 560px);
-  padding: 10px 14px;
-  border: solid transparent;
-  border-width: 16px;
-  border-image: var(--card) 16 16 16 16 fill / 16px stretch;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-2);
+  width: 100%;
+  max-width: 520px;
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  border: 3px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background:
+    radial-gradient(120% 90% at 50% 118%, var(--color-hill-front) 0 42%, transparent 43%),
+    radial-gradient(140% 90% at 20% 126%, var(--color-hill-mid) 0 46%, transparent 47%),
+    linear-gradient(180deg, var(--color-sky-top), var(--color-sky-bottom));
+  box-shadow:
+    0 5px 0 var(--color-bark-soft),
+    0 16px 24px rgba(74, 45, 28, 0.12);
+  overflow: hidden;
 }
 
-.home-emo img {
-  width: 42px;
-  height: 42px;
+.home-scenery img {
+  width: clamp(32px, 6vw, 46px);
+  height: clamp(32px, 6vw, 46px);
   object-fit: contain;
-  filter: drop-shadow(0 3px 0 var(--color-shadow-soft));
-  animation: hop 0.5s ease-in-out infinite alternate;
-  animation-delay: calc(var(--i, 0) * 0.12s);
+  filter: drop-shadow(0 3px 0 rgba(74, 45, 28, 0.18));
+  animation: hop 0.9s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i, 0) * 0.14s);
 }
 
 @keyframes hop {
   to {
-    transform: translateY(-6px) rotate(-5deg);
+    transform: translateY(-5px);
   }
 }
 
-/* ---------- Kartu form kanan ---------- */
-
-.home-card {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-  justify-self: center;
-  padding: 0 18px 20px;
-  border: solid transparent;
-  border-width: 86px 44px 22px;
-  border-image: var(--card-wood) 86 44 22 44 fill / 86px 44px 22px 44px stretch;
-  background: none;
-  box-shadow: none;
+.home-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.home-card h2 {
-  height: 44px;
-  margin: -70px 0 40px;
+.home-points li {
+  padding: var(--space-1) var(--space-3);
+  border: 2px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: var(--color-wood-soft);
+  color: var(--color-ink);
+  font: var(--text-label);
+}
+
+/* ---------- Panel form kanan ---------- */
+
+.home-card {
+  width: 100%;
+  padding: var(--space-6);
+  border: 3px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow:
+    0 6px 0 var(--color-bark-soft),
+    0 20px 30px rgba(74, 45, 28, 0.16);
+}
+
+.home-card-head {
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 2px dashed var(--color-wood-soft);
+}
+
+.home-card-head h2 {
+  margin: 0;
+  font: var(--text-title);
   font-size: 24px;
-  line-height: 44px;
-  text-align: center;
-  color: var(--color-cream);
-  text-shadow: 0 2px 0 var(--br);
+  color: var(--color-forest-900);
+}
+
+.home-card-head p {
+  margin: var(--space-1) 0 0;
+  font: var(--text-small);
+  color: var(--color-muted);
 }
 
 .home-lbl {
   display: block;
-  margin: 0 0 6px;
-  font-weight: 600;
-  font-size: 17px;
-  color: var(--ink);
+  margin: var(--space-2) 0 var(--space-2);
+  font: var(--text-label);
+  font-size: 15px;
+  color: var(--color-ink);
 }
 
 .home-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
 }
 
-/* Pilihan hewan: tile aset dobo; terpilih = tile abu */
+/* Pilihan hewan: tile krem, terpilih hijau + centang */
 .home-animal {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 10px 6px 8px;
-  font: inherit;
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--ink);
-  background: var(--tile-brown) center / 100% 100% no-repeat;
+  justify-content: center;
+  gap: 2px;
+  min-height: 82px;
+  padding: var(--space-2) var(--space-1);
+  font: var(--text-label);
+  font-size: 14px;
+  color: var(--color-ink);
+  background: var(--color-cream);
+  border: 2px solid var(--color-wood-soft);
+  border-radius: var(--radius-md);
+  box-shadow: 0 3px 0 var(--color-bark-soft);
   cursor: pointer;
-  border: none;
-  transition: transform var(--motion-fast) ease;
+  transition:
+    transform var(--motion-fast) ease,
+    border-color var(--motion-fast) ease,
+    background-color var(--motion-fast) ease;
 }
 
 .home-animal-img {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   object-fit: contain;
 }
 
 .home-animal[aria-pressed='true'] {
-  background-image: var(--tile-grey);
-  color: var(--color-ink);
+  border-color: var(--color-forest-700);
+  background: var(--color-forest-100);
+  box-shadow: 0 3px 0 var(--color-forest-700);
+}
+
+.home-animal[aria-pressed='true']::after {
+  content: '✓';
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-forest-700);
 }
 
 .home-fact {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  margin: 0 0 16px;
-  padding: 10px 12px 12px;
-  border: 2px solid var(--color-line);
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding: var(--space-3);
+  border: 2px dashed var(--color-wood);
   border-radius: var(--radius-md);
   background: var(--color-cream-deep);
-  font-size: 15px;
-  color: var(--ink);
-  text-align: center;
+  font: var(--text-small);
+  color: var(--color-ink);
+  text-align: left;
 }
 
 .home-fact img {
   flex-shrink: 0;
   width: 26px;
   height: 26px;
+  margin-top: 2px;
   object-fit: contain;
 }
 
@@ -174,6 +247,7 @@
 
 .home-fact-name {
   font-weight: 700;
+  color: var(--color-bark);
 }
 
 .home-fact-source {
@@ -181,90 +255,69 @@
   color: var(--color-muted);
 }
 
-.home-status {
-  margin: 10px 0 0;
-  font: var(--text-small);
-  color: var(--color-muted);
-  text-align: center;
-}
-
-/* Remove small attribution text - fact source handled separately */
-
-.home-btns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-/* Tombol memakai aset tombol kayu dobo */
-.home-cta {
-  min-height: 52px;
-  padding: 10px 0 12px;
-  font: inherit;
-  font-weight: 700;
-  font-size: 21px;
-  color: var(--ink);
-  cursor: pointer;
-  border: none;
-  background: var(--btn-wood) center / 100% 100% no-repeat;
-  margin-bottom: 10px;
-  transition:
-    transform 0.08s ease,
-    filter 0.08s ease;
-}
-
-.home-cta-danger {
-  filter: hue-rotate(-12deg) saturate(1.1);
-}
-
-.home-cta:focus-visible {
-  outline: 4px solid var(--sun);
-  outline-offset: 6px;
-}
-
-@media (hover: hover) {
-  .home-animal:hover {
-    transform: translateY(-3px);
-  }
-
-  .home-cta:not(:disabled):hover {
-    filter: brightness(1.06);
-  }
-}
-
-.home-cta:not(:disabled):active {
-  transform: translateY(2px);
-}
-
-.home-cta:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-
 .home-error {
-  min-height: 22px;
-  margin: 14px 0 0;
-  font-size: 15px;
+  min-height: 20px;
+  margin: 0 0 var(--space-2);
+  font: var(--text-small);
+  font-weight: 600;
   text-align: center;
   color: var(--color-err-600);
 }
 
+.home-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.home-btn.btn {
+  min-height: 56px;
+  font: 700 20px/1 var(--font-family);
+}
+
 /* ---------- Responsif ---------- */
 
-@media (max-width: 860px) {
+@media (hover: hover) {
+  .home-animal:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-wood);
+  }
+}
+
+@media (max-width: 900px) {
   .home {
     grid-template-columns: 1fr;
-    align-content: center;
+    align-content: start;
+    gap: var(--space-6);
   }
 
   .home-hero {
     align-items: center;
     text-align: center;
+    max-width: 100%;
+  }
+
+  .home-title span {
+    display: inline;
+  }
+
+  .home-intro {
+    max-width: 32ch;
+  }
+
+  .home-card {
+    max-width: 480px;
+    margin: 0 auto;
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 420px) {
+  .home-card {
+    padding: var(--space-4);
+  }
+
   .home-animal {
+    min-height: 74px;
     font-size: 13px;
   }
 
@@ -272,15 +325,18 @@
     width: 32px;
     height: 32px;
   }
+
+  .home-btn.btn {
+    font-size: 18px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-emo img {
+  .home-scenery img {
     animation: none;
   }
 
-  .home-animal,
-  .home-cta {
+  .home-animal {
     transition: none;
   }
 }
