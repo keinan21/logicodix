@@ -27,6 +27,8 @@
   ],
   "misinfoType": "catut-otoritas",
   "topic": "air",
-  "status": "draf",
-  "writtenBy": "c-rakyan"
+  "status": "terverifikasi",
+  "writtenBy": "c-rakyan",
+  "reviewedBy": "Nikoo",
+  "reviewedAt": "2026-11-14"
 }
