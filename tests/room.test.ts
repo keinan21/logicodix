@@ -764,6 +764,24 @@ function stripTargets(events: RecordedEvent[]): RecordedEvent[] {
 }
 
 describe('pemilihan soal', () => {
+  it('pemain finish yang kembali ke beranda tidak menerima state room lama', () => {
+    const events: RecordedEvent[] = [];
+    const questions = Array.from({ length: 6 }, (_, i) =>
+      q(`11111111-000${i + 1}-4001-8001-000000000001`, 0),
+    );
+    const { room, sched } = makeRoom(42, questions, events);
+    const { optionOrder } = deriveOrder(42, questions);
+    room.start();
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+    for (let i = 0; i < GAME.STEPS_TO_FINISH; i++) {
+      room.answer('h1', { questionIndex: i, choice: 'ABCD'[optionOrder.indexOf(0)] });
+    }
+    events.length = 0;
+    room.quit('h1');
+    sched.advance(20_000);
+    expect(events.filter((e) => e.target === 'h1')).toEqual([]);
+    room.destroy();
+  });
   it('reconnect memulihkan hasil dan evaluasi yang selesai diproses', async () => {
     const events: RecordedEvent[] = [];
     const questions = [q('11111111-0001-4001-8001-000000000001', 0)];

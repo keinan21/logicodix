@@ -46,6 +46,38 @@ afterAll(async () => {
 });
 
 describe('satu socket satu room (regresi tampilan soal tertukar)', () => {
+  it('Nikoo kembali dari hasil ke beranda lalu masuk balapan baru dengan nama sama', async () => {
+    const client = connect(baseUrl, { transports: ['websocket'] });
+    clients.push(client);
+    let state: RoomState | undefined;
+    const states: RoomState[] = [];
+    client.on('room:state', (raw: unknown) => {
+      state = roomStateSchema.parse(raw);
+      states.push(state);
+    });
+    await new Promise<void>((resolve) => client.once('connect', resolve));
+    const payload = { nickname: 'Nikoo', animalId: 'gajah', mode: 'bot' };
+    client.emit('queue:join', payload);
+    await waitFor(() => state?.phase === 'racing', 5000);
+    const oldRoom = state!.roomId;
+    for (let i = 0; i < 5; i++) {
+      const question = content.verified.find((q) => q.stem === state!.activeQuestion?.stem)!;
+      const answerIndex = state!.activeQuestion!.options.indexOf(
+        question.options[question.answerIndex]!,
+      );
+      client.emit('race:answer', { questionIndex: i, choice: 'ABCD'[answerIndex] });
+      await waitFor(() => state!.questionIndex === i + 1, 3000);
+    }
+    client.emit('room:leave');
+    states.length = 0;
+    client.emit('queue:join', payload);
+    await waitFor(() => state?.phase === 'racing' && state.roomId !== oldRoom, 5000);
+    await delay(1500);
+    expect(states.every((s) => s.roomId !== oldRoom)).toBe(true);
+    expect(state!.questionIndex).toBe(0);
+    expect(state!.participants.find((p) => p.id === client.id)?.steps).toBe(0);
+    client.close();
+  }, 15000);
   it('queue:join ganda tidak membuat dua room berjalan paralel', async () => {
     const client = connect(baseUrl, { transports: ['websocket'] });
     clients.push(client);

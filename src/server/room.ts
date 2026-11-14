@@ -82,6 +82,7 @@ export class Room {
   private finishCounter = 0;
   private evalRequested = false;
   private destroyed = false;
+  private departed = new Set<string>();
   private evaluations = new Map<number, EvalReady>();
   private lobbyEndsAtMs = 0;
   private disconnectTimers = new Map<string, ReturnType<typeof setTimeout>>();
@@ -210,6 +211,7 @@ export class Room {
   quit(socketId: string): void {
     const p = this.state.participants.find((x) => x.id === socketId);
     if (!p || p.isBot) return;
+    this.departed.add(socketId);
     if (this.state.phase === 'lobby') {
       this.leave(socketId);
       return;
@@ -363,7 +365,7 @@ export class Room {
   resume(newSocketId: string, token: string): boolean {
     const p = this.state.participants.find((x) => x.id === token || x.id === newSocketId);
     if (!p) return false;
-    if (p.isBot || p.status === 'left') {
+    if (p.isBot || p.status === 'left' || this.departed.has(p.id)) {
       // Lewat 10 detik / sudah "Keluar" → tidak bisa kembali (FR-B11)
       return false;
     }
@@ -538,7 +540,7 @@ export class Room {
     }[] = [];
 
     for (const p of this.state.participants) {
-      if (p.isBot) continue; // FR-H06: bot tidak mendapat Evaluasi
+      if (p.isBot || this.departed.has(p.id)) continue;
       const list = this.answers.get(p.id) ?? [];
       if (list.length === 0) continue;
 
@@ -609,7 +611,7 @@ export class Room {
       });
       this.evaluations.set(slot, payload);
       const participant = this.state.participants.find((p) => p.slot === slot);
-      if (participant && participant.status !== 'left') {
+      if (participant && participant.status !== 'left' && !this.departed.has(participant.id)) {
         this.cfg.emitTo(participant.id, 'eval:ready', payload);
       }
     }
@@ -818,7 +820,7 @@ export class Room {
     for (const p of this.state.participants) {
       // Peserta 'left' sudah tidak di room ini (mis. socket pindah ke room baru);
       // mengirim state ke socket id-nya akan mengirim state room lama ke room baru.
-      if (p.isBot || p.status === 'left') continue;
+      if (p.isBot || p.status === 'left' || this.departed.has(p.id)) continue;
       this.sendStateTo(p.id);
     }
   }
