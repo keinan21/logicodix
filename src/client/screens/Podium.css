@@ -27,8 +27,8 @@
   margin: 0;
   padding: 2px 12px 6px;
   border: solid transparent;
-  border-width: 20px 24px 24px;
-  border-image: var(--plank) 40 fill / 20px 24px 24px stretch;
+  border-width: 12px 24px 20px;
+  border-image: var(--plank) 12 24 20 24 fill / 12px 24px 20px 24px stretch;
   filter: drop-shadow(0 6px 0 var(--color-shadow-strong));
 }
 
@@ -72,16 +72,16 @@
 .podium-results {
   position: relative;
   min-width: 0;
-  padding: 0 var(--space-3) var(--space-3);
+  padding: 0 var(--space-2) var(--space-3);
   border: solid transparent;
-  border-width: 58px 12px 22px;
-  border-image: var(--card-red) 92 8 22 8 fill / 58px 12px 22px stretch;
+  border-width: 86px 44px 20px;
+  border-image: var(--card-red) 86 44 20 44 fill / 86px 44px 20px 44px stretch;
   background: none;
   box-shadow: none;
 }
 
 .podium-panel-title {
-  margin: calc(-1 * var(--space-8) - var(--space-2)) 0 var(--space-3);
+  margin: -58px 0 var(--space-3);
   padding: 0;
   background: none;
   color: var(--color-cream);
