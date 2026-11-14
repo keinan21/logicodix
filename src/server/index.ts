@@ -4,6 +4,7 @@
  */
 
 import express from 'express';
+import { randomUUID } from 'node:crypto';
 import { createServer, type Server as HttpServer } from 'node:http';
 import { Server as SocketIOServer, type Socket } from 'socket.io';
 import { join } from 'node:path';
@@ -82,10 +83,19 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
   let seedCounter = fixedSeed ?? Date.now() >>> 0;
 
   const rooms = new Map<string, Room>();
+  const sessions = new Map<string, { roomId: string; participantId: string }>();
   const roomBySocket = new Map<string, string>();
+  const revokeSession = (socketId: string) => {
+    for (const [token, session] of sessions) {
+      if (session.participantId === socketId) sessions.delete(token);
+    }
+  };
 
   const removeRoom = (roomId: string) => {
     rooms.delete(roomId);
+    for (const [token, session] of sessions) {
+      if (session.roomId === roomId) sessions.delete(token);
+    }
     for (const [socketId, rid] of roomBySocket) {
       if (rid === roomId) roomBySocket.delete(socketId);
     }
@@ -115,6 +125,9 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
       });
       rooms.set(roomId, room);
       for (const h of req.humanPlayers) {
+        const token = randomUUID();
+        sessions.set(token, { roomId, participantId: h.socketId });
+        io.to(h.socketId).emit('session:token', { token });
         roomBySocket.set(h.socketId, roomId);
         io.sockets.sockets.get(h.socketId)?.join(roomId);
       }
@@ -144,6 +157,7 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
       // dua tab) membuat dua room berjalan paralel dan client menerima dua aliran room:state:
       // soal berganti sendiri dan langkah peserta tampak tertukar.
       const previousRoomId = roomBySocket.get(socket.id);
+      revokeSession(socket.id);
       if (previousRoomId !== undefined) {
         rooms.get(previousRoomId)?.leave(socket.id);
         socket.leave(previousRoomId);
@@ -170,6 +184,7 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
     });
 
     socket.on('room:leave', () => {
+      revokeSession(socket.id);
       const roomId = roomBySocket.get(socket.id);
       if (!roomId) return;
       rooms.get(roomId)?.quit(socket.id);
@@ -184,21 +199,26 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
         return;
       }
       const token = parsed.data.token;
-      let targetRoom: Room | undefined;
-      let targetRoomId: string | undefined;
-      for (const [rid, r] of rooms) {
-        if (r.hasParticipant(token)) {
-          targetRoom = r;
-          targetRoomId = rid;
-          break;
-        }
-      }
+      const session = sessions.get(token);
+      const targetRoomId = session?.roomId;
+      const targetRoom = targetRoomId ? rooms.get(targetRoomId) : undefined;
       if (!targetRoom || !targetRoomId) {
         socket.emit('error', { code: 'session-not-found', pesan: 'Sesi balapan tidak ditemukan.' });
         return;
       }
-      const ok = targetRoom.resume(socket.id, token);
+      if (
+        !session ||
+        io.sockets.sockets.has(session.participantId) ||
+        roomBySocket.has(socket.id)
+      ) {
+        socket.emit('error', { code: 'resume-denied', pesan: 'Sesi masih aktif.' });
+        return;
+      }
+      const oldId = session.participantId;
+      const ok = targetRoom.resume(socket.id, oldId);
       if (ok) {
+        roomBySocket.delete(oldId);
+        session.participantId = socket.id;
         roomBySocket.set(socket.id, targetRoomId);
         socket.join(targetRoomId);
       } else {

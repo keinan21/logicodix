@@ -764,6 +764,49 @@ function stripTargets(events: RecordedEvent[]): RecordedEvent[] {
 }
 
 describe('pemilihan soal', () => {
+  it('reconnect memulihkan hasil dan evaluasi yang selesai diproses', async () => {
+    const events: RecordedEvent[] = [];
+    const questions = [q('11111111-0001-4001-8001-000000000001', 0)];
+    const { room, sched } = makeRoom(42, questions, events, 0);
+    const { optionOrder } = deriveOrder(42, questions);
+    room.start();
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+    room.answer('h1', { questionIndex: 0, choice: 'ABCD'[optionOrder.indexOf(0)] });
+    expect(room.resume('h1-new', 'h1')).toBe(true);
+    expect(events.some((e) => e.target === 'h1-new' && e.event === 'race:end')).toBe(true);
+    await vi.waitFor(() => {
+      const ready = events.filter((e) => e.target === 'h1-new' && e.event === 'eval:ready').at(-1);
+      expect(evalReadySchema.parse(ready?.payload).badge).toBe('ringkasan-otomatis-bukan-ai');
+    });
+    expect(room.resume('h1-newer', 'h1-new')).toBe(true);
+    const ready = events.filter((e) => e.target === 'h1-newer' && e.event === 'eval:ready').at(-1);
+    expect(evalReadySchema.parse(ready?.payload).badge).toBe('ringkasan-otomatis-bukan-ai');
+    room.destroy();
+  });
+  it('reconnect saat locked tetap membuka kunci tanpa mencatat nickname', () => {
+    const events: RecordedEvent[] = [];
+    const questions = [
+      q('11111111-0001-4001-8001-000000000001', 0),
+      q('11111111-0002-4002-8002-000000000002', 0),
+    ];
+    const { room, sched } = makeRoom(42, questions, events, 0);
+    const { optionOrder } = deriveOrder(42, questions);
+    const logs = vi.spyOn(console, 'log').mockImplementation(() => {});
+    try {
+      room.start();
+      sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+      room.answer('h1', { questionIndex: 0, choice: 'ABCD'[optionOrder.indexOf(1)] });
+      room.leave('h1');
+      expect(room.resume('h1-new', 'h1')).toBe(true);
+      sched.advance(GAME.LOCK_DURATION_S * 1000);
+      const state = roomStateSchema.parse(lastEvent(events, 'room:state'));
+      expect(state.participants[0]?.status).toBe('racing');
+      expect(JSON.stringify(logs.mock.calls)).not.toContain('Budi');
+    } finally {
+      logs.mockRestore();
+      room.destroy();
+    }
+  });
   it('mengambil soal dari seluruh bank, bukan hanya 12 pertama', () => {
     const questions = Array.from({ length: 40 }, (_, i) =>
       q(`11111111-${String(i + 1).padStart(4, '0')}-4001-8001-000000000001`, 0),

@@ -15,6 +15,15 @@ function Harness() {
 }
 const payload = { nickname: 'Uji', animalId: 'penyu', mode: 'quick' } as const;
 
+it('reconnect memakai token rahasia dari server', () => {
+  const token = '11111111-0001-4001-8001-000000000001';
+  actions.joinQueue(payload);
+  mock.handlers.get('session:token')?.({ token });
+  mock.handlers.get('disconnect')?.();
+  mock.handlers.get('connect')?.();
+  expect(mock.socket.emit).toHaveBeenCalledWith('session:resume', { token });
+});
+
 beforeEach(() => {
   mock.socket.on.mockImplementation((name, callback) => mock.handlers.set(name, callback));
   renderToStaticMarkup(createElement(Harness));
