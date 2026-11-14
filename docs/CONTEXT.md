@@ -1,4 +1,4 @@
-# Balap Klaim Lingkungan
+# EcoRush
 
 Game balap multiplayer berbasis web tempat siswa SMP menjawab soal pilihan ganda tentang klaim dan pengetahuan lingkungan. Glosarium ini hanya berisi istilah domain; keputusan ada di `docs/01-decisions.md`.
 

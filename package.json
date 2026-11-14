@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Balap Fakta Lingkungan — game balap multiplayer untuk siswa SMP (LOGICODIX 2026)",
+  "description": "EcoRush — game balap multiplayer untuk siswa SMP (LOGICODIX 2026)",
   "scripts": {
     "dev": "concurrently -n web,server \"bun run dev:web\" \"bun run dev:server\"",
     "dev:web": "vite",

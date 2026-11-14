@@ -147,7 +147,7 @@ Bahasa Indonesia, kalimat pendek, dan menyapa dengan "kamu".
 | Badge          | "Dibuat oleh AI", "Ringkasan otomatis (bukan AI)", "Contoh AI (dibuat sebelumnya)"                    |
 | Koneksi        | "Koneksi terputus, mencoba menyambung lagi…"                                                          |
 
-Nama game masih [OPEN]. Untuk sementara pakai "Balap Fakta Lingkungan".
+Nama game: **EcoRush** (sebelumnya "Balap Fakta Lingkungan").
 
 ## 8. Aksesibilitas
 
