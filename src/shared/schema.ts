@@ -127,6 +127,7 @@ export const animalIdSchema = z.enum(['orangutan', 'harimau', 'gajah', 'penyu', 
 export type AnimalId = z.infer<typeof animalIdSchema>;
 
 export const joinQueuePayloadSchema = z.object({
+  requestId: z.string().min(1).optional(),
   nickname: nicknameSchema,
   animalId: animalIdSchema,
   mode: z.enum(['quick', 'bot']),
@@ -144,7 +145,11 @@ export type RacePausePayload = z.infer<typeof racePausePayloadSchema>;
 
 export const sessionResumePayloadSchema = z.object({
   token: z.string().min(1),
+  requestId: z.string().min(1).optional(),
 });
+
+/** Argumen kedua setiap event sesi; identitas navigasi, bukan kredensial. */
+export const sessionEventContextSchema = z.object({ requestId: z.string().min(1) });
 
 /** Token rahasia, dikirim hanya kepada pemilik sesi. */
 export const sessionTokenSchema = z.object({ token: z.string().uuid() });
