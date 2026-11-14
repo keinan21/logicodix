@@ -9,6 +9,7 @@ import './Home.css';
 import { Input } from '../components/Input';
 import { AnimalCard } from '../components/AnimalCard';
 import { ANIMAL_ASSETS } from '../components/animalAssets';
+import { playSound } from '../sound';
 import { nicknameSchema, animalIdSchema } from '../../shared/schema';
 import type { AnimalId } from '../../shared/schema';
 
@@ -70,6 +71,13 @@ export function HomeScreen({
    * Jangan emit di sini juga — dua emit berarti satu socket masuk dua room sekaligus,
    * dan client lalu menerima dua aliran room:state (soal berganti sendiri, langkah tertukar).
    */
+  /** Ganti pelari: pilihan baru saja yang dicek untuk membunyikan "select". */
+  const chooseAnimal = (id: AnimalId) => {
+    if (id === animalId) return;
+    setAnimalId(id);
+    playSound('select');
+  };
+
   const start = (mode: 'quick' | 'bot') => {
     if (!valid) {
       setTouched(true);
@@ -125,7 +133,7 @@ export function HomeScreen({
               nama={ANIMAL_ASSETS[id].nama}
               fakta={facts[id] ?? ''}
               selected={animalId === id}
-              onSelect={setAnimalId}
+              onSelect={chooseAnimal}
               compact
             />
           ))}
