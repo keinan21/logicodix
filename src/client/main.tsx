@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
 import { SoundToggle } from './components/SoundToggle';
+import { primeMusic } from './music';
 import { primeAudio } from './sound';
 import './styles.css';
 
@@ -20,8 +21,15 @@ if (import.meta.env.DEV && new URLSearchParams(location.search).get('preview') =
     );
   });
 } else {
-  // AudioContext hanya boleh dibuat setelah interaksi pengguna; siapkan sekali di sini.
-  window.addEventListener('pointerdown', primeAudio, { once: true });
+  // Audio hanya boleh dimulai setelah interaksi pengguna; siapkan sekali di sini.
+  window.addEventListener(
+    'pointerdown',
+    () => {
+      primeAudio();
+      primeMusic();
+    },
+    { once: true },
+  );
   root.render(
     <StrictMode>
       <App />
