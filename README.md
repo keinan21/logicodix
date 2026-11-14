@@ -1,6 +1,5 @@
 # 🌿 EcoRush — Balapan Edukasi Lingkungan
 
-[![CI](https://github.com/keinan21/logicodix/actions/workflows/ci.yml/badge.svg)](https://github.com/keinan21/logicodix/actions/workflows/ci.yml)
 ![Node](https://img.shields.io/badge/node-22_LTS-brightgreen)
 ![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
