@@ -50,3 +50,18 @@ it('batal offline menghapus permintaan sehingga reconnect tidak masuk antrean', 
   mock.handlers.get('connect')?.();
   expect(mock.socket.emit).not.toHaveBeenCalledWith('queue:join', payload);
 });
+it('audit: batal antre menolak lobby terlambat dari permintaan sebelumnya', () => {
+  actions.joinQueue(payload);
+  actions.leaveQueue();
+  mock.handlers.get('room:state')?.({
+    roomId: 'old',
+    phase: 'lobby',
+    participants: [],
+    timeLeftS: 0,
+    questionIndex: 0,
+    activeQuestion: null,
+    finishOrder: [],
+  });
+  renderToStaticMarkup(createElement(Harness));
+  expect(actions.session.state).toBeNull();
+});

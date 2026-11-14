@@ -46,6 +46,32 @@ afterAll(async () => {
 });
 
 describe('satu socket satu room (regresi tampilan soal tertukar)', () => {
+  it('batal antre setelah lobby terbentuk menghentikan room dan membatalkan token', async () => {
+    const client = connect(baseUrl, { transports: ['websocket'] });
+    clients.push(client);
+    let token = '';
+    let lobby = false;
+    const states: RoomState[] = [];
+    client.on('session:token', (payload: { token: string }) => {
+      token = payload.token;
+    });
+    client.on('room:state', (raw: unknown) => {
+      const state = roomStateSchema.parse(raw);
+      states.push(state);
+      if (state.phase === 'lobby') lobby = true;
+    });
+    await new Promise<void>((resolve) => client.once('connect', resolve));
+    client.emit('queue:join', { nickname: 'Batal', animalId: 'gajah', mode: 'bot' });
+    await waitFor(() => lobby, 3000);
+    client.emit('queue:leave');
+    const rejected = new Promise<{ code: string }>((resolve) => client.once('error', resolve));
+    client.emit('session:resume', { token });
+    expect((await rejected).code).toBe('session-not-found');
+    states.length = 0;
+    await delay(3200);
+    expect(states).toEqual([]);
+    client.close();
+  }, 10000);
   it('Nikoo kembali dari hasil ke beranda lalu masuk balapan baru dengan nama sama', async () => {
     const client = connect(baseUrl, { transports: ['websocket'] });
     clients.push(client);

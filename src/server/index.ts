@@ -170,6 +170,13 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
 
     socket.on('queue:leave', () => {
       matchmaking.leave(socket.id, Date.now());
+      const roomId = roomBySocket.get(socket.id);
+      if (roomId) {
+        revokeSession(socket.id);
+        roomBySocket.delete(socket.id);
+        socket.leave(roomId);
+        rooms.get(roomId)?.quit(socket.id);
+      }
     });
 
     socket.on('race:answer', (raw: unknown) => {
