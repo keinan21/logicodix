@@ -12,21 +12,15 @@
   "explanation": "Bioindikator pencemaran air adalah makhluk hidup tertentu yang keberadaannya menunjukkan kualitas air, misalnya makrobentos dan mikroba fecal coliform.",
   "sources": [
     {
-      "judul": "Indicators: Benthic Macroinvertebrates",
-      "url": "https://www.epa.gov/national-aquatic-resource-surveys/indicators-benthic-macroinvertebrates",
-      "lembaga": "US EPA",
-      "tanggalCek": "2026-11-13"
-    },
-    {
-      "judul": "How Septic Systems Work",
-      "url": "https://www.epa.gov/septic/how-septic-systems-work",
-      "lembaga": "US EPA",
-      "tanggalCek": "2026-11-13"
+      "judul": "Modul Ajar Pencemaran Lingkungan Fase D",
+      "url": "https://guru.kemendikdasmen.go.id/bukti-karya/pdf/266849",
+      "lembaga": "Dahlia, M.Pd. — Ruang GTK, Kemendikdasmen",
+      "tanggalCek": "2026-11-14"
     }
   ],
   "topic": "air",
   "status": "terverifikasi",
-  "writtenBy": "c-keinan",
+  "writtenBy": "rakyanbhuminagari-beep",
   "reviewedBy": "Nikoo",
   "reviewedAt": "2026-11-14"
 }

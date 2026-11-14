@@ -3,24 +3,24 @@
   "kind": "pengetahuan",
   "stem": "Efek rumah kaca terjadi karena …",
   "options": [
-    "gas rumah kaca menyerap inframerah dari permukaan bumi",
-    "gas rumah kaca memantulkan cahaya Matahari ke permukaan",
-    "permukaan bumi melepaskan panas terutama sebagai cahaya tampak",
-    "keluaran energi Matahari meningkat terus selama satu abad"
+    "gas rumah kaca menahan panas di atmosfer",
+    "panas langsung keluar dari bumi",
+    "atmosfer tidak memiliki gas",
+    "bumi tidak menerima sinar matahari"
   ],
   "answerIndex": 0,
-  "explanation": "Gas rumah kaca menyerap dan memancarkan kembali sebagian radiasi inframerah yang dipancarkan permukaan bumi, sehingga panas tertahan dalam sistem bumi.",
+  "explanation": "Efek rumah kaca terjadi karena gas rumah kaca di atmosfer meneruskan sinar matahari tetapi menahan panas yang dipancarkan bumi, sehingga suhu bumi meningkat.",
   "sources": [
     {
-      "judul": "Causes",
-      "url": "https://science.nasa.gov/climate-change/causes/",
-      "lembaga": "NASA",
-      "tanggalCek": "2026-11-13"
+      "judul": "Mengenal Gas Rumah Kaca (GRK), Penyebab Utama Pemanasan Global",
+      "url": "https://www.bmkg.go.id/artikel/gas-rumah-kaca",
+      "lembaga": "Badan Meteorologi, Klimatologi, dan Geofisika (BMKG)",
+      "tanggalCek": "2026-11-14"
     }
   ],
   "topic": "iklim-cuaca",
   "status": "terverifikasi",
-  "writtenBy": "c-keinan",
+  "writtenBy": "rakyanbhuminagari-beep",
   "reviewedBy": "Nikoo",
   "reviewedAt": "2026-11-14"
 }
