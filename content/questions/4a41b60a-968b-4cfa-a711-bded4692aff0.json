@@ -26,6 +26,8 @@
     }
   ],
   "topic": "iklim-cuaca",
-  "status": "draf",
-  "writtenBy": "c-keinan"
+  "status": "terverifikasi",
+  "writtenBy": "c-keinan",
+  "reviewedBy": "Nikoo",
+  "reviewedAt": "2026-11-14"
 }
