@@ -158,9 +158,9 @@ Nama game masih [OPEN]. Untuk sementara pakai "Balap Fakta Lingkungan".
 
 ## 9. Suara
 
-- Tiga efek pendek: benar, salah, dan finish, masing-masing ≤ 1 detik, berlisensi CC0, dan dicatat di `docs/ASSETS.md`.
-- Ada tombol mute di header yang diingat lewat `localStorage`. Suara mati secara default di mode demo/video.
-- Tanpa musik latar.
+- Efek pendek: tik hitung mundur, mulai balapan, benar, salah, dan finish — berkas dari paket “Cute, Cozy & Magical UI SFX” (Nomagician Music, CC BY 4.0), dicatat di `docs/ASSETS.md`.
+- Musik latar loop: satu trek untuk layar santai, satu untuk balapan; lisensinya tercatat di `docs/ASSETS.md`.
+- Ada tombol bisu (efek suara + musik) di pojok kanan bawah yang diingat lewat `localStorage`.
 
 ## 10. Alur kerja Figma → kode
 

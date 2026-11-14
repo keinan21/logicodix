@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { handleMuteChange } from '../music';
 import { isSoundMuted, playSound, setSoundMuted } from '../sound';
 
 /**
- * Tombol bisu suara — selalu terlihat di pojok kanan bawah.
+ * Tombol bisu audio (efek suara + musik) — selalu terlihat di pojok kanan bawah.
  * Pilihan disimpan di localStorage supaya bertahan saat refresh.
  */
 export function SoundToggle() {
@@ -12,6 +13,7 @@ export function SoundToggle() {
     const next = !muted;
     setMuted(next);
     setSoundMuted(next);
+    handleMuteChange(next);
     if (!next) playSound('tick');
   };
 
@@ -20,8 +22,8 @@ export function SoundToggle() {
       type="button"
       className="sound-toggle"
       aria-pressed={muted}
-      aria-label={muted ? 'Nyalakan suara' : 'Matikan suara'}
-      title={muted ? 'Nyalakan suara' : 'Matikan suara'}
+      aria-label={muted ? 'Nyalakan suara dan musik' : 'Matikan suara dan musik'}
+      title={muted ? 'Nyalakan suara dan musik' : 'Matikan suara dan musik'}
       onClick={toggle}
     >
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
