@@ -1,4 +1,4 @@
-# LOGICODIX 2026 — Balap Fakta Lingkungan
+# LOGICODIX 2026 — EcoRush
 
 Game balap multiplayer berbasis web untuk siswa SMP: setiap soal adalah satu klaim lingkungan
 (Benar/Salah via 4 pilihan penjelasan). Jawaban benar memajukan hewan pelari; jawaban salah

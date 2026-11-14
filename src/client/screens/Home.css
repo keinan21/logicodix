@@ -31,30 +31,13 @@
 
 .home-title {
   margin: 0;
-  font-family: var(--font-family);
-  font-size: clamp(38px, 5.4vw, 68px);
-  font-weight: 700;
-  line-height: 0.98;
-  letter-spacing: -0.01em;
-  color: var(--color-forest-900);
-  /* Outline putih lebar: tumpukan bayangan dari 8 arah (skala ikut ukuran font)
-     plus bayangan jatuh lembut supaya huruf tetap terbaca di atas langit. */
-  text-shadow:
-    0 -0.11em 0 var(--color-cream),
-    0 0.11em 0 var(--color-cream),
-    -0.11em 0 0 var(--color-cream),
-    0.11em 0 0 var(--color-cream),
-    -0.08em -0.08em 0 var(--color-cream),
-    0.08em -0.08em 0 var(--color-cream),
-    -0.08em 0.08em 0 var(--color-cream),
-    0.08em 0.08em 0 var(--color-cream),
-    0 0.14em 0 rgba(36, 80, 42, 0.2),
-    0 0.24em 0.4em rgba(36, 80, 42, 0.25);
 }
 
-.home-title span {
+/* Logo wordmark sudah punya outline sendiri; cukup atur lebarnya. */
+.home-title img {
   display: block;
-  color: var(--color-forest-500);
+  width: clamp(240px, 32vw, 430px);
+  height: auto;
 }
 
 .home-intro {
@@ -297,8 +280,9 @@
     max-width: 100%;
   }
 
-  .home-title span {
-    display: inline;
+  .home-title img {
+    width: clamp(210px, 64vw, 340px);
+    margin-inline: auto;
   }
 
   .home-intro {

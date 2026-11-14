@@ -5,6 +5,7 @@ import tiger from '../assets/home/tiger.svg';
 import seedling from '../assets/home/seedling.svg';
 import turtle from '../assets/home/turtle.svg';
 import palm from '../assets/home/palm.svg';
+import logo from '../assets/logo.svg';
 import './Home.css';
 import { Input } from '../components/Input';
 import { AnimalCard } from '../components/AnimalCard';
@@ -82,7 +83,7 @@ export function HomeScreen({
     <main className="home">
       <div className="home-hero">
         <h1 className="home-title">
-          Balap Fakta <span>Lingkungan</span>
+          <img src={logo} alt="EcoRush" width={812} height={345} />
         </h1>
         <p className="home-intro">
           Jawab benar, hewanmu melaju. Siapa paling cepat sampai garis finish?

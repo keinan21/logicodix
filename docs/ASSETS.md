@@ -54,6 +54,18 @@ Aset yang lisensinya tidak jelas dilarang masuk repo.
   (`flip: true` di `content/animals.json`).
 - Teks lisensi Apache 2.0 disalin ke `docs/licenses/noto-emoji-LICENSE`.
 
+## Logo merek
+
+`src/client/assets/logo.svg` — wordmark “EcoRush” (Eco hijau, Rush oranye, dengan tunas,
+bendera finis, dan subjudul エコラッシュ). Berkas disediakan pemilik proyek; gambar tidak
+diubah. Dipakai sebagai heading Beranda (`<h1>` berisi gambar dengan `alt="EcoRush"`),
+latar transparan, ukuran mengikuti lebar kolom.
+
+- Sumber: dibuat pemilik proyek (tim LOGICODIX 2026).
+- Lisensi: milik proyek, bebas dipakai untuk LOGICODIX 2026.
+- Favicon: `src/client/assets/ecorush-favicon.ico` dipakai di `index.html`.
+- Catatan: SVG berisi metadata C2PA, jadi kemungkinan dibuat dengan perkakas generatif.
+
 ## Musik latar (2 trek)
 
 | File                                              | Dipakai di                                     | Sumber & lisensi                                                                                                                                                                    |
