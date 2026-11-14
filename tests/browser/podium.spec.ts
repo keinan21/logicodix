@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 test('hasil final, navigasi, dan nama panjang tanpa overflow', async ({ page }, info) => {
   await page.goto('/tests/browser/podium.html');
   await expect(page.getByRole('heading', { name: 'Hasil balapan' })).toBeVisible();
-  await expect(page.getByRole('cell', { name: 'Waktu habis', exact: true })).toBeVisible();
+  await expect(page.getByRole('cell', { name: 'Kalah', exact: true })).toBeVisible();
   await expect(page.locator('.podium-me')).toHaveCount(1);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: info.outputPath('podium.png'), fullPage: true });

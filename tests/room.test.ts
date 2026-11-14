@@ -700,6 +700,58 @@ describe('akhir balapan tanpa menunggu (FR-B07, FR-B09)', () => {
   });
 });
 
+describe('jeda dan keluar (room satu manusia lawan bot)', () => {
+  const questions = [
+    q('55555555-0001-4001-8001-000000000001', 0),
+    q('55555555-0002-4002-8002-000000000002', 1),
+  ];
+  const stateOf = (events: RecordedEvent[]) =>
+    roomStateSchema.parse(events.filter((e) => e.event === 'room:state').at(-1)?.payload);
+
+  it('jeda membekukan sisa waktu dan menolak jawaban; lanjut menggeser batas waktu', () => {
+    const events: RecordedEvent[] = [];
+    const { room, sched } = makeRoom(7, questions, events);
+    room.start();
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+    sched.advance(10_000);
+    room.setPaused('h1', true);
+    const frozen = stateOf(events);
+    expect(frozen.paused).toBe(true);
+    expect(frozen.timeLeftS).toBe(GAME.RACE_DURATION_S - 10);
+
+    sched.advance(60_000);
+    const botAnswered = events.length;
+    room.answer('h1', { questionIndex: 0, choice: 'A' });
+    expect(events.length).toBe(botAnswered);
+
+    room.setPaused('h1', false);
+    const resumed = stateOf(events);
+    expect(resumed.paused).toBe(false);
+    expect(resumed.timeLeftS).toBe(GAME.RACE_DURATION_S - 10);
+
+    sched.advance((GAME.RACE_DURATION_S - 10) * 1000);
+    expect(events.some((e) => e.event === 'race:end')).toBe(true);
+  });
+
+  it('jeda ditolak bila ada lebih dari satu manusia', () => {
+    const events: RecordedEvent[] = [];
+    const { room, sched } = makeRoom(7, questions, events);
+    room.start();
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+    room.setPaused('orang-lain', true);
+    expect(stateOf(events).paused).toBeFalsy();
+  });
+
+  it('quit saat balapan langsung menjadi Keluar dan membatalkan room tanpa manusia', () => {
+    const events: RecordedEvent[] = [];
+    const { room, sched } = makeRoom(7, questions, events);
+    room.start();
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+    room.quit('h1');
+    expect(events.some((e) => e.event === 'room.destroyed')).toBe(true);
+  });
+});
+
 function lastEvent(events: RecordedEvent[], name: string): unknown {
   const list = events.filter((e) => e.event === name);
   expect(list.length).toBeGreaterThan(0);

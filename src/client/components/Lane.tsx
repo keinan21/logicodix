@@ -52,7 +52,9 @@ export function Lane({ participant, steps, correct = false }: LaneProps) {
           ))}
 
           <span className="lane-runner" style={{ left: `${progress * 100}%` }}>
-            <img className="lane-animal" src={animal.src} alt="" />
+            <span key={safeSteps} className="lane-hopper">
+              <img className="lane-animal" src={animal.src} alt="" />
+            </span>
             {correct && (
               <span className="lane-check" role="status" aria-label="Benar">
                 <span aria-hidden="true">✓</span>

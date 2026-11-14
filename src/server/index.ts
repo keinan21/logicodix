@@ -14,7 +14,11 @@ import { Matchmaking } from './matchmaking';
 import { Room } from './room';
 import { logEvent } from './log';
 import { checkNickname } from './nickname';
-import { joinQueuePayloadSchema, sessionResumePayloadSchema } from '../shared/schema';
+import {
+  joinQueuePayloadSchema,
+  racePausePayloadSchema,
+  sessionResumePayloadSchema,
+} from '../shared/schema';
 import { createEvaluator, selectMode } from './evaluate';
 import { createRNGSeed } from '../shared/rng';
 import type { Animal } from '../shared/schema';
@@ -156,6 +160,21 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
       const roomId = roomBySocket.get(socket.id);
       if (!roomId) return;
       rooms.get(roomId)?.answer(socket.id, raw);
+    });
+
+    socket.on('race:pause', (raw: unknown) => {
+      const parsed = racePausePayloadSchema.safeParse(raw);
+      const roomId = roomBySocket.get(socket.id);
+      if (!parsed.success || !roomId) return;
+      rooms.get(roomId)?.setPaused(socket.id, parsed.data.paused);
+    });
+
+    socket.on('room:leave', () => {
+      const roomId = roomBySocket.get(socket.id);
+      if (!roomId) return;
+      rooms.get(roomId)?.quit(socket.id);
+      socket.leave(roomId);
+      roomBySocket.delete(socket.id);
     });
 
     socket.on('session:resume', (raw: unknown) => {

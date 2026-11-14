@@ -2,36 +2,24 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  align-items: flex-start;
+  gap: var(--space-2);
   min-width: 0;
-  padding: var(--space-4);
-  border: 2px solid var(--color-line);
+  padding: var(--space-3) var(--space-4);
+  border: 3px solid var(--color-wood-soft);
   border-radius: var(--radius-lg);
-  background: var(--color-bg);
+  background: var(--color-cream);
   box-shadow: var(--shadow-card);
   overflow-wrap: anywhere;
+  animation: question-in var(--motion-step) cubic-bezier(0.2, 1, 0.4, 1);
 }
-.question-meta {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: var(--space-2);
-  font: var(--text-label);
-  color: var(--color-muted);
-}
-.question-meta .countdown-ring {
-  width: var(--size-error-icon);
-  height: var(--size-error-icon);
-}
-.question-meta .countdown-ring-number {
-  font: var(--text-title);
-  color: var(--color-ink);
-}
-.question-title {
+.question-stem {
   margin: 0;
   font: var(--text-title);
+  font-size: clamp(18px, 1.6vw, 24px);
 }
 .question-claim {
+  align-self: stretch;
   margin: 0;
   padding: var(--space-2) var(--space-3);
   border: 1px solid var(--color-sun-500);
@@ -39,65 +27,13 @@
   background: var(--color-claim-tint);
   font: var(--text-body);
 }
-.question-explanation {
-  padding: var(--space-3);
-  border-radius: var(--radius-sm);
-  background: var(--color-forest-100);
-  color: var(--color-forest-900);
-  font: var(--text-body);
-}
-.question-explanation p {
-  margin: 0;
-}
-.question-explanation ul {
-  margin: var(--space-2) 0 0;
-  padding-left: var(--space-4);
-  font: var(--text-small);
-}
-.question-explanation a {
-  color: var(--color-forest-700);
-}
-
-/* Kartu soal cozy: ringkas supaya panel penjelasan tidak memaksa scroll. */
-.question-card {
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-4);
-  border: 3px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-cream);
-}
-
-.question-stem {
-  font: var(--text-title);
-  font-size: clamp(18px, 1.6vw, 24px);
-}
-
-.question-explanation {
-  max-height: 168px;
-  overflow: auto;
-  border: 2px solid var(--color-ok-600);
-  background: var(--color-ok-100);
-  color: var(--color-forest-900);
-}
-
-.question-explanation-wrong {
-  border-color: var(--color-err-600);
-  background: var(--color-err-100);
-}
-
-.question-explanation-title {
-  margin: 0 0 var(--space-1);
-  font: var(--text-label);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.question-lock {
-  margin: var(--space-1) 0 0;
-  font: var(--text-small);
-  color: var(--color-muted);
-}
-
-.question-skip {
-  margin-top: var(--space-2);
+@keyframes question-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

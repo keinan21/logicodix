@@ -1,14 +1,26 @@
 import { useEffect, useRef } from 'react';
-import { Button } from '../components/Button';
+import { Button, type ButtonVariant } from '../components/Button';
 
+export interface RaceDialogAction {
+  label: string;
+  onClick: () => void;
+  variant?: ButtonVariant;
+}
+
+/**
+ * Dialog modal layar Balapan: hasil finish, jeda, konfirmasi keluar, dan akhir balapan.
+ * Aksi pertama mendapat fokus; Esc menjalankan `onCancel` (kalau ada); Tab terkunci di dialog.
+ */
 export function RaceResultDialog({
   title,
-  onWatch,
-  onResults,
+  text,
+  actions,
+  onCancel,
 }: {
   title: string;
-  onWatch: () => void;
-  onResults: () => void;
+  text: string;
+  actions: RaceDialogAction[];
+  onCancel?: () => void;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => {
@@ -38,20 +50,25 @@ export function RaceResultDialog({
       }}
       onCancel={(event) => {
         event.preventDefault();
-        onWatch();
+        onCancel?.();
       }}
     >
       <h2 id="race-result-title" className="race-result-title">
         {title}
       </h2>
       <p id="race-result-description" className="race-result-text">
-        Balapan masih berjalan. Mau menonton sisanya atau langsung melihat hasil?
+        {text}
       </p>
       <div className="race-result-actions">
-        <Button variant="secondary" onClick={onWatch}>
-          Tonton sisa balapan
-        </Button>
-        <Button onClick={onResults}>Lihat hasil sekarang</Button>
+        {actions.map((action) => (
+          <Button
+            key={action.label}
+            variant={action.variant ?? 'secondary'}
+            onClick={action.onClick}
+          >
+            {action.label}
+          </Button>
+        ))}
       </div>
     </dialog>
   );

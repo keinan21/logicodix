@@ -11,6 +11,8 @@
 export const GAME = {
   /** Langkah benar untuk finish. */
   STEPS_TO_FINISH: 5,
+  /** Jumlah juara; balapan selesai begitu podium penuh. */
+  PODIUM_SIZE: 3,
   /** Layar terkunci setelah salah (detik). */
   LOCK_DURATION_S: 5,
   /** Masa baca penjelasan setelah jawaban benar (detik); bisa dilewati dengan tombol Lanjut. */

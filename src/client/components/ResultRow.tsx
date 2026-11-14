@@ -66,6 +66,6 @@ function statusLabel(status: string, final: boolean): string {
     case 'left':
       return 'Keluar';
     default:
-      return final ? 'Waktu habis' : 'Balapan';
+      return final ? 'Kalah' : 'Balapan';
   }
 }

@@ -1,0 +1,94 @@
+.feedback-sheet {
+  scroll-margin-bottom: calc(var(--space-8) + 48px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  border: 3px solid var(--color-ok-600);
+  border-radius: var(--radius-lg);
+  background: var(--color-ok-100);
+  color: var(--color-forest-900);
+  box-shadow: var(--shadow-card);
+  animation: feedback-in var(--motion-step) cubic-bezier(0.2, 1.2, 0.4, 1);
+}
+.feedback-sheet.is-wrong {
+  border-color: var(--color-err-600);
+  background: var(--color-err-100);
+  color: var(--color-ink);
+}
+.feedback-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.feedback-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  background: var(--color-ok-600);
+  color: var(--color-cream);
+  font-weight: 700;
+}
+.is-wrong .feedback-icon {
+  background: var(--color-err-600);
+}
+.feedback-title {
+  flex: 1;
+  margin: 0;
+  font: var(--text-title);
+  font-size: 18px;
+}
+.feedback-timer {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-cream);
+  font: var(--text-label);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.feedback-text {
+  margin: 0;
+  font: var(--text-body);
+}
+.feedback-sources {
+  margin: 0;
+  padding-left: var(--space-4);
+  font: var(--text-small);
+}
+.feedback-sources a {
+  color: inherit;
+}
+.feedback-skip.btn {
+  align-self: stretch;
+}
+.feedback-bar {
+  display: block;
+  flex-shrink: 0;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: currentColor;
+  opacity: 0.35;
+  transform-origin: left;
+  animation: feedback-drain var(--hold) linear forwards;
+}
+@keyframes feedback-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes feedback-drain {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}

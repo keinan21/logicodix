@@ -137,3 +137,7 @@
 .evaluation-header .plank-title {
   font-size: clamp(28px, 4vw, 42px);
 }
+
+.evaluation-actions .evaluation-home {
+  grid-column: 1 / -1;
+}

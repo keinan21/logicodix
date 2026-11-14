@@ -139,6 +139,9 @@ export const raceAnswerPayloadSchema = z.object({
 });
 export type RaceAnswerPayload = z.infer<typeof raceAnswerPayloadSchema>;
 
+export const racePausePayloadSchema = z.object({ paused: z.boolean() });
+export type RacePausePayload = z.infer<typeof racePausePayloadSchema>;
+
 export const sessionResumePayloadSchema = z.object({
   token: z.string().min(1),
 });
@@ -168,6 +171,8 @@ export const roomStateSchema = z.object({
   activeQuestion: questionPublicSchema.nullable(),
   /** urutan finish peserta yang sudah finish */
   finishOrder: z.array(z.string()),
+  /** Balapan dijeda (hanya room satu manusia lawan bot). */
+  paused: z.boolean().optional(),
 });
 export type RoomState = z.infer<typeof roomStateSchema>;
 

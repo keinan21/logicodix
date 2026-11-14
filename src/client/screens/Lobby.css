@@ -98,3 +98,8 @@
 .lobby-participant > span:last-child:not(.lobby-nickname) {
   flex-shrink: 0;
 }
+
+.lobby-leave.btn {
+  width: var(--size-queue-action-width);
+  max-width: 100%;
+}

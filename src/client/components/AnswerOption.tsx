@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react';
+
 export type AnswerOptionState =
   'default' | 'hover' | 'selected-waiting' | 'correct' | 'wrong' | 'dimmed';
 export interface AnswerOptionProps {
@@ -6,6 +8,8 @@ export interface AnswerOptionProps {
   state: AnswerOptionState;
   disabled?: boolean;
   onSelect?: (letter: 'A' | 'B' | 'C' | 'D') => void;
+  /** Urutan tampil untuk animasi masuk berundak. */
+  order?: number;
 }
 
 /**
@@ -13,7 +17,14 @@ export interface AnswerOptionProps {
  * Status tidak pernah dibedakan dengan warna saja: selalu ada ikon ✓/✗ (DESIGN §6, §8).
  * Tampilan chunky ada di `.answer-option` (styles.css).
  */
-export function AnswerOption({ letter, text, state, disabled, onSelect }: AnswerOptionProps) {
+export function AnswerOption({
+  letter,
+  text,
+  state,
+  disabled,
+  onSelect,
+  order = 0,
+}: AnswerOptionProps) {
   const isCorrect = state === 'correct';
   const isWrong = state === 'wrong';
   const dimmed = state === 'dimmed';
@@ -31,6 +42,7 @@ export function AnswerOption({ letter, text, state, disabled, onSelect }: Answer
       type="button"
       className={`answer-option${modifier}`}
       data-state={state}
+      style={{ '--i': order } as CSSProperties}
       disabled={disabled || dimmed}
       onClick={() => onSelect?.(letter)}
       aria-label={`Pilihan ${letter}: ${text}${result ? ` — ${result}` : ''}`}

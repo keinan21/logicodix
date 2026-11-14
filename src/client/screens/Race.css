@@ -21,9 +21,9 @@
 .race-header {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-4) 0;
+  padding: var(--space-4) var(--space-4) var(--space-4);
   background: none;
   color: var(--color-ink);
 }
@@ -54,6 +54,14 @@
   font-variant-numeric: tabular-nums;
 }
 
+.race-nav.btn {
+  min-height: 40px;
+  padding: var(--space-1) var(--space-3);
+  font: var(--text-label);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
 /* ---------- Lintasan ---------- */
 
 .race-track {
@@ -70,13 +78,14 @@
 /* ---------- Isi: kartu soal + jawaban ---------- */
 
 .race-content {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
   width: 100%;
   max-width: var(--size-race-card);
   margin: 0 auto;
-  padding: var(--space-3);
+  padding: var(--space-3) var(--space-3) calc(var(--space-8) + 48px);
 }
 
 .race-answer-error {
@@ -95,6 +104,7 @@
 }
 
 .race-hint {
+  min-height: 24px;
   margin: 0;
   font: var(--text-small);
   color: var(--color-muted);
@@ -182,7 +192,7 @@
 
 @media (min-width: 1024px) {
   .race-content {
-    margin-block: var(--space-2);
+    margin-block: var(--space-2) calc(var(--space-8) + 48px);
     padding: var(--space-3) var(--space-4);
     border: 3px solid var(--color-wood-soft);
     border-radius: var(--radius-lg);
