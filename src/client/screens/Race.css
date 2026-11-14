@@ -1,5 +1,5 @@
 .race-screen {
-  padding: var(--space-2) var(--space-4) var(--space-4);
+  padding: var(--space-2) var(--space-4) calc(var(--space-8) * 2);
 }
 
 .race-layout {
@@ -11,47 +11,60 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
+  padding-top: var(--space-2);
 }
 
 .race-meta {
+  padding: var(--space-1) var(--space-3);
+  border: 2px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: var(--color-cream);
+  color: var(--color-ink);
   font: var(--text-label);
-  color: var(--color-muted);
+  font-size: 14px;
+  box-shadow: 0 3px 0 var(--color-bark-soft);
 }
 
 .race-track {
   display: flex;
   flex-direction: column;
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  border: 3px solid var(--color-line);
   border-radius: var(--radius-lg);
-  background: var(--color-sky-100);
+  background: linear-gradient(180deg, var(--color-sky-100), var(--color-forest-100));
+  box-shadow: var(--shadow-card);
 }
 
 .race-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
   margin: 0;
   padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-md);
-  background: var(--color-forest-100);
+  border: 3px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-cream);
+  box-shadow: var(--shadow-card);
   color: var(--color-forest-900);
   font: var(--text-title);
   text-align: center;
 }
 
 .race-banner-sub {
-  display: block;
   font: var(--text-small);
   color: var(--color-muted);
 }
 
 .race-banner-action {
-  display: inline-block;
-  margin-top: var(--space-2);
+  margin-top: var(--space-1);
 }
 
 .race-result {
   display: grid;
   gap: var(--space-3);
   padding: var(--space-4);
-  border: 2px solid var(--color-line);
+  border: 3px solid var(--color-line);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
   box-shadow: var(--shadow-card);
@@ -61,6 +74,7 @@
 .race-result-title {
   margin: 0;
   font: var(--text-title);
+  font-size: 24px;
   color: var(--color-forest-900);
 }
 
@@ -79,17 +93,31 @@
 
 .race-flash {
   margin: 0;
-  padding: var(--space-3);
-  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-4);
+  border: 3px solid var(--color-ok-600);
+  border-radius: var(--radius-pill);
   background: var(--color-ok-100);
   color: var(--color-ok-600);
   font: var(--text-title);
   text-align: center;
+  animation: race-flash-pop var(--motion-fast) ease-out;
+}
+
+.race-flash-wrong {
+  border-color: var(--color-err-600);
+  background: var(--color-err-100);
+  color: var(--color-err-600);
 }
 
 .race-options {
   display: grid;
   gap: var(--space-2);
+}
+
+@media (max-width: 1023px) {
+  .race-options .answer-option {
+    padding: var(--space-2) var(--space-3);
+  }
 }
 
 .race-hint {
@@ -102,6 +130,16 @@
 .race-lock {
   display: flex;
   justify-content: flex-end;
+}
+
+@keyframes race-flash-pop {
+  from {
+    transform: scale(0.92);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }
 
 @media (min-width: 1024px) {

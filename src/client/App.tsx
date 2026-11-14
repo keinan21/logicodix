@@ -34,6 +34,12 @@ export function App() {
   const phase = session.state?.phase;
   const roomId = session.state?.roomId;
 
+  // Setiap layar baru mulai dari atas: tanpa ini, layar hasil terbuka di tengah halaman
+  // karena posisi gulir dari layar balapan ikut terbawa.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [route, phase, roomId]);
+
   // Hitung mundur lobby 3-2-1 (FR-M11). Hanya tampilan: balapan tetap dimulai oleh server.
   useEffect(() => {
     if (phase !== 'lobby') {

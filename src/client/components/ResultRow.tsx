@@ -12,18 +12,13 @@ export interface ResultRowProps {
 /** ResultRow — DESIGN §4: normal, me, bot. */
 export function ResultRow({ rank, participant, correctCount, status, isMe }: ResultRowProps) {
   return (
-    <tr
-      style={{
-        backgroundColor: isMe ? 'var(--color-forest-100)' : 'transparent',
-        font: 'var(--text-body)',
-      }}
-    >
-      <td style={{ padding: 'var(--space-2)' }}>{rank}</td>
-      <td style={{ padding: 'var(--space-2)' }}>
+    <tr className={isMe ? 'result-row is-me' : 'result-row'}>
+      <td>{rank}</td>
+      <td>
         {participant.nickname} {participant.isBot ? '(BOT)' : ''}
       </td>
-      <td style={{ padding: 'var(--space-2)', textAlign: 'center' }}>{correctCount}</td>
-      <td style={{ padding: 'var(--space-2)', textAlign: 'center' }}>{statusLabel(status)}</td>
+      <td className="result-cell-center">{correctCount}</td>
+      <td className="result-cell-center">{statusLabel(status)}</td>
     </tr>
   );
 }

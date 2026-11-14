@@ -210,8 +210,14 @@ export class Room {
     }
 
     if (correct) {
-      this.emitFeedback(socketId, { questionIndex: parsed.data.questionIndex, correct: true });
-      // Client tampilkan "Benar!" 1 detik lalu soal berikutnya (FR-B04).
+      // Penjelasan juga dikirim saat benar supaya pemain belajar dari jawaban yang tepat (FR-B05).
+      this.emitFeedback(socketId, {
+        questionIndex: parsed.data.questionIndex,
+        correct: true,
+        explanation: question.explanation,
+        sources: question.sources,
+      });
+      // Client tampilkan "Benar!" lalu penjelasan singkat (FR-B04).
     } else {
       const lockEndsAtMs = this.cfg.now() + GAME.LOCK_DURATION_S * 1000;
       this.emitFeedback(socketId, {

@@ -34,15 +34,8 @@ export function AnimalCard({
         aria-describedby="home-fact"
         onClick={() => onSelect(animalId)}
       >
-        <span className="home-animal-placeholder" aria-hidden="true">
-          <img className="home-animal-img" src={animal.src} alt="" />
-        </span>
+        <img className="home-animal-img" src={animal.src} alt="" />
         <span>{nama}</span>
-        {selected && (
-          <span className="home-animal-check" aria-hidden="true">
-            ✓
-          </span>
-        )}
       </button>
     );
   }

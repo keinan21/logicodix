@@ -49,8 +49,9 @@ export interface RaceScreenProps {
  * Layar Balapan (DESIGN §3 screen 4; FR-B02..B08).
  *
  * Server sudah mengirim soal berikutnya tepat setelah jawaban, jadi layar ini menahan tampilan
- * sejenak supaya umpan balik terbaca: benar "Benar!" 1 dtk (FR-B04), salah sampai lock 5 dtk habis
- * (FR-B05). Selama tahan, soal yang dijawab tetap tampil beserta kunci/penjelasan dari race:feedback.
+ * sejenak supaya umpan balik terbaca: benar → penjelasan sampai 8 dtk dan bisa dilewati dengan
+ * tombol "Lanjut" (FR-B04), salah → penjelasan sampai lock 5 dtk habis (FR-B05). Selama tahan,
+ * soal yang dijawab tetap tampil beserta kunci/penjelasan dari race:feedback.
  * Kunci tidak pernah datang sebelum menjawab (FR-K11).
  */
 export function RaceScreen({
@@ -82,7 +83,7 @@ export function RaceScreen({
     if (!feedback) return;
     const startMs = feedbackAtMs ?? Date.now();
     const untilMs = feedback.correct
-      ? startMs + GAME.CORRECT_FLASH_S * 1000
+      ? startMs + GAME.CORRECT_EXPLANATION_S * 1000
       : (feedback.lockEndsAtMs ?? startMs + GAME.LOCK_DURATION_S * 1000);
     setHold({ index: feedback.questionIndex, untilMs });
   }, [feedback, feedbackAtMs]);
@@ -136,7 +137,8 @@ export function RaceScreen({
     return () => window.removeEventListener('keydown', onKey);
   }, [canAnswer, onAnswer, shown, shownIndex]);
 
-  const wrongFeedback = holding && feedback !== null && !feedback.correct ? feedback : null;
+  const shownFeedback = holding ? feedback : null;
+  const wrongFeedback = shownFeedback !== null && !shownFeedback.correct ? shownFeedback : null;
   const correctFlash = holding && feedback?.correct === true;
 
   const lockRemainingS =
@@ -216,15 +218,23 @@ export function RaceScreen({
           <QuestionCard
             question={shown}
             displayNumber={shownIndex + 1}
-            explanation={wrongFeedback?.explanation}
-            sources={wrongFeedback?.sources}
+            explanation={shownFeedback?.explanation}
+            sources={shownFeedback?.sources}
             lockRemainingS={lockRemainingS}
+            correct={shownFeedback?.correct}
+            onSkipExplanation={() => setHold(null)}
           />
         ) : null}
 
         {correctFlash ? (
           <p className="race-flash" role="status" aria-live="assertive">
             <span aria-hidden="true">✓</span> Benar!
+          </p>
+        ) : null}
+
+        {wrongFeedback ? (
+          <p className="race-flash race-flash-wrong" role="status" aria-live="assertive">
+            <span aria-hidden="true">✗</span> Salah
           </p>
         ) : null}
 

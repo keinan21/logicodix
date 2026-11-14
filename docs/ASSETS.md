@@ -13,6 +13,22 @@
 
 Pilihan hewan Beranda memakai placeholder lingkaran berlabel sesuai Figma sampai aset T-11 tersedia. Fakta hewan tetap `TODO-SUMBER`; tidak ada fakta tanpa sumber yang ditambahkan.
 
+## Aset Cozy UI (reskin tampilan)
+
+| File                                       | Sumber tetap                                                                                      | Lisensi                                                                             | Perubahan                                      |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------- |
+| `src/client/assets/cozy/card.png`          | DEMO Cozy UI Pack, dobo_ui — https://dobo-ui.itch.io/ (`Cards/CardRegular/CardRegular1_wood.png`) | Paket DEMO gratis dobo_ui, salinan catatan di `docs/licenses/cozy-ui-pack-dobo.txt` | Nama file disederhanakan; gambar tidak diubah. |
+| `src/client/assets/cozy/plank.png`         | sama (`Containers/Containers/WoodenContainer1.png`)                                               | sama                                                                                | sama                                           |
+| `src/client/assets/cozy/note.png`          | sama (`Containers/Containers/NoteContainerSimple.png`)                                            | sama                                                                                | sama                                           |
+| `src/client/assets/cozy/field.png`         | sama (`Buttons/Square/SquareButton2_white.png`)                                                   | sama                                                                                | sama                                           |
+| `src/client/assets/cozy/slot-selected.png` | sama (`Inventory/ItemSlots/ItemSlotsSelected/ItemSlotSelected1.png`)                              | sama                                                                                | sama                                           |
+| `src/client/assets/cozy/check.png`         | sama (`Checkboxes/Checkbox2_checked.png`)                                                         | sama                                                                                | sama                                           |
+| `src/client/assets/cozy/arrow.png`         | sama (`Arrows/BrownOutline/ArrowBrownOuline16.png`)                                               | sama                                                                                | sama                                           |
+| `src/client/assets/cozy/wood-block.png`    | sama (`Containers/Containers/Container1.png`)                                                     | sama                                                                                | sama                                           |
+| `src/client/assets/fonts/Fredoka.woff2`    | [Google Fonts, Fredoka v17](https://fonts.google.com/specimen/Fredoka)                            | OFL 1.1, salinan di `docs/licenses/fredoka-OFL.txt`                                 | Font variabel lokal (300–700); subset latin.   |
+
+Panel, tombol, dan latar langit–bukit dibuat dengan CSS/token, bukan gambar besar (Green IT).
+
 Setiap aset wajib punya baris di file ini: nama file, sumber (URL + commit), lisensi, dan perubahan.
 Aset yang lisensinya tidak jelas dilarang masuk repo.
 

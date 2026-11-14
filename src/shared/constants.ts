@@ -13,8 +13,8 @@ export const GAME = {
   STEPS_TO_FINISH: 5,
   /** Layar terkunci setelah salah (detik). */
   LOCK_DURATION_S: 5,
-  /** Tanda "Benar!" (detik). */
-  CORRECT_FLASH_S: 1,
+  /** Masa baca penjelasan setelah jawaban benar (detik); bisa dilewati dengan tombol Lanjut. */
+  CORRECT_EXPLANATION_S: 8,
   /** Batas waktu balapan (detik) = 4 menit. */
   RACE_DURATION_S: 240,
   /** Batas putus koneksi sebelum status "Keluar" (detik). */

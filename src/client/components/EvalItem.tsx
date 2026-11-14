@@ -1,3 +1,5 @@
+import arrow from '../assets/cozy/arrow.png';
+
 export interface EvalItemProps {
   questionNumber: number;
   stem: string;
@@ -28,57 +30,27 @@ export function EvalItem({
   onToggle,
 }: EvalItemProps) {
   return (
-    <li className="card" style={{ listStyle: 'none' }}>
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={open}
-        style={{
-          width: '100%',
-          background: 'none',
-          border: 'none',
-          cursor: 'pointer',
-          textAlign: 'left',
-          padding: 0,
-        }}
-      >
-        <span
-          style={{
-            font: 'var(--text-label)',
-            color: wrong ? 'var(--color-err-600)' : 'var(--color-ok-600)',
-          }}
-        >
-          Soal {questionNumber} — {wrong ? 'Salah' : 'Benar'} {open ? '▲' : '▼'}
+    <li className="card eval-item">
+      <button type="button" onClick={onToggle} aria-expanded={open} className="eval-toggle">
+        <span className={wrong ? 'eval-status eval-status-wrong' : 'eval-status eval-status-ok'}>
+          Soal {questionNumber} — {wrong ? 'Salah' : 'Benar'}
         </span>
-        <p style={{ margin: 'var(--space-1) 0 0', font: 'var(--text-body)' }}>{stem}</p>
+        <p className="eval-stem">{stem}</p>
+        <img className="eval-arrow" src={arrow} alt="" aria-hidden="true" />
       </button>
       {open ? (
-        <div
-          style={{
-            marginTop: 'var(--space-2)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 'var(--space-2)',
-          }}
-        >
+        <div className="eval-body">
           {wrong ? (
-            <p style={{ margin: 0, font: 'var(--text-body)' }}>
+            <p>
               Kamu memilih {chosenLetter}, jawabannya {answerLetter}.
             </p>
           ) : null}
-          {explanation ? (
-            <p style={{ margin: 0, font: 'var(--text-body)' }}>{explanation}</p>
-          ) : null}
+          {explanation ? <p>{explanation}</p> : null}
           {sources && sources.length > 0 ? (
-            <ul style={{ margin: 0, paddingLeft: 'var(--space-4)', font: 'var(--text-small)' }}>
+            <ul className="eval-sources">
               {sources.map((s) => (
                 <li key={s.url}>
-                  <a
-                    href={s.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ color: 'var(--color-forest-700)' }}
-                  >
+                  <a href={s.url} target="_blank" rel="noreferrer">
                     {s.judul} — {s.lembaga}
                   </a>
                 </li>

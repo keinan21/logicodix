@@ -2,8 +2,8 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-2) 0;
-  border-bottom: 2px dashed var(--color-earth-500);
+  padding: var(--space-1) 0;
+  border-bottom: 2px dashed var(--color-wood);
 }
 
 .lane:last-child {
@@ -15,7 +15,7 @@
 }
 
 .lane-label {
-  flex: 0 0 88px;
+  flex: 0 0 104px;
   min-width: 0;
   font: var(--text-label);
   overflow: hidden;
@@ -28,6 +28,7 @@
   flex: 1;
   min-width: 0;
   height: calc(var(--size-lane-animal) + var(--space-3));
+  overflow: hidden;
 }
 
 .lane-rail {
@@ -70,20 +71,22 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  right: calc(var(--size-lane-animal) / -2);
+  right: 0;
   width: 8px;
   border-radius: var(--radius-sm);
   background: repeating-linear-gradient(
     to bottom,
-    var(--color-forest-900) 0 4px,
-    var(--color-surface) 4px 8px
+    var(--color-bark) 0 4px,
+    var(--color-cream) 4px 8px
   );
 }
 
 .lane-status {
   flex: 0 0 auto;
+  min-width: 52px;
   font: var(--text-label);
   color: var(--color-forest-700);
+  text-align: right;
   white-space: nowrap;
 }
 
@@ -112,6 +115,6 @@
 
 @media (min-width: 1024px) {
   .lane-label {
-    flex-basis: 120px;
+    flex-basis: 150px;
   }
 }

@@ -39,9 +39,11 @@ export function PodiumScreen({
     <main className="screen podium-screen">
       <div className="screen-inner two-columns">
         <section aria-labelledby="podium-title">
-          <h1 id="podium-title" className="podium-title">
-            {provisional ? 'Hasil sementara' : 'Hasil balapan'}
-          </h1>
+          <div className="plank">
+            <h1 id="podium-title" className="plank-title">
+              {provisional ? 'Hasil sementara' : 'Hasil balapan'}
+            </h1>
+          </div>
           {provisional ? (
             <p className="podium-note" role="status">
               Balapan masih berjalan; peringkat bisa berubah sampai semua peserta selesai.
@@ -72,7 +74,7 @@ export function PodiumScreen({
           )}
         </section>
 
-        <section aria-labelledby="podium-table">
+        <section aria-labelledby="podium-table" className="card podium-board">
           <h2 id="podium-table" className="podium-heading">
             Semua peserta
           </h2>

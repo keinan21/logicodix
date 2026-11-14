@@ -7,7 +7,13 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-3);
-  max-width: 100%;
+  width: 100%;
+  max-width: 420px;
+  padding: var(--space-6);
+  border: 3px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
   text-align: center;
 }
 
@@ -19,8 +25,13 @@
 
 .queue-wait {
   margin: 0;
-  color: var(--color-muted);
+  padding: var(--space-2) var(--space-4);
+  border: 2px dashed var(--color-line);
+  border-radius: var(--radius-pill);
+  background: var(--color-cream-deep);
+  color: var(--color-ink);
   font: var(--text-body);
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 
@@ -28,11 +39,11 @@
   width: var(--size-queue-action-width);
   max-width: 100%;
   min-height: var(--size-queue-action-height);
-  font: var(--text-queue-action) !important;
+  font: var(--text-queue-action);
 }
 
 @media (hover: hover) {
-  .queue-cancel.btn:hover {
-    background-color: var(--color-forest-100) !important;
+  .queue-cancel.btn:not(:disabled):hover {
+    background-color: var(--color-cream-deep);
   }
 }

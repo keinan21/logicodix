@@ -4,11 +4,15 @@ export interface QuestionCardProps {
   question: QuestionPublic;
   /** Indeks soal dalam urutan room (1-based untuk tampilan). */
   displayNumber: number;
-  /** Penjelasan + sumber hanya tampil setelah pemain menjawab salah (FR-B05). */
+  /** Penjelasan + sumber tampil setelah menjawab — benar maupun salah (FR-B05). */
   explanation?: string | undefined;
   sources?: { judul: string; url: string; lembaga: string }[] | undefined;
   /** Sisa detik lock (5..1) bila sedang terkunci. */
   lockRemainingS?: number | undefined;
+  /** Hasil jawaban terakhir; menentukan warna panel penjelasan. */
+  correct?: boolean | undefined;
+  /** Lewati masa baca penjelasan lebih cepat (hanya saat jawaban benar). */
+  onSkipExplanation?: (() => void) | undefined;
 }
 
 /**
@@ -23,72 +27,49 @@ export function QuestionCard({
   explanation,
   sources,
   lockRemainingS,
+  correct,
+  onSkipExplanation,
 }: QuestionCardProps) {
   return (
-    <article className="card" aria-labelledby={`question-${displayNumber}`}>
-      <div style={{ display: 'flex', gap: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>
-        <span style={{ font: 'var(--text-label)', color: 'var(--color-muted)' }}>
-          Soal {displayNumber}
-        </span>
+    <article className="card question-card" aria-labelledby={`question-${displayNumber}`}>
+      <div className="question-meta">
+        <span className="eyebrow">Soal {displayNumber}</span>
       </div>
 
-      <h2
-        id={`question-${displayNumber}`}
-        style={{ font: 'var(--text-title)', margin: '0 0 var(--space-2)' }}
-      >
+      <h2 id={`question-${displayNumber}`} className="question-stem">
         {question.stem}
       </h2>
 
-      {question.claim ? (
-        <blockquote
-          style={{
-            margin: '0 0 var(--space-3)',
-            padding: 'var(--space-3) var(--space-4)',
-            borderLeft: `4px solid var(--color-forest-500)`,
-            backgroundColor: 'var(--color-forest-100)',
-            borderRadius: 'var(--radius-sm)',
-          }}
-        >
-          {question.claim}
-        </blockquote>
-      ) : null}
+      {question.claim ? <blockquote className="question-claim">{question.claim}</blockquote> : null}
 
       {explanation ? (
         <div
-          style={{
-            marginTop: 'var(--space-3)',
-            padding: 'var(--space-3) var(--space-4)',
-            borderRadius: 'var(--radius-md)',
-            backgroundColor: 'var(--color-forest-100)',
-          }}
+          className={
+            correct === false
+              ? 'question-explanation question-explanation-wrong'
+              : 'question-explanation'
+          }
         >
-          <p style={{ margin: '0 0 var(--space-2)', font: 'var(--text-body)' }}>{explanation}</p>
+          <p className="question-explanation-title">Penjelasan</p>
+          <p>{explanation}</p>
           {lockRemainingS !== undefined ? (
-            <p style={{ margin: 0, font: 'var(--text-small)', color: 'var(--color-muted)' }}>
-              Lanjut dalam {lockRemainingS} detik…
-            </p>
+            <p className="question-lock">Lanjut dalam {lockRemainingS} detik…</p>
           ) : null}
           {sources && sources.length > 0 ? (
-            <ul
-              style={{
-                margin: 'var(--space-2) 0 0',
-                paddingLeft: 'var(--space-4)',
-                font: 'var(--text-small)',
-              }}
-            >
+            <ul className="question-sources">
               {sources.map((s) => (
                 <li key={s.url}>
-                  <a
-                    href={s.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ color: 'var(--color-forest-700)' }}
-                  >
+                  <a href={s.url} target="_blank" rel="noreferrer">
                     {s.judul} — {s.lembaga}
                   </a>
                 </li>
               ))}
             </ul>
+          ) : null}
+          {lockRemainingS === undefined && onSkipExplanation ? (
+            <button type="button" className="question-skip" onClick={onSkipExplanation}>
+              Lanjut
+            </button>
           ) : null}
         </div>
       ) : null}

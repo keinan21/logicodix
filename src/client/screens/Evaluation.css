@@ -1,0 +1,44 @@
+.evaluation {
+  padding-bottom: calc(var(--space-8) * 2);
+}
+
+.evaluation .plank {
+  margin-top: var(--space-2);
+}
+
+.evaluation-heading {
+  margin: 0 0 var(--space-2);
+  font: var(--text-label);
+  color: var(--color-muted);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.eval-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0;
+  margin: 0;
+}
+
+.evaluation-sources {
+  padding: var(--space-4);
+}
+
+.evaluation-source-link {
+  margin: 0 0 var(--space-1);
+  font: var(--text-small);
+}
+
+.evaluation-source-link a {
+  color: var(--color-forest-700);
+}
+
+.evaluation-actions {
+  display: flex;
+}
+
+.evaluation-actions .btn {
+  min-width: 200px;
+}

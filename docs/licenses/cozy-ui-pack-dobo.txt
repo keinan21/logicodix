@@ -1,0 +1,17 @@
+DEMO Cozy UI Pack — dobo_ui (https://dobo-ui.itch.io/)
+
+Aset yang dipakai di `src/client/assets/cozy/` berasal dari versi DEMO gratis
+"DEMO_Cozy_UI_Pack" oleh dobo_ui. Catatan pengembang dari paket aslinya:
+
+    Thank you for getting DEMO version of Cozy UI Pack!
+    If you liked this Demo, consider purchasing a complete version of the pack ...
+    https://dobo-ui.itch.io/
+    by dobo_ui | itch.io - dobo_ui
+
+Berkas yang disalin (isi gambar tidak diubah, hanya nama file disederhanakan):
+
+- `slot-selected.png`      ← Inventory/ItemSlots/ItemSlotsSelected/ItemSlotSelected1.png
+- `check.png`              ← Checkboxes/Checkbox2_checked.png
+- `arrow.png`              ← Arrows/BrownOutline/ArrowBrownOuline16.png
+- `wood-block.png`         ← Containers/Containers/Container1.png
+- `note.png`               ← Containers/Containers/NoteContainerSimple.png

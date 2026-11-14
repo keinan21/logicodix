@@ -21,46 +21,21 @@ export function AIPanel({ content, badge, loading }: AIPanelProps) {
         : 'auto-summary';
 
   return (
-    <section
-      aria-live="polite"
-      style={{
-        border: `2px solid var(--color-ai-600)`,
-        borderRadius: 'var(--radius-lg)',
-        backgroundColor: 'var(--color-ai-100)',
-        padding: 'var(--space-4)',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 'var(--space-2)',
-          marginBottom: 'var(--space-2)',
-        }}
-      >
-        <h3 style={{ margin: 0, font: 'var(--text-title)', color: 'var(--color-ai-600)' }}>
-          Evaluasi AI
-        </h3>
+    <section aria-live="polite" className="ai-panel">
+      <div className="ai-panel-head">
+        <h3 className="ai-panel-title">Evaluasi AI</h3>
         {/* Badge asal teks baru bermakna setelah teksnya ada (FR-H05). */}
         {loading ? null : <Badge kind={badgeKind} />}
       </div>
 
-      {loading || (!content && !loading) ? (
-        <p style={{ margin: 0, font: 'var(--text-body)', color: 'var(--color-muted)' }}>
-          AI sedang menyusun evaluasi…
-        </p>
-      ) : null}
+      {loading || (!content && !loading) ? <p>AI sedang menyusun evaluasi…</p> : null}
 
-      {content?.motivation ? (
-        <p style={{ margin: 0, font: 'var(--text-body)' }}>{content.motivation}</p>
-      ) : null}
+      {content?.motivation ? <p>{content.motivation}</p> : null}
 
-      {content?.pattern ? (
-        <p style={{ margin: 0, font: 'var(--text-body)' }}>{content.pattern}</p>
-      ) : null}
+      {content?.pattern ? <p>{content.pattern}</p> : null}
 
       {content?.tip ? (
-        <p style={{ margin: 'var(--space-2) 0 0', font: 'var(--text-body)' }}>
+        <p className="ai-panel-tip">
           <strong>Tips:</strong> {content.tip}
         </p>
       ) : null}

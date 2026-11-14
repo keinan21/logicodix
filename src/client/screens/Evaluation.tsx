@@ -3,6 +3,7 @@ import { AIPanel } from '../components/AIPanel';
 import { EvalItem } from '../components/EvalItem';
 import { Button } from '../components/Button';
 import type { EvalReady } from '../../shared/schema';
+import './Evaluation.css';
 
 const LETTERS = ['A', 'B', 'C', 'D'] as const;
 
@@ -18,16 +19,19 @@ export interface EvaluationScreenProps {
  * - "Baca lebih lanjut" hanya memuat sumber terverifikasi dari soal yang dijawab; AI tidak membuat tautan.
  */
 export function EvaluationScreen({ evaluation, onPlayAgain }: EvaluationScreenProps) {
-  const [openIds, setOpenIds] = useState<Set<string>>(new Set());
+  /**
+   * Buka/tutup akordeon. `null` = ikut bawaan (soal salah terbuka, soal benar tertutup).
+   * Soal salah juga bisa ditutup pengguna, jadi state ini menyimpan pilihan eksplisit.
+   */
+  const [openOverrides, setOpenOverrides] = useState<Map<string, boolean>>(new Map());
   const questions = evaluation?.questions ?? [];
   const ai = evaluation?.aiSection ?? null;
   const loading = evaluation === null;
 
-  const toggle = (id: string) => {
-    setOpenIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
+  const toggle = (id: string, defaultOpen: boolean) => {
+    setOpenOverrides((prev) => {
+      const next = new Map(prev);
+      next.set(id, !(prev.get(id) ?? defaultOpen));
       return next;
     });
   };
@@ -41,29 +45,20 @@ export function EvaluationScreen({ evaluation, onPlayAgain }: EvaluationScreenPr
 
   return (
     <main className="screen">
-      <div className="screen-inner">
-        <h1 style={{ font: 'var(--text-title)', color: 'var(--color-forest-900)' }}>Evaluasimu</h1>
+      <div className="screen-inner evaluation">
+        <div className="plank">
+          <h1 className="plank-title">Evaluasimu</h1>
+        </div>
 
         <section aria-labelledby="eval-questions">
-          <h2
-            id="eval-questions"
-            style={{ font: 'var(--text-label)', color: 'var(--color-muted)' }}
-          >
+          <h2 id="eval-questions" className="evaluation-heading">
             Soal yang kamu jawab
           </h2>
-          <ul
-            style={{
-              padding: 0,
-              margin: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--space-2)',
-            }}
-          >
+          <ul className="eval-list">
             {questions.map((question, index) => {
               const wrong = question.chosenIndex !== question.answerIndex;
-              // Soal salah terbuka otomatis (FR-H02)
-              const open = wrong || openIds.has(question.questionId);
+              // Soal salah terbuka otomatis (FR-H02), tapi tetap bisa ditutup pengguna.
+              const open = openOverrides.get(question.questionId) ?? wrong;
               return (
                 <EvalItem
                   key={question.questionId}
@@ -75,7 +70,7 @@ export function EvaluationScreen({ evaluation, onPlayAgain }: EvaluationScreenPr
                   sources={wrong ? question.sources : undefined}
                   wrong={wrong}
                   open={open}
-                  onToggle={() => toggle(question.questionId)}
+                  onToggle={() => toggle(question.questionId, wrong)}
                 />
               );
             })}
@@ -89,28 +84,21 @@ export function EvaluationScreen({ evaluation, onPlayAgain }: EvaluationScreenPr
         />
 
         {sources.length > 0 ? (
-          <section aria-labelledby="baca-lebih-lanjut" className="card">
-            <h2 id="baca-lebih-lanjut" style={{ font: 'var(--text-label)' }}>
+          <section aria-labelledby="baca-lebih-lanjut" className="card evaluation-sources">
+            <h2 id="baca-lebih-lanjut" className="evaluation-heading">
               Baca lebih lanjut
             </h2>
-            <ul style={{ margin: 0, paddingLeft: 'var(--space-4)', font: 'var(--text-small)' }}>
-              {sources.map((source) => (
-                <li key={source.url}>
-                  <a
-                    href={source.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{ color: 'var(--color-forest-700)' }}
-                  >
-                    {source.judul} — {source.lembaga}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            {sources.map((source) => (
+              <p key={source.url} className="evaluation-source-link">
+                <a href={source.url} target="_blank" rel="noreferrer">
+                  {source.judul} — {source.lembaga}
+                </a>
+              </p>
+            ))}
           </section>
         ) : null}
 
-        <div>
+        <div className="evaluation-actions">
           <Button variant="primary" onClick={onPlayAgain}>
             Main lagi
           </Button>
