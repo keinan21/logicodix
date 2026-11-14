@@ -13,15 +13,15 @@
 
 ## ✨ Fitur
 
-| Fitur | Keterangan |
-|---|---|
-| 🏁 Balapan real-time | Socket.IO · matchmaking otomatis · lawan bot atau manusia |
-| ❓ 102 soal terverifikasi | Klaim lingkungan dengan 4 pilihan penjelasan · sumber resmi |
-| ⏸️ Jeda & Keluar | Pause saat lawan bot · keluar ke beranda kapan saja |
-| 🤖 Evaluasi AI | Gemini Flash merangkum pola kesalahan — bukan menilai benar/salah |
-| 🔒 Transparan | Kunci & skor hanya dari server + kunci buatan manusia. Nickname tidak dikirim ke AI |
-| 🎵 Audio | Musik latar + SFX (CC0 / CC-BY / CC-BY 4.0) · tombol bisu pojok kanan bawah |
-| ♻️ Green IT | Satu port, tanpa database, tanpa akun tersimpan. Data hilang setelah sesi |
+| Fitur                     | Keterangan                                                                          |
+| ------------------------- | ----------------------------------------------------------------------------------- |
+| 🏁 Balapan real-time      | Socket.IO · matchmaking otomatis · lawan bot atau manusia                           |
+| ❓ 102 soal terverifikasi | Klaim lingkungan dengan 4 pilihan penjelasan · sumber resmi                         |
+| ⏸️ Jeda & Keluar          | Pause saat lawan bot · keluar ke beranda kapan saja                                 |
+| 🤖 Evaluasi AI            | Gemini Flash merangkum pola kesalahan — bukan menilai benar/salah                   |
+| 🔒 Transparan             | Kunci & skor hanya dari server + kunci buatan manusia. Nickname tidak dikirim ke AI |
+| 🎵 Audio                  | Musik latar + SFX (CC0 / CC-BY / CC-BY 4.0) · tombol bisu pojok kanan bawah         |
+| ♻️ Green IT               | Satu port, tanpa database, tanpa akun tersimpan. Data hilang setelah sesi           |
 
 ---
 
@@ -60,13 +60,13 @@ npm run dev        # Vite (5173) + server (3000) secara bersamaan
 
 ### Variabel Lingkungan (`.env`)
 
-| Variabel | Default | Keterangan |
-|---|---|---|
-| `PORT` | `3000` | Port server |
-| `AI_MODE` | `mock` | `live` (Gemini), `contoh` (pregenerated), `mock` (teks statis) |
-| `GEMINI_API_KEY` | – | Kunci API Gemini. Jangan di-commit |
-| `GEMINI_MODEL` | `gemini-3.1-flash-lite` | Model Gemini yang dipakai |
-| `SEED` | acak | Kunci seed untuk debugging deterministik |
+| Variabel         | Default                 | Keterangan                                                     |
+| ---------------- | ----------------------- | -------------------------------------------------------------- |
+| `PORT`           | `3000`                  | Port server                                                    |
+| `AI_MODE`        | `mock`                  | `live` (Gemini), `contoh` (pregenerated), `mock` (teks statis) |
+| `GEMINI_API_KEY` | –                       | Kunci API Gemini. Jangan di-commit                             |
+| `GEMINI_MODEL`   | `gemini-3.1-flash-lite` | Model Gemini yang dipakai                                      |
+| `SEED`           | acak                    | Kunci seed untuk debugging deterministik                       |
 
 ### Demo Multiplayer Lokal
 
@@ -82,12 +82,12 @@ Pemain di jaringan yang sama: buka `http://<IP-laptop>:3000` (IP dicetak server 
 
 ### Troubleshoot
 
-| Gejala | Solusi |
-|---|---|
-| `Error: not enough verified questions` | Jalankan `npm run check` — validasi konten gagal |
-| HP tidak bisa buka game | Pastikan laptop & HP di WiFi yang sama, cek firewall port 3000 |
-| Evaluasi selalu "bukan AI" | Cek `AI_MODE` di `.env` dan isi `GEMINI_API_KEY` |
-| Soal yang muncul itu-itu saja | Jangan set `SEED` — biarkan acak per sesi |
+| Gejala                                 | Solusi                                                         |
+| -------------------------------------- | -------------------------------------------------------------- |
+| `Error: not enough verified questions` | Jalankan `npm run check` — validasi konten gagal               |
+| HP tidak bisa buka game                | Pastikan laptop & HP di WiFi yang sama, cek firewall port 3000 |
+| Evaluasi selalu "bukan AI"             | Cek `AI_MODE` di `.env` dan isi `GEMINI_API_KEY`               |
+| Soal yang muncul itu-itu saja          | Jangan set `SEED` — biarkan acak per sesi                      |
 
 ---
 
@@ -103,6 +103,7 @@ docs/         ARCHITECTURE.md · FRONTEND.md · frd/ · DESIGN.md · ASSETS.md
 ```
 
 **Prinsip inti:**
+
 - Benar/salah, langkah, waktu, dan peringkat **hanya dihitung server** dari kunci buatan manusia.
 - Kunci & penjelasan **tidak dikirim ke browser** sebelum soal dijawab (FR-K11).
 - Nickname & data peserta lain **tidak pernah ke AI atau log** (FR-H06).
@@ -125,12 +126,12 @@ Dokumentasi teknikal lengkap: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) (ba
 
 5 room × 4 peserta (20 koneksi WebSocket simultan) via `npm run load`:
 
-| Metrik | Hasil | Batas |
-|---|---|---|
-| Room selesai | 5 / 5 (100%) | — |
-| Latensi `room:state` p95 | 151 ms | — |
-| Latensi `race:feedback` p95 | 7 ms | — |
-| Latensi gabungan p95 | **149 ms** | ≤ 250 ms ✅ |
+| Metrik                      | Hasil        | Batas       |
+| --------------------------- | ------------ | ----------- |
+| Room selesai                | 5 / 5 (100%) | —           |
+| Latensi `room:state` p95    | 151 ms       | —           |
+| Latensi `race:feedback` p95 | 7 ms         | —           |
+| Latensi gabungan p95        | **149 ms**   | ≤ 250 ms ✅ |
 
 ---
 
@@ -172,15 +173,15 @@ Agen AI hanya boleh membuat soal `status: "draf"`. Verifikasi hanya oleh manusia
 
 ## 🎨 Lisensi Aset
 
-| Aset | Sumber | Lisensi |
-|---|---|---|
-| Hewan & dekorasi | Google Noto Emoji SVG | Apache 2.0 |
-| Tipografi (Plus Jakarta Sans) | Gumpita Rahayu / Tokotype | OFL 1.1 |
-| Tipografi (Fredoka) | — | OFL 1.1 |
-| UI pack | DEMO Cozy UI Pack — dobo_ui | Lisensi DEMO gratis |
-| UI pack | Kenney UI Pack Adventure | CC0 |
-| Musik — Town Theme RPG | cynicmusic (OpenGameArt) | CC0 |
-| Musik — Platformer Music Pack | CodeManu (OpenGameArt) | CC-BY 3.0 |
-| SFX — Cute, Cozy & Magical UI SFX | Nomagician Music | CC BY 4.0 |
+| Aset                              | Sumber                      | Lisensi             |
+| --------------------------------- | --------------------------- | ------------------- |
+| Hewan & dekorasi                  | Google Noto Emoji SVG       | Apache 2.0          |
+| Tipografi (Plus Jakarta Sans)     | Gumpita Rahayu / Tokotype   | OFL 1.1             |
+| Tipografi (Fredoka)               | —                           | OFL 1.1             |
+| UI pack                           | DEMO Cozy UI Pack — dobo_ui | Lisensi DEMO gratis |
+| UI pack                           | Kenney UI Pack Adventure    | CC0                 |
+| Musik — Town Theme RPG            | cynicmusic (OpenGameArt)    | CC0                 |
+| Musik — Platformer Music Pack     | CodeManu (OpenGameArt)      | CC-BY 3.0           |
+| SFX — Cute, Cozy & Magical UI SFX | Nomagician Music            | CC BY 4.0           |
 
 Detail lengkap di [`docs/ASSETS.md`](docs/ASSETS.md) dan [`docs/licenses/`](docs/licenses/).

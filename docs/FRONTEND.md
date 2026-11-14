@@ -7,14 +7,14 @@ Dokumen referensi untuk juri dan kontributor baru. Dibaca setelah
 
 ## 1. Stack
 
-| Teknologi | Peran |
-|---|---|
-| React 18 (`useSyncExternalStore`) | UI |
-| Vite | Bundler + dev server |
-| TypeScript strict | Semua file `.ts` / `.tsx` |
-| Socket.IO client | Koneksi real-time ke server |
-| CSS custom properties | Token desain — **tanpa Tailwind, tanpa CSS-in-JS** |
-| Zod | Validasi payload socket sebelum masuk reducer |
+| Teknologi                         | Peran                                              |
+| --------------------------------- | -------------------------------------------------- |
+| React 18 (`useSyncExternalStore`) | UI                                                 |
+| Vite                              | Bundler + dev server                               |
+| TypeScript strict                 | Semua file `.ts` / `.tsx`                          |
+| Socket.IO client                  | Koneksi real-time ke server                        |
+| CSS custom properties             | Token desain — **tanpa Tailwind, tanpa CSS-in-JS** |
+| Zod                               | Validasi payload socket sebelum masuk reducer      |
 
 ---
 
@@ -103,18 +103,18 @@ Musik ikut berubah otomatis: `setMusic('race')` saat `phase === 'racing'`,
 
 ```ts
 interface RoomSession {
-  state: RoomState | null;      // State room dari server; null = belum di room
+  state: RoomState | null; // State room dari server; null = belum di room
   feedback: RaceFeedback | null; // Umpan balik jawaban terakhir (kunci hanya di sini, FR-K11)
-  feedbackAtMs: number | null;  // Waktu client saat feedback diterima (ms)
-  raceEnd: RaceEnd | null;      // Peringkat final (dari race:end)
-  standings: RaceEnd | null;    // Peringkat sementara (dari race:standings)
+  feedbackAtMs: number | null; // Waktu client saat feedback diterima (ms)
+  raceEnd: RaceEnd | null; // Peringkat final (dari race:end)
+  standings: RaceEnd | null; // Peringkat sementara (dari race:standings)
   evaluation: EvalReady | null; // Data evaluasi (dari eval:ready)
-  error: SessionError | null;   // Pesan error dari server
-  waitingS: number;             // Lama menunggu di antrean (detik)
-  found: number;                // Jumlah pemain ditemukan (FR-M05)
-  connected: boolean;           // Status koneksi socket saat ini
-  everConnected: boolean;       // Pernah terhubung (untuk layar reconnecting)
-  myId: string | null;          // ID socket = ID peserta di room:state
+  error: SessionError | null; // Pesan error dari server
+  waitingS: number; // Lama menunggu di antrean (detik)
+  found: number; // Jumlah pemain ditemukan (FR-M05)
+  connected: boolean; // Status koneksi socket saat ini
+  everConnected: boolean; // Pernah terhubung (untuk layar reconnecting)
+  myId: string | null; // ID socket = ID peserta di room:state
 }
 ```
 
@@ -124,25 +124,25 @@ setelah pemain menjawab — tidak pernah ada di `state` (FR-K11).
 ### 4.2 `sessionReducer` — reducer murni
 
 ```ts
-function sessionReducer(session: RoomSession, event: SessionEvent): RoomSession
+function sessionReducer(session: RoomSession, event: SessionEvent): RoomSession;
 ```
 
 Semua event Socket.IO (S→C) diproses di sini sebelum disimpan ke store.
 Reducer murni: tanpa socket, tanpa `Date.now()`, tanpa efek samping —
 bisa dites tanpa server (AGENTS §3).
 
-| Event | Efek utama |
-|---|---|
-| `connection` | Update `connected`, `myId` |
-| `state` | Simpan `RoomState`; room baru → bersihkan feedback/raceEnd/evaluation |
-| `feedback` | Simpan `RaceFeedback` + `feedbackAtMs` |
-| `race-end` | Simpan `raceEnd` dan `standings` |
-| `standings` | Update `standings` saja (balapan masih berjalan) |
-| `evaluation` | Simpan `EvalReady` |
-| `error` | Simpan `SessionError` |
-| `queue-status` | Update `waitingS`, `found` |
-| `reset` | Bersihkan semua data room; koneksi tetap hidup |
-| `answer-start` | Bersihkan `error` |
+| Event          | Efek utama                                                            |
+| -------------- | --------------------------------------------------------------------- |
+| `connection`   | Update `connected`, `myId`                                            |
+| `state`        | Simpan `RoomState`; room baru → bersihkan feedback/raceEnd/evaluation |
+| `feedback`     | Simpan `RaceFeedback` + `feedbackAtMs`                                |
+| `race-end`     | Simpan `raceEnd` dan `standings`                                      |
+| `standings`    | Update `standings` saja (balapan masih berjalan)                      |
+| `evaluation`   | Simpan `EvalReady`                                                    |
+| `error`        | Simpan `SessionError`                                                 |
+| `queue-status` | Update `waitingS`, `found`                                            |
+| `reset`        | Bersihkan semua data room; koneksi tetap hidup                        |
+| `answer-start` | Bersihkan `error`                                                     |
 
 ### 4.3 Cara komponen menggunakan hook
 
@@ -153,10 +153,10 @@ function MyScreen() {
   const { session, answer, leaveRoom } = useRoom();
 
   // Baca state langsung
-  const me = session.state?.participants.find(p => p.id === session.myId);
+  const me = session.state?.participants.find((p) => p.id === session.myId);
 
   // Kirim jawaban ke server
-  const handleAnswer = (letter: 'A'|'B'|'C'|'D') => {
+  const handleAnswer = (letter: 'A' | 'B' | 'C' | 'D') => {
     answer({ questionIndex: session.state!.questionIndex, choice: letter });
   };
 }
@@ -164,15 +164,15 @@ function MyScreen() {
 
 Fungsi yang dikembalikan `useRoom()`:
 
-| Fungsi | Deskripsi |
-|---|---|
-| `joinQueue(payload)` | Kirim `queue:join`; reset state room |
-| `leaveQueue()` | Kirim `queue:leave`; kembali ke `initialSession` |
-| `answer(payload)` | Kirim `race:answer` |
-| `pause(paused)` | Kirim `race:pause` (solo vs bot saja) |
-| `leaveRoom()` | Kirim `room:leave`; reset state room |
-| `resume(token)` | Kirim `session:resume` (reconnect) |
-| `reset()` | Reset state lokal tanpa emit |
+| Fungsi               | Deskripsi                                        |
+| -------------------- | ------------------------------------------------ |
+| `joinQueue(payload)` | Kirim `queue:join`; reset state room             |
+| `leaveQueue()`       | Kirim `queue:leave`; kembali ke `initialSession` |
+| `answer(payload)`    | Kirim `race:answer`                              |
+| `pause(paused)`      | Kirim `race:pause` (solo vs bot saja)            |
+| `leaveRoom()`        | Kirim `room:leave`; reset state room             |
+| `resume(token)`      | Kirim `session:resume` (reconnect)               |
+| `reset()`            | Reset state lokal tanpa emit                     |
 
 ---
 
@@ -185,6 +185,7 @@ Fungsi yang dikembalikan `useRoom()`:
 **State dibaca:** `session.error?.pesan` (error join dari server)
 
 **Yang tampil:**
+
 - Logo EcoRush
 - Input nickname (validasi `nicknameSchema`, disimpan ke `sessionStorage`)
 - Grid pilih hewan (`AnimalCard` × 6; pilihan disimpan ke `sessionStorage`)
@@ -219,12 +220,14 @@ Fungsi yang dikembalikan `useRoom()`:
 **Ditampilkan:** `phase === 'racing' && route !== 'result'`
 
 **State dibaca:**
+
 - `session.state` → `participants`, `activeQuestion`, `timeLeftS`, `questionIndex`, `paused`
 - `session.feedback` + `session.feedbackAtMs` → tahan tampilan feedback
 - `session.raceEnd` → memunculkan `RaceResultDialog`
 - `session.error` (kode `invalid-answer`) → reset pilihan
 
 **Yang tampil:**
+
 - Header: tombol Keluar, sisa waktu (`formatClock`), tombol Jeda (solo vs bot)
 - Lintasan: satu `Lane` per peserta
 - `QuestionCard` + 4 `AnswerOption` (A–D; shortcut keyboard 1–4 / A–D)
@@ -251,6 +254,7 @@ Prop `provisional={true}` jika `raceEnd === null` (balapan masih berjalan untuk 
 **State dibaca:** `session.evaluation` (dari `eval:ready`)
 
 **Yang tampil:**
+
 - Daftar soal yang dijawab (`EvalItem`; salah → terbuka otomatis, FR-H02)
 - Panel AI (`AIPanel`) dengan `Badge` asal teks
 - Daftar sumber terverifikasi ("Baca lebih lanjut")
@@ -261,6 +265,7 @@ Prop `provisional={true}` jika `raceEnd === null` (balapan masih berjalan untuk 
 ## 6. Komponen utama
 
 ### `Lane`
+
 Props: `participant: ParticipantPublic`, `steps: number`, `correct?: boolean`
 
 Menampilkan satu lintasan balapan: label nickname (warna slot), 6 posisi, hewan SVG
@@ -270,6 +275,7 @@ yang melompat maju (`motion-step`), tunas per langkah, garis finish kotak-kotak.
 ---
 
 ### `FeedbackSheet`
+
 Props: `feedback: RaceFeedback`, `holdS: number`, `remainingS: number`, `onSkip?: () => void`
 
 Panel umpan balik di bawah layar Race. Menampilkan hasil (✓/✗), penjelasan, sumber,
@@ -279,11 +285,11 @@ melewati masa baca).
 ---
 
 ### `AnswerOption`
+
 Props: `letter`, `text`, `state: AnswerOptionState`, `disabled?`, `onSelect?`, `order?`
 
 ```ts
-type AnswerOptionState =
-  'default' | 'hover' | 'selected-waiting' | 'correct' | 'wrong' | 'dimmed';
+type AnswerOptionState = 'default' | 'hover' | 'selected-waiting' | 'correct' | 'wrong' | 'dimmed';
 ```
 
 Status tidak dibedakan dengan warna saja — selalu ada ikon ✓/✗ dan teks
@@ -292,6 +298,7 @@ visually-hidden "Benar"/"Salah" (aksesibilitas DESIGN §6, §8).
 ---
 
 ### `AIPanel`
+
 Props: `content`, `badge: EvalBadge | null`, `loading?: boolean`
 
 Panel ungu di halaman Evaluasi. Menampilkan `motivation`, `pattern`, dan `tip`
@@ -301,18 +308,20 @@ Selalu menyertakan `Badge` asal teks setelah konten siap (FR-H05).
 ---
 
 ### `Badge`
+
 Props: `kind: 'ai' | 'auto-summary' | 'example-ai' | 'bot'`
 
-| `kind` | Teks |
-|---|---|
-| `ai` | Dibuat oleh AI |
+| `kind`         | Teks                          |
+| -------------- | ----------------------------- |
+| `ai`           | Dibuat oleh AI                |
 | `auto-summary` | Ringkasan otomatis (bukan AI) |
-| `example-ai` | Contoh AI (dibuat sebelumnya) |
-| `bot` | BOT |
+| `example-ai`   | Contoh AI (dibuat sebelumnya) |
+| `bot`          | BOT                           |
 
 ---
 
 ### `EvalItem`
+
 Props: `questionNumber`, `stem`, `claim?`, `chosenText?`, `answerText?`,
 `chosenLetter?`, `answerLetter?`, `explanation?`, `sources?`, `wrong`, `open`, `onToggle`
 
@@ -322,6 +331,7 @@ otomatis dan menampilkan pilihan pemain, kunci, penjelasan, dan sumber (FR-H02).
 ---
 
 ### `RaceResultDialog` (`screens/RaceResultDialog.tsx`)
+
 Props: `title`, `text`, `actions`, `onCancel?`
 
 Dialog overlay saat balapan selesai, pemain ingin keluar, atau balapan dijeda.
@@ -343,32 +353,32 @@ langsung di komponen** (AGENTS §2.8).
 
 ### Warna utama
 
-| Token | Nilai | Kegunaan |
-|---|---|---|
-| `--color-forest-900` | `#24502a` | Teks gelap, border tebal |
-| `--color-forest-700` | `#2f7a3c` | Tautan, aksen hijau |
-| `--color-forest-500` | `#4f9e42` | Tombol primer (atas) |
-| `--color-sun-500` | `#ffd23f` | Aksen kuning / klaim soal |
-| `--color-ok-600 / ok-100` | `#24793d / #dff3d3` | Umpan balik benar |
-| `--color-err-600 / err-100` | `#b23b27 / #fbe0cf` | Umpan balik salah |
-| `--color-ai-600 / ai-100` | `#6a4fe0 / #efeaff` | Panel AI (ungu) |
-| `--color-bg` / `--color-cream` | `#fffeeb` | Latar halaman |
-| `--color-ink` | `#552f1c` | Teks utama |
-| `--color-muted` | `#7b5a45` | Teks sekunder |
-| `--color-slot-1..4` | merah / hijau / biru / cokelat | Warna slot pemain |
-| `--color-bot` | `#6b756e` | Label bot |
+| Token                          | Nilai                          | Kegunaan                  |
+| ------------------------------ | ------------------------------ | ------------------------- |
+| `--color-forest-900`           | `#24502a`                      | Teks gelap, border tebal  |
+| `--color-forest-700`           | `#2f7a3c`                      | Tautan, aksen hijau       |
+| `--color-forest-500`           | `#4f9e42`                      | Tombol primer (atas)      |
+| `--color-sun-500`              | `#ffd23f`                      | Aksen kuning / klaim soal |
+| `--color-ok-600 / ok-100`      | `#24793d / #dff3d3`            | Umpan balik benar         |
+| `--color-err-600 / err-100`    | `#b23b27 / #fbe0cf`            | Umpan balik salah         |
+| `--color-ai-600 / ai-100`      | `#6a4fe0 / #efeaff`            | Panel AI (ungu)           |
+| `--color-bg` / `--color-cream` | `#fffeeb`                      | Latar halaman             |
+| `--color-ink`                  | `#552f1c`                      | Teks utama                |
+| `--color-muted`                | `#7b5a45`                      | Teks sekunder             |
+| `--color-slot-1..4`            | merah / hijau / biru / cokelat | Warna slot pemain         |
+| `--color-bot`                  | `#6b756e`                      | Label bot                 |
 
 ### Tipografi
 
-| Token | Spesifikasi |
-|---|---|
-| `--text-display` | 700 34px/1.1 (desktop: 56px) |
-| `--text-title` | 600 21px/1.3 (desktop: 24px) |
-| `--text-body` | 400 16px/1.55 |
-| `--text-small` | 400 14px/1.45 |
-| `--text-label` | 600 13px/1.25 |
-| `--text-button` | 600 18px/1.2 |
-| `--font-family` | Fredoka → Plus Jakarta Sans → system-ui |
+| Token            | Spesifikasi                             |
+| ---------------- | --------------------------------------- |
+| `--text-display` | 700 34px/1.1 (desktop: 56px)            |
+| `--text-title`   | 600 21px/1.3 (desktop: 24px)            |
+| `--text-body`    | 400 16px/1.55                           |
+| `--text-small`   | 400 14px/1.45                           |
+| `--text-label`   | 600 13px/1.25                           |
+| `--text-button`  | 600 18px/1.2                            |
+| `--font-family`  | Fredoka → Plus Jakarta Sans → system-ui |
 
 Font disimpan lokal di repo (NFR-02): `Fredoka.woff2`, `PlusJakartaSans.ttf`.
 
@@ -386,14 +396,14 @@ Font disimpan lokal di repo (NFR-02): `Fredoka.woff2`, `PlusJakartaSans.ttf`.
 
 ### Motion
 
-| Token | Durasi | Kegunaan |
-|---|---|---|
-| `--motion-fast` | 150ms | Hover, transisi cepat |
-| `--motion-step` | 400ms | Pelari melompat satu langkah |
-| `--motion-run` | 900ms | Animasi berlari |
-| `--motion-check` | 1000ms | Kilatan ✓ |
-| `--motion-bob` | 600ms | Goyang hewan di lobby |
-| `--motion-parallax` | 30s | Langit bergerak di beranda |
+| Token               | Durasi | Kegunaan                     |
+| ------------------- | ------ | ---------------------------- |
+| `--motion-fast`     | 150ms  | Hover, transisi cepat        |
+| `--motion-step`     | 400ms  | Pelari melompat satu langkah |
+| `--motion-run`      | 900ms  | Animasi berlari              |
+| `--motion-check`    | 1000ms | Kilatan ✓                    |
+| `--motion-bob`      | 600ms  | Goyang hewan di lobby        |
+| `--motion-parallax` | 30s    | Langit bergerak di beranda   |
 
 Semua animasi dihormati oleh `prefers-reduced-motion` (DESIGN §8).
 
@@ -405,16 +415,16 @@ Semua animasi dihormati oleh `prefers-reduced-motion` (DESIGN §8).
 
 ```ts
 // Pilih trek. null = fade keluar sampai berhenti.
-setMusic('menu' | 'race' | null)
+setMusic('menu' | 'race' | null);
 
 // Panggil sekali setelah interaksi pertama (kebijakan autoplay browser).
-primeMusic()
+primeMusic();
 ```
 
-| Trek | File | Fase |
-|---|---|---|
-| `menu` | `town-theme.mp3` (CC0) | Home, Queue, Lobby, Podium, Evaluation |
-| `race` | `race-mushroom-theme.mp3` (CC-BY 3.0) | Race |
+| Trek   | File                                  | Fase                                   |
+| ------ | ------------------------------------- | -------------------------------------- |
+| `menu` | `town-theme.mp3` (CC0)                | Home, Queue, Lobby, Podium, Evaluation |
+| `race` | `race-mushroom-theme.mp3` (CC-BY 3.0) | Race                                   |
 
 Perpindahan trek dilakukan dengan fade 900 ms (`FADE_MS`) agar tidak mendadak.
 Volume latar sengaja rendah (`VOLUME = 0.18`) agar SFX tetap terdengar.
@@ -422,18 +432,18 @@ Volume latar sengaja rendah (`VOLUME = 0.18`) agar SFX tetap terdengar.
 ### `sound.ts` — efek suara SFX
 
 ```ts
-playSound('start' | 'tick' | 'correct' | 'wrong' | 'finish' | 'select')
-primeAudio()  // panggil sekali setelah interaksi; memuat semua file
+playSound('start' | 'tick' | 'correct' | 'wrong' | 'finish' | 'select');
+primeAudio(); // panggil sekali setelah interaksi; memuat semua file
 ```
 
-| Suara | Pemicu |
-|---|---|
-| `start` | Transisi ke fase `racing` |
-| `correct` | Jawaban benar (dari `race:feedback`) |
-| `wrong` | Jawaban salah (dari `race:feedback`) |
-| `finish` | Pemain sendiri atau semua selesai |
-| `select` | Ganti hewan di beranda |
-| `tick` | Tombol bisu dimatikan (konfirmasi nyala) |
+| Suara     | Pemicu                                   |
+| --------- | ---------------------------------------- |
+| `start`   | Transisi ke fase `racing`                |
+| `correct` | Jawaban benar (dari `race:feedback`)     |
+| `wrong`   | Jawaban salah (dari `race:feedback`)     |
+| `finish`  | Pemain sendiri atau semua selesai        |
+| `select`  | Ganti hewan di beranda                   |
+| `tick`    | Tombol bisu dimatikan (konfirmasi nyala) |
 
 ### Tombol bisu (`SoundToggle`)
 

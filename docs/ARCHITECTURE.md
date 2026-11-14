@@ -111,21 +111,21 @@ Balapan berakhir saat podium 1/2/3 terisi (`GAME.PODIUM_SIZE = 3`) **atau** wakt
 
 Semua payload divalidasi zod di kedua sisi. Payload yang tidak lolos ditolak dan dicatat di log.
 
-| Arah | Event            | Isi                                                                                                         |
-| ---- | ---------------- | ----------------------------------------------------------------------------------------------------------- |
-| C→S  | `queue:join`     | nickname, animalId, mode (`quick` / `bot`)                                                                  |
-| C→S  | `queue:leave`    | –                                                                                                           |
-| C→S  | `race:answer`    | questionIndex, choice (A–D)                                                                                 |
-| C→S  | `race:pause`     | `{paused: boolean}` — jeda/lanjut; hanya diterima bila room berisi tepat satu manusia (lawan bot)           |
-| C→S  | `room:leave`     | – — pemain keluar di tengah balapan; server tandai `left`, room dihapus bila semua manusia keluar           |
-| C→S  | `session:resume` | token sesi (reconnect ≤ 10 dtk)                                                                             |
-| S→C  | `queue:status`   | lama menunggu, jumlah pemain ditemukan                                                                      |
+| Arah | Event            | Isi                                                                                                           |
+| ---- | ---------------- | ------------------------------------------------------------------------------------------------------------- |
+| C→S  | `queue:join`     | nickname, animalId, mode (`quick` / `bot`)                                                                    |
+| C→S  | `queue:leave`    | –                                                                                                             |
+| C→S  | `race:answer`    | questionIndex, choice (A–D)                                                                                   |
+| C→S  | `race:pause`     | `{paused: boolean}` — jeda/lanjut; hanya diterima bila room berisi tepat satu manusia (lawan bot)             |
+| C→S  | `room:leave`     | – — pemain keluar di tengah balapan; server tandai `left`, room dihapus bila semua manusia keluar             |
+| C→S  | `session:resume` | token sesi (reconnect ≤ 10 dtk)                                                                               |
+| S→C  | `queue:status`   | lama menunggu, jumlah pemain ditemukan                                                                        |
 | S→C  | `room:state`     | fase, peserta (nickname, animalId, isBot, langkah, status), sisa waktu, soal aktif **tanpa kunci**, `paused?` |
-| S→C  | `race:feedback`  | benar/salah; bila salah: kunci, penjelasan, sumber, akhir lock                                              |
-| S→C  | `race:standings` | peringkat sementara, hanya ke pemain yang sudah tidak bisa menjawab (dipakai tombol "lihat hasil sekarang") |
-| S→C  | `race:end`       | peringkat akhir                                                                                             |
-| S→C  | `eval:ready`     | daftar soal + bagian AI + badge                                                                             |
-| S→C  | `error`          | kode + pesan bahasa Indonesia                                                                               |
+| S→C  | `race:feedback`  | benar/salah; bila salah: kunci, penjelasan, sumber, akhir lock                                                |
+| S→C  | `race:standings` | peringkat sementara, hanya ke pemain yang sudah tidak bisa menjawab (dipakai tombol "lihat hasil sekarang")   |
+| S→C  | `race:end`       | peringkat akhir                                                                                               |
+| S→C  | `eval:ready`     | daftar soal + bagian AI + badge                                                                               |
+| S→C  | `error`          | kode + pesan bahasa Indonesia                                                                                 |
 
 Pilihan jawaban peserta lain tidak pernah dikirim (FR-B06).
 
