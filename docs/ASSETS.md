@@ -66,33 +66,41 @@ latar transparan, ukuran mengikuti lebar kolom.
 - Favicon: `src/client/assets/ecorush-favicon.ico` dipakai di `index.html`.
 - Catatan: SVG berisi metadata C2PA, jadi kemungkinan dibuat dengan perkakas generatif.
 
-## Musik latar (2 trek)
+## Efek suara (5 efek)
 
-| File                                              | Dipakai di                                     | Sumber & lisensi                                                                                                                                                                    |
-| ------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/client/assets/music/town-theme.mp3`          | Beranda, Antre, Lobby, Podium, Evaluasi (loop) | OpenGameArt “Town Theme RPG” oleh **cynicmusic**, **CC0** — https://opengameart.org/content/town-theme-rpg (97 dtk, 108 kbps)                                                       |
-| `src/client/assets/music/race-mushroom-theme.mp3` | Layar Balapan (loop)                           | OpenGameArt “Platformer Game Music Pack” oleh **CodeManu**, **CC-BY 3.0** — https://opengameart.org/content/platformer-game-music-pack (trek `Mushroom Theme.mp3`, 27 dtk, 96 kbps) |
+Sumber: paket **“Cute, Cozy & Magical UI SFX”** oleh **Nomagician Music** (Roman T.) —
+https://nomagician.itch.io/ — lisensi **CC BY 4.0**
+(https://creativecommons.org/licenses/by/4.0/). Salinan readme pemilik paket beserta
+pernyataan lisensinya ada di `docs/licenses/nomagician-ui-sfx-readme.txt`.
+Nama file asli di paket adalah huruf tunggal (`u`, `e`, `c`, `v`, `t`); gambar/nada tidak diubah,
+hanya nama file yang dibuat deskriptif. Atribusi yang diminta: **“Nomagician Music”**.
 
-Musik dipudarkan masuk/keluar (≈0,9 dtk), volume latar 0,18, dan mengikuti tombol
-bisu yang sama dengan efek suara. Kredit CC-BY 3.0 tercantum di sini dan di
-`src/client/music.ts`.
+| File                                | Asal paket | Kapan berbunyi                                                                            |
+| ----------------------------------- | ---------- | ----------------------------------------------------------------------------------------- |
+| `src/client/assets/sfx/tick.mp3`    | `u.mp3`    | Angka hitung mundur lobby 3-2-1, sekali per detik                                         |
+| `src/client/assets/sfx/start.mp3`   | `e.mp3`    | Fase berubah ke `racing` (balapan dimulai)                                                |
+| `src/client/assets/sfx/correct.mp3` | `c.mp3`    | Umpan balik jawaban **benar** diterima (sekali per soal)                                  |
+| `src/client/assets/sfx/wrong.mp3`   | `v.mp3`    | Umpan balik jawaban **salah** diterima (sekali per soal)                                  |
+| `src/client/assets/sfx/finish.mp3`  | `t.mp3`    | Pelari sendiri mencapai finish, dan saat fase berubah ke `finished` (balapan usai)        |
+| `src/client/assets/sfx/select.mp3`  | `l.mp3`    | Memilih atau mengganti pelari di Beranda (tidak berbunyi jika tile yang sama diklik lagi) |
 
-## Suara (5 efek) — disintesis di browser
-
-Tidak ada file audio di repo: semua efek dibuat saat runtime dengan Web Audio API
-(`src/client/sound.ts`, osilator + envelope), jadi bebas lisensi dan tanpa unduhan.
-
-| Efek      | Kapan berbunyi                                                                     | Bentuk bunyi                  |
-| --------- | ---------------------------------------------------------------------------------- | ----------------------------- |
-| `tick`    | Angka hitung mundur lobby 3-2-1, sekali per detik                                  | blip sine pendek 880 Hz       |
-| `start`   | Fase berubah ke `racing` (balapan dimulai)                                         | tiga nada naik 392→523→784 Hz |
-| `correct` | Umpan balik jawaban **benar** diterima (sekali per soal)                           | arpeggio 660→880→1174 Hz      |
-| `wrong`   | Umpan balik jawaban **salah** diterima (sekali per soal)                           | dua nada turun 233→196 Hz     |
-| `finish`  | Pelari sendiri mencapai finish, dan saat fase berubah ke `finished` (balapan usai) | fanfare 523→659→784→1046 Hz   |
+Semua berkas dinormalisasi kenyaringannya dengan `ffmpeg loudnorm` (target −16 LUFS,
+TP −1,5 dB) dan dikodekan ulang 160 kbps MP3 supaya volume antar-efek seimbang;
+nada dan durasi tidak diubah. Pemutar memakai volume 0,7.
 
 Semua bunyi dan musik mengikuti preferensi bisu di localStorage (`sfx-muted`) yang
 diatur tombol speaker di pojok kanan bawah. AudioContext dan pemutaran musik baru
 dimulai setelah interaksi pertama pengguna (kebijakan autoplay browser).
+
+## Musik latar (2 trek)
+
+| File                                              | Asal & lisensi                                                                                                                          | Dipakai di                                     |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| `src/client/assets/music/town-theme.mp3`          | “Town Theme RPG” oleh cynicmusic — CC0 (https://opengameart.org/content/town-theme-rpg)                                                 | Beranda, Antre, Lobby, Podium, Evaluasi (loop) |
+| `src/client/assets/music/race-mushroom-theme.mp3` | “Mushroom Theme” dari Platformer Game Music Pack oleh CodeManu — CC BY 3.0 (https://opengameart.org/content/platformer-game-music-pack) | Layar Balapan (loop)                           |
+
+Musik dipudarkan masuk/keluar (≈0,9 dtk), volume latar 0,18, dan mengikuti tombol
+bisu yang sama dengan efek suara.
 
 ## Font
 
