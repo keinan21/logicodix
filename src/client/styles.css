@@ -8,18 +8,10 @@
  */
 
 @font-face {
-  font-family: 'Zyzol';
-  src: url('./assets/fonts/Zyzol.otf') format('opentype');
+  font-family: 'Fredoka';
+  src: url('./assets/fonts/Fredoka.woff2') format('woff2');
   font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Zyzol';
-  src: url('./assets/fonts/Zyzol-Bold.otf') format('opentype');
-  font-style: normal;
-  font-weight: 700;
+  font-weight: 300 700;
   font-display: swap;
 }
 
@@ -75,6 +67,7 @@
   --color-ok-600: #24793d;
   --color-ok-100: #dff3d3;
   --color-err-600: #b23b27;
+  --color-err-500: #e1665b;
   --color-err-100: #fbe0cf;
   --color-ai-600: #6a4fe0;
   --color-ai-100: #efeaff;
@@ -113,13 +106,9 @@
 
   /* Tekstur Kenney UI Pack Adventure (CC0) — lihat docs/ASSETS.md */
   --plank: url('./assets/kenney/banner_hanging.png'); /* 512x128, diregangkan proporsional */
-  --field: url('./assets/kenney/button_brown.png'); /* 96x48, bingkai 8px */
-  --slot: url('./assets/kenney/panel_brown.png'); /* 128x128, bingkai 16px */
   --card: url('./assets/kenney/panel_brown.png');
-  --check: url('./assets/kenney/check.png'); /* checkbox_brown_checked 24x24 */
   /* Kontainer hijau DEMO Mega Cozy UI Pack (dobo_ui) — lihat docs/ASSETS.md */
   --plank-wood: url('./assets/dobo/plank-wood.png'); /* WoodenContainer1 1511x384, bingkai 12/24/16/24 */
-  --panel-dark: url('./assets/kenney/panel_brown_dark.png'); /* 128x128, bingkai 16px */
 
   /* Aksen Beranda (mockup referensi) */
   --color-title-accent: #fff6b0;
@@ -154,7 +143,7 @@
   --color-focus: #24502a;
 
   /* Tipografi (DESIGN §2) — font lokal disimpan di repo (NFR-02) */
-  --font-family: 'Zyzol', 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-family: 'Fredoka', 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --text-display: 700 34px/1.1 var(--font-family);
   --text-title: 600 21px/1.3 var(--font-family);
   --text-body: 400 16px/1.55 var(--font-family);
@@ -427,15 +416,14 @@ button,
 .field-control {
   width: 100%;
   margin: 0 0 14px;
-  padding: 8px 12px 4px;
+  padding: 10px 12px;
   font: inherit;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 18px;
   color: var(--ink);
-  background: none;
-  border: solid transparent;
-  border-width: 8px;
-  border-image: var(--field) 8 8 8 8 fill / 8px stretch;
+  background: var(--color-cream);
+  border: 2px solid var(--color-line);
+  border-radius: var(--radius-md);
 }
 
 .field-control::placeholder {
@@ -450,9 +438,8 @@ button,
 }
 
 .field-control[aria-invalid='true'] {
-  border: 3px solid var(--color-err-600);
-  border-image: none;
-  border-radius: 14px;
+  border: 2px solid var(--color-err-600);
+  border-radius: var(--radius-md);
 }
 
 .field-error {

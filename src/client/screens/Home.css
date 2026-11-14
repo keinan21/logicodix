@@ -29,17 +29,19 @@
 }
 
 .home-plank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: min(100%, 560px);
-  padding: 10px 16px 14px;
-  border: solid transparent;
-  border-width: 12px 24px 16px;
-  border-image: var(--plank-wood) 12 24 16 24 fill / 12px 24px 16px 24px stretch;
+  aspect-ratio: 1511 / 384;
+  padding: 0 8%;
+  background: var(--plank-wood) center / contain no-repeat;
   text-align: center;
 }
 
 .home-plank h1 {
   margin: 0;
-  font-size: clamp(30px, 4.2vw, 56px);
+  font-size: clamp(28px, 4vw, 50px);
   line-height: 1.1;
   font-weight: 700;
   letter-spacing: 0.01em;
@@ -48,32 +50,12 @@
   paint-order: stroke fill;
 }
 
-.home-note {
-  width: min(100%, 480px);
-  margin: 0;
-  padding: 12px 16px;
-  border: solid transparent;
-  border-width: 16px;
-  border-image: var(--card) 16 16 16 16 fill / 16px stretch;
-}
-
-.home-intro {
-  font-size: clamp(16px, 1.8vw, 20px);
-  font-weight: 600;
-  line-height: 1.4;
-  color: var(--ink);
-}
-
-.home-summary {
-  font-size: clamp(14px, 1.5vw, 16px);
-  color: var(--ink);
-}
-
 .home-emo {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  width: min(100%, 480px);
+  width: min(100%, 560px);
   padding: 10px 14px;
   border: solid transparent;
   border-width: 16px;
@@ -102,10 +84,11 @@
   width: 100%;
   max-width: 600px;
   justify-self: center;
-  padding: 18px 18px 22px;
-  border: solid transparent;
-  border-width: 16px;
-  border-image: var(--card) 16 16 16 16 fill / 16px stretch;
+  padding: 20px 22px 22px;
+  border: 2px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-cream);
+  box-shadow: var(--shadow-card);
   filter: drop-shadow(0 8px 0 var(--color-shadow-strong));
 }
 
@@ -132,48 +115,37 @@
   margin-bottom: 20px;
 }
 
-/* Pilihan hewan (slot) */
+/* Pilihan hewan: kotak pipih ber-border tipis; terpilih = hijau */
 .home-animal {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2px 0 0;
+  gap: 4px;
+  padding: 10px 6px 8px;
   font: inherit;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
   color: var(--ink);
-  background: none;
+  background: var(--color-cream);
   cursor: pointer;
-  border: solid transparent;
-  border-width: 16px;
-  border-image: var(--slot) 16 16 16 16 fill / 16px stretch;
-  transition: transform var(--motion-fast) ease;
+  border: 2px solid var(--color-line);
+  border-radius: var(--radius-md);
+  transition:
+    transform var(--motion-fast) ease,
+    background var(--motion-fast) ease,
+    border-color var(--motion-fast) ease;
 }
 
 .home-animal-img {
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
 }
 
 .home-animal[aria-pressed='true'] {
-  border-image: var(--panel-dark) 16 16 16 16 fill / 16px stretch;
-  color: var(--color-cream);
-  box-shadow:
-    0 0 0 4px var(--color-sun),
-    0 6px 0 4px var(--br);
-  transform: translateY(-3px);
-}
-
-.home-animal[aria-pressed='true']::after {
-  content: '';
-  position: absolute;
-  top: -14px;
-  right: -12px;
-  width: 28px;
-  height: 30px;
-  background: var(--check) center / contain no-repeat;
+  background: var(--color-hill-mid);
+  border-color: var(--color-forest-500);
+  color: var(--color-forest-900);
 }
 
 .home-fact {
@@ -182,11 +154,12 @@
   gap: 10px;
   margin: 0 0 16px;
   padding: 10px 12px 12px;
-  border: solid transparent;
-  border-width: 8px;
-  border-image: var(--field) 8 8 8 8 fill / 8px stretch;
+  border: 2px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-cream-deep);
   font-size: 15px;
   color: var(--ink);
+  text-align: center;
 }
 
 .home-fact img {
@@ -226,36 +199,27 @@
   gap: 12px;
 }
 
-/* Tombol chunky ala paket */
+/* Tombol pipih: hijau untuk utama, merah untuk lawan bot */
 .home-cta {
   min-height: 52px;
-  padding: 9px 0 11px;
+  padding: 10px 0 12px;
   font: inherit;
   font-weight: 700;
-  font-size: 22px;
+  font-size: 21px;
   color: var(--color-cream);
-  text-shadow: 0 2px 0 var(--color-shadow-green);
   cursor: pointer;
-  border: 3px solid var(--color-cta-border);
-  border-radius: var(--radius-pill);
-  background: linear-gradient(var(--color-cta-green-top), var(--color-cta-green-bottom));
-  box-shadow:
-    0 0 0 3px var(--br),
-    0 8px 0 3px var(--color-cta-green-shadow),
-    0 8px 0 6px var(--br);
+  border: 2px solid var(--color-forest-700);
+  border-radius: var(--radius-md);
+  background: var(--color-forest-500);
   margin-bottom: 10px;
   transition:
     transform 0.08s ease,
-    box-shadow 0.08s ease;
+    filter 0.08s ease;
 }
 
 .home-cta-danger {
-  text-shadow: 0 2px 0 var(--color-shadow-red);
-  background: linear-gradient(var(--color-cta-red-top), var(--color-cta-red-bottom));
-  box-shadow:
-    0 0 0 3px var(--br),
-    0 8px 0 3px var(--color-cta-red-shadow),
-    0 8px 0 6px var(--br);
+  border-color: var(--color-err-600);
+  background: var(--color-err-500);
 }
 
 .home-cta:focus-visible {
@@ -274,18 +238,7 @@
 }
 
 .home-cta:not(:disabled):active {
-  transform: translateY(7px);
-  box-shadow:
-    0 0 0 3px var(--br),
-    0 1px 0 3px var(--color-cta-green-shadow),
-    0 1px 0 6px var(--br);
-}
-
-.home-cta-danger:not(:disabled):active {
-  box-shadow:
-    0 0 0 3px var(--br),
-    0 1px 0 3px var(--color-cta-red-shadow),
-    0 1px 0 6px var(--br);
+  transform: translateY(2px);
 }
 
 .home-cta:disabled {
@@ -323,10 +276,6 @@
   .home-animal-img {
     width: 32px;
     height: 32px;
-  }
-
-  .home-plank h1 {
-    -webkit-text-stroke: 5px var(--br);
   }
 }
 
