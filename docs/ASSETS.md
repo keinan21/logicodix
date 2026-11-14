@@ -76,9 +76,9 @@ Semua berkas dinormalisasi kenyaringannya dengan `ffmpeg loudnorm` (target −16
 TP −1,5 dB) dan dikodekan ulang 160 kbps MP3 supaya volume antar-efek seimbang;
 nada dan durasi tidak diubah. Pemutar memakai volume 0,7.
 
-Semua bunyi mengikuti preferensi bisu di localStorage (`sfx-muted`) yang diatur
-tombol speaker di pojok kanan bawah. Pemutaran baru dimulai setelah interaksi
-pertama pengguna (kebijakan autoplay browser).
+Semua bunyi dan musik mengikuti preferensi bisu di localStorage (`sfx-muted`) yang
+diatur tombol speaker di pojok kanan bawah. AudioContext dan pemutaran musik baru
+dimulai setelah interaksi pertama pengguna (kebijakan autoplay browser).
 
 ## Musik latar (2 trek)
 

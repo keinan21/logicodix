@@ -79,7 +79,7 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
 
   // Seed debugging: SEED env mengunci acak semua room (ARCHITECTURE §9).
   const fixedSeed = process.env.SEED ? Number(process.env.SEED) : undefined;
-  let seedCounter = fixedSeed ?? 1;
+  let seedCounter = fixedSeed ?? Date.now() >>> 0;
 
   const rooms = new Map<string, Room>();
   const roomBySocket = new Map<string, string>();

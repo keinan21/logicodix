@@ -97,8 +97,8 @@ export class Room {
     this.botRng = createBotRNG(cfg.seed ^ 0x9e3779b9);
 
     // Urutan soal diacak SATU KALI per room dari seed (FR-B01); urutan pilihan diacak sekali per room (FR-K05).
-    const qShuffle = shuffle(this.rng, cfg.questions.slice(0, CONTENT.TARGET_QUESTIONS));
-    this.questionBank = qShuffle.value;
+    const qShuffle = shuffle(this.rng, cfg.questions);
+    this.questionBank = qShuffle.value.slice(0, CONTENT.TARGET_QUESTIONS);
     this.rng = qShuffle.state;
     const oShuffle = shuffle(this.rng, [0, 1, 2, 3]);
     this.state = {

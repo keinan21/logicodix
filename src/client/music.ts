@@ -1,11 +1,10 @@
 /**
- * music.ts — musik latar (loop) untuk Beranda/Antre/Lobby/Podium/Evaluasi dan Balapan.
+ * music.ts — musik latar (loop) untuk Beranda/Antre/Lobby/Podium dan Balapan.
  *
  * Dua trek MP3 di src/client/assets/music (lihat docs/ASSETS.md):
  *   - town-theme.mp3 — "Town Theme RPG" oleh cynicmusic, CC0.
  *   - race-mushroom-theme.mp3 — "Mushroom Theme" dari Platformer Game Music Pack
  *     oleh CodeManu, CC-BY 3.0 (https://opengameart.org/content/platformer-game-music-pack).
- *
  * Musik baru mulai setelah interaksi pertama (kebijakan autoplay browser), dipudarkan
  * masuk/keluar supaya perpindahan layar tidak terasa mendadak, dan ikut tombol bisu
  * yang sama dengan efek suara.
