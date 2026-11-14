@@ -1,4 +1,5 @@
 import type { ParticipantPublic } from '../../shared/schema';
+import { ANIMAL_ASSETS } from './animalAssets';
 
 export interface ResultRowProps {
   rank: number;
@@ -12,8 +13,8 @@ export interface ResultRowProps {
 
 /**
  * ResultRow — DESIGN §4: normal, me, bot.
- * Satu baris peringkat cozy: medali posisi, hewan, nickname (+ chip "KAMU"),
- * jumlah jawaban benar, dan pil status. Teks tetap jadi pembeda utama, bukan warna.
+ * Baris peringkat pipih: nomor posisi, hewan, nickname (+ chip KAMU/BOT),
+ * jumlah jawaban benar, dan pil status. Teks gelap di panel terang.
  */
 export function ResultRow({
   rank,
@@ -26,18 +27,26 @@ export function ResultRow({
   return (
     <tr className={isMe ? 'result-row is-me podium-me' : 'result-row'}>
       <td className="result-rank">
-        <span className="result-medal" aria-hidden="true">
+        <span className="result-rank-num" aria-hidden="true">
           {rank}
         </span>
         <span className="visually-hidden">Posisi {rank}</span>
       </td>
       <td className="result-player">
-        <span className="result-name">{participant.nickname}</span>
-        {participant.isBot ? <span className="result-bot">BOT</span> : null}
-        {isMe ? <span className="result-you">KAMU</span> : null}
-      </td>
-      <td className="result-correct">
-        {correctCount} <span className="result-correct-label">jawaban benar</span>
+        <img
+          className="result-animal"
+          src={ANIMAL_ASSETS[participant.animalId].src}
+          alt=""
+          aria-hidden="true"
+        />
+        <span className="result-player-text">
+          <span className="result-name">
+            {participant.nickname}
+            {participant.isBot ? <span className="result-bot">BOT</span> : null}
+            {isMe ? <span className="result-you">KAMU</span> : null}
+          </span>
+          <span className="result-score">{correctCount} jawaban benar</span>
+        </span>
       </td>
       <td className="result-status">
         <span className="result-pill" data-status={status}>

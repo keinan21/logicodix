@@ -1,7 +1,6 @@
 /**
- * Home.css — Beranda gaya "cozy" (DEMO Cozy UI Pack, dobo_ui).
- * Tekstur panel memakai border-image dari aset lokal, bukan gambar besar.
- * Tata letak mengikuti mockup referensi: hero kiri, kartu form kanan.
+ * Home.css — Beranda: hero kiri (judul + panel tali), kartu form kanan.
+ * Tekstur panel memakai border-image dari aset lokal.
  */
 
 .home {
@@ -13,7 +12,7 @@
   margin: 0 auto;
   padding: clamp(20px, 4vw, 56px);
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
+  grid-template-columns: 1.05fr 1fr;
   align-items: center;
   gap: clamp(20px, 4vw, 64px);
 }
@@ -25,43 +24,47 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 18px;
+  width: 100%;
+  max-width: 560px;
 }
 
 .home-plank {
-  padding: 6px 16px 12px;
+  width: min(100%, 540px);
+  width: min(100%, 540px);
+  padding: 12px 20px 16px;
   border: solid transparent;
-  border-width: 16px 24px 12px;
-  border-image: var(--plank) 16 24 12 24 fill / 16px 24px 12px 24px stretch;
-  filter: drop-shadow(0 6px 0 var(--color-shadow-strong));
+  border-width: 8px 8px 10px;
+  border-image: var(--title-green) 8 8 10 8 fill / 8px 8px 10px 8px stretch;
+  text-align: center;
 }
 
 .home-plank h1 {
   margin: 0;
-  font-size: clamp(32px, 4.6vw, 66px);
+  font-size: clamp(32px, 4.6vw, 62px);
   line-height: 1.08;
   font-weight: 700;
   letter-spacing: 0.01em;
-  color: var(--cream);
-  -webkit-text-stroke: 0.09em var(--br);
+  color: var(--color-ink);
+  -webkit-text-stroke: 0.055em #fff;
   paint-order: stroke fill;
+  text-shadow: 0 3px 0 rgba(74, 45, 28, 0.18);
 }
 
 .home-plank h1 span {
   display: block;
-  color: var(--color-title-accent);
+  color: var(--color-forest-500);
 }
 
 /* Satu panel hero: tagline, deretan hewan, ringkasan — bukan tiga kotak lepas. */
 .home-hero-panel {
-  width: min(100%, 480px);
+  width: min(100%, 560px);
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding: 18px 20px 16px;
+  padding: 14px 18px 16px;
   border: solid transparent;
-  border-width: 8px;
-  border-image: var(--note) 8 8 8 8 fill / 8px stretch;
-  filter: drop-shadow(0 6px 0 var(--color-shadow-strong));
+  border-width: 43px 20px 8px;
+  border-image: var(--note-rope) 43 20 8 20 fill / 43px 20px 8px 20px stretch;
 }
 
 .home-intro {
@@ -84,8 +87,8 @@
   gap: 8px;
   padding: 8px 14px;
   border: solid transparent;
-  border-width: 4px;
-  border-image: var(--field) 4 4 4 4 fill / 4px stretch;
+  border-width: 8px;
+  border-image: var(--field) 8 8 8 8 fill / 8px stretch;
   background: var(--color-surface);
 }
 
@@ -109,12 +112,12 @@
 .home-card {
   position: relative;
   width: 100%;
-  max-width: 580px;
+  max-width: 600px;
   justify-self: center;
   padding: 18px 18px 22px;
   border: solid transparent;
-  border-width: 8px;
-  border-image: var(--card) 8 8 8 8 fill / 8px stretch;
+  border-width: 16px;
+  border-image: var(--card) 16 16 16 16 fill / 16px stretch;
   filter: drop-shadow(0 8px 0 var(--color-shadow-strong));
 }
 
@@ -155,8 +158,8 @@
   background: none;
   cursor: pointer;
   border: solid transparent;
-  border-width: 8px;
-  border-image: var(--slot) 8 8 8 8 fill / 8px stretch;
+  border-width: 16px;
+  border-image: var(--slot) 16 16 16 16 fill / 16px stretch;
   transition: transform var(--motion-fast) ease;
 }
 
@@ -190,8 +193,8 @@
   margin: 0 0 16px;
   padding: 8px 10px 0;
   border: solid transparent;
-  border-width: 4px 4px 4px;
-  border-image: var(--field) 4 4 4 4 fill / 4px 4px 4px 4px stretch;
+  border-width: 8px;
+  border-image: var(--field) 8 8 8 8 fill / 8px stretch;
   font-size: 15px;
   color: var(--ink);
 }
@@ -213,6 +216,7 @@
 
 /* Tombol chunky ala paket */
 .home-cta {
+  min-height: 52px;
   padding: 9px 0 11px;
   font: inherit;
   font-weight: 700;

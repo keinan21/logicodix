@@ -8,10 +8,18 @@
  */
 
 @font-face {
-  font-family: 'Fredoka';
-  src: url('./assets/fonts/Fredoka.woff2') format('woff2');
+  font-family: 'Zyzol';
+  src: url('./assets/fonts/Zyzol.otf') format('opentype');
   font-style: normal;
-  font-weight: 300 700;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zyzol';
+  src: url('./assets/fonts/Zyzol-Bold.otf') format('opentype');
+  font-style: normal;
+  font-weight: 700;
   font-display: swap;
 }
 
@@ -104,16 +112,21 @@
   --cream: var(--color-cream);
 
   /* Tekstur Kenney UI Pack Adventure (CC0) — lihat docs/ASSETS.md */
-  --plank: url('./assets/kenney/banner.png'); /* banner_hanging 256x64, pinggir 16/24/12/24 */
-  --note: url('./assets/kenney/panel.png'); /* panel_brown 64x64, bingkai 8px */
-  --field: url('./assets/kenney/button.png'); /* button_brown 48x24, bingkai 4px */
-  --slot: url('./assets/kenney/panel.png');
-  --card: url('./assets/kenney/panel.png');
-  --card-red: url('./assets/kenney/panel.png');
+  --plank: url('./assets/kenney/banner_hanging.png'); /* 512x128, diregangkan proporsional */
+  --field: url('./assets/kenney/button_brown.png'); /* 96x48, bingkai 8px */
+  --slot: url('./assets/kenney/panel_brown.png'); /* 128x128, bingkai 16px */
+  --card: url('./assets/kenney/panel_brown.png');
   --check: url('./assets/kenney/check.png'); /* checkbox_brown_checked 24x24 */
+  /* Kontainer hijau DEMO Mega Cozy UI Pack (dobo_ui) — lihat docs/ASSETS.md */
+  --title-green: url('./assets/dobo/title-green.png'); /* DoubleStripeContainer1_green 66x37, bingkai 8/8/10/8 */
+  --note-rope: url('./assets/dobo/note-rope.png'); /* RopeContainer1_green 66x65, bingkai 43/20/8/20 */
 
   /* Aksen Beranda (mockup referensi) */
   --color-title-accent: #fff6b0;
+  /* Warna blok tangga juara (mengikuti mockup hasil) */
+  --color-rank-1: #e67e22;
+  --color-rank-2: #a9c6d8;
+  --color-rank-3: #8b5a2b;
   --color-cta-border: #ffffff;
   --color-cta-green-top: #9bd543;
   --color-cta-green-bottom: #82c231;
@@ -141,7 +154,7 @@
   --color-focus: #24502a;
 
   /* Tipografi (DESIGN §2) — font lokal disimpan di repo (NFR-02) */
-  --font-family: 'Fredoka', 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-family: 'Zyzol', 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --text-display: 700 34px/1.1 var(--font-family);
   --text-title: 600 21px/1.3 var(--font-family);
   --text-body: 400 16px/1.55 var(--font-family);
@@ -191,24 +204,27 @@
   }
 }
 
-/* Papan judul (plank) — dipakai di layar selain Beranda */
+/* Papan judul (plank) — dipakai di layar selain Beranda.
+ * Banner diregangkan proporsional (bukan 9-slice) supaya garis krem
+ * dalamnya ikut melengkung seperti aset aslinya. */
 .plank {
-  display: inline-block;
-  padding: 2px 12px 6px;
-  border: solid transparent;
-  border-width: 16px 24px 12px;
-  border-image: var(--plank) 16 24 12 24 fill / 16px 24px 12px 24px stretch;
-  filter: drop-shadow(0 5px 0 var(--color-shadow-strong));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 400px);
+  aspect-ratio: 400 / 128;
+  padding: 0 10%;
+  background: var(--plank) center / 100% 100% no-repeat;
 }
 
 .plank-title {
   margin: 0;
   font-family: var(--font-family);
-  font-size: clamp(28px, 4vw, 44px);
+  font-size: clamp(26px, 3.4vw, 42px);
   font-weight: 700;
   line-height: 1.1;
   color: var(--cream);
-  -webkit-text-stroke: 5px var(--br);
+  -webkit-text-stroke: 0.1em var(--br);
   paint-order: stroke fill;
 }
 
@@ -349,12 +365,12 @@ button,
   gap: var(--space-2);
   min-height: 48px;
   padding: var(--space-3) var(--space-6);
-  border: 3px solid var(--color-line);
+  border: 2px solid var(--color-line);
   border-radius: var(--radius-md);
   font: var(--text-button);
   color: var(--color-ink);
   background: var(--color-cream);
-  box-shadow: var(--shadow-btn);
+  box-shadow: 0 4px 0 var(--color-bark-soft);
   cursor: pointer;
   transition:
     transform var(--motion-fast) ease,
@@ -418,8 +434,8 @@ button,
   color: var(--ink);
   background: none;
   border: solid transparent;
-  border-width: 4px;
-  border-image: var(--field) 4 4 4 4 fill / 4px stretch;
+  border-width: 8px;
+  border-image: var(--field) 8 8 8 8 fill / 8px stretch;
 }
 
 .field-control::placeholder {

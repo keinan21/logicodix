@@ -63,7 +63,8 @@ test('jawaban terakhir tetap memperlihatkan feedback sebelum dialog finish', asy
   await expect(page.getByRole('article')).toBeVisible();
   await expect(page.getByRole('dialog')).not.toBeVisible();
   await expect(page.getByRole('status', { name: 'Benar', exact: true })).toBeVisible();
-  await page.clock.runFor(1200);
+  // Penjelasan jawaban benar ditahan 8 detik (FR-B04) sebelum lanjut/dialog.
+  await page.clock.runFor(8200);
   await expect(page.getByRole('dialog')).toContainText('Finish! Posisi ke-1');
 });
 
@@ -78,7 +79,7 @@ test('state finish yang tiba sebelum feedback tidak memotong jawaban terakhir', 
   await expect(page.getByText('Jawaban terkirim. Menunggu respons…')).toBeVisible();
   await page.getByRole('button', { name: 'Respons benar terakhir' }).click();
   await expect(page.getByRole('status', { name: 'Benar', exact: true })).toBeVisible();
-  await page.clock.runFor(1200);
+  await page.clock.runFor(8200);
   await expect(page.getByRole('dialog')).toBeVisible();
 });
 
@@ -91,7 +92,7 @@ test('lintasan selebar layar dan tidak overflow pada ukuran kecil', async ({ pag
   }
 });
 
-test('feedback benar satu detik, soal habis, dan aset tampil tanpa error', async ({
+test('feedback benar delapan detik, soal habis, dan aset tampil tanpa error', async ({
   page,
 }, testInfo) => {
   const errors: string[] = [];
@@ -114,7 +115,7 @@ test('feedback benar satu detik, soal habis, dan aset tampil tanpa error', async
   await page.getByRole('button', { name: 'Respons benar', exact: true }).click();
   await expect(page.getByRole('status', { name: 'Benar', exact: true })).toBeVisible();
   await main.screenshot({ path: `test-results/race-${testInfo.project.name}-correct.png` });
-  await page.clock.runFor(1200);
+  await page.clock.runFor(8200);
   await expect(page.getByRole('heading', { name: 'Soal berikutnya.' })).toBeVisible();
   await page.keyboard.press('a');
   await page.getByRole('button', { name: 'Respons salah' }).click();
