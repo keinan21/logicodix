@@ -87,18 +87,20 @@ export function HomeScreen({
             Balap Fakta <span>Lingkungan</span>
           </h1>
         </div>
-        <p className="home-note home-intro">
-          Jawab benar, hewanmu melaju. Siapa paling cepat sampai finish?
-        </p>
-        <div className="home-emo" aria-hidden="true">
-          {SCENERY.map((src, i) => (
-            <img key={src} src={src} alt="" style={{ '--i': i } as CSSProperties} />
-          ))}
+        <div className="home-hero-panel">
+          <p className="home-intro">
+            Jawab benar, hewanmu melaju. Siapa paling cepat sampai finish?
+          </p>
+          <div className="home-emo" aria-hidden="true">
+            {SCENERY.map((src, i) => (
+              <img key={src} src={src} alt="" style={{ '--i': i } as CSSProperties} />
+            ))}
+          </div>
+          <p className="home-summary">
+            {GAME.MAX_PLAYERS} pemain · {GAME.STEPS_TO_FINISH} jawaban benar untuk finish · evaluasi
+            AI di akhir
+          </p>
         </div>
-        <p className="home-note home-summary">
-          {GAME.MAX_PLAYERS} pemain · {GAME.STEPS_TO_FINISH} jawaban benar untuk finish · evaluasi
-          AI di akhir
-        </p>
       </div>
 
       <section className="home-card" aria-label="Masuk permainan">

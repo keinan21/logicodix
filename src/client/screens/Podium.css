@@ -4,8 +4,11 @@
  */
 
 .screen.podium-screen {
-  gap: var(--space-3);
-  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-height: 100vh;
+  padding: var(--space-4) var(--space-4) var(--space-6);
   background: none;
 }
 
@@ -61,19 +64,23 @@
 /* ---------- Dua panel ---------- */
 
 .podium-layout {
-  display: grid;
+  display: flex;
+  flex: 1;
   gap: var(--space-4);
   width: 100%;
-  max-width: 1180px;
-  margin: 0 auto;
-  align-items: start;
+  max-width: 1160px;
+  margin: auto;
+  align-items: stretch;
 }
 
 .podium-board,
 .podium-results {
   position: relative;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
   min-width: 0;
-  padding: var(--space-3) var(--space-3) var(--space-4);
+  padding: var(--space-5);
   border: solid transparent;
   border-width: 8px;
   border-image: var(--card-red) 8 8 8 8 fill / 8px stretch;
@@ -81,13 +88,17 @@
   box-shadow: none;
 }
 
+.podium-board {
+  justify-content: space-evenly;
+}
+
 .podium-panel-title {
-  margin: 0 0 var(--space-3);
+  margin: 0 0 var(--space-4);
   padding: 0;
   background: none;
   color: var(--color-bark);
   font: var(--text-title);
-  font-size: 20px;
+  font-size: clamp(20px, 2.2vw, 26px);
   text-align: center;
 }
 
@@ -104,22 +115,31 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: var(--space-2);
+  gap: var(--space-4);
   margin: 0;
-  padding: 0 0 0;
+  padding: 0;
   list-style: none;
 }
 
 .podium-step {
   position: relative;
   display: flex;
-  flex: 1 1 0;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--space-1);
+  gap: var(--space-2);
   min-width: 0;
   text-align: center;
+}
+
+/* Juara 1 lebarkan kolomnya; 2 & 3 mengikuti di sisi. */
+.podium-rank-1 {
+  flex: 1.25 1 0;
+}
+
+.podium-rank-2,
+.podium-rank-3 {
+  flex: 0.9 1 0;
 }
 
 .podium-nickname {
@@ -135,11 +155,26 @@
   white-space: nowrap;
 }
 
+.podium-rank-1 .podium-nickname {
+  padding: 5px var(--space-3);
+  font-size: 22px;
+}
+
 .podium-animal {
-  width: calc(var(--space-8) * 1.4);
-  height: calc(var(--space-8) * 1.4);
+  width: 52px;
+  height: 52px;
   object-fit: contain;
   filter: drop-shadow(0 2px 3px var(--color-shadow-strong));
+}
+
+.podium-rank-1 .podium-animal {
+  width: 104px;
+  height: 104px;
+}
+
+.podium-rank-2 .podium-animal {
+  width: 72px;
+  height: 72px;
 }
 
 .podium-rank-1 .podium-nickname::before {
@@ -153,27 +188,30 @@
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   color: var(--color-cream);
   font: var(--text-display);
-  font-size: 42px;
+  font-size: 36px;
   text-shadow: 0 3px 0 var(--color-shadow-strong);
 }
 
 .podium-rank-1 .podium-rank {
-  height: calc(var(--space-8) * 3.6);
+  height: clamp(200px, 28vh, 260px);
   background: var(--color-sun-500);
   color: var(--color-sun-ink);
+  font-size: clamp(56px, 7vw, 80px);
   text-shadow: none;
 }
 
 .podium-rank-2 .podium-rank {
-  height: calc(var(--space-8) * 2.6);
+  height: clamp(150px, 20vh, 200px);
   background: var(--color-cream-deep);
   color: var(--color-ink);
+  font-size: 52px;
   text-shadow: none;
 }
 
 .podium-rank-3 .podium-rank {
-  height: calc(var(--space-8) * 2);
+  height: clamp(115px, 15vh, 160px);
   background: var(--color-earth-300);
+  font-size: 44px;
 }
 
 .podium-standing {
@@ -193,14 +231,14 @@
 
 .podium-table {
   width: 100%;
-  padding-inline: var(--space-3);
+  padding-inline: var(--space-2);
   border-collapse: separate;
   border-spacing: 0 var(--space-2);
   table-layout: auto;
 }
 
 .podium-table td {
-  padding: var(--space-2);
+  padding: var(--space-4) var(--space-3);
   border-block: 2px solid var(--color-wood-soft);
   background: var(--color-surface);
   vertical-align: middle;
@@ -238,8 +276,8 @@
 .result-medal {
   display: inline-grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   border: 2px solid var(--color-wood-soft);
   border-radius: 50%;
   background: var(--color-cream-deep);
@@ -262,7 +300,7 @@
 
 .result-player {
   display: table-cell;
-  font: var(--text-body);
+  font-size: 18px;
   font-weight: 700;
   color: var(--color-ink);
   overflow-wrap: anywhere;
@@ -290,7 +328,7 @@
 }
 
 .result-correct {
-  font: var(--text-label);
+  font-size: 16px;
   color: var(--color-ink);
 }
 
@@ -302,11 +340,11 @@
 
 .result-pill {
   display: inline-block;
-  padding: 2px var(--space-2);
+  padding: 4px var(--space-3);
   border-radius: var(--radius-pill);
   background: var(--color-ok-600);
   color: var(--color-cream);
-  font: var(--text-small);
+  font-size: 15px;
   font-weight: 700;
   white-space: nowrap;
 }
@@ -327,8 +365,10 @@
 
 .podium-actions {
   display: grid;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-3) 0;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding: var(--space-4) 0 0;
 }
 
 .podium-actions .btn {
@@ -341,10 +381,15 @@
   color: var(--color-sun-ink);
 }
 
-@media (min-width: 1024px) {
+/* Layar sempit: panel menumpuk, tinggi mengikuti isi. */
+@media (max-width: 860px) {
   .podium-layout {
-    grid-template-columns: 1.05fr 1fr;
-    gap: var(--space-5);
+    flex-direction: column;
+  }
+
+  .podium-board,
+  .podium-results {
+    flex: none;
   }
 }
 

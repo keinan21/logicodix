@@ -51,26 +51,42 @@
   color: var(--color-title-accent);
 }
 
-.home-note {
-  width: min(100%, 440px);
-  margin: 0;
-  padding: 10px 12px;
+/* Satu panel hero: tagline, deretan hewan, ringkasan — bukan tiga kotak lepas. */
+.home-hero-panel {
+  width: min(100%, 480px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 20px 16px;
   border: solid transparent;
   border-width: 8px;
   border-image: var(--note) 8 8 8 8 fill / 8px stretch;
-  font-size: clamp(16px, 1.8vw, 20px);
+  filter: drop-shadow(0 6px 0 var(--color-shadow-strong));
+}
+
+.home-intro {
+  margin: 0;
+  font-size: clamp(17px, 1.9vw, 21px);
+  font-weight: 600;
+  line-height: 1.4;
   color: var(--ink);
-  filter: drop-shadow(0 4px 0 var(--color-shadow-medium));
+}
+
+.home-summary {
+  margin: 0;
+  font-size: clamp(14px, 1.5vw, 16px);
+  color: var(--color-muted);
 }
 
 .home-emo {
   display: flex;
-  gap: 6px;
-  padding: 6px 14px;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
   border: solid transparent;
-  border-width: 4px 4px 4px;
-  border-image: var(--field) 4 4 4 4 fill / 4px 4px 4px 4px stretch;
-  filter: drop-shadow(0 4px 0 var(--color-shadow-medium));
+  border-width: 4px;
+  border-image: var(--field) 4 4 4 4 fill / 4px stretch;
+  background: var(--color-surface);
 }
 
 .home-emo img {
