@@ -202,9 +202,6 @@ export function RaceScreen({
     <main className="screen race-screen">
       <div className="race-layout">
         <header className="race-header">
-          <h1 className="race-meta">
-            Soal {shown !== null ? shownIndex + 1 : state.questionIndex + 1}
-          </h1>
           <div className="race-header-status">
             {spectatorStatus !== null && <span className="race-spectating">Menonton</span>}
             <span className="race-time">Sisa {formatClock(displayLeftS)}</span>
@@ -212,7 +209,6 @@ export function RaceScreen({
         </header>
 
         <section className="race-track" aria-label="Lintasan">
-          <div className="race-scenery" aria-hidden="true" />
           {state.participants.map((p) => (
             <Lane
               key={p.id}
@@ -271,12 +267,6 @@ export function RaceScreen({
             />
           ) : null}
 
-          {correctFlash ? (
-            <p className="race-flash" role="status" aria-live="assertive">
-              <span aria-hidden="true">✓</span> Benar!
-            </p>
-          ) : null}
-
           {shown !== null && spectatorStatus === null ? (
             <>
               <div className="race-options" role="group" aria-label="Pilihan jawaban">
@@ -284,18 +274,14 @@ export function RaceScreen({
                   const letter = LETTERS[index];
                   if (letter === undefined) return null;
                   return (
-                    <div className="race-option-cell" key={letter}>
-                      <AnswerOption
-                        letter={letter}
-                        text={text}
-                        state={optionState(index)}
-                        disabled={!canAnswer}
-                        onSelect={selectAnswer}
-                      />
-                      <kbd className="race-shortcut" aria-hidden="true">
-                        {letter} / {index + 1}
-                      </kbd>
-                    </div>
+                    <AnswerOption
+                      key={letter}
+                      letter={letter}
+                      text={text}
+                      state={optionState(index)}
+                      disabled={!canAnswer}
+                      onSelect={selectAnswer}
+                    />
                   );
                 })}
               </div>

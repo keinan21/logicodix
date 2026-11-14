@@ -1,78 +1,117 @@
+/*
+ * Podium.css — layar hasil gaya "cozy": papan judul kayu, dua panel krem,
+ * tangga juara berwarna, dan daftar peringkat berbentuk baris kartu.
+ */
+
 .screen.podium-screen {
-  padding: 0;
-  gap: 0;
-}
-.podium-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+  gap: var(--space-3);
   padding: var(--space-4);
-  background: var(--color-forest-700);
-  color: var(--color-surface);
-}
-.podium-header .podium-title {
-  margin: 0;
-  color: inherit;
-  font: var(--text-body);
-  font-weight: 700;
-}
-.podium-status {
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-pill);
-  background: var(--color-header-pill);
-  font: var(--text-small);
-}
-.podium-layout {
-  width: 100%;
-  display: grid;
-}
-.podium-scene {
-  background: linear-gradient(
-    to top,
-    var(--color-forest-100) 0 var(--size-home-animal),
-    var(--color-sky-100) var(--size-home-animal)
-  );
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: calc(var(--space-8) * 8);
-  min-width: 0;
-}
-.podium-results {
-  padding: var(--space-4);
-  min-width: 0;
+  background: none;
 }
 
-.podium-title {
-  margin: 0 0 var(--space-4);
+/* ---------- Kepala ---------- */
+
+.podium-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) var(--space-4) 0;
+  background: none;
+  color: var(--color-ink);
+}
+
+.podium-plank {
+  margin: 0;
+  padding: 2px 12px 6px;
+  border: solid transparent;
+  border-width: 20px 24px 24px;
+  border-image: var(--plank) 40 fill / 20px 24px 24px stretch;
+  filter: drop-shadow(0 6px 0 var(--color-shadow-strong));
+}
+
+.podium-plank .plank-title {
+  margin: 0;
+  font-size: clamp(26px, 3.4vw, 44px);
+  text-shadow: 0 2px 0 var(--color-bark);
+}
+
+.podium-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  border: 3px solid var(--color-wood-soft);
+  border-radius: var(--radius-pill);
+  background: var(--color-ok-600);
+  box-shadow: 0 3px 0 var(--color-shadow-strong);
+  color: var(--color-cream);
+  font: var(--text-label);
+  font-weight: 700;
+}
+
+.podium-status.is-provisional {
+  background: var(--color-sun-500);
+  color: var(--color-sun-ink);
+}
+
+/* ---------- Dua panel ---------- */
+
+.podium-layout {
+  display: grid;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.podium-board,
+.podium-results {
+  position: relative;
+  min-width: 0;
+  padding: 0 var(--space-3) var(--space-3);
+  border: solid transparent;
+  border-width: 58px 12px 22px;
+  border-image: var(--card-red) 92 8 22 8 fill / 58px 12px 22px stretch;
+  background: none;
+  box-shadow: none;
+}
+
+.podium-panel-title {
+  margin: calc(-1 * var(--space-8) - var(--space-2)) 0 var(--space-3);
+  padding: 0;
+  background: none;
+  color: var(--color-cream);
   font: var(--text-title);
-  color: var(--color-forest-900);
+  font-size: 20px;
+  text-align: center;
+  filter: drop-shadow(0 2px 0 var(--color-shadow-strong));
 }
 
 .podium-note {
-  margin: calc(-1 * var(--space-2)) 0 var(--space-4);
+  margin: 0 var(--space-3) var(--space-2);
   font: var(--text-small);
   color: var(--color-muted);
+  text-align: center;
 }
 
-.podium-heading {
-  margin: 0 0 var(--space-2);
-  font: var(--text-label);
-  color: var(--color-muted);
-}
+/* ---------- Tangga juara ---------- */
 
 .podium-steps {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 0;
+  gap: var(--space-2);
   margin: 0;
-  padding: 0 var(--space-8);
+  padding: var(--space-3) var(--space-3) 0;
   list-style: none;
 }
 
 .podium-step {
+  position: relative;
   display: flex;
   flex: 1 1 0;
   flex-direction: column;
@@ -80,35 +119,15 @@
   justify-content: flex-end;
   gap: var(--space-1);
   min-width: 0;
-  padding: 0;
   text-align: center;
-}
-
-.podium-rank-1 {
-  min-height: calc(var(--space-8) * 4);
-  border-color: var(--color-earth-500);
-}
-
-.podium-rank-2 {
-  min-height: calc(var(--space-8) * 3);
-}
-
-.podium-rank-3 {
-  min-height: calc(var(--space-8) * 2.5);
-}
-
-.podium-me {
-  font-weight: 700;
-}
-
-.podium-animal {
-  width: var(--space-8);
-  height: var(--space-8);
-  object-fit: contain;
 }
 
 .podium-nickname {
   max-width: 100%;
+  padding: 2px var(--space-2);
+  border: 2px solid var(--color-wood-soft);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
   font: var(--text-label);
   color: var(--color-ink);
   overflow: hidden;
@@ -116,227 +135,234 @@
   white-space: nowrap;
 }
 
+.podium-animal {
+  width: calc(var(--space-8) * 1.4);
+  height: calc(var(--space-8) * 1.4);
+  object-fit: contain;
+  filter: drop-shadow(0 2px 3px var(--color-shadow-strong));
+}
+
+.podium-rank-1 .podium-nickname::before {
+  content: '👑 ';
+}
+
 .podium-rank {
-  font: var(--text-display);
-  font-size: var(--size-podium-rank);
-  color: var(--color-surface);
-  background: var(--color-earth-500);
-  width: 100%;
   display: grid;
   place-items: center;
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
-  height: calc(var(--space-8) * 2.5);
+  width: 100%;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  color: var(--color-cream);
+  font: var(--text-display);
+  font-size: 42px;
+  text-shadow: 0 3px 0 var(--color-shadow-strong);
 }
+
 .podium-rank-1 .podium-rank {
-  height: calc(var(--space-8) * 3.75);
+  height: calc(var(--space-8) * 3.6);
+  background: var(--color-sun-500);
+  color: var(--color-sun-ink);
+  text-shadow: none;
 }
+
+.podium-rank-2 .podium-rank {
+  height: calc(var(--space-8) * 2.6);
+  background: var(--color-cream-deep);
+  color: var(--color-ink);
+  text-shadow: none;
+}
+
 .podium-rank-3 .podium-rank {
-  height: calc(var(--space-8) * 1.875);
+  height: calc(var(--space-8) * 2);
+  background: var(--color-earth-300);
 }
-.podium-table {
-  table-layout: fixed;
-  overflow-wrap: anywhere;
-}
-.podium-table th:first-child {
-  width: 15%;
-}
-.podium-table th:nth-child(2) {
-  width: 35%;
-}
-.podium-table tr {
-  border-bottom: 1px solid var(--color-line);
-}
-.podium-table td:first-child {
-  width: 10%;
-}
-.podium-table td:nth-child(2) {
-  width: 40%;
-}
-.podium-table td:nth-child(3),
-.podium-table td:nth-child(4) {
-  width: 25%;
-  font: var(--text-label);
-}
-.podium-actions .btn {
-  min-height: var(--size-home-action);
-  font: var(--text-home-action) !important;
+
+.podium-standing {
+  margin: var(--space-3) 0 0;
+  font: var(--text-small);
+  color: var(--color-muted);
+  text-align: center;
 }
 
 .podium-empty {
-  margin: 0;
-  font: var(--text-body);
+  margin: var(--space-4) 0;
   color: var(--color-muted);
+  text-align: center;
 }
+
+/* ---------- Daftar peringkat ---------- */
 
 .podium-table {
   width: 100%;
-  border-collapse: collapse;
+  padding-inline: var(--space-3);
+  border-collapse: separate;
+  border-spacing: 0 var(--space-2);
+  table-layout: auto;
 }
 
-.podium-table th {
+.podium-table td {
   padding: var(--space-2);
-  font: var(--text-label);
-  color: var(--color-muted);
-  text-align: left;
+  border-block: 2px solid var(--color-wood-soft);
+  background: var(--color-surface);
+  vertical-align: middle;
 }
 
-.podium-table th:nth-child(3),
-.podium-table th:nth-child(4) {
+.podium-table td:first-child {
+  width: 48px;
+  border-left: 2px solid var(--color-wood-soft);
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
   text-align: center;
 }
+
+.podium-table td:nth-child(2) {
+  width: auto;
+}
+
+.podium-table td:nth-child(3) {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.podium-table td:last-child {
+  width: 1%;
+  white-space: nowrap;
+  border-right: 2px solid var(--color-wood-soft);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  text-align: right;
+}
+
+.result-row.is-me td {
+  border-color: var(--color-sun-500);
+  background: var(--color-claim-tint);
+}
+
+.result-medal {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--color-wood-soft);
+  border-radius: 50%;
+  background: var(--color-cream-deep);
+  font: var(--text-label);
+  color: var(--color-ink);
+}
+
+.result-row:nth-child(1) .result-medal {
+  background: var(--color-sun-500);
+  color: var(--color-sun-ink);
+}
+
+.result-row:nth-child(2) .result-medal {
+  background: var(--color-sky-100);
+}
+
+.result-row:nth-child(3) .result-medal {
+  background: var(--color-earth-300);
+}
+
+.result-player {
+  display: table-cell;
+  font: var(--text-body);
+  font-weight: 700;
+  color: var(--color-ink);
+  overflow-wrap: anywhere;
+}
+
+.result-bot,
+.result-you {
+  display: inline-block;
+  margin-left: var(--space-1);
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-pill);
+  font: var(--text-small);
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+.result-bot {
+  background: var(--color-bot);
+  color: var(--color-cream);
+}
+
+.result-you {
+  background: var(--color-sun-500);
+  color: var(--color-sun-ink);
+}
+
+.result-correct {
+  font: var(--text-label);
+  color: var(--color-ink);
+}
+
+.result-correct-label {
+  font: var(--text-small);
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.result-pill {
+  display: inline-block;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-ok-600);
+  color: var(--color-cream);
+  font: var(--text-small);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.result-pill[data-status='outOfQuestions'],
+.result-pill[data-status='locked'],
+.result-pill[data-status='racing'] {
+  background: var(--color-earth-300);
+  color: var(--color-ink);
+}
+
+.result-pill[data-status='left'] {
+  background: var(--color-err-100);
+  color: var(--color-err-600);
+}
+
+/* ---------- Aksi ---------- */
 
 .podium-actions {
   display: grid;
   gap: var(--space-2);
-  margin-top: var(--space-4);
-}
-
-@media (min-width: 1024px) {
-  .podium-actions {
-    grid-template-columns: 1fr;
-  }
-
-  .podium-rank {
-    font-size: calc(var(--size-podium-rank) * 1.5);
-  }
-  .podium-layout {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-8);
-    padding: var(--space-8);
-    min-height: calc(100dvh - var(--size-race-header));
-  }
-  .podium-scene {
-    border-radius: var(--radius-lg);
-    padding-bottom: calc(var(--space-8) * 3);
-  }
-  .podium-steps {
-    max-width: calc(var(--size-home-card) * 5);
-    width: 100%;
-    align-self: center;
-  }
-  .podium-results {
-    align-self: center;
-    padding: 0;
-  }
-  .podium-animal {
-    width: var(--size-lane-animal);
-    height: var(--size-lane-animal);
-  }
-  .podium-rank-1 .podium-rank {
-    height: calc(var(--space-8) * 6.875);
-  }
-  .podium-rank-2 .podium-rank {
-    height: calc(var(--space-8) * 4.6875);
-  }
-  .podium-rank-3 .podium-rank {
-    height: calc(var(--space-8) * 3.4375);
-  }
-}
-
-/* ---------- Tema cozy ---------- */
-
-/* Kepala: papan kayu menggantikan bilah hijau */
-.screen.podium-screen {
-  background: none;
-}
-
-.podium-header {
-  justify-content: center;
-  gap: var(--space-3);
-  background: none;
-  color: var(--color-ink);
-  padding: var(--space-3) var(--space-4) var(--space-1);
-}
-
-.podium-header .podium-title {
-  padding: 2px 14px 6px;
-  border: solid transparent;
-  border-width: 18px 22px 22px;
-  border-image: var(--plank) 40 fill / 18px 22px 22px stretch;
-  color: var(--color-cream);
-  font: var(--text-display);
-  font-size: clamp(26px, 3.4vw, 40px);
-  text-shadow: 0 2px 0 var(--color-bark);
-  filter: drop-shadow(0 5px 0 var(--color-shadow-strong));
-}
-
-.podium-status {
-  background: var(--color-cream-deep);
-  border: 2px solid var(--color-wood-soft);
-  color: var(--color-ink);
-}
-
-/* Panggung: bukit cozy, bukan gradasi strip */
-.podium-scene {
-  background:
-    url('../assets/cozy/field.png') center bottom / cover no-repeat,
-    linear-gradient(to bottom, var(--color-sky-100), var(--color-sky-100));
-  border-bottom: 3px solid var(--color-wood-soft);
-}
-
-/* Blok podium kayu ala cozy */
-.podium-step {
-  padding: var(--space-3) var(--space-2) 0;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  background: url('../assets/cozy/wood-block.png') center bottom / 100% 100% no-repeat;
-  filter: drop-shadow(0 4px 0 var(--color-shadow-strong));
-}
-
-.podium-me {
-  outline: 3px dashed var(--color-forest-700);
-  outline-offset: 3px;
-}
-
-.podium-rank {
-  width: 100%;
-  display: grid;
-  place-items: center;
-  height: calc(var(--space-8) * 2.5);
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
-  background: var(--color-earth-500);
-  color: var(--color-cream);
-  text-shadow: 0 2px 0 var(--color-bark);
-}
-
-.podium-rank-1 .podium-rank {
-  height: calc(var(--space-8) * 3.75);
-}
-
-.podium-rank-3 .podium-rank {
-  height: calc(var(--space-8) * 1.875);
-}
-
-.podium-results {
-  background: var(--color-bg);
-}
-
-.podium-table {
-  table-layout: fixed;
-  overflow-wrap: anywhere;
-}
-
-.podium-table th:first-child,
-.podium-table td:first-child {
-  width: 15%;
-}
-
-.podium-table th:nth-child(2),
-.podium-table td:nth-child(2) {
-  width: 40%;
-}
-
-.podium-table th:nth-child(3),
-.podium-table th:nth-child(4),
-.podium-table td:nth-child(3),
-.podium-table td:nth-child(4) {
-  width: 22.5%;
-}
-
-.podium-table tr {
-  border-bottom: 2px dashed var(--color-wood-soft);
+  padding: var(--space-3) var(--space-3) 0;
 }
 
 .podium-actions .btn {
   min-height: var(--size-home-action);
   font: var(--text-home-action) !important;
+}
+
+.podium-actions .btn-secondary {
+  background: var(--color-sun-500);
+  color: var(--color-sun-ink);
+}
+
+@media (min-width: 1024px) {
+  .podium-layout {
+    grid-template-columns: 1.05fr 1fr;
+    gap: var(--space-5);
+  }
+}
+
+/* Layar sempit: jumlah benar disembunyikan agar nickname tidak terpotong per huruf. */
+@media (max-width: 640px) {
+  .podium-table td:nth-child(3) {
+    display: none;
+  }
+
+  .podium-table td:nth-child(2) {
+    overflow-wrap: break-word;
+  }
+
+  .podium-table td:last-child {
+    padding-inline: var(--space-1);
+  }
+
+  .result-pill {
+    padding-inline: var(--space-1);
+  }
 }

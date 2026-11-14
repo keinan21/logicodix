@@ -132,3 +132,19 @@
     transform: translate(-50%, 0);
   }
 }
+
+/* Cozy: lane lebih ringkas, latar menyatu dengan jalur hijau. */
+.lane {
+  height: 40px;
+  margin-top: 0;
+  background: transparent;
+  border-top: 2px dashed var(--color-wood-soft);
+}
+
+.lane:last-child {
+  border-bottom: 2px dashed var(--color-wood-soft);
+}
+
+.lane-status {
+  background: transparent;
+}
