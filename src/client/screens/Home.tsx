@@ -152,11 +152,6 @@ export function HomeScreen({
             Lawan bot
           </button>
         </div>
-        {valid ? (
-          <p className="home-status">
-            {ANIMAL_ASSETS[animalId].nama} milik {nickname} bersiap mencari pemain…
-          </p>
-        ) : null}
       </section>
     </main>
   );
