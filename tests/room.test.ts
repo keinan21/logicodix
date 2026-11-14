@@ -100,7 +100,7 @@ function makeRoom(
 
 /** Replikasi urutan acak room: shuffle soal sekali, shuffle pilihan sekali (FR-B01, FR-K05). */
 function deriveOrder(seed: number, questions: Question[]) {
-  const qShuffle = shuffle(createRNGSeed(seed), questions.slice(0, 10));
+  const qShuffle = shuffle(createRNGSeed(seed), questions);
   const oShuffle = shuffle(qShuffle.state, [0, 1, 2, 3]);
   return { bank: qShuffle.value, optionOrder: oShuffle.value };
 }
@@ -762,3 +762,18 @@ function lastEvent(events: RecordedEvent[], name: string): unknown {
 function stripTargets(events: RecordedEvent[]): RecordedEvent[] {
   return events.map(({ event, payload }) => ({ event, payload }));
 }
+
+describe('pemilihan soal', () => {
+  it('mengambil soal dari seluruh bank, bukan hanya 12 pertama', () => {
+    const questions = Array.from({ length: 40 }, (_, i) =>
+      q(`11111111-${String(i + 1).padStart(4, '0')}-4001-8001-000000000001`, 0),
+    );
+    const ids = new Set<string>();
+    for (let seed = 1; seed <= 20; seed++) {
+      const { room } = makeRoom(seed, questions, []);
+      for (const item of (room as unknown as { questionBank: Question[] }).questionBank)
+        ids.add(item.id);
+    }
+    expect([...ids].some((id) => !questions.slice(0, 12).some((x) => x.id === id))).toBe(true);
+  });
+});
