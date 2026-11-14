@@ -84,7 +84,7 @@
   width: 100%;
   max-width: 600px;
   justify-self: center;
-  padding: 0 18px 20px;
+  padding: 0 26px 26px;
   border: solid transparent;
   border-width: 86px 44px 22px;
   border-image: var(--card-wood) 86 44 22 44 fill / 86px 44px 22px 44px stretch;
@@ -128,7 +128,7 @@
   font-weight: 600;
   font-size: 15px;
   color: var(--ink);
-  background: var(--tile-brown) center / 100% 100% no-repeat;
+  background: var(--tile-cream) center / 100% 100% no-repeat;
   cursor: pointer;
   border: none;
   transition: transform var(--motion-fast) ease;
@@ -141,7 +141,7 @@
 }
 
 .home-animal[aria-pressed='true'] {
-  background-image: var(--tile-grey);
+  background-image: var(--tile-green);
   color: var(--color-ink);
 }
 
