@@ -10,6 +10,7 @@ import { EvaluationScreen } from './screens/Evaluation';
 import { ErrorScreen } from './screens/Error';
 import { useRoom } from './socket';
 import { playSound } from './sound';
+import { setMusic } from './music';
 
 /**
  * App — satu state machine untuk alur Beranda → Antre → Lobby → Balapan → Podium → Evaluasi.
@@ -47,6 +48,12 @@ export function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [route, phase, roomId]);
+
+  // Musik latar mengikuti fase: trek santai di luar balapan, trek ramai saat balapan.
+  const inRace = phase === 'racing';
+  useEffect(() => {
+    setMusic(inRace ? 'race' : 'menu');
+  }, [inRace]);
 
   // Suara transisi fase: mulai balapan dan fanfare saat balapan usai.
   const previousPhase = useRef(phase);

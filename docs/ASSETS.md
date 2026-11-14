@@ -54,6 +54,17 @@ Aset yang lisensinya tidak jelas dilarang masuk repo.
   (`flip: true` di `content/animals.json`).
 - Teks lisensi Apache 2.0 disalin ke `docs/licenses/noto-emoji-LICENSE`.
 
+## Musik latar (2 trek)
+
+| File                                              | Dipakai di                                     | Sumber & lisensi                                                                                                                                                                    |
+| ------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/client/assets/music/town-theme.mp3`          | Beranda, Antre, Lobby, Podium, Evaluasi (loop) | OpenGameArt “Town Theme RPG” oleh **cynicmusic**, **CC0** — https://opengameart.org/content/town-theme-rpg (97 dtk, 108 kbps)                                                       |
+| `src/client/assets/music/race-mushroom-theme.mp3` | Layar Balapan (loop)                           | OpenGameArt “Platformer Game Music Pack” oleh **CodeManu**, **CC-BY 3.0** — https://opengameart.org/content/platformer-game-music-pack (trek `Mushroom Theme.mp3`, 27 dtk, 96 kbps) |
+
+Musik dipudarkan masuk/keluar (≈0,9 dtk), volume latar 0,18, dan mengikuti tombol
+bisu yang sama dengan efek suara. Kredit CC-BY 3.0 tercantum di sini dan di
+`src/client/music.ts`.
+
 ## Suara (5 efek) — disintesis di browser
 
 Tidak ada file audio di repo: semua efek dibuat saat runtime dengan Web Audio API
@@ -67,9 +78,9 @@ Tidak ada file audio di repo: semua efek dibuat saat runtime dengan Web Audio AP
 | `wrong`   | Umpan balik jawaban **salah** diterima (sekali per soal)                           | dua nada turun 233→196 Hz     |
 | `finish`  | Pelari sendiri mencapai finish, dan saat fase berubah ke `finished` (balapan usai) | fanfare 523→659→784→1046 Hz   |
 
-Semua bunyi mengikuti preferensi bisu di localStorage (`sfx-muted`) yang diatur
-tombol speaker di pojok kanan bawah. AudioContext baru dibuat setelah interaksi
-pertama pengguna (kebijakan autoplay browser).
+Semua bunyi dan musik mengikuti preferensi bisu di localStorage (`sfx-muted`) yang
+diatur tombol speaker di pojok kanan bawah. AudioContext dan pemutaran musik baru
+dimulai setelah interaksi pertama pengguna (kebijakan autoplay browser).
 
 ## Font
 
