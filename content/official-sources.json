@@ -1,10 +1,29 @@
 {
   "note": "Daftar kandidat lembaga resmi (FR-K06 masih OPEN menunggu keputusan tim). Verifikasi sebelum soal berstatus terverifikasi. Validator memeriksa domain sumber soal terhadap daftar ini.",
   "sources": [
-    { "lembaga": "BMKG", "domains": ["bmkg.go.id"] },
-    { "lembaga": "Kementerian LHK", "domains": ["menlhk.go.id"] },
-    { "lembaga": "BRIN", "domains": ["brin.go.id"] },
-    { "lembaga": "BPS", "domains": ["bps.go.id"] },
-    { "lembaga": "KKP", "domains": ["kkp.go.id"] }
+    {
+      "lembaga": "BMKG",
+      "domains": ["bmkg.go.id"]
+    },
+    {
+      "lembaga": "Kementerian LHK",
+      "domains": ["menlhk.go.id"]
+    },
+    {
+      "lembaga": "BRIN",
+      "domains": ["brin.go.id"]
+    },
+    {
+      "lembaga": "BPS",
+      "domains": ["bps.go.id"]
+    },
+    {
+      "lembaga": "KKP",
+      "domains": ["kkp.go.id"]
+    },
+    {
+      "lembaga": "Kemendikdasmen",
+      "domains": ["kemendikdasmen.go.id"]
+    }
   ]
 }
