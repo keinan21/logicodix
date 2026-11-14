@@ -17,6 +17,9 @@ export interface EvalItemProps {
   onToggle: () => void;
 }
 
+/** Teks opsi disisipkan sebelum titik kalimat: buang titik akhir supaya tidak ganda. */
+const inline = (t: string | undefined) => t?.trim().replace(/\.+$/, '');
+
 /**
  * EvalItem — DESIGN §4: benar (tertutup), salah (terbuka).
  * Soal salah terbuka otomatis berisi pilihan pemain, kunci, penjelasan, sumber (FR-H02).
@@ -49,7 +52,8 @@ export function EvalItem({
           {claim ? <blockquote className="eval-claim">{claim}</blockquote> : null}
           {wrong ? (
             <p>
-              Kamu memilih {chosenText ?? chosenLetter}, jawabannya {answerText ?? answerLetter}.
+              Kamu memilih {inline(chosenText) ?? chosenLetter}, jawabannya{' '}
+              {inline(answerText) ?? answerLetter}.
             </p>
           ) : null}
           {explanation ? <p>{explanation}</p> : null}
