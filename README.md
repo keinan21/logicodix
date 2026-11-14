@@ -27,6 +27,40 @@ Tanpa soal terverifikasi, `bun start` menolak jalan (FR-K01). Untuk demo/uji lok
 
 Demo: buka 2+ jendela browser di `http://localhost:3000` + mode "Lawan bot" (D-49 localhost-first).
 
+## Deploy
+
+Server ini Express + Socket.IO **satu port**: menyajikan `dist/` sekaligus WebSocket. Tanpa DB;
+semua room di memori, jadi restart menghapus room aktif.
+
+### A. Satu server (Render/Railway/Fly/VPS)
+
+- Build: `npm install && npm run build`
+- Start: `npm start` (`NODE_ENV=production`, butuh devDependencies `tsx`/`vite` — jangan `--omit=dev`)
+- Health check: `/health`
+- Env: `PORT`, `AI_MODE`, `GEMINI_API_KEY`, `GEMINI_MODEL`. `CLIENT_ORIGIN` dikosongkan (same-origin).
+
+### B. Frontend terpisah (Vercel/Netlify) + backend Node
+
+Vercel/Netlify dipakai hanya untuk `dist/` statis; WebSocket tetap di backend Node.
+
+1. Backend (Render/Railway): set `CLIENT_ORIGIN=https://<domain-frontend>` supaya CORS API dan
+   Socket.IO mengizinkan origin itu.
+2. Frontend: build dengan `VITE_SERVER_URL=https://<domain-backend> npm run build`, lalu unggah
+   `dist/`. `VITE_SERVER_URL` dibaca saat build (`src/client/server-url.ts`); kosong = same-origin.
+
+WebSocket di belakang Nginx wajib teruskan upgrade:
+
+```nginx
+location / {
+  proxy_pass http://127.0.0.1:3000;
+  proxy_http_version 1.1;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection "upgrade";
+  proxy_set_header Host $host;
+  proxy_read_timeout 3600;
+}
+```
+
 ## Aturan utama (wajib dibaca sebelum kontribusi)
 
 - **Kebenaran & peringkat hanya di server**, dari kunci buatan manusia (`src/shared/game.ts`).

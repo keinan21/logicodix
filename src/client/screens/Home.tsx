@@ -11,6 +11,7 @@ import { Input } from '../components/Input';
 import { AnimalCard } from '../components/AnimalCard';
 import { ANIMAL_ASSETS } from '../components/animalAssets';
 import { playSound } from '../sound';
+import { apiUrl } from '../server-url';
 import { nicknameSchema, animalIdSchema } from '../../shared/schema';
 import type { AnimalId } from '../../shared/schema';
 
@@ -43,7 +44,7 @@ export function HomeScreen({
 
   useEffect(() => {
     let active = true;
-    fetch('/api/animals')
+    fetch(apiUrl('/api/animals'))
       .then((r) => (r.ok ? (r.json() as Promise<{ id: AnimalId; fakta: string }[]>) : []))
       .then((list) => {
         if (active) setFacts(Object.fromEntries(list.map((a) => [a.id, a.fakta])));
