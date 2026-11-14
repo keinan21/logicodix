@@ -84,20 +84,22 @@
   width: 100%;
   max-width: 600px;
   justify-self: center;
-  padding: 20px 22px 22px;
-  border: 2px solid var(--color-line);
-  border-radius: var(--radius-lg);
-  background: var(--color-cream);
-  box-shadow: var(--shadow-card);
-  filter: drop-shadow(0 8px 0 var(--color-shadow-strong));
+  padding: 0 18px 20px;
+  border: solid transparent;
+  border-width: 86px 44px 22px;
+  border-image: var(--card-wood) 86 44 22 44 fill / 86px 44px 22px 44px stretch;
+  background: none;
+  box-shadow: none;
 }
 
 .home-card h2 {
-  margin: 0 0 14px;
+  height: 44px;
+  margin: -70px 0 14px;
   font-size: 24px;
-  line-height: 1.2;
+  line-height: 44px;
   text-align: center;
-  color: var(--br);
+  color: var(--color-cream);
+  text-shadow: 0 2px 0 var(--br);
 }
 
 .home-lbl {
@@ -115,7 +117,7 @@
   margin-bottom: 20px;
 }
 
-/* Pilihan hewan: kotak pipih ber-border tipis; terpilih = hijau */
+/* Pilihan hewan: tile aset dobo; terpilih = tile abu */
 .home-animal {
   display: flex;
   flex-direction: column;
@@ -126,14 +128,10 @@
   font-weight: 600;
   font-size: 15px;
   color: var(--ink);
-  background: var(--color-cream);
+  background: var(--tile-brown) center / 100% 100% no-repeat;
   cursor: pointer;
-  border: 2px solid var(--color-line);
-  border-radius: var(--radius-md);
-  transition:
-    transform var(--motion-fast) ease,
-    background var(--motion-fast) ease,
-    border-color var(--motion-fast) ease;
+  border: none;
+  transition: transform var(--motion-fast) ease;
 }
 
 .home-animal-img {
@@ -143,9 +141,8 @@
 }
 
 .home-animal[aria-pressed='true'] {
-  background: var(--color-hill-mid);
-  border-color: var(--color-forest-500);
-  color: var(--color-forest-900);
+  background-image: var(--tile-grey);
+  color: var(--color-ink);
 }
 
 .home-fact {
@@ -199,18 +196,17 @@
   gap: 12px;
 }
 
-/* Tombol pipih: hijau untuk utama, merah untuk lawan bot */
+/* Tombol memakai aset tombol kayu dobo */
 .home-cta {
   min-height: 52px;
   padding: 10px 0 12px;
   font: inherit;
   font-weight: 700;
   font-size: 21px;
-  color: var(--color-cream);
+  color: var(--ink);
   cursor: pointer;
-  border: 2px solid var(--color-forest-700);
-  border-radius: var(--radius-md);
-  background: var(--color-forest-500);
+  border: none;
+  background: var(--btn-wood) center / 100% 100% no-repeat;
   margin-bottom: 10px;
   transition:
     transform 0.08s ease,
@@ -218,8 +214,7 @@
 }
 
 .home-cta-danger {
-  border-color: var(--color-err-600);
-  background: var(--color-err-500);
+  filter: hue-rotate(-12deg) saturate(1.1);
 }
 
 .home-cta:focus-visible {
