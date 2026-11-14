@@ -82,6 +82,8 @@ export class Room {
   private finishCounter = 0;
   private evalRequested = false;
   private destroyed = false;
+  private departed = new Set<string>();
+  private reconnectDeadlines = new Map<number, number>();
   private evaluations = new Map<number, EvalReady>();
   private lobbyEndsAtMs = 0;
   private disconnectTimers = new Map<string, ReturnType<typeof setTimeout>>();
@@ -210,6 +212,15 @@ export class Room {
   quit(socketId: string): void {
     const p = this.state.participants.find((x) => x.id === socketId);
     if (!p || p.isBot) return;
+    this.departed.add(socketId);
+    if (
+      this.state.participants.every(
+        (x) => x.isBot || x.status === 'left' || this.departed.has(x.id),
+      )
+    ) {
+      this.destroy();
+      return;
+    }
     if (this.state.phase === 'lobby') {
       this.leave(socketId);
       return;
@@ -363,12 +374,15 @@ export class Room {
   resume(newSocketId: string, token: string): boolean {
     const p = this.state.participants.find((x) => x.id === token || x.id === newSocketId);
     if (!p) return false;
-    if (p.isBot || p.status === 'left') {
+    const deadline = this.reconnectDeadlines.get(p.slot);
+    if (this.destroyed || (deadline !== undefined && this.cfg.now() >= deadline)) return false;
+    if (p.isBot || p.status === 'left' || this.departed.has(p.id)) {
       // Lewat 10 detik / sudah "Keluar" → tidak bisa kembali (FR-B11)
       return false;
     }
 
     // Batalkan timer disconnect bila ada
+    this.reconnectDeadlines.delete(p.slot);
     const timerKey = p.id;
     const t = this.disconnectTimers.get(timerKey);
     if (t) {
@@ -413,9 +427,12 @@ export class Room {
 
   /** Peserta keluar / putus (FR-M12, FR-B11, FR-B13). */
   leave(socketId: string): void {
-    if (this.state.phase === 'finished') return;
     const p = this.state.participants.find((x) => x.id === socketId);
     if (!p) return;
+    if (!this.reconnectDeadlines.has(p.slot)) {
+      this.reconnectDeadlines.set(p.slot, this.cfg.now() + GAME.RECONNECT_LIMIT_S * 1000);
+    }
+    if (this.state.phase === 'finished') return;
 
     if (this.state.phase === 'lobby') {
       if (p.isBot) return;
@@ -538,9 +555,20 @@ export class Room {
     }[] = [];
 
     for (const p of this.state.participants) {
-      if (p.isBot) continue; // FR-H06: bot tidak mendapat Evaluasi
+      if (p.isBot || this.departed.has(p.id)) continue;
       const list = this.answers.get(p.id) ?? [];
-      if (list.length === 0) continue;
+      if (list.length === 0) {
+        if (this.state.phase === 'finished' && p.status !== 'left') {
+          const empty = evalReadySchema.parse({
+            questions: [],
+            aiSection: null,
+            badge: 'ringkasan-otomatis-bukan-ai',
+          });
+          this.evaluations.set(p.slot, empty);
+          this.cfg.emitTo(p.id, 'eval:ready', empty);
+        }
+        continue;
+      }
 
       const pairs = list.flatMap((a) => {
         const question = this.questionBank[a.questionIndex];
@@ -609,7 +637,7 @@ export class Room {
       });
       this.evaluations.set(slot, payload);
       const participant = this.state.participants.find((p) => p.slot === slot);
-      if (participant && participant.status !== 'left') {
+      if (participant && participant.status !== 'left' && !this.departed.has(participant.id)) {
         this.cfg.emitTo(participant.id, 'eval:ready', payload);
       }
     }
@@ -818,7 +846,7 @@ export class Room {
     for (const p of this.state.participants) {
       // Peserta 'left' sudah tidak di room ini (mis. socket pindah ke room baru);
       // mengirim state ke socket id-nya akan mengirim state room lama ke room baru.
-      if (p.isBot || p.status === 'left') continue;
+      if (p.isBot || p.status === 'left' || this.departed.has(p.id)) continue;
       this.sendStateTo(p.id);
     }
   }

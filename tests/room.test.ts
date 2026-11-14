@@ -133,7 +133,12 @@ describe('room (integrasi skeleton)', () => {
         room.answer('h1', { questionIndex: 0, choice: correctChoice });
         await room.requestEvaluation();
         expect(events.filter((e) => e.event === 'race:feedback')).toHaveLength(0);
-        expect(events.filter((e) => e.event === 'eval:ready')).toHaveLength(0);
+        const evaluations = events.filter((e) => e.event === 'eval:ready');
+        expect(evaluations).toHaveLength(phase === 'finished' ? 1 : 0);
+        for (const event of evaluations) {
+          expect(evalReadySchema.parse(event.payload).questions).toEqual([]);
+          expect(evalReadySchema.parse(event.payload).badge).toBe('ringkasan-otomatis-bukan-ai');
+        }
         expect(inputs).toHaveLength(0);
         const states = events
           .filter((e) => e.event === 'room:state')
@@ -764,6 +769,24 @@ function stripTargets(events: RecordedEvent[]): RecordedEvent[] {
 }
 
 describe('pemilihan soal', () => {
+  it('pemain finish yang kembali ke beranda tidak menerima state room lama', () => {
+    const events: RecordedEvent[] = [];
+    const questions = Array.from({ length: 6 }, (_, i) =>
+      q(`11111111-000${i + 1}-4001-8001-000000000001`, 0),
+    );
+    const { room, sched } = makeRoom(42, questions, events);
+    const { optionOrder } = deriveOrder(42, questions);
+    room.start();
+    sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+    for (let i = 0; i < GAME.STEPS_TO_FINISH; i++) {
+      room.answer('h1', { questionIndex: i, choice: 'ABCD'[optionOrder.indexOf(0)] });
+    }
+    events.length = 0;
+    room.quit('h1');
+    sched.advance(20_000);
+    expect(events.filter((e) => e.target === 'h1')).toEqual([]);
+    room.destroy();
+  });
   it('reconnect memulihkan hasil dan evaluasi yang selesai diproses', async () => {
     const events: RecordedEvent[] = [];
     const questions = [q('11111111-0001-4001-8001-000000000001', 0)];
@@ -819,4 +842,42 @@ describe('pemilihan soal', () => {
     }
     expect([...ids].some((id) => !questions.slice(0, 12).some((x) => x.id === id))).toBe(true);
   });
+});
+it('audit: tanpa menjawab tetap menerima evaluasi kosong setelah waktu habis', async () => {
+  const events: RecordedEvent[] = [];
+  const { room, sched } = makeRoom(42, [q('11111111-0001-4001-8001-000000000001', 0)], events, 0);
+  room.start();
+  sched.advance((GAME.LOBBY_COUNTDOWN_S + GAME.RACE_DURATION_S) * 1000);
+  await room.requestEvaluation();
+  expect(events.some((e) => e.event === 'eval:ready' && e.target === 'h1')).toBe(true);
+  room.destroy();
+});
+
+it('audit: finish lalu keluar ketika pause tidak meninggalkan room hidup selamanya', () => {
+  const events: RecordedEvent[] = [];
+  const questions = Array.from({ length: 6 }, (_, i) =>
+    q(`11111111-000${i + 1}-4001-8001-000000000001`, 0),
+  );
+  const { room, sched } = makeRoom(42, questions, events);
+  const { optionOrder } = deriveOrder(42, questions);
+  room.start();
+  sched.advance(GAME.LOBBY_COUNTDOWN_S * 1000);
+  for (let i = 0; i < 5; i++)
+    room.answer('h1', { questionIndex: i, choice: 'ABCD'[optionOrder.indexOf(0)] });
+  room.setPaused('h1', true);
+  room.quit('h1');
+  sched.advance(1_000_000);
+  expect(events.some((e) => e.event === 'room.destroyed')).toBe(true);
+  room.destroy();
+});
+
+it('audit: deadline balapan tidak memperpanjang izin reconnect melewati 10 detik', () => {
+  const events: RecordedEvent[] = [];
+  const { room, sched } = makeRoom(42, [q('11111111-0001-4001-8001-000000000001', 0)], events, 0);
+  room.start();
+  sched.advance((GAME.LOBBY_COUNTDOWN_S + GAME.RACE_DURATION_S - 1) * 1000);
+  room.leave('h1');
+  sched.advance(11_000);
+  expect(room.resume('h1-new', 'h1')).toBe(false);
+  room.destroy();
 });

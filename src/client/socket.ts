@@ -173,6 +173,7 @@ const errorPayloadSchema = z.object({
 let socketInstance: Socket | null = null;
 let lastResumeToken: string | null = null;
 let pendingQueue: JoinQueuePayload | null = null;
+let acceptingRoom = false;
 
 function ensureSocket(): Socket {
   if (socketInstance) return socketInstance;
@@ -196,6 +197,7 @@ function ensureSocket(): Socket {
   });
 
   socket.on('room:state', (raw: unknown) => {
+    if (!acceptingRoom) return;
     const parsed = roomStateSchema.safeParse(raw);
     if (parsed.success) {
       pendingQueue = null;
@@ -203,6 +205,7 @@ function ensureSocket(): Socket {
     }
   });
   socket.on('session:token', (raw: unknown) => {
+    if (!acceptingRoom) return;
     const parsed = sessionTokenSchema.safeParse(raw);
     if (parsed.success) lastResumeToken = parsed.data.token;
   });
@@ -255,6 +258,8 @@ export function useRoom() {
   const current = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 
   const joinQueue = (payload: JoinQueuePayload) => {
+    acceptingRoom = true;
+    lastResumeToken = null;
     pendingQueue = payload;
     dispatch({ type: 'reset' });
     const socket = ensureSocket();
@@ -262,6 +267,8 @@ export function useRoom() {
   };
 
   const leaveQueue = () => {
+    acceptingRoom = false;
+    lastResumeToken = null;
     pendingQueue = null;
     const socket = ensureSocket();
     if (socket.connected) socket.emit('queue:leave');
@@ -279,6 +286,7 @@ export function useRoom() {
 
   /** Keluar dari room (lobby/balapan/hasil) dan kembali ke keadaan awal. */
   const leaveRoom = () => {
+    acceptingRoom = false;
     pendingQueue = null;
     lastResumeToken = null;
     const socket = ensureSocket();
@@ -291,6 +299,7 @@ export function useRoom() {
   };
 
   const reset = () => {
+    acceptingRoom = false;
     pendingQueue = null;
     lastResumeToken = null;
     dispatch({ type: 'reset' });

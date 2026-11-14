@@ -116,7 +116,9 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
         botCount: req.botCount,
         questions: content.verified,
         emit: (event, payload) => io.to(roomId).emit(event, payload),
-        emitTo: (socketId, event, payload) => io.to(socketId).emit(event, payload),
+        emitTo: (socketId, event, payload) => {
+          if (roomBySocket.get(socketId) === roomId) io.to(socketId).emit(event, payload);
+        },
         onEmpty: removeRoom,
         evaluator: (evalReq, roomSeed) => evaluate.evaluate(evalReq, roomSeed),
         now: () => Date.now(),
@@ -159,15 +161,22 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
       const previousRoomId = roomBySocket.get(socket.id);
       revokeSession(socket.id);
       if (previousRoomId !== undefined) {
-        rooms.get(previousRoomId)?.leave(socket.id);
-        socket.leave(previousRoomId);
         roomBySocket.delete(socket.id);
+        socket.leave(previousRoomId);
+        rooms.get(previousRoomId)?.quit(socket.id);
       }
       matchmaking.join(socket.id, { ...parsed.data, nickname: checked.nickname }, Date.now());
     });
 
     socket.on('queue:leave', () => {
       matchmaking.leave(socket.id, Date.now());
+      const roomId = roomBySocket.get(socket.id);
+      if (roomId) {
+        revokeSession(socket.id);
+        roomBySocket.delete(socket.id);
+        socket.leave(roomId);
+        rooms.get(roomId)?.quit(socket.id);
+      }
     });
 
     socket.on('race:answer', (raw: unknown) => {
@@ -187,9 +196,9 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
       revokeSession(socket.id);
       const roomId = roomBySocket.get(socket.id);
       if (!roomId) return;
-      rooms.get(roomId)?.quit(socket.id);
-      socket.leave(roomId);
       roomBySocket.delete(socket.id);
+      socket.leave(roomId);
+      rooms.get(roomId)?.quit(socket.id);
     });
 
     socket.on('session:resume', (raw: unknown) => {
@@ -215,6 +224,7 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
         return;
       }
       const oldId = session.participantId;
+      roomBySocket.set(socket.id, targetRoomId);
       const ok = targetRoom.resume(socket.id, oldId);
       if (ok) {
         roomBySocket.delete(oldId);
@@ -222,6 +232,7 @@ export function start(port = PORT, options: StartOptions = {}): HttpServer {
         roomBySocket.set(socket.id, targetRoomId);
         socket.join(targetRoomId);
       } else {
+        roomBySocket.delete(socket.id);
         socket.emit('error', {
           code: 'resume-expired',
           pesan: 'Batas waktu reconnect telah habis.',
