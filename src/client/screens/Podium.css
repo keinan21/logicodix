@@ -27,8 +27,8 @@
   margin: 0;
   padding: 2px 12px 6px;
   border: solid transparent;
-  border-width: 14px 22px 12px;
-  border-image: var(--plank) 16 24 12 24 fill / 14px 22px 12px 22px stretch;
+  border-width: 16px 24px 12px;
+  border-image: var(--plank) 16 24 12 24 fill / 16px 24px 12px 24px stretch;
   filter: drop-shadow(0 6px 0 var(--color-shadow-strong));
 }
 
