@@ -1,87 +1,109 @@
-# LOGICODIX 2026 — EcoRush
+# 🌿 EcoRush — Balapan Edukasi Lingkungan
 
-Game balap multiplayer berbasis web untuk siswa SMP: setiap soal adalah satu klaim lingkungan
-(Benar/Salah via 4 pilihan penjelasan). Jawaban benar memajukan hewan pelari; jawaban salah
-membuat hewan diam + penjelasan bersumber terkunci 5 detik. Finish di jawaban benar ke-5.
-Setelah podium, tiap pemain mendapat **Evaluasi AI** atas pola kesalahannya.
+[![CI](https://github.com/keinan21/logicodix/actions/workflows/ci.yml/badge.svg)](https://github.com/keinan21/logicodix/actions/workflows/ci.yml)
 
-> **Status:** MVP lengkap (T-01 sampai T-22). Seluruh alur dari Beranda, Antrean Quick Match, Balapan lawan bot/manusia, Reconnect, Podium, hingga Evaluasi AI & Fallback berfungsi penuh. Konten bank soal saat ini 12 draf menunggu verifikasi sumber resmi oleh tim C + D (D-58). Server produksi mensyaratkan ≥10 soal terverifikasi (FR-K01); server demo/uji dapat memakai soal draf/dummy.
+**EcoRush** adalah game balap multiplayer berbasis web untuk siswa SMP. Setiap soal adalah satu klaim lingkungan — jawab benar, pelarimu melaju; jawab salah, baca penjelasan bersumber. Setelah podium, tiap pemain mendapat **Evaluasi AI** atas pola kesalahannya.
 
-## Jalankan
+> Dibuat untuk hackathon LOGICODIX 2026 oleh tim Ravly, Keinan, Bagas, dan Dhanxxi.
+
+---
+
+## ✨ Fitur
+
+| Fitur | Keterangan |
+|---|---|
+| 🏁 Balapan real-time | Socket.IO · matchmaking · lawan bot atau manusia |
+| 🤖 Evaluasi AI | Gemini Flash merangkum pola kesalahan — bukan menilai benar/salah |
+| 🔒 Transparan | Kunci & skor hanya dari server + kunci buatan manusia. Nickname tidak dikirim ke AI |
+| 🎵 Audio | Musik latar + SFX (CC0 / CC-BY) · tombol bisu di pojok kanan bawah |
+| ♻️ Green IT | Satu port, tanpa database, tanpa akun tersimpan. Data hilang setelah sesi |
+
+---
+
+## 🚀 Jalankan
 
 ```bash
-bun install
-bun run dev        # Vite (5173, proxy socket) + server (3000)
-bun run build      # build web ke dist/
-bun start          # satu port: web + Socket.IO (untuk demo & juri, NFR-07)
+npm install
+npm run dev        # Vite (5173, proxy socket) + server (3000)
+npm run build      # build web ke dist/
+npm start          # satu port: web + Socket.IO (untuk demo & juri)
 ```
 
-Perintah lain: `bun test` (Vitest), `bun run check` (tsc + Prettier + validator konten),
-`bun run check-content`, `bun run load` (5 room × 4 peserta), `bun run e2e` (Playwright; butuh `npx playwright install chrome` sekali).
+Perintah lain:
 
-Evaluasi AI live: `.env` tidak dibaca otomatis. Set lewat env shell, mis.
-`AI_MODE=live GEMINI_API_KEY=... bun start` (model bawaan `gemini-3.1-flash-lite`, ganti dengan `GEMINI_MODEL`).
-Cek key tanpa menjalankan game: `GEMINI_API_KEY=... bun run ai-live`. Tanpa key, mode `live` turun ke `contoh`.
-
-Tanpa soal terverifikasi, `bun start` menolak jalan (FR-K01). Untuk demo/uji lokal pakai `bun run start:dummy` (port 3000, soal dummy).
-
-Demo: buka 2+ jendela browser di `http://localhost:3000` + mode "Lawan bot" (D-49 localhost-first).
-
-## Aturan utama (wajib dibaca sebelum kontribusi)
-
-- **Kebenaran & peringkat hanya di server**, dari kunci buatan manusia (`src/shared/game.ts`).
-  AI tidak pernah menentukan benar/salah, langkah, atau peringkat (AGENTS.md §2.1).
-- **Kunci, penjelasan, sumber tidak dikirim ke browser sebelum soal dijawab** (FR-K11).
-  Payload soal sebelum menjawab hanya `stem`, `claim`, `options`.
-- **Nickname, ID koneksi, data peserta lain tidak pernah ke AI atau log** (FR-H06, NFR-09).
-- Semua angka parameter hanya di `src/shared/constants.ts`.
-- Acak & waktu hanya lewat `src/shared/rng.ts` dan argumen. Tidak ada `Math.random()` /
-  `Date.now()` di logika game.
-- Teks UI bahasa Indonesia; warna/jarak/font hanya dari token CSS di `src/client/styles.css`.
-- Agen hanya boleh membuat soal `status: "draf"`. Verifikasi (`terverifikasi`, `reviewedBy`,
-  `reviewedAt`, sumber) hanya oleh manusia C + D (D-58). Tidak boleh mengarang sumber —
-  kalau belum ada, tulis `TODO-SUMBER`.
-
-## Hasil Uji Beban (NFR-03, NFR-04)
-
-Uji beban simultan 5 room × 4 peserta (20 koneksi WebSocket bersamaan) dijalankan melalui `bun run load` (`scripts/load-test.ts`):
-
-- **Room selesai:** 5 / 5 (100%)
-- **Koneksi aktif simultan:** 20 peserta (4 peserta per room)
-- **Latensi room:state:** p50 141 ms, p95 151 ms
-- **Latensi race:feedback:** p50 6 ms, p95 7 ms
-- **Latensi gabungan (keseluruhan):** p50 8 ms, **p95 149 ms** (ambang batas: ≤ 250 ms), p99 151 ms
-- **Hasil:** **LULUS (PASS)** — memenuhi persyaratan NFR-03 dan NFR-04.
-
-## Evaluasi AI & privasi (transparansi untuk juri, FRD 03 §5)
-
-- AI dipakai **hanya** setelah balapan, untuk menulis pola kesalahan + tips (maks 400/200 karakter).
-- Yang dikirim ke AI: ID soal, jenis soal, pilihan pemain, kunci, penjelasan buatan tim,
-  tipe misinformasi, topik. **Nickname tidak dikirim.**
-- Keluaran AI diperiksa otomatis (`evaluate/check.ts`): tanpa URL, tanpa angka asing,
-  tanpa kunci berbeda, hanya tipe/topik dari input. Gagal → dibuang.
-- Bila AI gagal/timeout (8 dtk)/invalid → **Ringkasan otomatis (bukan AI)** dari server.
-- Mode: `AI_MODE=live|contoh|mock` (default `mock`). `contoh` memakai evaluasi pregenerated
-  untuk demo video. Cache di memori tanpa nickname (FR-H10).
-- Data room hanya di memori server, dihapus setelah balapan (D-48). Tanpa akun, tanpa DB.
-
-## Struktur (ARCHITECTURE §3)
-
-```
-src/shared/   schema (zod), game (murni), bots, rng, constants — dipakai client+server
-src/server/   Express 5 + Socket.IO 4 (satu port), matchmaking, room, content, nickname, evaluate/
-src/client/   React + Vite: screens, components, socket.ts (useRoom), styles.css (token)
-content/      questions/ (satu file per soal), tips.json, animals.json, official-sources.json, contoh/
-tests/        Vitest unit + integrasi room    scripts/  check-content, load-test
+```bash
+npm test                  # Vitest unit + integrasi (143 tes)
+npm run check             # tsc + Prettier + validator konten
+npm run e2e               # Playwright (butuh npx playwright install sekali)
+npm run load              # uji beban: 5 room × 4 peserta simultan
 ```
 
-## Konten
+### Evaluasi AI live
 
-`content/questions/` berisi 12 soal **draf** (8 klaim × 4 tipe misinformasi, 4 pengetahuan)
-menunggu verifikasi sumber resmi oleh C + D. Lihat `content/README.md`.
+```bash
+AI_MODE=live GEMINI_API_KEY=<key> npm start
+```
 
-## Lisensi aset
+Model bawaan `gemini-3.1-flash-lite`, ganti dengan `GEMINI_MODEL=...`. Tanpa key, mode `live` turun otomatis ke `contoh`.
 
-- **Hewan & Dekorasi Lingkungan:** Menggunakan Google Noto Emoji SVG (lisensi Apache 2.0). Salinan lisensi lengkap tersedia di `docs/licenses/noto-emoji-LICENSE`. Pengunduhan dan pemetaan berkas tercatat rinci di `docs/ASSETS.md`.
-- **Tipografi:** Plus Jakarta Sans oleh Gumpita Rahayu / Tokotype (lisensi SIL Open Font License 1.1). Salinan lisensi tersedia di `docs/licenses/plus-jakarta-sans-OFL.txt`.
-- Seluruh aset visual mematuhi prinsip _Green IT_ (hanya SVG/vektor ringan, tanpa foto resolusi tinggi, hanya palet mode terang ramah kontras).
+### Demo lokal multiplayer
+
+Buka 2+ jendela browser di `http://localhost:3000` → klik **Main** di tiap jendela untuk matchmaking, atau **Lawan bot** untuk solo.
+
+---
+
+## 🏗️ Arsitektur
+
+```
+src/shared/   schema (zod), game (murni), bots, rng, constants
+src/server/   Express 5 + Socket.IO 4 · matchmaking · room · evaluate/
+src/client/   React + Vite · screens · components · socket.ts · styles.css
+content/      questions/ · tips.json · animals.json · contoh/
+tests/        Vitest unit + integrasi · scripts/ load-test · check-content
+```
+
+**Prinsip utama:**
+- Benar/salah, langkah, waktu, dan peringkat **hanya dihitung server** dari kunci buatan manusia.
+- Kunci & penjelasan **tidak dikirim ke browser** sebelum soal dijawab (FR-K11).
+- Nickname & data peserta lain **tidak pernah ke AI atau log** (FR-H06).
+- Semua parameter angka hanya di `src/shared/constants.ts`.
+- Acak & waktu hanya lewat `rng.ts`. Tidak ada `Math.random()` / `Date.now()` di logika game.
+
+---
+
+## 🤖 Evaluasi AI & Privasi
+
+- Yang dikirim ke AI: ID soal, jenis, pilihan pemain, kunci, penjelasan tim, tipe misinformasi, topik. **Nickname tidak dikirim.**
+- Keluaran AI diperiksa otomatis (`evaluate/check.ts`): tanpa URL, tanpa angka asing, tanpa kunci berbeda. Gagal → dibuang → fallback "Ringkasan otomatis (bukan AI)".
+- Timeout 8 detik. Bila gagal, alur tetap berjalan dan diberi label jelas.
+- Data room hanya di memori, dihapus setelah sesi. Tanpa akun, tanpa DB.
+
+---
+
+## 📊 Hasil Uji Beban
+
+5 room × 4 peserta (20 koneksi WebSocket simultan) via `npm run load`:
+
+| Metrik | Hasil | Batas |
+|---|---|---|
+| Room selesai | 5 / 5 (100%) | — |
+| Latensi `room:state` p95 | 151 ms | — |
+| Latensi `race:feedback` p95 | 7 ms | — |
+| Latensi gabungan p95 | **149 ms** | ≤ 250 ms ✅ |
+
+---
+
+## 🎨 Lisensi Aset
+
+| Aset | Sumber | Lisensi |
+|---|---|---|
+| Hewan & dekorasi | Google Noto Emoji SVG | Apache 2.0 |
+| Tipografi (Plus Jakarta Sans) | Gumpita Rahayu / Tokotype | OFL 1.1 |
+| Tipografi (Fredoka) | — | OFL 1.1 |
+| UI pack | DEMO Cozy UI Pack — dobo_ui | Lisensi DEMO gratis |
+| UI pack | Kenney UI Pack Adventure | CC0 |
+| Musik — Town Theme RPG | cynicmusic (OpenGameArt) | CC0 |
+| Musik — Platformer Music Pack | CodeManu (OpenGameArt) | CC-BY 3.0 |
+| SFX — Cute, Cozy & Magical UI SFX | Nomagician Music | CC BY 4.0 |
+
+Detail lengkap di [`docs/ASSETS.md`](docs/ASSETS.md) dan [`docs/licenses/`](docs/licenses/).
